@@ -1,10 +1,9 @@
 # GigMCP Manifest Catalog
 
-This catalog mirrors [Composio's toolkit list](https://composio.dev/tools) as a curated, lint-enforced set of MCP-server manifests. All entries except `echo`, `fetch`, and `github` are **planned**: their manifests are hand-curated and pass `registryctl lint` (schema, tier, credential-injection, and egress-denylist checks), but the server implementations are pending and the image digests are placeholders — placeholder digests are **not installable**. The three reference-implementation entries have their source in separate repos (see Status column).
+This catalog mirrors [Composio's toolkit list](https://composio.dev/tools) as a curated, lint-enforced set of MCP-server manifests. All entries except `echo` and `fetch` are **planned**: their manifests are hand-curated and pass `registryctl lint` (schema, tier, credential-injection, and egress-denylist checks), but the server implementations are pending and the image digests are placeholders — placeholder digests are **not installable**. The reference-implementation entries have their source in separate repos (see Status column).
 
 | Name | Auth | Tier | Egress | Status |
 |------|------|------|--------|--------|
-| github | api_key | sealed | `api.github.com` | reference implementation: github.com/gigmcp/github-mcp |
 | echo | api_key | sealed | `api.example.com` | reference implementation: github.com/gigmcp/gigmcp |
 | fetch | api_key | sealed | `example.com`, `*.example.com` | reference implementation: github.com/gigmcp/gigmcp |
 | ably | api_key | sealed | `rest.ably.io` | planned |

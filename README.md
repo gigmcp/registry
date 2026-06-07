@@ -48,24 +48,21 @@ images and the digests are pinned.
 Generate once with `go run ./cmd/registryctl keygen`. Private key → repo
 secret `GIG_INDEX_SIGNING_KEY`. Public key → gateway `GIG_REGISTRY_PUBKEY`.
 
-## First push bootstrap
+## Bootstrap
 
-The `github` server's source lives at
-[github.com/gigmcp/github-mcp](https://github.com/gigmcp/github-mcp). To get a
-working end-to-end install from a fresh fork/org:
-
-1. Publish `gigmcp/github-mcp` and tag `v0.1.0`; then dispatch `build-images`
-   with name=`github` (version optional, defaults to latest).
-2. Push this repo; `lint` CI must be green.
-3. Generate keys (`go run ./cmd/registryctl keygen`); set the private key as
+1. Push this repo; `lint` CI must be green.
+2. Generate keys (`go run ./cmd/registryctl keygen`); set the private key as
    repo secret `GIG_INDEX_SIGNING_KEY`.
-4. Pin the digest printed by `build-images` in `manifests/github/0.1.0.yaml`
+3. `publish-index` signs and releases `index.json` + `index.json.sig` on every
+   push to main.
+4. Making a catalog entry installable: publish the server's source repo and
+   tag it, dispatch `build-images` with its name (version optional, defaults
+   to latest), pin the printed digest in `manifests/<name>/<version>.yaml`,
    and merge.
-5. `publish-index` signs and releases `index.json` + `index.json.sig`.
-6. Point a gateway at it: `GIG_REGISTRY_INDEX_URL=<release asset URL>`,
-   `GIG_REGISTRY_PUBKEY=<public key>`, `GIG_INSTALL=github`, then add a GitHub
-   PAT credential — the sandboxed server only ever sees a placeholder; the
-   egress proxy injects the real token for `api.github.com` only.
+5. Point a gateway at the index: `GIG_REGISTRY_INDEX_URL=<release asset URL>`,
+   `GIG_REGISTRY_PUBKEY=<public key>`, `GIG_INSTALL=<name>` — sealed-tier
+   servers only ever see a placeholder token; the egress proxy injects the
+   real credential for the manifest's allowlisted hosts only.
 
 `echo` and `fetch` reference the gigmcp repo as source and become buildable
 once that repo is public.
