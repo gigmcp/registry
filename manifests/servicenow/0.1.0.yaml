@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: servicenow
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/servicenow-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/servicenow-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:eeb6a767b4f399d34e5a45d0a42eee03187963c07ecfe3623890134076843e55
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.service-now.com"
+credentials:
+  - id: servicenow_token
+    type: oauth2
+    provider: servicenow
+    scopes: [useraccount]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_table_records
+    default: true
+  - name: get_record_by_sys_id
+    default: true
+  - name: create_a_record
+    default: false
+  - name: update_a_record
+    default: false
+  - name: delete_a_record
+    default: false
+  - name: create_incident
+    default: false
+  - name: create_sn_chg_rest_change
+    default: false
+  - name: attach_file_to_record
+    default: false
+  - name: create_interaction
+    default: false

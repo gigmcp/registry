@@ -1,0 +1,36 @@
+schemaVersion: 1
+name: hackernews
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/hackernews-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/hackernews-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4711be66cf55aa820289052a891519ee85346b426c7edfd03d1442be083c1a08
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - hacker-news.firebaseio.com
+    - hn.algolia.com
+# Hacker News API is public; no credentials required.
+tools:
+  - name: get_top_stories
+    default: true
+  - name: get_new_stories
+    default: true
+  - name: get_best_stories
+    default: true
+  - name: get_show_stories
+    default: true
+  - name: get_ask_stories
+    default: true
+  - name: get_item
+    default: true
+  - name: get_user
+    default: true
+  - name: search_posts
+    default: true
+  - name: get_updates
+    default: true

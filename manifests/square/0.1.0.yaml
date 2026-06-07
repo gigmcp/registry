@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: square
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/square-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/square-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0826b686927754c8fddcf2c52ed97f24e9048378b8edcde2c1390b9df453696f
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - connect.squareup.com
+credentials:
+  - id: square_token
+    type: oauth2
+    provider: square
+    scopes: [CUSTOMERS_READ, CUSTOMERS_WRITE, ORDERS_READ, PAYMENTS_READ, INVOICES_READ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_customers
+    default: true
+  - name: retrieve_order
+    default: true
+  - name: search_orders
+    default: true
+  - name: list_invoices
+    default: true
+  - name: list_locations
+    default: true
+  - name: get_merchant
+    default: true
+  - name: list_disputes
+    default: true
+  - name: create_customer
+    default: false
+  - name: update_customer
+    default: false
+  - name: cancel_payment
+    default: false

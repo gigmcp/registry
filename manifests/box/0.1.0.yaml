@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: box
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/box-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/box-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b1a6b114be160812190e9d457e36e44a73203ebfe80585303d2eaba07a8c44d8
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Main REST API plus the dedicated upload host.
+    - api.box.com
+    - upload.box.com
+credentials:
+  - id: box_token
+    type: oauth2
+    provider: box
+    scopes: [root_readonly, root_readwrite, sign_requests.readwrite]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_content
+    default: true
+  - name: list_folder_items
+    default: true
+  - name: get_file_information
+    default: true
+  - name: download_file
+    default: true
+  - name: get_current_user
+    default: true
+  - name: upload_file
+    default: false
+  - name: create_folder
+    default: false
+  - name: copy_file
+    default: false
+  - name: delete_file
+    default: false
+  - name: create_shared_link
+    default: false

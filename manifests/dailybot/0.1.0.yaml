@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: dailybot
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/dailybot-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/dailybot-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f65f368b2a3b6cd6c9ea40b13e277aafc4f9c3ecb8c923e1bdee4cad9b17398b
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.dailybot.com
+credentials:
+  - id: dailybot_api_key
+    type: api_key
+    provider: dailybot
+    inject:
+      header: X-API-KEY
+      format: "{token}"
+tools:
+  - name: get_all_users
+    default: true
+  - name: find_user_by_uuid
+    default: true
+  - name: find_workflow_by_name
+    default: true
+  - name: create_check_in
+    default: false
+  - name: give_kudos_to_users
+    default: false
+  - name: send_message
+    default: false

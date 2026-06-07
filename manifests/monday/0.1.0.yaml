@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: monday
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/monday-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/monday-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c0e63b64cc0329d468c2b1e3707d601b21c755ca1f5d26bf17e258b0fefb940a
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.monday.com
+credentials:
+  - id: monday_token
+    type: oauth2
+    provider: monday
+    scopes: [boards:read, boards:write, workspaces:read, users:read, updates:write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_boards
+    default: true
+  - name: get_board_items
+    default: true
+  - name: get_workspaces
+    default: true
+  - name: get_users
+    default: true
+  - name: create_item
+    default: false
+  - name: create_board
+    default: false
+  - name: create_update
+    default: false
+  - name: change_column_value
+    default: false
+  - name: delete_item
+    default: false

@@ -1,0 +1,20 @@
+name: lint
+on:
+  pull_request:
+  push: {branches: [main]}
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: {go-version: '1.26'}
+      - run: go test ./...
+      - run: cd schema && go test ./...
+      - run: go run ./cmd/registryctl lint ./manifests -denylist denylist/exfil-domains.txt
+      - name: No server source in the registry (aggregator policy)
+        run: |
+          if find . -name '*.go' -not -path './schema/*' -not -path './cmd/*' -not -path './.git/*' | grep -q .; then
+            echo "::error::Go source outside schema/ and cmd/ — server implementations live in their own repos"; exit 1
+          fi
+          [ ! -d examples ] || { echo "::error::examples/ must not exist"; exit 1; }

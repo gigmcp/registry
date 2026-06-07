@@ -1,0 +1,40 @@
+schemaVersion: 1
+name: figma
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/figma-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/figma-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:254c13a4cb5a8efc71038e454db9f5404ac5df7ac8f4791b7348d299f57b9da3
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.figma.com
+credentials:
+  - id: figma_token
+    type: oauth2
+    provider: figma
+    scopes: [files:read, file_comments:write, file_dev_resources:read, webhooks:write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_file
+    default: true
+  - name: get_file_nodes
+    default: true
+  - name: get_file_comments
+    default: true
+  - name: add_comment
+    default: false
+  - name: get_team_components
+    default: true
+  - name: get_file_styles
+    default: true
+  - name: render_images_of_file_nodes
+    default: true
+  - name: create_webhook
+    default: false

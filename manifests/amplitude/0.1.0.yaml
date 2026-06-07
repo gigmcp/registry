@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: amplitude
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/amplitude-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/amplitude-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:50f744b6bbb34f73986043d9d576a2f41436fd112ceccb6537f79bf7b7e0bd0d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - amplitude.com
+    - api2.amplitude.com
+credentials:
+  - id: amplitude_api_key
+    type: basic
+    provider: amplitude
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: get_event_segmentation_data
+    default: true
+  - name: get_funnel_analysis_data
+    default: true
+  - name: get_real_time_active_users
+    default: true
+  - name: get_user_activity
+    default: true
+  - name: list_events
+    default: true
+  - name: list_cohorts
+    default: true
+  - name: send_events
+    default: false
+  - name: update_user_properties
+    default: false
+  - name: delete_users
+    default: false

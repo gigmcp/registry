@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: productboard
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/productboard-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/productboard-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:958e97b6a50cc401cfb503dc08ec42e5264340ac7031ed6cd0b7c194648c1861
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.productboard.com
+credentials:
+  - id: productboard_token
+    type: oauth2
+    provider: productboard
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_features
+    default: true
+  - name: get_feature
+    default: true
+  - name: create_feature
+    default: false
+  - name: update_feature
+    default: false
+  - name: list_notes
+    default: true
+  - name: create_note
+    default: false
+  - name: list_companies
+    default: true
+  - name: list_users
+    default: true
+  - name: list_objectives
+    default: true
+  - name: create_release
+    default: false

@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: mixpanel
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mixpanel-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mixpanel-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9e19c0c13e0ccf3fbe04ec5e11d08044d09f49f6c6c7a766a05ddfb631ef925c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - mixpanel.com
+    - api.mixpanel.com
+    - data.mixpanel.com
+    - eu.mixpanel.com
+credentials:
+  - id: mixpanel_token
+    type: basic
+    provider: mixpanel
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: query_segmentation_report
+    default: true
+  - name: query_funnel_report
+    default: true
+  - name: query_retention_report
+    default: true
+  - name: list_top_events
+    default: true
+  - name: run_jql_query
+    default: true
+  - name: list_cohorts
+    default: true
+  - name: list_annotations
+    default: true
+  - name: update_user_profile
+    default: false
+  - name: delete_user_profile
+    default: false
+  - name: create_identity_alias
+    default: false

@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: linear
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/linear-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/linear-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:8a814195b274a038bfcb70cc1d99ff1dfba2f1125933b6ca96ba174bd6b16b95
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.linear.app
+credentials:
+  - id: linear_token
+    type: oauth2
+    provider: linear
+    scopes: [read, write, issues:create, comments:create]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_issues
+    default: true
+  - name: get_issue
+    default: true
+  - name: search_issues
+    default: true
+  - name: create_issue
+    default: false
+  - name: update_issue
+    default: false
+  - name: create_comment
+    default: false
+  - name: list_projects
+    default: true
+  - name: list_teams
+    default: true
+  - name: list_users
+    default: true

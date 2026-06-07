@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: lmnt
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/lmnt-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/lmnt-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c14e2e6f82ed3e53f28be24eb5ee2eccd4640071ff55cccd007914e4d2d34b1c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.lmnt.com
+credentials:
+  - id: lmnt_api_key
+    type: api_key
+    provider: lmnt
+    inject:
+      header: X-API-Key
+      format: "{token}"
+tools:
+  - name: get_voices_list
+    default: true
+  - name: get_voice_info
+    default: true
+  - name: get_account
+    default: true
+  - name: synthesize_speech
+    default: false
+  - name: generate_speech_with_metadata
+    default: false
+  - name: create_voice
+    default: false
+  - name: update_voice_info
+    default: false
+  - name: delete_voice
+    default: false

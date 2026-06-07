@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: mailerlite
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mailerlite-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mailerlite-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:14e5dd320813599c497d74c8bc78c546abd2372949408fbcceb06aff304cd9d3
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - connect.mailerlite.com
+credentials:
+  - id: mailerlite_api_key
+    type: api_key
+    provider: mailerlite
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_subscribers
+    default: true
+  - name: get_groups
+    default: true
+  - name: get_campaigns
+    default: true
+  - name: get_segments
+    default: true
+  - name: get_account_info
+    default: true
+  - name: create_or_update_subscriber
+    default: false
+  - name: delete_subscriber
+    default: false
+  - name: create_campaign
+    default: false
+  - name: create_webhook
+    default: false

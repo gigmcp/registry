@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: close
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/close-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/close-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:cde5146be85e07d3681568faf0ec60174ae790242137cc3056c87211126a12eb
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.close.com
+credentials:
+  - id: close_api_key
+    type: basic
+    provider: close
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: list_leads
+    default: true
+  - name: search_leads
+    default: true
+  - name: get_notes
+    default: true
+  - name: create_lead
+    default: false
+  - name: create_call
+    default: false
+  - name: create_sms_message
+    default: false
+  - name: create_task
+    default: false
+  - name: delete_call
+    default: false

@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: freshbooks
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/freshbooks-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/freshbooks-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ec1365c7d5d4c3069cca821c25f0a7d0d47c7354545fc8db28e78732e0dfdbcd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.freshbooks.com
+    - auth.freshbooks.com
+credentials:
+  - id: freshbooks_token
+    type: oauth2
+    provider: freshbooks
+    scopes:
+      - user:profile:read
+      - user:clients:read
+      - user:projects:read
+      - user:journal_entries:read
+      - user:webhooks:write
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_businesses
+    default: true
+  - name: get_business_users
+    default: true
+  - name: list_clients
+    default: true
+  - name: list_projects
+    default: true
+  - name: list_journal_entries
+    default: true
+  - name: list_webhooks
+    default: true
+  - name: create_webhook
+    default: false
+  - name: update_webhook
+    default: false
+  - name: delete_webhook
+    default: false

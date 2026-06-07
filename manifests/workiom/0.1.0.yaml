@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: workiom
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/workiom-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/workiom-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:24c92129a7ca8835ceb8023deb2502da285752b3decf94e785eb66fe87505446
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Workiom serves its REST API per-tenant (<workspace>.workiom.com/api).
+    - workiom.com
+    - "*.workiom.com"
+credentials:
+  - id: workiom_api_key
+    type: api_key
+    provider: workiom
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_all_apps
+    default: true
+  - name: get_all_lists
+    default: true
+  - name: get_records
+    default: true
+  - name: get_record
+    default: true
+  - name: create_record
+    default: false
+  - name: update_record
+    default: false
+  - name: delete_record
+    default: false

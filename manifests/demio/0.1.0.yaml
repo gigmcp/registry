@@ -1,0 +1,36 @@
+schemaVersion: 1
+name: demio
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/demio-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/demio-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:069f10e698cf40fdf9eb5d5db34a747a983f850b43c2ca55d8f7b7ee867603f7
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Demio webinar platform REST API
+    - my.demio.com
+credentials:
+  - id: demio_api_key
+    type: api_key
+    provider: demio
+    inject:
+      header: Api-Key
+      format: "{token}"
+tools:
+  - name: ping
+    default: true
+  - name: list_events
+    default: true
+  - name: get_event
+    default: true
+  - name: list_event_dates
+    default: true
+  - name: list_event_date_participants
+    default: true
+  - name: create_join_link
+    default: false

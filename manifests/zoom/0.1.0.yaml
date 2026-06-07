@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: zoom
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoom-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoom-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c3598bdf349c965d4c23cdd4b6ad96124fd1a9b828be5043480b00b840a96932
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.zoom.us
+credentials:
+  - id: zoom_token
+    type: oauth2
+    provider: zoom
+    scopes: [meeting:read, meeting:write, recording:read, user:read, webinar:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_a_meeting
+    default: true
+  - name: create_a_meeting
+    default: false
+  - name: delete_a_meeting
+    default: false
+  - name: get_a_meeting_summary
+    default: true
+  - name: add_a_meeting_registrant
+    default: false
+  - name: get_meeting_recordings
+    default: true
+  - name: get_past_meeting_participants
+    default: true
+  - name: get_a_webinar
+    default: true
+  - name: get_user
+    default: true

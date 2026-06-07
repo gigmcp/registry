@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: lexoffice
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/lexoffice-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/lexoffice-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b672468fcba5ae0b3824469f07bb6c246679622f86c42f3e244e929e289dfbf5
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.lexoffice.io
+credentials:
+  - id: lexoffice_api_key
+    type: api_key
+    provider: lexoffice
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_contacts
+    default: true
+  - name: get_contact
+    default: true
+  - name: get_invoice
+    default: true
+  - name: list_voucherlist
+    default: true
+  - name: list_articles
+    default: true
+  - name: get_profile
+    default: true
+  - name: create_contact
+    default: false
+  - name: create_quotation
+    default: false
+  - name: create_credit_note
+    default: false
+  - name: create_voucher
+    default: false

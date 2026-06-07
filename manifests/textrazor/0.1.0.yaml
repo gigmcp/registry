@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: textrazor
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/textrazor-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/textrazor-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4b031c730dd1e57dcd455343c21237572a1f40d8630668db6b4f1abe3722f3d9
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.textrazor.com
+credentials:
+  - id: textrazor_api_key
+    type: api_key
+    provider: textrazor
+    inject:
+      header: X-TextRazor-Key
+      format: "{token}"
+tools:
+  - name: account_info
+    default: true
+  - name: analyze_content
+    default: true
+  - name: extract_entities
+    default: true
+  - name: classify_text
+    default: true
+  - name: custom_classifier_manager
+    default: false
+  - name: dictionary_manager
+    default: false

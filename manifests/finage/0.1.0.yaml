@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: finage
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/finage-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/finage-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:99d4433a4f955050993eda15e8c3a8d42004decb18a63ff1420a87a192a0f5c6
+  entrypoint: /app/server
+# Finage authenticates exclusively via the ?apikey= query parameter, so
+# header injection cannot work — entrusted tier with env injection.
+tier: entrusted
+entitlements:
+  egress:
+    - api.finage.co.uk
+credentials:
+  - id: finage_api_key
+    type: api_key
+    provider: finage
+    inject:
+      env: FINAGE_API_KEY
+tools:
+  - name: get_stock_last_quote
+    default: true
+  - name: get_stock_previous_close
+    default: true
+  - name: get_stock_market_aggregates
+    default: true
+  - name: get_stock_market_news
+    default: true
+  - name: get_technical_indicators
+    default: true
+  - name: get_crypto_last_trade
+    default: true
+  - name: get_forex_last_quote
+    default: true
+  - name: convert_currency
+    default: true
+  - name: search_market
+    default: true

@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: twitter
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/twitter-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/twitter-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f35bff1d14b656b96f629f04ec58e099dd1e84cd030a82fac2f3bbe247a2f627
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.twitter.com
+    - api.x.com
+    - upload.twitter.com
+credentials:
+  - id: twitter_token
+    type: oauth2
+    provider: twitter
+    scopes: [tweet.read, tweet.write, users.read, like.write, offline.access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_recent_tweets
+    default: true
+  - name: get_tweet_by_id
+    default: true
+  - name: get_user_by_username
+    default: true
+  - name: get_authenticated_user
+    default: true
+  - name: get_user_followers
+    default: true
+  - name: create_tweet
+    default: false
+  - name: delete_tweet
+    default: false
+  - name: like_tweet
+    default: false
+  - name: retweet_post
+    default: false
+  - name: send_direct_message
+    default: false

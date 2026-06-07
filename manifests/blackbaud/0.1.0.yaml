@@ -1,0 +1,34 @@
+schemaVersion: 1
+name: blackbaud
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/blackbaud-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/blackbaud-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:d7aa6792daf0e6850042409f8d99a21c91c02503356b767f301338a53911ad3a
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.sky.blackbaud.com
+    - oauth2.sky.blackbaud.com
+credentials:
+  - id: blackbaud_token
+    type: oauth2
+    provider: blackbaud
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_gift_by_id
+    default: true
+  - name: add_gifts_to_batch
+    default: false
+  - name: get_membership_details
+    default: true
+  - name: get_payment_transaction
+    default: true
+  - name: query_oneroster_api
+    default: true

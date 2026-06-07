@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: mailchimp
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mailchimp-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mailchimp-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:fe2e61d001c1b6de113dec44e61b3b6022da8e1190462ae42f13986f91237a49
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - login.mailchimp.com
+    - "*.api.mailchimp.com"
+credentials:
+  - id: mailchimp_token
+    type: oauth2
+    provider: mailchimp
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_lists
+    default: true
+  - name: get_list_members
+    default: true
+  - name: get_campaigns
+    default: true
+  - name: get_campaign_report
+    default: true
+  - name: get_segments
+    default: true
+  - name: add_or_update_list_member
+    default: false
+  - name: add_member_tags
+    default: false
+  - name: add_campaign
+    default: false
+  - name: send_campaign
+    default: false
+  - name: batch_subscribe_or_unsubscribe
+    default: false

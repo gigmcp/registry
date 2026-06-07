@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: pipedrive
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/pipedrive-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/pipedrive-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e5085ad67ef857bde1c53dacb47e1e1020f7ed26d3e9523f1b8b0a94b78f9aee
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.pipedrive.com
+    - "*.pipedrive.com"
+credentials:
+  - id: pipedrive_token
+    type: oauth2
+    provider: pipedrive
+    scopes: [deals:read, deals:full, contacts:read, contacts:full, activities:full]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_deals
+    default: true
+  - name: search_deals
+    default: true
+  - name: get_persons
+    default: true
+  - name: get_organizations
+    default: true
+  - name: get_activities
+    default: true
+  - name: add_deal
+    default: false
+  - name: add_person
+    default: false
+  - name: add_activity
+    default: false
+  - name: add_note
+    default: false
+  - name: delete_deal
+    default: false

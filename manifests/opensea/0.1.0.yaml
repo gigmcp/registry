@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: opensea
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/opensea-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/opensea-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:6103bf7695268d1671148b47a8bf8e4c090bb2650a530991a1577ca3627ac516
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.opensea.io
+credentials:
+  - id: opensea_api_key
+    type: api_key
+    provider: opensea
+    inject:
+      header: X-API-KEY
+      format: "{token}"
+tools:
+  - name: get_collections
+    default: true
+  - name: get_collection
+    default: true
+  - name: get_collection_stats
+    default: true
+  - name: get_nft
+    default: true
+  - name: get_listings
+    default: true
+  - name: get_events
+    default: true
+  - name: get_best_offer_by_nft
+    default: true
+  - name: create_listing
+    default: false
+  - name: create_item_offer
+    default: false
+  - name: refresh_nft_metadata
+    default: false

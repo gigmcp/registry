@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: bitwarden
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/bitwarden-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/bitwarden-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:319468dd9597e0d221013b9e3640f6dcbdf5f1800d5c6c4896a7f09504b03387
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.bitwarden.com
+    - identity.bitwarden.com
+credentials:
+  - id: bitwarden_token
+    type: oauth2
+    provider: bitwarden
+    scopes: [api.organization]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: retrieve_member
+    default: true
+  - name: retrieve_group
+    default: true
+  - name: get_group_member_ids
+    default: true
+  - name: get_organization_subscription
+    default: true
+  - name: update_member
+    default: false
+  - name: reinvite_member
+    default: false
+  - name: import_members_and_groups
+    default: false
+  - name: delete_member
+    default: false
+  - name: delete_group
+    default: false

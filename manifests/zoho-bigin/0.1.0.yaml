@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: zoho-bigin
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-bigin-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-bigin-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:454a22a255a007254b2923577b9c621fec81265e0423d81c7feeac78588f01da
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Zoho Bigin REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)
+    # plus the accounts host for OAuth token refresh.
+    - www.zohoapis.com
+    - "*.zohoapis.com"
+    - accounts.zoho.com
+credentials:
+  - id: zoho-bigin_token
+    type: oauth2
+    provider: zoho-bigin
+    scopes: [ZohoBigin.modules.READ, ZohoBigin.modules.CREATE, ZohoBigin.settings.READ, ZohoBigin.users.READ]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: get_modules
+    default: true
+  - name: get_records
+    default: true
+  - name: get_record
+    default: true
+  - name: search_records
+    default: true
+  - name: get_related_records
+    default: true
+  - name: get_users
+    default: true
+  - name: add_records
+    default: false
+  - name: update_records
+    default: false
+  - name: upsert_records
+    default: false
+  - name: delete_record
+    default: false

@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: slack
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/slack-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/slack-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:5abc326f0d2b52d537685f4887b9eae2087b4a6534ec5e7c21c6b52d2dd6ebb5
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - slack.com
+    - "*.slack.com"
+credentials:
+  - id: slack_token
+    type: oauth2
+    provider: slack
+    scopes: ["chat:write", "channels:read", "channels:history", "users:read"]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_all_channels
+    default: true
+  - name: fetch_conversation_history
+    default: true
+  - name: retrieve_message_thread
+    default: true
+  - name: list_all_users
+    default: true
+  - name: lookup_by_email
+    default: true
+  - name: send_message
+    default: false
+  - name: schedule_message
+    default: false
+  - name: add_reaction_to_message
+    default: false
+  - name: create_channel
+    default: false
+  - name: invite_users_to_channel
+    default: false

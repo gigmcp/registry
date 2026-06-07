@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: bamboohr
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/bamboohr-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/bamboohr-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e56c9f65a380d3caed7a40e4cc3b4dd4e4ee8dfae62ce48eccc417025b080553
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.bamboohr.com
+credentials:
+  - id: bamboohr_api_key
+    type: basic
+    provider: bamboohr
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: get_all_employees
+    default: true
+  - name: get_employee
+    default: true
+  - name: get_time_off_requests
+    default: true
+  - name: get_time_off_balances
+    default: true
+  - name: get_departments_metadata
+    default: true
+  - name: list_company_reports
+    default: true
+  - name: create_employee
+    default: false
+  - name: update_employee
+    default: false
+  - name: create_time_off_request
+    default: false

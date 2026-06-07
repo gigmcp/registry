@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: freshdesk
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/freshdesk-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/freshdesk-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e60a7abeb459114e5aeeff53741ec45eeaca74d3bf612f5623bb298f90502673
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Per-tenant Freshdesk API v2 hosts (<domain>.freshdesk.com/api/v2).
+    - "*.freshdesk.com"
+credentials:
+  - id: freshdesk_api_key
+    type: basic
+    provider: freshdesk
+    inject:
+      # Freshdesk uses HTTP Basic with the API key as username ("apikey:X"),
+      # pre-encoded as base64 in the injected token.
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: list_tickets
+    default: true
+  - name: get_ticket
+    default: true
+  - name: search_tickets
+    default: true
+  - name: list_contacts
+    default: true
+  - name: list_agents
+    default: true
+  - name: list_ticket_conversations
+    default: true
+  - name: create_ticket
+    default: false
+  - name: update_ticket
+    default: false
+  - name: reply_to_ticket
+    default: false
+  - name: create_contact
+    default: false

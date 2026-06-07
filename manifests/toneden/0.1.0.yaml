@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: toneden
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/toneden-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/toneden-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ba82c660b3ae16a6f07e72d2060635053b4a8261c39e1847dc40d9d2370aa1d3
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.toneden.io
+credentials:
+  - id: toneden_token
+    type: oauth2
+    provider: toneden
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_user
+    default: true
+  - name: get_link
+    default: true
+  - name: get_link_insights
+    default: true
+  - name: create_link
+    default: false
+  - name: get_advertising_campaign
+    default: true
+  - name: get_advertising_campaign_insights
+    default: true
+  - name: create_advertising_campaign
+    default: false
+  - name: delete_advertising_campaign
+    default: false
+  - name: list_playbook_campaigns
+    default: true

@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: datarobot
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/datarobot-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/datarobot-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:cd3e3aaff166530c3421a9e137ba53d8d4a96211dff244665d3309d8fbcd8008
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.datarobot.com
+credentials:
+  - id: datarobot_api_key
+    type: api_key
+    provider: datarobot
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: check_project_status
+    default: true
+  - name: analyze_dataset_definition
+    default: true
+  - name: download_code_snippet
+    default: true
+  - name: create_dataset_from_url
+    default: false
+  - name: create_dataset_from_file
+    default: false
+  - name: create_batch_predictions
+    default: false
+  - name: create_custom_model
+    default: false
+  - name: create_automated_document
+    default: false
+  - name: cancel_project_job
+    default: false

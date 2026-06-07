@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: borneo
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/borneo-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/borneo-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:abfebc0570f8834a3ca4596c5b8f1c78bdecb7b8d3629c77f48ce82a75acb4ae
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.borneo.io
+    - "*.borneo.io"
+credentials:
+  - id: borneo_api_key
+    type: api_key
+    provider: borneo
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_assets
+    default: true
+  - name: get_cloud_account
+    default: true
+  - name: list_inspection_results
+    default: true
+  - name: list_processing_activities
+    default: true
+  - name: list_recipients
+    default: true
+  - name: create_asset
+    default: false
+  - name: create_processing_activity
+    default: false
+  - name: create_cloud_resource_scan
+    default: false
+  - name: delete_asset
+    default: false

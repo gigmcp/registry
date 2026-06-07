@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: yandex
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/yandex-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/yandex-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:06bacece124f179a111b0d34f6b92be1f03c37973d2de36ab85fc5f36f2f56ca
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - cloud-api.yandex.net
+    - api.music.yandex.net
+    - api-metrika.yandex.net
+credentials:
+  - id: yandex_token
+    type: oauth2
+    provider: yandex
+    scopes: [cloud_api:disk.read, cloud_api:disk.info, metrika:read]
+    inject:
+      header: Authorization
+      format: "OAuth {token}"
+tools:
+  - name: get_account_status
+    default: true
+  - name: get_music_genres
+    default: true
+  - name: get_yandex_music_stations_list
+    default: true
+  - name: get_public_resource_metadata
+    default: true
+  - name: get_public_resource_download_link
+    default: true
+  - name: list_goals
+    default: true
+  - name: list_filters
+    default: true
+  - name: list_counter_grants
+    default: true
+  - name: list_log_requests
+    default: true

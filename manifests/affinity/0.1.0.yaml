@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: affinity
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/affinity-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/affinity-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:8963fef134745228d9d8fee63cad404909c8a53e136c6dfa89cdf579d9c53465
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.affinity.co
+credentials:
+  - id: affinity_api_key
+    type: api_key
+    provider: affinity
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_companies
+    default: true
+  - name: get_company
+    default: true
+  - name: list_persons
+    default: true
+  - name: get_person
+    default: true
+  - name: list_opportunities
+    default: true
+  - name: get_opportunity
+    default: true
+  - name: list_lists
+    default: true
+  - name: list_list_entries
+    default: true
+  - name: get_list_fields
+    default: true
+  - name: get_current_user
+    default: true

@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: amcards
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/amcards-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/amcards-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:445d6582730f77ae3f1aa3345028b050f53616fe7cbf1f05a62c5fee1863dd39
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - amcards.com
+credentials:
+  - id: amcards_api_key
+    type: api_key
+    provider: amcards
+    inject:
+      header: Authorization
+      format: "{token}"
+tools:
+  - name: list_public_templates
+    default: true
+  - name: get_public_template
+    default: true
+  - name: get_cards
+    default: true
+  - name: list_categories
+    default: true
+  - name: get_category
+    default: true
+  - name: get_contacts
+    default: true
+  - name: list_gifts
+    default: true
+  - name: get_gift
+    default: true

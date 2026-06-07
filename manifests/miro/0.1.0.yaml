@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: miro
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/miro-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/miro-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:fdae5f017db7b8c4c934f6c0991b5025888d17b3dbb59975c634c124b0ba091e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.miro.com
+credentials:
+  - id: miro_token
+    type: oauth2
+    provider: miro
+    scopes: [boards:read, boards:write, identity:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_boards
+    default: true
+  - name: get_specific_board
+    default: true
+  - name: get_board_items
+    default: true
+  - name: get_board_members
+    default: true
+  - name: get_specific_item
+    default: true
+  - name: create_board
+    default: false
+  - name: create_sticky_note_item
+    default: false
+  - name: create_card_item
+    default: false
+  - name: update_board
+    default: false
+  - name: delete_item
+    default: false

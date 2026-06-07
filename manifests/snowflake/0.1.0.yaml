@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: snowflake
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/snowflake-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/snowflake-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:00f512934795b85380b53c24a1d228d89e6549a09e3c25d35a6cc5e489147f7d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.snowflakecomputing.com"
+    - status.snowflake.com
+credentials:
+  - id: snowflake_token
+    type: oauth2
+    provider: snowflake
+    scopes: [refresh_token, session:role-any]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: execute_sql
+    default: false
+  - name: submit_sql_statement
+    default: false
+  - name: check_statement_status
+    default: true
+  - name: cancel_statement_execution
+    default: false
+  - name: show_databases
+    default: true
+  - name: show_schemas
+    default: true
+  - name: show_tables
+    default: true
+  - name: get_status_summary
+    default: true
+  - name: get_unresolved_incidents
+    default: true

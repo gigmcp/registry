@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: datadog
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/datadog-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/datadog-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:5416f4bca87b5d1bda2bb2be3186c762e42f021b4eea480f0af6348e5b49b27e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.datadoghq.com
+    - "*.datadoghq.com"
+credentials:
+  - id: datadog_api_key
+    type: api_key
+    provider: datadog
+    inject:
+      header: DD-API-KEY
+      format: "{token}"
+tools:
+  - name: list_dashboards
+    default: true
+  - name: get_dashboard
+    default: true
+  - name: list_monitors
+    default: true
+  - name: create_monitor
+    default: false
+  - name: mute_monitor
+    default: false
+  - name: query_metrics
+    default: true
+  - name: submit_metrics
+    default: false
+  - name: search_logs
+    default: true
+  - name: list_incidents
+    default: true
+  - name: list_hosts
+    default: true

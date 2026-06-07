@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: shortcut
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/shortcut-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/shortcut-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c8494683a0cb53b83a341236eeee3f6cc5c495313130e63d75a651d64a10ba81
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Shortcut (formerly Clubhouse) REST API v3.
+    - api.app.shortcut.com
+credentials:
+  - id: shortcut_api_key
+    type: api_key
+    provider: shortcut
+    inject:
+      header: Shortcut-Token
+      format: "{token}"
+tools:
+  - name: get_story
+    default: true
+  - name: search_stories
+    default: true
+  - name: list_epics
+    default: true
+  - name: get_epic
+    default: true
+  - name: list_iterations
+    default: true
+  - name: list_members
+    default: true
+  - name: create_story
+    default: false
+  - name: update_story
+    default: false
+  - name: create_epic
+    default: false
+  - name: delete_story
+    default: false

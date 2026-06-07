@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: zoho-desk
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-desk-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-desk-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4c1348fb3b09f609ca738371b791da348a0c2bd5d5aa2df26029401e9022001c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - desk.zoho.com
+    - accounts.zoho.com
+credentials:
+  - id: zoho_desk_token
+    type: oauth2
+    provider: zoho-desk
+    scopes: [Desk.tickets.READ, Desk.tickets.CREATE, Desk.contacts.READ, Desk.basic.READ, Desk.settings.READ]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: list_tickets
+    default: true
+  - name: get_ticket
+    default: true
+  - name: list_ticket_conversations
+    default: true
+  - name: list_contacts
+    default: true
+  - name: get_contact
+    default: true
+  - name: list_departments
+    default: true
+  - name: get_agent
+    default: true
+  - name: create_ticket
+    default: false

@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: googlecalendar
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googlecalendar-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googlecalendar-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:5740a407f02d33553cd019a7cd320a2436b52522dcd60c39cf221a189a5b1400
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.googleapis.com
+credentials:
+  - id: googlecalendar_token
+    type: oauth2
+    provider: googlecalendar
+    scopes:
+      [
+        https://www.googleapis.com/auth/calendar,
+        https://www.googleapis.com/auth/calendar.events,
+        https://www.googleapis.com/auth/calendar.readonly,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_calendars
+    default: true
+  - name: list_events
+    default: true
+  - name: get_event
+    default: true
+  - name: find_free_slots
+    default: true
+  - name: get_current_date_time
+    default: true
+  - name: create_event
+    default: false
+  - name: update_event
+    default: false
+  - name: quick_add_event
+    default: false
+  - name: delete_event
+    default: false

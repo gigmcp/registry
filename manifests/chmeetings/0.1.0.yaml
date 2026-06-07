@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: chmeetings
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/chmeetings-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/chmeetings-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b991db5c6c9215130be79ebf419b27287a647ad757969884fde5e356bc2dac25
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.chmeetings.com
+    - chmeetings.com
+credentials:
+  - id: chmeetings_api_key
+    type: api_key
+    provider: chmeetings
+    inject:
+      header: X-Api-Key
+      format: "{token}"
+tools:
+  - name: list_people
+    default: true
+  - name: get_person
+    default: true
+  - name: get_meeting
+    default: true
+  - name: list_meeting_attendees
+    default: true
+  - name: list_organizations
+    default: true
+  - name: create_meeting
+    default: false
+  - name: create_person
+    default: false
+  - name: create_reminder
+    default: false
+  - name: send_notification
+    default: false

@@ -1,0 +1,27 @@
+schemaVersion: 1
+name: fetch
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/gigmcp
+  tag: v0.1.0
+  package: cmd/fetch-mcp
+image:
+  ref: ghcr.io/gigmcp/fetch-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - example.com
+    - "*.example.com"
+credentials:
+  - id: demo_token
+    type: api_key
+    provider: example
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: fetch
+    default: true

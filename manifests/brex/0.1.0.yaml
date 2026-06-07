@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: brex
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/brex-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/brex-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:24f87ad4733d00ea1a2553aed2a0551192c4f252596f87bd75432e39ce6afadc
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - platform.brexapis.com
+credentials:
+  - id: brex_token
+    type: oauth2
+    provider: brex
+    scopes: [transactions.card.readonly, accounts.cash.readonly, budgets.readonly, expenses.card.readonly, users.readonly]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_cards
+    default: true
+  - name: get_card_transactions
+    default: true
+  - name: get_company_cash_accounts
+    default: true
+  - name: list_expenses
+    default: true
+  - name: get_expense
+    default: true
+  - name: list_budgets
+    default: true
+  - name: list_users
+    default: true
+  - name: create_expense
+    default: false
+  - name: update_card_status
+    default: false
+  - name: create_card
+    default: false

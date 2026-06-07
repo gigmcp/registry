@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: firecrawl
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/firecrawl-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/firecrawl-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:34220f6dfcefac3d45e1b705056f8b915912f3d6ea7451337e88805cb45de482
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.firecrawl.dev
+credentials:
+  - id: firecrawl_api_key
+    type: api_key
+    provider: firecrawl
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: scrape
+    default: true
+  - name: batch_scrape
+    default: true
+  - name: crawl
+    default: true
+  - name: get_crawl_status
+    default: true
+  - name: cancel_crawl
+    default: false
+  - name: map_urls
+    default: true
+  - name: search
+    default: true
+  - name: extract
+    default: true
+  - name: get_credit_usage
+    default: true

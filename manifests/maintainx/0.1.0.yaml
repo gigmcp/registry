@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: maintainx
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/maintainx-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/maintainx-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:feed6cf670b7078fbd99521c3d8dbd77d360fcb822ab47ba387e6704ebbb151e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.getmaintainx.com
+credentials:
+  - id: maintainx_api_key
+    type: api_key
+    provider: maintainx
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_work_orders
+    default: true
+  - name: list_assets
+    default: true
+  - name: list_locations
+    default: true
+  - name: list_work_requests
+    default: true
+  - name: get_user
+    default: true
+  - name: find_entity
+    default: true
+  - name: create_work_order
+    default: false
+  - name: update_work_order_status
+    default: false
+  - name: create_work_order_comment
+    default: false
+  - name: create_work_request
+    default: false

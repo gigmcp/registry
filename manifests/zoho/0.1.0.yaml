@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: zoho
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a7348aebd7c9448123137b01129de7366f0bb4d44d0baacc0341e00c1d017f9d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Zoho CRM REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)
+    # plus the accounts host for OAuth token refresh.
+    - www.zohoapis.com
+    - "*.zohoapis.com"
+    - accounts.zoho.com
+credentials:
+  - id: zoho_token
+    type: oauth2
+    provider: zoho
+    scopes: [ZohoCRM.modules.ALL, ZohoCRM.settings.READ, ZohoCRM.users.READ]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: get_records
+    default: true
+  - name: search_records
+    default: true
+  - name: get_related_records
+    default: true
+  - name: list_modules
+    default: true
+  - name: get_module_fields_metadata
+    default: true
+  - name: get_users
+    default: true
+  - name: create_record
+    default: false
+  - name: update_record
+    default: false
+  - name: convert_lead
+    default: false
+  - name: upload_attachment
+    default: false

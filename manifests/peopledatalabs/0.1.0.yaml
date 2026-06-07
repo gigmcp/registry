@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: peopledatalabs
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/peopledatalabs-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/peopledatalabs-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2ee5dcca5f98b8b31feb233b49fdba1b2c88d973b9a3a4125e9aaa1db7521156
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.peopledatalabs.com
+credentials:
+  - id: peopledatalabs_api_key
+    type: api_key
+    provider: peopledatalabs
+    inject:
+      header: X-Api-Key
+      format: "{token}"
+tools:
+  - name: enrich_person
+    default: true
+  - name: enrich_company
+    default: true
+  - name: enrich_ip
+    default: true
+  - name: identify_person
+    default: true
+  - name: person_search
+    default: true
+  - name: company_search
+    default: true
+  - name: clean_company
+    default: true
+  - name: clean_location
+    default: true
+  - name: autocomplete
+    default: true

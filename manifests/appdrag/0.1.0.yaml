@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: appdrag
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/appdrag-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/appdrag-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f5f8c5142829865b8dd767b6849d368c5d33847ea165f135243b76ddabf15b62
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.appdrag.com
+credentials:
+  - id: appdrag_api_key
+    type: api_key
+    provider: appdrag
+    inject:
+      header: X-Api-Key
+      format: "{token}"
+tools:
+  - name: execute_function_get
+    default: true
+  - name: visual_sql_select
+    default: true
+  - name: execute_function_post
+    default: false
+  - name: execute_function_put
+    default: false
+  - name: execute_function_patch
+    default: false
+  - name: execute_function_delete
+    default: false
+  - name: visual_sql_update
+    default: false
+  - name: visual_sql_delete
+    default: false

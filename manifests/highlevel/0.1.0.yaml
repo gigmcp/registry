@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: highlevel
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/highlevel-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/highlevel-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b3250ced515e7c93542c7b40539dc7aa7f94f605fa1b7c7eec9323dc9931fb31
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - services.leadconnectorhq.com
+credentials:
+  - id: highlevel_token
+    type: oauth2
+    provider: highlevel
+    scopes: [contacts.readonly, contacts.write, calendars.readonly, conversations.readonly, campaigns.readonly]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_calendars
+    default: true
+  - name: get_calendar_events
+    default: true
+  - name: search_conversations
+    default: true
+  - name: get_email_campaigns
+    default: true
+  - name: list_media_files
+    default: true
+  - name: get_custom_objects_records
+    default: true
+  - name: create_calendar
+    default: false
+  - name: create_task
+    default: false
+  - name: create_note
+    default: false
+  - name: create_product
+    default: false

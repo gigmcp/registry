@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: hackerrank-work
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/hackerrank-work-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/hackerrank-work-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a55fb87ebd15f18a31d15ea62b6d1c06d715fc72b3ad473b23d3a4a42688b304
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.hackerrank.com
+credentials:
+  - id: hackerrank_work_api_key
+    type: api_key
+    provider: hackerrank-work
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_companies
+    default: true
+  - name: get_sso_sign_on_url
+    default: true
+  - name: list_tests
+    default: true
+  - name: get_test
+    default: true
+  - name: list_test_candidates
+    default: true
+  - name: invite_test_candidate
+    default: false
+  - name: consume_saml_assertion
+    default: false

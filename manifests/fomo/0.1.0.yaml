@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: fomo
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/fomo-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/fomo-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:987848505fca75d38f8fa43e3456df91f0033468020448c3efbc96abb0d6788f
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.fomo.com
+credentials:
+  - id: fomo_api_key
+    type: api_key
+    provider: fomo
+    inject:
+      header: Authorization
+      format: "Token {token}"
+tools:
+  - name: list_events
+    default: true
+  - name: get_fomo_event
+    default: true
+  - name: search_event
+    default: true
+  - name: get_statistics
+    default: true
+  - name: create_fomo_event
+    default: false
+  - name: update_event
+    default: false
+  - name: delete_fomo_event
+    default: false
+  - name: create_fomo_template
+    default: false
+  - name: update_application
+    default: false

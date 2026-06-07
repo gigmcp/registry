@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: eventbrite
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/eventbrite-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/eventbrite-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:076c3f3bfb5a5c5cf3bdb1c9222edde9aa9b89d380e45434b71263d8c8a8050c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.eventbriteapi.com
+credentials:
+  - id: eventbrite_token
+    type: oauth2
+    provider: eventbrite
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_event
+    default: true
+  - name: list_organization_events
+    default: true
+  - name: list_event_attendees
+    default: true
+  - name: list_event_orders
+    default: true
+  - name: list_ticket_classes
+    default: true
+  - name: create_event
+    default: false
+  - name: update_event
+    default: false
+  - name: publish_event
+    default: false
+  - name: create_ticket_class
+    default: false
+  - name: create_discount
+    default: false

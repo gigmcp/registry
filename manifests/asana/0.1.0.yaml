@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: asana
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/asana-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/asana-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c17f29da95db7977f4a34117c2045e96d8f1b0507801168ba385a84df33080cf
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.asana.com
+credentials:
+  - id: asana_token
+    type: oauth2
+    provider: asana
+    scopes: [tasks:read, tasks:write, projects:read, projects:write, users:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_workspaces
+    default: true
+  - name: get_multiple_projects
+    default: true
+  - name: get_multiple_tasks
+    default: true
+  - name: get_task
+    default: true
+  - name: get_current_user
+    default: true
+  - name: create_task
+    default: false
+  - name: create_subtask
+    default: false
+  - name: create_project
+    default: false
+  - name: create_task_comment
+    default: false
+  - name: delete_task
+    default: false

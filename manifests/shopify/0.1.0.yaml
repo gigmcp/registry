@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: shopify
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/shopify-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/shopify-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f93f150243a188adfd0e31509ef44e1d509cb4c45de801e40b802ea7f7090e59
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.myshopify.com"
+credentials:
+  - id: shopify_token
+    type: oauth2
+    provider: shopify
+    scopes: [read_products, write_products, read_orders, read_customers]
+    inject:
+      header: X-Shopify-Access-Token
+      format: "{token}"
+tools:
+  - name: list_orders
+    default: true
+  - name: get_order
+    default: true
+  - name: create_order
+    default: false
+  - name: cancel_order
+    default: false
+  - name: list_products
+    default: true
+  - name: create_product
+    default: false
+  - name: get_customer
+    default: true
+  - name: create_customer
+    default: false
+  - name: count_products
+    default: true
+  - name: create_discount_code
+    default: false

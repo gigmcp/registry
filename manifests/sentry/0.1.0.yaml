@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: sentry
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/sentry-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/sentry-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:60f97bb77404310928a5c1af0d854703611226c78a4bf0cb30c73581ac48a631
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - sentry.io
+    - "*.sentry.io"
+credentials:
+  - id: sentry_token
+    type: oauth2
+    provider: sentry
+    scopes: [project:read, event:read, org:read, issue:write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_organization_issues
+    default: true
+  - name: list_projects
+    default: true
+  - name: list_organization_members
+    default: true
+  - name: list_releases
+    default: true
+  - name: get_issue_events
+    default: true
+  - name: update_issue
+    default: false
+  - name: create_alert_rule
+    default: false
+  - name: delete_issue
+    default: false

@@ -1,0 +1,40 @@
+schemaVersion: 1
+name: mural
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mural-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mural-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b391735d5e200cfc8a263ebdf167247d9ec953d482bed1cb06e389c8e5eb4d0c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.mural.co
+credentials:
+  - id: mural_token
+    type: oauth2
+    provider: mural
+    scopes: [murals:read, murals:write, rooms:read, workspaces:read, identity:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_workspaces
+    default: true
+  - name: get_current_user
+    default: true
+  - name: list_rooms_in_workspace
+    default: true
+  - name: list_murals_in_room
+    default: true
+  - name: get_mural_widgets
+    default: true
+  - name: search_murals_in_workspace
+    default: true
+  - name: list_recent_templates
+    default: true
+  - name: create_sticky_note
+    default: false

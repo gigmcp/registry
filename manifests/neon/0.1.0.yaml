@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: neon
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/neon-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/neon-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c2c8284143eacc88f1bfd4d34d844f362b1cff5e37582c38d9695ff794cf6ec1
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - console.neon.tech
+credentials:
+  - id: neon_api_key
+    type: api_key
+    provider: neon
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: get_project
+    default: true
+  - name: list_branches
+    default: true
+  - name: get_connection_uri
+    default: true
+  - name: list_databases
+    default: true
+  - name: create_branch
+    default: false
+  - name: create_branch_database
+    default: false
+  - name: delete_branch
+    default: false
+  - name: create_compute_endpoint
+    default: false
+  - name: get_consumption_history
+    default: true

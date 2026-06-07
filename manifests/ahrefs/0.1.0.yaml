@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: ahrefs
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/ahrefs-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/ahrefs-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:8057031cde4aef7a1b1c46f8e8259e85aab75a97269a290ebe58ac9a6b8c483c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.ahrefs.com
+credentials:
+  - id: ahrefs_api_key
+    type: api_key
+    provider: ahrefs
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_backlinks_stats
+    default: true
+  - name: list_backlinks
+    default: true
+  - name: get_domain_rating
+    default: true
+  - name: list_referring_domains
+    default: true
+  - name: get_keywords_overview
+    default: true
+  - name: get_keyword_volume_by_country
+    default: true
+  - name: get_serp_overview
+    default: true
+  - name: list_broken_backlinks
+    default: true
+  - name: get_rank_tracker_overview
+    default: true
+  - name: list_site_audit_projects
+    default: true

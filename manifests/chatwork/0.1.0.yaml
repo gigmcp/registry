@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: chatwork
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/chatwork-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/chatwork-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:84caac4f801ae93cb385040ac82576dfb65aa67f5863fe83157f6ba4acd4299f
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.chatwork.com
+credentials:
+  - id: chatwork_api_key
+    type: api_key
+    provider: chatwork
+    inject:
+      header: X-ChatWorkToken
+      format: "{token}"
+tools:
+  - name: get_my_profile
+    default: true
+  - name: get_rooms
+    default: true
+  - name: get_room_messages
+    default: true
+  - name: get_room_members
+    default: true
+  - name: get_my_tasks
+    default: true
+  - name: get_contacts
+    default: true
+  - name: post_message
+    default: false
+  - name: create_room
+    default: false
+  - name: create_task
+    default: false
+  - name: upload_file
+    default: false

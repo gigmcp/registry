@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: timely
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/timely-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/timely-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:5e9359da022b3fbf7175c9d73bd01d75d41aec10456926826ee6c3c48dc85785
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.timelyapp.com
+credentials:
+  - id: timely_token
+    type: oauth2
+    provider: timely
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_accounts
+    default: true
+  - name: get_current_user
+    default: true
+  - name: list_users
+    default: true
+  - name: list_projects
+    default: true
+  - name: list_clients
+    default: true
+  - name: list_events
+    default: true
+  - name: filter_reports
+    default: true
+  - name: create_client
+    default: false
+  - name: update_project
+    default: false
+  - name: process_bulk_events
+    default: false

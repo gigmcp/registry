@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: browseai
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/browseai-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/browseai-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:77a3b31d91b6c0d7998d7d717f5046c03141d82dac83728b68b3229aa3abaeb1
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.browse.ai
+credentials:
+  - id: browseai_api_key
+    type: api_key
+    provider: browseai
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_robots
+    default: true
+  - name: get_robot_tasks
+    default: true
+  - name: get_task_details
+    default: true
+  - name: list_robot_webhooks
+    default: true
+  - name: get_system_status
+    default: true
+  - name: run_robot
+    default: false
+  - name: bulk_run_tasks
+    default: false
+  - name: create_monitor
+    default: false
+  - name: delete_monitor
+    default: false
+  - name: delete_task
+    default: false

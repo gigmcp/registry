@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: googleads
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googleads-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googleads-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9ab92649c642f6252b63c971a8b9bd8d082e1bac9008b14d830fbdaed765e571
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - googleads.googleapis.com
+    - oauth2.googleapis.com
+credentials:
+  - id: googleads_token
+    type: oauth2
+    provider: googleads
+    scopes: [https://www.googleapis.com/auth/adwords]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_accessible_customers
+    default: true
+  - name: search_stream_gaql
+    default: true
+  - name: get_campaign_by_id
+    default: true
+  - name: get_campaign_by_name
+    default: true
+  - name: get_customer_lists
+    default: true
+  - name: create_customer_list
+    default: false
+  - name: add_or_remove_to_customer_list
+    default: false
+  - name: mutate_campaigns
+    default: false
+  - name: mutate_ad_groups
+    default: false

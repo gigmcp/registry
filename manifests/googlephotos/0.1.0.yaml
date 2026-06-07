@@ -1,0 +1,49 @@
+schemaVersion: 1
+name: googlephotos
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googlephotos-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googlephotos-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a4bc47a5247235c206cddf2d954b0e37b44be753d4ba0b8dafa00d843bb62f84
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - photoslibrary.googleapis.com
+credentials:
+  - id: googlephotos_token
+    type: oauth2
+    provider: googlephotos
+    scopes:
+      [
+        https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata,
+        https://www.googleapis.com/auth/photoslibrary.appendonly,
+        https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_albums
+    default: true
+  - name: get_album
+    default: true
+  - name: list_media_items
+    default: true
+  - name: search_media_items
+    default: true
+  - name: batch_get_media_items
+    default: true
+  - name: download_media_item
+    default: true
+  - name: create_album
+    default: false
+  - name: update_album
+    default: false
+  - name: upload_media
+    default: false
+  - name: batch_create_media_items
+    default: false

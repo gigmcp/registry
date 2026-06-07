@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: rocketreach
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/rocketreach-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/rocketreach-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:04eb29aadce040617026a66db599c8900fce6df885e4e750a702f2c53304e680
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.rocketreach.co
+credentials:
+  - id: rocketreach_api_key
+    type: api_key
+    provider: rocketreach
+    inject:
+      header: Api-Key
+      format: "{token}"
+tools:
+  - name: search_people
+    default: true
+  - name: lookup_person
+    default: true
+  - name: lookup_company
+    default: true
+  - name: lookup_person_and_company
+    default: true
+  - name: check_person_status
+    default: true
+  - name: get_company_tech_stack
+    default: true
+  - name: list_companies
+    default: true
+  - name: get_account_info
+    default: true

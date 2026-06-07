@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: surveymonkey
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/surveymonkey-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/surveymonkey-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c393fec9f32c7b667799dc388f836b7ba73cde5200771f6b2a082afa5c8b7cab
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.surveymonkey.com
+credentials:
+  - id: surveymonkey_token
+    type: oauth2
+    provider: surveymonkey
+    scopes: [surveys_read, surveys_write, responses_read, contacts_read, contacts_write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_surveys
+    default: true
+  - name: get_survey_details
+    default: true
+  - name: get_survey_responses
+    default: true
+  - name: get_survey_collectors
+    default: true
+  - name: get_contacts
+    default: true
+  - name: list_contact_lists
+    default: true
+  - name: create_survey
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_contact_list
+    default: false
+  - name: delete_survey
+    default: false

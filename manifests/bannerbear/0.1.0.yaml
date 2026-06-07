@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: bannerbear
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/bannerbear-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/bannerbear-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2d0505e7a13431b8f42e370f6fb34e7b6dba159b81353f327f7b11362ba9984e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.bannerbear.com
+credentials:
+  - id: bannerbear_api_key
+    type: api_key
+    provider: bannerbear
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_account_info
+    default: true
+  - name: list_templates
+    default: true
+  - name: get_template
+    default: true
+  - name: list_images
+    default: true
+  - name: get_image
+    default: true
+  - name: list_videos
+    default: true
+  - name: list_screenshots
+    default: true
+  - name: create_template
+    default: false
+  - name: delete_template
+    default: false

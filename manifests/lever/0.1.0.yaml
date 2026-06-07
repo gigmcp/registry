@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: lever
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/lever-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/lever-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:fe167c25f57fa0979a2c2145b27cca964d14a035d5e317094b86085ee65d1b41
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Lever ATS REST API plus the OAuth authorization/token host.
+    - api.lever.co
+    - auth.lever.co
+credentials:
+  - id: lever_token
+    type: oauth2
+    provider: lever
+    scopes: [opportunities:read:admin, postings:read:admin, users:read:admin, notes:write:admin, opportunities:write:admin]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_opportunities
+    default: true
+  - name: get_opportunity
+    default: true
+  - name: list_postings
+    default: true
+  - name: list_stages
+    default: true
+  - name: list_users
+    default: true
+  - name: list_notes
+    default: true
+  - name: create_opportunity
+    default: false
+  - name: create_note
+    default: false
+  - name: add_opportunity_tags
+    default: false
+  - name: create_interview
+    default: false

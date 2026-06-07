@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: more-trees
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/more-trees-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/more-trees-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ad2a7e5a0e6276e10010fe8e6baebd82cb80fdbf54bf0e24f7e6e325d13f66db
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.moretrees.eco
+credentials:
+  - id: more_trees_api_key
+    type: api_key
+    provider: more-trees
+    inject:
+      header: X-API-KEY
+      format: "{token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: get_total_carbon_offset
+    default: true
+  - name: get_marketing_preferences
+    default: true
+  - name: get_tree_types
+    default: true
+  - name: create_user
+    default: false
+  - name: plant_tree
+    default: false

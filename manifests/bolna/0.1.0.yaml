@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: bolna
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/bolna-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/bolna-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:17040f6643d05486b4c0e71eca2abe9e4920ea8d490a939e632060d6d2bcb50c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.bolna.ai
+credentials:
+  - id: bolna_api_key
+    type: api_key
+    provider: bolna
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_all_agents
+    default: true
+  - name: retrieve_agent_by_id
+    default: true
+  - name: create_agent
+    default: false
+  - name: update_agent
+    default: false
+  - name: delete_agent
+    default: false
+  - name: make_phone_call
+    default: false
+  - name: get_execution_by_id
+    default: true
+  - name: list_voices
+    default: true
+  - name: list_phone_numbers
+    default: true
+  - name: stop_agent_calls
+    default: false

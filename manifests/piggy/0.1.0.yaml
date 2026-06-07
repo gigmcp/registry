@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: piggy
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/piggy-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/piggy-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:48228a18b95618f3b15f0b6b4c9a656e4320c08945123a3a1a8c17252bd1ed5c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.piggy.eu
+credentials:
+  - id: piggy_api_key
+    type: api_key
+    provider: piggy
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_perks
+    default: true
+  - name: list_forms
+    default: true
+  - name: find_voucher_by_code
+    default: true
+  - name: get_contact_credit_balance
+    default: true
+  - name: create_credit_reception
+    default: false
+  - name: create_vouchers_batch
+    default: false
+  - name: merge_contacts
+    default: false
+  - name: send_contact_verification_email
+    default: false
+  - name: update_contact_identifiers
+    default: false

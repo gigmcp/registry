@@ -1,0 +1,46 @@
+name: build-images
+on:
+  workflow_dispatch:
+    inputs:
+      name: {description: 'server name (manifests/<name>)', required: true}
+      version: {description: 'manifest version to build (default: latest)', required: false, default: ''}
+permissions:
+  packages: write
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve build args
+        env:
+          NAME: ${{ inputs.name }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          TARGET="manifests/$NAME"
+          if [ -n "$VERSION" ]; then TARGET="manifests/$NAME/$VERSION.yaml"; fi
+          go run ./cmd/registryctl build-args "$TARGET" >> "$GITHUB_ENV"
+      - name: Build and push
+        run: |
+          # --provenance=false: buildx attestation manifests produce an index
+          # digest instead of an image-manifest digest, which breaks the
+          # gateway's per-platform image-manifest digest pin.
+          docker buildx build --provenance=false --push \
+            -f "images/${BUILDER}/Dockerfile" \
+            --build-arg SOURCE_REPO="$SOURCE_REPO" \
+            --build-arg SOURCE_TAG="$SOURCE_TAG" \
+            --build-arg PACKAGE="$PACKAGE" \
+            -t "ghcr.io/gigmcp/${NAME}-mcp:${VERSION}" \
+            .
+      - name: Report digest to pin
+        run: |
+          echo "Pin this linux/amd64 image-manifest digest in manifests/$NAME/<version>.yaml:"
+          docker buildx imagetools inspect "ghcr.io/gigmcp/${NAME}-mcp:${VERSION}" --raw | sha256sum | awk '{print "sha256:"$1}'

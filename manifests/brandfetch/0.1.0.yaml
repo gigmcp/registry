@@ -1,0 +1,38 @@
+schemaVersion: 1
+name: brandfetch
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/brandfetch-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/brandfetch-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e6ebc73251d6691f7637c036dbfce5ebe76c7e0b1433ea1e1e4aa8c5fa7c8861
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.brandfetch.io
+    - graphql.brandfetch.io
+credentials:
+  - id: brandfetch_api_key
+    type: api_key
+    provider: brandfetch
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_brand_info
+    default: true
+  - name: search_brands
+    default: true
+  - name: get_transaction_info
+    default: true
+  - name: get_taxonomy
+    default: true
+  - name: list_webhooks
+    default: true
+  - name: list_subscribable_events
+    default: true
+  - name: get_graphql_version
+    default: true

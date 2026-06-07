@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: retellai
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/retellai-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/retellai-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9c5ffa216a93abe5be6b439f736ae48b3042ccbbf0496556be59ef03afb34492
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.retellai.com
+credentials:
+  - id: retellai_api_key
+    type: api_key
+    provider: retellai
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_agents
+    default: true
+  - name: get_agent
+    default: true
+  - name: create_agent
+    default: false
+  - name: update_agent
+    default: false
+  - name: retrieve_call_details
+    default: true
+  - name: create_outbound_phone_call
+    default: false
+  - name: create_web_call
+    default: false
+  - name: list_all_phone_numbers
+    default: true
+  - name: list_voices
+    default: true

@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: zoho-mail
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-mail-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-mail-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3b3b03beec1a518f3ec72e32ac948ad77c61a14e05fc3d9c1328911bc69aa043
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - mail.zoho.com
+    - accounts.zoho.com
+credentials:
+  - id: zoho-mail_token
+    type: oauth2
+    provider: zoho-mail
+    scopes: [ZohoMail.accounts.READ, ZohoMail.messages.READ, ZohoMail.messages.CREATE, ZohoMail.folders.READ]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: list_accounts
+    default: true
+  - name: list_emails
+    default: true
+  - name: get_message_content
+    default: true
+  - name: search_messages
+    default: true
+  - name: get_all_bookmarks
+    default: true
+  - name: send_email
+    default: false
+  - name: reply_to_email
+    default: false
+  - name: create_email_draft
+    default: false
+  - name: delete_group
+    default: false

@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: alchemy
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/alchemy-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/alchemy-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:db3730eda873469250989231fb30eedb133b2e6068936345fb7743598f3cff49
+  entrypoint: /app/server
+# Alchemy authenticates via the API key embedded in the request URL path
+# (e.g. https://eth-mainnet.g.alchemy.com/v2/{apiKey}), so header injection
+# cannot work — entrusted tier with env injection.
+tier: entrusted
+entitlements:
+  egress:
+    - "*.g.alchemy.com"
+credentials:
+  - id: alchemy_api_key
+    type: api_key
+    provider: alchemy
+    inject:
+      env: ALCHEMY_API_KEY
+tools:
+  - name: get_nfts_for_owner
+    default: true
+  - name: get_nft_metadata
+    default: true
+  - name: get_owners_for_contract
+    default: true
+  - name: get_nft_sales
+    default: true
+  - name: get_nft_floor_price
+    default: true
+  - name: get_token_balances
+    default: true
+  - name: get_token_metadata
+    default: true
+  - name: get_token_prices_by_symbol
+    default: true
+  - name: get_transactions_history_by_address
+    default: true

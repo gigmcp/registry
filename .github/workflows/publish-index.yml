@@ -1,0 +1,24 @@
+name: publish-index
+on:
+  push: {branches: [main]}
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: {go-version: '1.26'}
+      - run: go run ./cmd/registryctl lint ./manifests -denylist denylist/exfil-domains.txt
+      - run: go run ./cmd/registryctl build-index ./manifests -out index.json
+      - run: go run ./cmd/registryctl sign -in index.json -out index.json.sig
+        env:
+          GIG_SIGNING_KEY: ${{ secrets.GIG_INDEX_SIGNING_KEY }}
+      - name: Publish as rolling release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest index.json index.json.sig \
+            --title "registry index" --notes "Signed registry index (auto-published)"

@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: notion
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/notion-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/notion-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:fc905054444fc668604cdc1b1a3b8f7357d72f5438e206673e231a434003c1fe
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.notion.com
+credentials:
+  - id: notion_token
+    type: oauth2
+    provider: notion
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_notion_pages
+    default: true
+  - name: retrieve_page
+    default: true
+  - name: query_database
+    default: true
+  - name: fetch_block_contents
+    default: true
+  - name: list_users
+    default: true
+  - name: create_notion_page
+    default: false
+  - name: update_page
+    default: false
+  - name: insert_row_database
+    default: false
+  - name: create_comment
+    default: false
+  - name: archive_notion_page
+    default: false

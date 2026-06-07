@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: smugmug
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/smugmug-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/smugmug-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:58b7c39a868bf2a61a1a98c68a8eb55da5709e4ce350982c1d96359c37005c98
+  entrypoint: /app/server
+# entrusted: SmugMug v2 API keys are passed as the APIKey query parameter,
+# so header injection cannot work.
+tier: entrusted
+entitlements:
+  egress:
+    - api.smugmug.com
+credentials:
+  - id: smugmug_api_key
+    type: api_key
+    provider: smugmug
+    inject:
+      env: SMUGMUG_API_KEY
+tools:
+  - name: get_user
+    default: true
+  - name: get_user_root_node
+    default: true
+  - name: list_child_nodes
+    default: true
+  - name: get_folder_albums
+    default: true
+  - name: get_album
+    default: true
+  - name: get_album_images
+    default: true
+  - name: get_image
+    default: true
+  - name: search_user_content
+    default: true
+  - name: unlock_album
+    default: false

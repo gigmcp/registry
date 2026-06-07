@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: mopinion
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mopinion-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mopinion-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0b3ea82049612bd2e3d7e534bde7bb44e168e337ab86be2740256654b84a4323
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.mopinion.com
+credentials:
+  - id: mopinion_api_key
+    type: api_key
+    provider: mopinion
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_account
+    default: true
+  - name: list_deployments
+    default: true
+  - name: get_deployment
+    default: true
+  - name: get_dataset
+    default: true
+  - name: get_dataset_feedback
+    default: true
+  - name: get_dataset_fields
+    default: true
+  - name: get_report
+    default: true
+  - name: get_report_feedback
+    default: true
+  - name: get_report_fields
+    default: true

@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: launchdarkly
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/launchdarkly-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/launchdarkly-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:abf93d343d112e43c2eda3241b385ebdabcfbb5862ec5107b758969f814a5d81
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.launchdarkly.com
+credentials:
+  - id: launchdarkly_api_key
+    type: api_key
+    provider: launchdarkly
+    inject:
+      header: Authorization
+      format: "{token}"
+tools:
+  - name: list_feature_flags
+    default: true
+  - name: get_feature_flag
+    default: true
+  - name: list_environments
+    default: true
+  - name: list_segments
+    default: true
+  - name: get_audit_log_entries
+    default: true
+  - name: create_feature_flag
+    default: false
+  - name: patch_feature_flag
+    default: false
+  - name: delete_feature_flag
+    default: false
+  - name: create_segment
+    default: false

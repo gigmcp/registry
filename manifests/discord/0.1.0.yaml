@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: discord
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/discord-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/discord-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b96444f4702f7620e9fa3340883140dc09b1932662783dcbdd238dc00bba5595
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - discord.com
+credentials:
+  - id: discord_token
+    type: oauth2
+    provider: discord
+    scopes: [identify, email, guilds, guilds.members.read, connections]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_my_user
+    default: true
+  - name: list_my_guilds
+    default: true
+  - name: get_my_guild_member
+    default: true
+  - name: list_my_connections
+    default: true
+  - name: resolve_invite
+    default: true
+  - name: get_guild_widget
+    default: true
+  - name: modify_current_user
+    default: false
+  - name: leave_guild
+    default: false
+  - name: update_user_application_role_connection
+    default: false

@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: perplexityai
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/perplexityai-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/perplexityai-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3262f9870c177094d30e87f4346168f019f18d70085d9b6fcd2ed9383f6db9ee
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.perplexity.ai
+credentials:
+  - id: perplexityai_api_key
+    type: api_key
+    provider: perplexityai
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: create_chat_completion
+    default: true
+  - name: create_async_chat_completion
+    default: true
+  - name: get_async_chat_completion
+    default: true
+  - name: list_async_chat_completions
+    default: true
+  - name: perplexity_search
+    default: true
+  - name: list_models
+    default: true
+  - name: create_embeddings
+    default: true

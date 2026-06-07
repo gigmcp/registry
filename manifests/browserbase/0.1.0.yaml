@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: browserbase
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/browserbase-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/browserbase-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a7fa4fcde18d65aeda0568e22576268993f03911a588ff98b40ac43a14ec68d6
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.browserbase.com
+credentials:
+  - id: browserbase_api_key
+    type: api_key
+    provider: browserbase
+    inject:
+      header: X-BB-API-Key
+      format: "{token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: get_project
+    default: true
+  - name: get_project_usage
+    default: true
+  - name: list_sessions
+    default: true
+  - name: get_session
+    default: true
+  - name: get_session_logs
+    default: true
+  - name: get_session_downloads
+    default: true
+  - name: create_browser_session
+    default: false
+  - name: update_session
+    default: false
+  - name: create_context
+    default: false

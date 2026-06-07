@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: reddit
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/reddit-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/reddit-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:8488d728aa826b8a8ab484cb807a1ec5b3a52008588ea7609211c1f06d8c1af2
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - oauth.reddit.com
+    - www.reddit.com
+credentials:
+  - id: reddit_token
+    type: oauth2
+    provider: reddit
+    scopes: [identity, read, submit, edit, history]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_across_subreddits
+    default: true
+  - name: retrieve_posts_from_subreddit
+    default: true
+  - name: retrieve_comments_for_post
+    default: true
+  - name: get_user_information
+    default: true
+  - name: get_subreddit_rules
+    default: true
+  - name: create_post
+    default: false
+  - name: post_comment
+    default: false
+  - name: delete_post
+    default: false

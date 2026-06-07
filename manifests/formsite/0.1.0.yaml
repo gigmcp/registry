@@ -1,0 +1,33 @@
+schemaVersion: 1
+name: formsite
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/formsite-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/formsite-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4ec05d34a18cf8387c83ae88380266bf25d1f83d8296a21a8b4f9c149effd633
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.formsite.com"
+credentials:
+  - id: formsite_api_key
+    type: api_key
+    provider: formsite
+    inject:
+      header: Authorization
+      format: "bearer {token}"
+tools:
+  - name: list_all_forms
+    default: true
+  - name: get_form
+    default: true
+  - name: get_form_items
+    default: true
+  - name: get_form_results
+    default: true
+  - name: get_webhooks
+    default: true

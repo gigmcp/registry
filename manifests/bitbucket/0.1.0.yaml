@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: bitbucket
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/bitbucket-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/bitbucket-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b68658fbc9cf932cb90543013223fce7f2e952ca49435863fb1baa8da894bb8b
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.bitbucket.org
+    - bitbucket.org
+credentials:
+  - id: bitbucket_token
+    type: oauth2
+    provider: bitbucket
+    scopes: [account, repository, repository:write, pullrequest, pullrequest:write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_repositories
+    default: true
+  - name: get_repository
+    default: true
+  - name: list_pull_requests
+    default: true
+  - name: get_pull_request_diff
+    default: true
+  - name: list_commits
+    default: true
+  - name: list_issues
+    default: true
+  - name: create_pull_request
+    default: false
+  - name: merge_pull_request
+    default: false
+  - name: create_issue
+    default: false
+  - name: create_branch
+    default: false

@@ -1,0 +1,33 @@
+schemaVersion: 1
+name: rafflys
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/rafflys-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/rafflys-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:60f75ebca1dc0c889ce3c139bd1955aba080b12cc4c64dab64abe1964576f3f3
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.app-sorteos.com
+credentials:
+  - id: rafflys_api_key
+    type: api_key
+    provider: rafflys
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_current_user
+    default: true
+  - name: list_promotions
+    default: true
+  - name: get_promotion
+    default: true
+  - name: list_participants
+    default: true
+  - name: create_promotion
+    default: false

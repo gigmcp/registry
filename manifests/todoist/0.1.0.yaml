@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: todoist
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/todoist-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/todoist-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ed9945d7911c9609782b31f376d6b313b1490feb4fcf51f2d2629213fb2f028e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Unified REST/Sync API host plus todoist.com for OAuth token exchange.
+    - api.todoist.com
+    - todoist.com
+credentials:
+  - id: todoist_token
+    type: oauth2
+    provider: todoist
+    scopes: [data:read, data:read_write, data:delete, project:delete]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_all_tasks
+    default: true
+  - name: get_all_projects
+    default: true
+  - name: get_task
+    default: true
+  - name: list_sections
+    default: true
+  - name: list_labels
+    default: true
+  - name: get_productivity_stats
+    default: true
+  - name: create_task
+    default: false
+  - name: update_task
+    default: false
+  - name: close_task
+    default: false
+  - name: delete_task
+    default: false

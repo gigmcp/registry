@@ -1,0 +1,34 @@
+schemaVersion: 1
+name: weathermap
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/weathermap-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/weathermap-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:69ff01d61f1ab4cb1687252d8f77c6f70ffc4665495cabf117564d3d278cea00
+  entrypoint: /app/server
+# OpenWeatherMap authenticates via the appid query parameter only — there is
+# no auth header, so header injection cannot work and the key comes in via env.
+tier: entrusted
+entitlements:
+  egress:
+    - api.openweathermap.org
+credentials:
+  - id: weathermap_api_key
+    type: api_key
+    provider: weathermap
+    inject:
+      env: WEATHERMAP_API_KEY
+tools:
+  - name: get_current_weather
+    default: true
+  - name: geocode_location
+    default: true
+  - name: reverse_geocode
+    default: true
+  - name: get_forecast
+    default: true
+  - name: get_air_pollution
+    default: true

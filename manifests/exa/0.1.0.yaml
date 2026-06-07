@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: exa
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/exa-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/exa-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f843e570745c3673a7a2e93d381ba2dbd655d92f818aa063e3f53dfab075e8cc
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.exa.ai
+credentials:
+  - id: exa_api_key
+    type: api_key
+    provider: exa
+    inject:
+      header: x-api-key
+      format: "{token}"
+tools:
+  - name: search
+    default: true
+  - name: find_similar
+    default: true
+  - name: get_contents
+    default: true
+  - name: generate_answer
+    default: true
+  - name: get_research_task
+    default: true
+  - name: create_research_task
+    default: false
+  - name: create_webset
+    default: false
+  - name: delete_webset
+    default: false

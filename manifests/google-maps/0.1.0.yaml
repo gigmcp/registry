@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: google-maps
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/google-maps-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/google-maps-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9fb316c450a34630630943f2b2cfb4567c0bdb7c7068095307f1243c527a5ffa
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - maps.googleapis.com
+    - places.googleapis.com
+    - routes.googleapis.com
+credentials:
+  - id: google_maps_api_key
+    type: api_key
+    provider: google-maps
+    inject:
+      header: X-Goog-Api-Key
+      format: "{token}"
+tools:
+  - name: text_search
+    default: true
+  - name: nearby_search
+    default: true
+  - name: get_place_details
+    default: true
+  - name: autocomplete
+    default: true
+  - name: geocode_address
+    default: true
+  - name: geocode_location
+    default: true
+  - name: get_direction
+    default: true
+  - name: compute_route_matrix
+    default: true

@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: semanticscholar
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/semanticscholar-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/semanticscholar-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:6fb6c1871b6edefb5a3185c381d55bc9d8fc415032d70931b1b3847573b8d4db
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.semanticscholar.org
+credentials:
+  - id: semanticscholar_api_key
+    type: api_key
+    provider: semanticscholar
+    inject:
+      header: x-api-key
+      format: "{token}"
+tools:
+  - name: search_papers
+    default: true
+  - name: get_paper_details
+    default: true
+  - name: get_paper_citations
+    default: true
+  - name: get_paper_references
+    default: true
+  - name: search_authors
+    default: true
+  - name: get_author_details
+    default: true
+  - name: get_author_papers
+    default: true
+  - name: get_paper_recommendations
+    default: true

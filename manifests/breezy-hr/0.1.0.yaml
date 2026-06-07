@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: breezy-hr
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/breezy-hr-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/breezy-hr-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:8ebbcbec79303bbba47f090d79b633c6a9e8d223825f7b7d2e3c744efd901312
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.breezy.hr
+credentials:
+  - id: breezy_hr_token
+    type: api_key
+    provider: breezy-hr
+    inject:
+      header: Authorization
+      format: "{token}"
+tools:
+  - name: list_companies
+    default: true
+  - name: list_positions
+    default: true
+  - name: get_candidate_details
+    default: true
+  - name: search_candidates_by_email
+    default: true
+  - name: list_pipelines
+    default: true
+  - name: create_candidate
+    default: false
+  - name: update_candidate_stage
+    default: false
+  - name: add_candidate_note
+    default: false
+  - name: create_position
+    default: false

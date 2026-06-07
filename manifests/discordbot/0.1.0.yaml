@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: discordbot
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/discordbot-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/discordbot-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3a4d8230b57e91bbb65d98c4ef2b202536209da13ff7928829e01a0d7ae0eb22
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - discord.com
+    - cdn.discordapp.com
+credentials:
+  - id: discordbot_token
+    type: api_key
+    provider: discordbot
+    inject:
+      header: Authorization
+      format: "Bot {token}"
+tools:
+  - name: get_guild
+    default: true
+  - name: get_channel
+    default: true
+  - name: get_message
+    default: true
+  - name: get_guild_member
+    default: true
+  - name: create_message
+    default: false
+  - name: create_guild_channel
+    default: false
+  - name: create_thread
+    default: false
+  - name: add_guild_member_role
+    default: false
+  - name: delete_message
+    default: false

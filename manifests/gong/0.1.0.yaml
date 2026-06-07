@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: gong
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/gong-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/gong-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:09ec7c2d6b8f4385fe06fb0f6d539fbccdb51b5dce09151dcd3b653861ccdab8
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.gong.io
+    - "*.api.gong.io"
+credentials:
+  - id: gong_token
+    type: oauth2
+    provider: gong
+    scopes: [api:calls:read, api:calls:create, api:users:read, api:stats:user-actions, api:flows:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_calls
+    default: true
+  - name: get_call_transcripts
+    default: true
+  - name: retrieve_call_data
+    default: true
+  - name: add_new_call
+    default: false
+  - name: list_users
+    default: true
+  - name: get_user_activity_stats
+    default: true
+  - name: list_flows
+    default: true
+  - name: assign_prospects_to_flow
+    default: false
+  - name: list_library_folders
+    default: true
+  - name: list_scorecards
+    default: true

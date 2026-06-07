@@ -1,0 +1,24 @@
+# Known data-exfiltration / request-capture services. PRs adding egress to
+# any of these (or their subdomains) are rejected by lint CI (DESIGN #7).
+pastebin.com
+webhook.site
+requestbin.com
+pipedream.net
+ngrok.io
+ngrok-free.app
+interactsh.com
+oastify.com
+burpcollaborator.net
+transfer.sh
+file.io
+0x0.st
+termbin.com
+
+# Internal/link-local names — the egress proxy dials from the host netns;
+# these must never be author-declarable. (Matcher: equal or subdomain.)
+localhost
+internal
+metadata.google.internal
+local
+localdomain
+home.arpa

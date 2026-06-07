@@ -1,0 +1,40 @@
+schemaVersion: 1
+name: datagma
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/datagma-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/datagma-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b661c6c39c1995497536cb9d6def703b3cf8869173b26af4d22137d6484e80a4
+  entrypoint: /app/server
+# Datagma authenticates via the ?apiId= query parameter on every endpoint,
+# so header injection cannot work — entrusted tier with env injection.
+tier: entrusted
+entitlements:
+  egress:
+    - gateway.datagma.net
+credentials:
+  - id: datagma_api_key
+    type: api_key
+    provider: datagma
+    inject:
+      env: DATAGMA_API_KEY
+tools:
+  - name: enrich_person_or_company
+    default: true
+  - name: find_work_email
+    default: true
+  - name: detect_job_change
+    default: true
+  - name: search_phone_numbers
+    default: true
+  - name: reverse_phone_lookup
+    default: true
+  - name: get_twitter_by_email
+    default: true
+  - name: get_twitter_by_username
+    default: true
+  - name: get_credits
+    default: true

@@ -1,0 +1,40 @@
+schemaVersion: 1
+name: zenrows
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zenrows-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zenrows-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:729b6f646683f9a5bd0d5d20bcca81eb9f06faa25ecf632ea4111cbde5a414a4
+  entrypoint: /app/server
+# ZenRows authenticates via the apikey query parameter only — there is no
+# auth header on the Universal Scraper API, so the key must come in via env.
+tier: entrusted
+entitlements:
+  egress:
+    - api.zenrows.com
+credentials:
+  - id: zenrows_api_key
+    type: api_key
+    provider: zenrows
+    inject:
+      env: ZENROWS_API_KEY
+tools:
+  - name: scrape_url_html
+    default: true
+  - name: scrape_url_autoparse
+    default: true
+  - name: scrape_with_css_selectors
+    default: true
+  - name: get_plaintext
+    default: true
+  - name: screenshot_url
+    default: true
+  - name: get_pdf_from_url
+    default: true
+  - name: get_api_usage
+    default: true
+  - name: get_concurrency_status
+    default: true

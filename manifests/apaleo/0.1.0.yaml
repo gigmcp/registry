@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: apaleo
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/apaleo-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/apaleo-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:295e2e43bde214853aec4e280950d69161f38340f192144d44c66a2d084eae46
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Apaleo hotel platform API plus the identity host for OAuth token refresh.
+    - api.apaleo.com
+    - identity.apaleo.com
+credentials:
+  - id: apaleo_token
+    type: oauth2
+    provider: apaleo
+    scopes: [setup.read, units.read, unitgroups.read, units.create, properties.manage]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_properties
+    default: true
+  - name: get_property
+    default: true
+  - name: list_units
+    default: true
+  - name: get_unit
+    default: true
+  - name: list_unit_groups
+    default: true
+  - name: create_unit
+    default: false
+  - name: create_unit_group
+    default: false
+  - name: create_property
+    default: false
+  - name: delete_unit
+    default: false

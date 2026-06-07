@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: dynamics365
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/dynamics365-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/dynamics365-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:1f704ce294ba1cdda915271415318f08337155d61725915b36bc76ce216b8d52
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.dynamics.com"
+    - login.microsoftonline.com
+credentials:
+  - id: dynamics365_token
+    type: oauth2
+    provider: dynamics365
+    scopes: [user_impersonation, offline_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_all_leads
+    default: true
+  - name: get_lead
+    default: true
+  - name: get_all_invoices
+    default: true
+  - name: get_invoice
+    default: true
+  - name: create_lead
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_account
+    default: false
+  - name: create_opportunity
+    default: false
+  - name: update_lead
+    default: false
+  - name: update_invoice
+    default: false

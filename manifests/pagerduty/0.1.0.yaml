@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: pagerduty
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/pagerduty-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/pagerduty-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2204041f737707768a1f12d3187a41f35b3adb46d839c964bcbc9e8cf1e08f3f
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.pagerduty.com
+credentials:
+  - id: pagerduty_token
+    type: oauth2
+    provider: pagerduty
+    scopes: [incidents.read, incidents.write, services.read, schedules.read, users.read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_incidents
+    default: true
+  - name: get_incident
+    default: true
+  - name: create_incident
+    default: false
+  - name: list_services
+    default: true
+  - name: list_oncalls
+    default: true
+  - name: list_schedules
+    default: true
+  - name: list_users
+    default: true
+  - name: create_escalation_policy
+    default: false
+  - name: create_status_page_post
+    default: false

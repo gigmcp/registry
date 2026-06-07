@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: google-analytics
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/google-analytics-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/google-analytics-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:edfd56180a2e6b497651269acb2195d8ab55d299b3ddfc087c39a1cc1e51aa84
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # GA4 Data API + Admin API, plus token refresh endpoint.
+    - analyticsdata.googleapis.com
+    - analyticsadmin.googleapis.com
+    - oauth2.googleapis.com
+credentials:
+  - id: google-analytics_token
+    type: oauth2
+    provider: google-analytics
+    scopes: [https://www.googleapis.com/auth/analytics.readonly, https://www.googleapis.com/auth/analytics.edit]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: run_report
+    default: true
+  - name: run_realtime_report
+    default: true
+  - name: run_pivot_report
+    default: true
+  - name: list_account_summaries
+    default: true
+  - name: list_properties_filtered
+    default: true
+  - name: get_property
+    default: true
+  - name: get_metadata
+    default: true
+  - name: check_compatibility
+    default: true
+  - name: create_custom_dimension
+    default: false
+  - name: update_property
+    default: false

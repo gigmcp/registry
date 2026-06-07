@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: googletasks
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googletasks-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googletasks-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:1d720d288a20b19583ec4104a3965f8b64333d9bfeb81dabae6b1d876cd75e0e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - tasks.googleapis.com
+    - www.googleapis.com
+credentials:
+  - id: googletasks_token
+    type: oauth2
+    provider: googletasks
+    scopes:
+      - "https://www.googleapis.com/auth/tasks"
+      - "https://www.googleapis.com/auth/tasks.readonly"
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_task_lists
+    default: true
+  - name: get_task_list
+    default: true
+  - name: list_tasks
+    default: true
+  - name: get_task
+    default: true
+  - name: insert_task
+    default: false
+  - name: patch_task
+    default: false
+  - name: move_task
+    default: false
+  - name: delete_task
+    default: false
+  - name: create_task_list
+    default: false

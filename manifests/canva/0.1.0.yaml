@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: canva
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/canva-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/canva-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:993bb8da2a056b59d48011a14378e331e1ee24e16a39fc2ccc003f290b8c1ed9
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.canva.com
+credentials:
+  - id: canva_token
+    type: oauth2
+    provider: canva
+    scopes: [design:meta:read, design:content:read, design:content:write, asset:read, folder:read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_designs
+    default: true
+  - name: get_design
+    default: true
+  - name: create_design
+    default: false
+  - name: create_design_export_job
+    default: false
+  - name: get_export_job_result
+    default: true
+  - name: create_asset_upload_job
+    default: false
+  - name: get_asset
+    default: true
+  - name: list_folder_items
+    default: true
+  - name: create_folder
+    default: false
+  - name: get_current_user
+    default: true

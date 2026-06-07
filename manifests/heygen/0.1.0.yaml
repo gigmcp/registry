@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: heygen
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/heygen-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/heygen-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:06cde2baf3d13765295e5ab972cd4c4661f80db4384fb49e9f1bb9558783baed
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.heygen.com
+    - upload.heygen.com
+credentials:
+  - id: heygen_api_key
+    type: api_key
+    provider: heygen
+    inject:
+      header: X-Api-Key
+      format: "{token}"
+tools:
+  - name: list_avatars
+    default: true
+  - name: list_voices
+    default: true
+  - name: list_videos
+    default: true
+  - name: retrieve_video_status
+    default: true
+  - name: retrieve_all_templates
+    default: true
+  - name: retrieve_user_remaining_quota
+    default: true
+  - name: generate_video
+    default: false
+  - name: generate_text_to_speech_audio
+    default: false
+  - name: upload_asset
+    default: false
+  - name: delete_video
+    default: false

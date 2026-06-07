@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: waboxapp
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/waboxapp-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/waboxapp-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:348c3c72227872f98744cc40d5088f350fe6dd445ff06c2ac8fa71b1ea297c7a
+  entrypoint: /app/server
+# Waboxapp authenticates exclusively via the `token` request parameter
+# (form/query) on every API call — header injection cannot work, so this
+# is entrusted tier with env injection.
+tier: entrusted
+entitlements:
+  egress:
+    - www.waboxapp.com
+credentials:
+  - id: waboxapp_api_key
+    type: api_key
+    provider: waboxapp
+    inject:
+      env: WABOXAPP_API_KEY
+tools:
+  - name: send_chat_message
+    default: false
+  - name: send_image
+    default: false
+  - name: send_media
+    default: false
+  - name: send_link
+    default: false
+  - name: webhook_message_event
+    default: true
+  - name: webhook_ack_event
+    default: true

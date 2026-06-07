@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: listennotes
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/listennotes-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/listennotes-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:30bb15c9477ea92169ca4221cc41947ea3e1354380424ce24ce417cfac15a13e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - listen-api.listennotes.com
+credentials:
+  - id: listennotes_api_key
+    type: api_key
+    provider: listennotes
+    inject:
+      header: X-ListenAPI-Key
+      format: "{token}"
+tools:
+  - name: full_text_search
+    default: true
+  - name: typeahead_search
+    default: true
+  - name: fetch_best_podcasts_by_genre
+    default: true
+  - name: fetch_podcast_episodes_by_id
+    default: true
+  - name: fetch_episode_by_id
+    default: true
+  - name: fetch_curated_lists
+    default: true
+  - name: fetch_podcast_recommendations
+    default: true
+  - name: fetch_podcast_genres
+    default: true
+  - name: submit_podcast
+    default: false
+  - name: refresh_rss_feed
+    default: false

@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: sendgrid
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/sendgrid-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/sendgrid-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:37cbaa455c2adeb83bd8594a3c6eada91b83245a703e2a9d57cf72e4f147cfbd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.sendgrid.com
+credentials:
+  - id: sendgrid_api_key
+    type: api_key
+    provider: sendgrid
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: send_email
+    default: false
+  - name: get_contacts
+    default: true
+  - name: search_contacts
+    default: true
+  - name: add_or_update_contact
+    default: false
+  - name: get_contact_lists
+    default: true
+  - name: create_contact_list
+    default: false
+  - name: get_templates
+    default: true
+  - name: get_email_stats
+    default: true
+  - name: add_suppression
+    default: false

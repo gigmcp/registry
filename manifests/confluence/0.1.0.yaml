@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: confluence
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/confluence-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/confluence-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a4c22e2db931966b6bc83ffa954b92f5efe28212b4c2993fed44992d606195da
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Atlassian OAuth 2.0 (3LO) gateway plus per-site Confluence Cloud hosts.
+    - api.atlassian.com
+    - "*.atlassian.net"
+credentials:
+  - id: confluence_token
+    type: oauth2
+    provider: confluence
+    scopes: [read:confluence-content.all, write:confluence-content, read:confluence-space.summary, search:confluence, offline_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_pages
+    default: true
+  - name: get_page_by_id
+    default: true
+  - name: get_child_pages
+    default: true
+  - name: search_content
+    default: true
+  - name: get_spaces
+    default: true
+  - name: get_attachments
+    default: true
+  - name: create_page
+    default: false
+  - name: update_page
+    default: false
+  - name: create_footer_comment
+    default: false
+  - name: delete_page
+    default: false

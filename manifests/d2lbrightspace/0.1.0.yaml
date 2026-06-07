@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: d2lbrightspace
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/d2lbrightspace-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/d2lbrightspace-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:63124072dfbc718e630a61b674b79b233dcb1737ec8d19a80bff46740f3a8189
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # D2L Brightspace LMS: OAuth host plus tenant-specific API hosts.
+    - auth.brightspace.com
+    - "*.brightspace.com"
+credentials:
+  - id: d2lbrightspace_token
+    type: oauth2
+    provider: d2lbrightspace
+    scopes: [users:userdata:read, orgunits:course:read, grades:gradeobjects:read, quizzing:quizzes:read, orgunits:course:create]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_users
+    default: true
+  - name: get_user
+    default: true
+  - name: get_course_offering
+    default: true
+  - name: get_quizzes
+    default: true
+  - name: get_grade_objects
+    default: true
+  - name: get_quiz_attempts
+    default: true
+  - name: create_course_offering
+    default: false
+  - name: create_quiz
+    default: false
+  - name: update_grade_object
+    default: false
+  - name: delete_course
+    default: false

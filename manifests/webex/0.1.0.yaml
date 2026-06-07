@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: webex
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/webex-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/webex-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:66957d3edb29ce46e23636bdab5cd1e5552f62521849f7b4aa629362e592de29
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - webexapis.com
+credentials:
+  - id: webex_token
+    type: oauth2
+    provider: webex
+    scopes: [spark:rooms_read, spark:rooms_write, spark:messages_read, spark:messages_write, spark:people_read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_rooms
+    default: true
+  - name: get_room_details
+    default: true
+  - name: create_room
+    default: false
+  - name: list_messages
+    default: true
+  - name: create_message
+    default: false
+  - name: delete_message
+    default: false
+  - name: list_teams
+    default: true
+  - name: create_team
+    default: false
+  - name: list_memberships
+    default: true
+  - name: get_person_details
+    default: true

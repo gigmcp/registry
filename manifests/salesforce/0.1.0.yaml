@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: salesforce
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/salesforce-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/salesforce-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e5076db6de018b15afa101221cea83cc8990a319511f57c0dd33f764b6f24914
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - login.salesforce.com
+    - "*.salesforce.com"
+    - "*.my.salesforce.com"
+credentials:
+  - id: salesforce_token
+    type: oauth2
+    provider: salesforce
+    scopes: [api, refresh_token, offline_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: execute_soql_query
+    default: true
+  - name: get_account
+    default: true
+  - name: get_contact
+    default: true
+  - name: create_account
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_lead
+    default: false
+  - name: create_opportunity
+    default: false
+  - name: create_task
+    default: false
+  - name: delete_record
+    default: false

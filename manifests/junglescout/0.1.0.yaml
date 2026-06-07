@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: junglescout
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/junglescout-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/junglescout-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4135997cd276575d64bc6aa47fe183b023e07011913b065857011f9785d7f1b6
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - developer.junglescout.com
+credentials:
+  - id: junglescout_api_key
+    type: api_key
+    provider: junglescout
+    inject:
+      header: Authorization
+      format: "{token}"
+tools:
+  - name: query_product_database
+    default: true
+  - name: get_keyword_data
+    default: true
+  - name: get_keywords_by_asin
+    default: true
+  - name: get_historical_search_volume
+    default: true
+  - name: get_sales_estimates
+    default: true
+  - name: get_share_of_voice
+    default: true

@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: xero
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/xero-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/xero-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3bd3bc0e5434a0cb12bb7bae5fccc81a77c612e1fd1701417973d03f9b76029d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.xero.com
+    - identity.xero.com
+credentials:
+  - id: xero_token
+    type: oauth2
+    provider: xero
+    scopes: [accounting.transactions, accounting.contacts, accounting.settings, accounting.reports.read, offline_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_invoices
+    default: true
+  - name: get_invoice
+    default: true
+  - name: get_contacts
+    default: true
+  - name: list_accounts
+    default: true
+  - name: list_bank_transactions
+    default: true
+  - name: get_balance_sheet_report
+    default: true
+  - name: get_profit_loss_report
+    default: true
+  - name: create_invoice
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_payment
+    default: false

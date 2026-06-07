@@ -1,0 +1,33 @@
+schemaVersion: 1
+name: linkup
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/linkup-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/linkup-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f7e61a4548c9b4b11894b24fafa9790487289f86195f4a32a3aef39b585d2b71
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.linkup.so
+credentials:
+  - id: linkup_api_key
+    type: api_key
+    provider: linkup
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search
+    default: true
+  - name: fetch_webpage
+    default: true
+  - name: create_response
+    default: true
+  - name: get_credits_balance
+    default: true
+  - name: search_structured
+    default: true

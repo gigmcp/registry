@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: docusign
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/docusign-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/docusign-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2fcc1c1c4aef626259412b460a97b17b3dd953e7642d49817394f2424a90048e
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - account.docusign.com
+    - "*.docusign.net"
+credentials:
+  - id: docusign_token
+    type: oauth2
+    provider: docusign
+    scopes: [signature, extended, impersonation]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_envelopes
+    default: true
+  - name: get_envelope
+    default: true
+  - name: get_envelope_recipients
+    default: true
+  - name: get_envelope_documents
+    default: true
+  - name: list_templates
+    default: true
+  - name: create_envelope
+    default: false
+  - name: send_envelope
+    default: false
+  - name: void_envelope
+    default: false
+  - name: add_envelope_attachments
+    default: false

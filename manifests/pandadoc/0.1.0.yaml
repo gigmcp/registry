@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: pandadoc
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/pandadoc-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/pandadoc-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b4719aafa53b375a0e076529f9e781e0351a31739257fd28aae66986522813ab
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.pandadoc.com
+credentials:
+  - id: pandadoc_api_key
+    type: api_key
+    provider: pandadoc
+    inject:
+      header: Authorization
+      format: "API-Key {token}"
+tools:
+  - name: list_templates
+    default: true
+  - name: get_template_details
+    default: true
+  - name: get_document_details
+    default: true
+  - name: list_contacts
+    default: true
+  - name: list_document_folders
+    default: true
+  - name: create_document_from_file
+    default: false
+  - name: create_template
+    default: false
+  - name: create_or_update_contact
+    default: false
+  - name: create_folder
+    default: false
+  - name: move_document_to_folder
+    default: false

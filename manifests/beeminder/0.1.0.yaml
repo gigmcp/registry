@@ -1,0 +1,34 @@
+schemaVersion: 1
+name: beeminder
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/beeminder-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/beeminder-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:d4436170802d3ebd910d5c4fadc7c10c3d92f62965a5a9ee13068e4a9f4e538d
+  entrypoint: /app/server
+# Beeminder's API accepts auth only via the auth_token/access_token query
+# parameter — header injection cannot work, so this is entrusted (env-only).
+tier: entrusted
+entitlements:
+  egress:
+    - www.beeminder.com
+credentials:
+  - id: beeminder_api_key
+    type: api_key
+    provider: beeminder
+    inject:
+      env: BEEMINDER_API_KEY
+tools:
+  - name: get_user_information
+    default: true
+  - name: get_all_goals
+    default: true
+  - name: get_archived_goals
+    default: true
+  - name: create_datapoint
+    default: false
+  - name: create_charge
+    default: false

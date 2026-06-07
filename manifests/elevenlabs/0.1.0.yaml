@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: elevenlabs
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/elevenlabs-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/elevenlabs-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:e90bac9c7daea14fd88d0eb8b01768f94655e55a6bc1b3843ba377fe9f036f56
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.elevenlabs.io
+credentials:
+  - id: elevenlabs_api_key
+    type: api_key
+    provider: elevenlabs
+    inject:
+      header: xi-api-key
+      format: "{token}"
+tools:
+  - name: text_to_speech
+    default: false
+  - name: speech_to_speech
+    default: false
+  - name: get_voices
+    default: true
+  - name: get_voice_settings
+    default: true
+  - name: add_voice
+    default: false
+  - name: delete_voice
+    default: false
+  - name: get_models
+    default: true
+  - name: get_history
+    default: true
+  - name: get_subscription_info
+    default: true
+  - name: get_user_profile
+    default: true

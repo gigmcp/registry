@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: baserow
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/baserow-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/baserow-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:7a975618cb8cd0e0f1b680ae13eb5deb3d282cdb5daaea90a2cbdd93fcd4dc1c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.baserow.io
+credentials:
+  - id: baserow_token
+    type: api_key
+    provider: baserow
+    inject:
+      header: Authorization
+      format: "Token {token}"
+tools:
+  - name: list_databases
+    default: true
+  - name: list_tables
+    default: true
+  - name: list_templates
+    default: true
+  - name: get_form_view_metadata
+    default: true
+  - name: get_settings
+    default: true
+  - name: list_application_user_sources
+    default: true
+  - name: create_user
+    default: false
+  - name: send_password_reset_email
+    default: false

@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: cloudflare
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/cloudflare-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/cloudflare-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a8cb6f706e34348d0a6176a05735794755b370b1a3ba633424945bec1c7e7fea
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.cloudflare.com
+credentials:
+  - id: cloudflare_token
+    type: api_key
+    provider: cloudflare
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_zones
+    default: true
+  - name: list_dns_records
+    default: true
+  - name: list_accounts
+    default: true
+  - name: list_firewall_rules
+    default: true
+  - name: get_bot_management_settings
+    default: true
+  - name: create_dns_record
+    default: false
+  - name: update_dns_record
+    default: false
+  - name: delete_dns_record
+    default: false
+  - name: create_zone
+    default: false
+  - name: delete_zone
+    default: false

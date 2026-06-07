@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: zoho-inventory
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-inventory-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-inventory-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:46f37104efa4038df8e1d0922d892cebed8f6d18fbfa157d7869d85dcdfb4823
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Zoho Inventory REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)
+    # plus the accounts host for OAuth token refresh.
+    - www.zohoapis.com
+    - "*.zohoapis.com"
+    - accounts.zoho.com
+credentials:
+  - id: zoho-inventory_token
+    type: oauth2
+    provider: zoho-inventory
+    scopes: [ZohoInventory.items.READ, ZohoInventory.salesorders.READ, ZohoInventory.invoices.READ, ZohoInventory.salesorders.CREATE, ZohoInventory.contacts.READ]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: list_items
+    default: true
+  - name: list_contacts
+    default: true
+  - name: list_sales_orders
+    default: true
+  - name: get_sales_order
+    default: true
+  - name: list_invoices
+    default: true
+  - name: list_purchase_orders
+    default: true
+  - name: create_item
+    default: false
+  - name: create_sales_order
+    default: false
+  - name: create_invoice
+    default: false
+  - name: create_purchase_order
+    default: false

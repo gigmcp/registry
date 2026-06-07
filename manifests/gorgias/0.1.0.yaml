@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: gorgias
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/gorgias-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/gorgias-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9a85b735519a4dbe2c093cd8a8e32fe125a11b3f896b86ebc6c3a6a4a854e6d8
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Gorgias serves its REST API per-account (<account>.gorgias.com/api).
+    - gorgias.com
+    - "*.gorgias.com"
+credentials:
+  - id: gorgias_token
+    type: oauth2
+    provider: gorgias
+    scopes: [openid, email, profile, offline, write:all]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_tickets
+    default: true
+  - name: get_ticket
+    default: true
+  - name: list_customers
+    default: true
+  - name: get_customer
+    default: true
+  - name: list_teams
+    default: true
+  - name: create_ticket
+    default: false
+  - name: update_ticket
+    default: false
+  - name: create_customer
+    default: false
+  - name: add_ticket_tags
+    default: false
+  - name: merge_customers
+    default: false

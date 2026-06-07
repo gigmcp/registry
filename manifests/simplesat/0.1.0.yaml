@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: simplesat
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/simplesat-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/simplesat-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0e256d80dff769b31bde482bc1747c770e1f6b538f5c945988789e517b6ed48c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.simplesat.io
+credentials:
+  - id: simplesat_api_key
+    type: api_key
+    provider: simplesat
+    inject:
+      header: X-Simplesat-Token
+      format: "{token}"
+tools:
+  - name: list_surveys
+    default: true
+  - name: list_questions
+    default: true
+  - name: list_answers
+    default: true
+  - name: search_answers
+    default: true
+  - name: search_responses
+    default: true
+  - name: get_customer
+    default: true
+  - name: create_or_update_customer
+    default: false
+  - name: update_customer
+    default: false
+  - name: create_or_update_team_member
+    default: false

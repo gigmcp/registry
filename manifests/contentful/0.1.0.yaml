@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: contentful
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/contentful-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/contentful-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:288c4917ef8aa9b28c6f2d0c09029c4f872da78e7f31a8437592fe44be42b0b6
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.contentful.com
+    - cdn.contentful.com
+credentials:
+  - id: contentful_token
+    type: oauth2
+    provider: contentful
+    scopes: [content_management_read, content_management_manage]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_spaces
+    default: true
+  - name: get_space
+    default: true
+  - name: get_content_types
+    default: true
+  - name: list_entries
+    default: true
+  - name: create_entry
+    default: false
+  - name: publish_entry
+    default: false
+  - name: archive_entry
+    default: false
+  - name: delete_asset
+    default: false
+  - name: create_environment
+    default: false

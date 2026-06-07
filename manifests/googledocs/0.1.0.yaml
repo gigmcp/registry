@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: googledocs
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googledocs-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googledocs-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:cd477a8c6656be7d3666632b4df9b69554bfdb8ad754c0f9415274d6915b2b36
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - docs.googleapis.com
+    - www.googleapis.com
+    - oauth2.googleapis.com
+credentials:
+  - id: googledocs_token
+    type: oauth2
+    provider: googledocs
+    scopes:
+      [
+        https://www.googleapis.com/auth/documents,
+        https://www.googleapis.com/auth/drive.file,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_document
+    default: true
+  - name: get_document_plain_text
+    default: true
+  - name: search_documents
+    default: true
+  - name: export_doc_as_pdf
+    default: true
+  - name: create_document
+    default: false
+  - name: insert_text
+    default: false
+  - name: replace_all_text
+    default: false
+  - name: update_document_markdown
+    default: false

@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: process-street
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/process-street-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/process-street-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0e96fc013221ebde231554766daa2680441077cf2a94cdb25cc8a8df858002f8
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - public-api.process.st
+credentials:
+  - id: process_street_api_key
+    type: api_key
+    provider: process-street
+    inject:
+      header: X-API-KEY
+      format: "{token}"
+tools:
+  - name: list_workflows
+    default: true
+  - name: list_workflow_runs
+    default: true
+  - name: find_data_set_rows
+    default: true
+  - name: create_workflow_run
+    default: false
+  - name: complete_workflow_run
+    default: false
+  - name: undelete_workflow_run
+    default: false

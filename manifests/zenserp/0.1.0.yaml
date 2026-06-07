@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: zenserp
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zenserp-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zenserp-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:82ac277bd42ce7cd903d599ed0263b611ca844dff2c53271deb8bc1099d98dac
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.zenserp.com
+credentials:
+  - id: zenserp_api_key
+    type: api_key
+    provider: zenserp
+    inject:
+      header: apikey
+      format: "{token}"
+tools:
+  - name: google_search
+    default: true
+  - name: bing_search
+    default: true
+  - name: yandex_search
+    default: true
+  - name: google_trends
+    default: true
+  - name: google_reverse_image_search
+    default: true
+  - name: get_shopping_product_details
+    default: true
+  - name: get_api_status
+    default: true
+  - name: list_locations
+    default: true
+  - name: list_search_engines
+    default: true

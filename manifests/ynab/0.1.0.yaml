@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: ynab
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/ynab-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/ynab-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0c7d89819da4b245a33d71f350d07a70beaed00de1a8369b58f77aa3dc60ab02
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.ynab.com
+    - app.ynab.com
+credentials:
+  - id: ynab_token
+    type: oauth2
+    provider: ynab
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_budgets
+    default: true
+  - name: list_accounts
+    default: true
+  - name: list_transactions
+    default: true
+  - name: list_categories
+    default: true
+  - name: get_budget_month
+    default: true
+  - name: list_scheduled_transactions
+    default: true
+  - name: create_account
+    default: false
+  - name: create_scheduled_transaction
+    default: false
+  - name: update_payee
+    default: false

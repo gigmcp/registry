@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: text-to-pdf
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/text-to-pdf-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/text-to-pdf-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a5313169dd3b5ff8ac0d024176a626791591224b5a2ad035716504a72093c657
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - v2.convertapi.com
+credentials:
+  - id: text_to_pdf_api_key
+    type: api_key
+    provider: convertapi
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: download_file
+    default: true
+  - name: get_async_job_status
+    default: true
+  - name: convert_text_to_pdf
+    default: false
+  - name: start_async_conversion
+    default: false
+  - name: upload_file
+    default: false
+  - name: delete_file
+    default: false
+  - name: delete_async_job
+    default: false

@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: stack-exchange
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/stack-exchange-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/stack-exchange-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2c21f8c05efc1179531c260913a88920dcbe605b16abc888c96263f02346b7a3
+  entrypoint: /app/server
+tier: entrusted
+entitlements:
+  egress:
+    - api.stackexchange.com
+credentials:
+  # Stack Exchange API v2.3 only accepts the OAuth access_token as a query
+  # parameter (access_token=...), so header injection cannot work → entrusted.
+  - id: stack_exchange_token
+    type: oauth2
+    provider: stack-exchange
+    scopes: [read_inbox, private_info, write_access, no_expiry]
+    inject:
+      env: STACK_EXCHANGE_API_KEY
+tools:
+  - name: get_me
+    default: true
+  - name: get_my_questions
+    default: true
+  - name: get_my_answers
+    default: true
+  - name: get_my_reputation
+    default: true
+  - name: get_questions
+    default: true
+  - name: get_answers
+    default: true
+  - name: get_comments
+    default: true
+  - name: find_similar_questions
+    default: true
+  - name: get_collectives
+    default: true
+  - name: create_filter
+    default: false

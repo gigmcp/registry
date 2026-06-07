@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: posthog
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/posthog-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/posthog-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:6fc3a0500794d72e11028721f533cc5ba828b78544eca1d4cacff0130f8f2dbe
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.posthog.com
+    - us.posthog.com
+    - eu.posthog.com
+credentials:
+  - id: posthog_api_key
+    type: api_key
+    provider: posthog
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: list_insights
+    default: true
+  - name: get_insight
+    default: true
+  - name: list_dashboards
+    default: true
+  - name: list_feature_flags
+    default: true
+  - name: create_feature_flag
+    default: false
+  - name: update_feature_flag
+    default: false
+  - name: capture_event
+    default: false
+  - name: query_events
+    default: true
+  - name: create_annotation
+    default: false

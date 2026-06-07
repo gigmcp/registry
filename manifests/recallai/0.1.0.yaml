@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: recallai
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/recallai-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/recallai-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:14002b73e108c0cb392b15da2b8e4863b9bbbd2e8dace07d71289d2bc1ba2538
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.recall.ai"
+credentials:
+  - id: recallai_api_key
+    type: api_key
+    provider: recallai
+    inject:
+      header: Authorization
+      format: "Token {token}"
+tools:
+  - name: list_bots
+    default: true
+  - name: retrieve_bot
+    default: true
+  - name: create_bot
+    default: false
+  - name: delete_bot
+    default: false
+  - name: remove_bot_from_call
+    default: false
+  - name: start_recording
+    default: false
+  - name: stop_recording
+    default: false
+  - name: list_transcripts
+    default: true
+  - name: list_calendar_events
+    default: true
+  - name: retrieve_billing_usage
+    default: true

@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: humanloop
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/humanloop-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/humanloop-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:03dc7d4ac81c0ff7729e73b36c68f394c5c4b927f949f294a39dd489d3d838dd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.humanloop.com
+credentials:
+  - id: humanloop_api_key
+    type: api_key
+    provider: humanloop
+    inject:
+      header: X-API-KEY
+      format: "{token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: create_project
+    default: false
+  - name: delete_project
+    default: false
+  - name: list_experiments
+    default: true
+  - name: list_sessions
+    default: true
+  - name: list_datasets
+    default: true
+  - name: get_project_config
+    default: true

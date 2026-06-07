@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: microsoft-clarity
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/microsoft-clarity-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/microsoft-clarity-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c7bebda6b419db8ba3324e74f7523b5f9532d2dd2b16ac529a6539472c7aa406
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.clarity.ms
+credentials:
+  - id: microsoft_clarity_api_key
+    type: api_key
+    provider: microsoft-clarity
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: data_export
+    default: true
+  - name: export_traffic_insights
+    default: true
+  - name: export_engagement_insights
+    default: true
+  - name: export_scroll_depth_insights
+    default: true
+  - name: export_browser_breakdown
+    default: true
+  - name: export_device_breakdown
+    default: true
+  - name: export_country_breakdown
+    default: true

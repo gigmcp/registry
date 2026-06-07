@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: googlesheets
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googlesheets-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googlesheets-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:131cb3e79742142ee4ffe4c7bd6a05b646b699ff447894253d49324f7ae2fa44
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - sheets.googleapis.com
+credentials:
+  - id: googlesheets_token
+    type: oauth2
+    provider: googlesheets
+    scopes:
+      [
+        https://www.googleapis.com/auth/spreadsheets,
+        https://www.googleapis.com/auth/spreadsheets.readonly,
+        https://www.googleapis.com/auth/drive.file,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_spreadsheet_info
+    default: true
+  - name: get_sheet_names
+    default: true
+  - name: batch_get_spreadsheet_values
+    default: true
+  - name: lookup_spreadsheet_row
+    default: true
+  - name: create_google_sheet
+    default: false
+  - name: append_values_to_spreadsheet
+    default: false
+  - name: update_values_single_range
+    default: false
+  - name: clear_spreadsheet_values
+    default: false
+  - name: delete_sheet
+    default: false

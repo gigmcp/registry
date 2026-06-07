@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: flutterwave
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/flutterwave-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/flutterwave-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:45fa7889cbffd6a6d7a13b226864b435ab44eefce62f01103a82718a967a710a
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.flutterwave.com
+credentials:
+  - id: flutterwave_api_key
+    type: api_key
+    provider: flutterwave
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_all_transactions
+    default: true
+  - name: verify_transaction_by_reference
+    default: true
+  - name: get_transaction
+    default: true
+  - name: create_payment_link
+    default: false
+  - name: create_refund
+    default: false
+  - name: get_refund
+    default: true
+  - name: list_transfers
+    default: true
+  - name: get_banks_by_country
+    default: true
+  - name: resolve_bank_account
+    default: true
+  - name: create_payment_plan
+    default: false

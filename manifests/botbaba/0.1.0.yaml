@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: botbaba
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/botbaba-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/botbaba-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:08a8a0a6d9211c256105dc731919298968646dd71241b7d44c085345c3702d1b
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - botbaba.io
+    - "*.botbaba.io"
+credentials:
+  - id: botbaba_api_key
+    type: api_key
+    provider: botbaba
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_flows
+    default: true
+  - name: get_contact
+    default: true
+  - name: create_contact
+    default: false
+  - name: update_contact
+    default: false
+  - name: get_contact_analytics
+    default: true
+  - name: list_templates
+    default: true
+  - name: send_whatsapp_template_message
+    default: false
+  - name: list_broadcasts
+    default: true
+  - name: create_broadcast
+    default: false
+  - name: get_message_analytics
+    default: true

@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: cal
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/cal-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/cal-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:75a665ab4455d674e66235230e4babd33a3dc1f3b1a4423451ab51370479d81d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.cal.com
+credentials:
+  - id: cal_api_key
+    type: api_key
+    provider: cal
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_bookings
+    default: true
+  - name: get_event_types
+    default: true
+  - name: get_available_slots
+    default: true
+  - name: get_schedules
+    default: true
+  - name: create_booking
+    default: false
+  - name: cancel_booking
+    default: false
+  - name: confirm_booking
+    default: false
+  - name: create_event_type
+    default: false

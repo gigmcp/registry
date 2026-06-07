@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: exist
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/exist-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/exist-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:48f45707be706277030fc6ad6e741d55cecec06c031ddfc1ef5b99da9a03af89
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - exist.io
+credentials:
+  - id: exist_token
+    type: oauth2
+    provider: exist
+    scopes: [activity_read, productivity_read, mood_read, manual_write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_user_profile
+    default: true
+  - name: get_user_attributes
+    default: true
+  - name: get_attributes_with_values
+    default: true
+  - name: get_attribute_templates
+    default: true
+  - name: get_averages
+    default: true
+  - name: get_correlations
+    default: true
+  - name: get_insights
+    default: true
+  - name: acquire_attribute_ownership
+    default: false
+  - name: increment_attribute_values
+    default: false
+  - name: release_attribute_ownership
+    default: false

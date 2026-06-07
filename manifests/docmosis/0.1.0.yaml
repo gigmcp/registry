@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: docmosis
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/docmosis-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/docmosis-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:426290a4798d38f5448fac1a4667adf57b03e74472841fad70ee6aae3e915c99
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.dws4.docmosis.com"
+    - "*.dws3.docmosis.com"
+credentials:
+  - id: docmosis_api_key
+    type: api_key
+    provider: docmosis
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_templates
+    default: true
+  - name: get_template_details
+    default: true
+  - name: get_template_structure
+    default: true
+  - name: get_template_sample_data
+    default: true
+  - name: list_images
+    default: true
+  - name: get_render_queue
+    default: true
+  - name: get_environment_summary
+    default: true
+  - name: delete_template
+    default: false
+  - name: delete_image
+    default: false
+  - name: ping_service
+    default: true

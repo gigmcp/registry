@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: dropbox
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/dropbox-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/dropbox-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:d117ae78ceaf18163914538472691064cd31ff7e0c0ced1c2d86c123c9c67dad
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # RPC endpoints plus the separate content host for upload/download.
+    - api.dropboxapi.com
+    - content.dropboxapi.com
+credentials:
+  - id: dropbox_token
+    type: oauth2
+    provider: dropbox
+    scopes: [files.metadata.read, files.content.read, files.content.write, sharing.write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_folder
+    default: true
+  - name: get_metadata
+    default: true
+  - name: search_files
+    default: true
+  - name: download_file
+    default: true
+  - name: get_current_account
+    default: true
+  - name: upload_file
+    default: false
+  - name: move_file
+    default: false
+  - name: copy_file
+    default: false
+  - name: delete_file
+    default: false
+  - name: create_shared_link
+    default: false

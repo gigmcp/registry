@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: netsuite
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/netsuite-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/netsuite-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:df049a1611dc5c7ecca6ada9098fabb4aa403962a8d6b6dc69f0548a8ce746d5
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.suitetalk.api.netsuite.com"
+    - "*.app.netsuite.com"
+    - system.netsuite.com
+credentials:
+  - id: netsuite_token
+    type: oauth2
+    provider: netsuite
+    scopes: [rest_webservices, restlets, suite_analytics]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: run_suiteql_query
+    default: true
+  - name: list_records
+    default: true
+  - name: get_customer
+    default: true
+  - name: get_invoice
+    default: true
+  - name: get_sales_order
+    default: true
+  - name: get_record_metadata
+    default: true
+  - name: create_customer
+    default: false
+  - name: create_invoice
+    default: false
+  - name: create_sales_order
+    default: false
+  - name: update_customer
+    default: false

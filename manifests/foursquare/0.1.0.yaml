@@ -1,0 +1,36 @@
+schemaVersion: 1
+name: foursquare
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/foursquare-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/foursquare-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:643b47afb985ff2d7179660612062edee7dcde13b1b83623b100763013b86ecd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.foursquare.com
+    - places-api.foursquare.com
+credentials:
+  - id: foursquare_api_key
+    type: api_key
+    provider: foursquare
+    inject:
+      # Foursquare Places API v3 expects the raw API key in the
+      # Authorization header (no Bearer prefix).
+      header: Authorization
+      format: "{token}"
+tools:
+  - name: search_places
+    default: true
+  - name: get_nearby_places
+    default: true
+  - name: get_place_details
+    default: true
+  - name: get_place_photos
+    default: true
+  - name: get_place_tips
+    default: true

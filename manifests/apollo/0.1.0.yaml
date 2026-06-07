@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: apollo
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/apollo-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/apollo-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:d2948955465d4817b94158a3afd3b3b2a0bea79fd15cd275ff7af19e7cf7586a
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.apollo.io
+credentials:
+  - id: apollo_api_key
+    type: api_key
+    provider: apollo
+    inject:
+      header: X-Api-Key
+      format: "{token}"
+tools:
+  - name: people_search
+    default: true
+  - name: organization_search
+    default: true
+  - name: people_enrichment
+    default: true
+  - name: organization_enrichment
+    default: true
+  - name: search_contacts
+    default: true
+  - name: list_deals
+    default: true
+  - name: create_contact
+    default: false
+  - name: create_deal
+    default: false
+  - name: add_contacts_to_sequence
+    default: false

@@ -1,0 +1,50 @@
+schemaVersion: 1
+name: googledrive
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googledrive-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googledrive-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9c7875d521af522e944be18a8f39552334df294abba9b267a987d1d3936033d9
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.googleapis.com
+    - oauth2.googleapis.com
+credentials:
+  - id: googledrive_token
+    type: oauth2
+    provider: googledrive
+    scopes:
+      [
+        https://www.googleapis.com/auth/drive,
+        https://www.googleapis.com/auth/drive.file,
+        https://www.googleapis.com/auth/drive.readonly,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: find_file
+    default: true
+  - name: list_files
+    default: true
+  - name: get_file_metadata
+    default: true
+  - name: download_file
+    default: true
+  - name: list_permissions
+    default: true
+  - name: upload_file
+    default: false
+  - name: create_folder
+    default: false
+  - name: move_file
+    default: false
+  - name: copy_file
+    default: false
+  - name: delete_file
+    default: false

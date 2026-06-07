@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: stripe
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/stripe-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/stripe-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:bf90b67bfcbc7bece83a55312c1eb1dbf4f829298d68d29cf265cfd3e7cedc70
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.stripe.com
+credentials:
+  - id: stripe_api_key
+    type: api_key
+    provider: stripe
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_customers
+    default: true
+  - name: get_customer
+    default: true
+  - name: create_customer
+    default: false
+  - name: list_payment_intents
+    default: true
+  - name: create_payment_intent
+    default: false
+  - name: list_invoices
+    default: true
+  - name: create_invoice
+    default: false
+  - name: create_refund
+    default: false
+  - name: list_subscriptions
+    default: true
+  - name: cancel_subscription
+    default: false

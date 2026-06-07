@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: trello
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/trello-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/trello-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:dc811e30c3945ad53591f18ab9c205652785ea723f16bfbe040e1113f173417f
+  entrypoint: /app/server
+# Trello's REST API authenticates with key+token passed as query parameters
+# (?key=...&token=...); header injection cannot work, so entrusted tier.
+tier: entrusted
+entitlements:
+  egress:
+    - api.trello.com
+    - trello.com
+credentials:
+  - id: trello_api_key
+    type: api_key
+    provider: trello
+    inject:
+      env: TRELLO_API_KEY
+tools:
+  - name: get_board
+    default: true
+  - name: get_board_lists
+    default: true
+  - name: get_list_cards
+    default: true
+  - name: get_card
+    default: true
+  - name: add_card
+    default: false
+  - name: add_list_to_board
+    default: false
+  - name: add_comment_to_card
+    default: false
+  - name: add_member_to_card
+    default: false
+  - name: delete_card
+    default: false

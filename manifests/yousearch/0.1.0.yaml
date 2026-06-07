@@ -1,0 +1,34 @@
+schemaVersion: 1
+name: yousearch
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/yousearch-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/yousearch-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:993ae7a49bbe62e5ac0e57d30b534b25c708d4e35d20001637f23e5c05b898cf
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.ydc-index.io
+    - chat-api.you.com
+credentials:
+  - id: yousearch_api_key
+    type: api_key
+    provider: yousearch
+    inject:
+      header: X-API-Key
+      format: "{token}"
+tools:
+  - name: web_search
+    default: true
+  - name: news_search
+    default: true
+  - name: get_search_snippets
+    default: true
+  - name: smart_answer
+    default: true
+  - name: research_answer
+    default: true

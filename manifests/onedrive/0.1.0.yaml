@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: onedrive
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/onedrive-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/onedrive-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3b6cb9d93aef466bda1c30e747a212749325af73da5e327c0969d4b2b831a74c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - graph.microsoft.com
+credentials:
+  - id: onedrive_token
+    type: oauth2
+    provider: onedrive
+    scopes: [Files.Read, Files.ReadWrite, Files.ReadWrite.All, offline_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_folder_children
+    default: true
+  - name: search_items
+    default: true
+  - name: get_item
+    default: true
+  - name: download_file
+    default: true
+  - name: get_recent_items
+    default: true
+  - name: upload_file
+    default: false
+  - name: create_folder
+    default: false
+  - name: move_item
+    default: false
+  - name: delete_item
+    default: false
+  - name: create_link
+    default: false

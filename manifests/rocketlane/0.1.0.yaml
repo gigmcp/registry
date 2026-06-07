@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: rocketlane
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/rocketlane-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/rocketlane-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:39903290c36ff3c028907d2dfccc1c93d158ff7a72fc812dc1936e227aaa13e1
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.rocketlane.com
+credentials:
+  - id: rocketlane_api_key
+    type: api_key
+    provider: rocketlane
+    inject:
+      header: api-key
+      format: "{token}"
+tools:
+  - name: list_projects
+    default: true
+  - name: get_project_by_id
+    default: true
+  - name: create_project
+    default: false
+  - name: get_all_tasks
+    default: true
+  - name: create_task
+    default: false
+  - name: get_time_entries
+    default: true
+  - name: create_time_entry
+    default: false
+  - name: list_users
+    default: true
+  - name: create_comment
+    default: false

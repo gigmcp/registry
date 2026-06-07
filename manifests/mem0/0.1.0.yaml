@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: mem0
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/mem0-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/mem0-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4b8de1a874e9eac9594d48bcb4dcf400804727286d94742b0d0d940ad0575690
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.mem0.ai
+credentials:
+  - id: mem0_api_key
+    type: api_key
+    provider: mem0
+    inject:
+      header: Authorization
+      format: "Token {token}"
+tools:
+  - name: search_memories
+    default: true
+  - name: get_memory
+    default: true
+  - name: list_memories
+    default: true
+  - name: get_memory_history
+    default: true
+  - name: list_entities
+    default: true
+  - name: add_memory
+    default: false
+  - name: update_memory
+    default: false
+  - name: delete_memory
+    default: false

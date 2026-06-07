@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: metaads
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/metaads-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/metaads-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c13e99db588b60c3fad1ef7e7aee9fdb363c33644383453cb1ad93248de69e14
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - graph.facebook.com
+credentials:
+  - id: metaads_token
+    type: oauth2
+    provider: metaads
+    scopes: [ads_read, ads_management, business_management, pages_read_engagement]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_ad_accounts
+    default: true
+  - name: list_ads
+    default: true
+  - name: read_ad_sets
+    default: true
+  - name: list_ad_creatives
+    default: true
+  - name: get_insights
+    default: true
+  - name: create_campaign
+    default: false
+  - name: create_ad_set
+    default: false
+  - name: create_ad
+    default: false
+  - name: update_campaign
+    default: false
+  - name: delete_campaign
+    default: false

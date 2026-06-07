@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: activecampaign
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/activecampaign-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/activecampaign-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:f7d6a7bafddfacd5ede57a6738394673de491a1b893008c4b58fcad0ede27c96
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - "*.api-us1.com"
+credentials:
+  - id: activecampaign_api_key
+    type: api_key
+    provider: activecampaign
+    inject:
+      header: Api-Token
+      format: "{token}"
+tools:
+  - name: list_contacts
+    default: true
+  - name: list_deals
+    default: true
+  - name: list_campaigns
+    default: true
+  - name: list_tags
+    default: true
+  - name: create_or_update_contact
+    default: false
+  - name: add_contact_to_list
+    default: false
+  - name: add_tag_to_contact
+    default: false
+  - name: create_campaign
+    default: false
+  - name: delete_contact
+    default: false

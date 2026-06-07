@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: typefully
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/typefully-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/typefully-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ff1dcd8bbc000fa025c8a5582f06f922e5ff98bd029aa375338e9be4e6be7a19
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.typefully.com
+credentials:
+  - id: typefully_api_key
+    type: api_key
+    provider: typefully
+    inject:
+      header: X-API-KEY
+      format: "Bearer {token}"
+tools:
+  - name: list_drafts
+    default: true
+  - name: get_draft
+    default: true
+  - name: create_draft
+    default: false
+  - name: update_draft
+    default: false
+  - name: delete_draft
+    default: false
+  - name: get_recently_published
+    default: true
+  - name: get_queue
+    default: true
+  - name: get_notifications
+    default: true
+  - name: list_social_sets
+    default: true

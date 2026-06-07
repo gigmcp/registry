@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: acculynx
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/acculynx-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/acculynx-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:4cefafd81a3c5151805af35e07e21a0f5377dad66482e9fe560e2c534f08881b
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.acculynx.com
+credentials:
+  - id: acculynx_api_key
+    type: api_key
+    provider: acculynx
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_calendars
+    default: true
+  - name: get_job_appointment_summary
+    default: true
+  - name: list_contact_types
+    default: true
+  - name: create_lead
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_job
+    default: false
+  - name: add_job_appointment
+    default: false
+  - name: update_company_representative
+    default: false

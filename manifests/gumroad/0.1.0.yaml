@@ -1,0 +1,38 @@
+schemaVersion: 1
+name: gumroad
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/gumroad-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/gumroad-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:ccffcb0b0085eb77e663d044d63f2fc13809fb6393e74a33173ceab8793c6883
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.gumroad.com
+credentials:
+  - id: gumroad_token
+    type: oauth2
+    provider: gumroad
+    scopes: [view_profile, view_sales, edit_products, mark_sales_as_shipped]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_user
+    default: true
+  - name: list_products
+    default: true
+  - name: get_sales
+    default: true
+  - name: get_resource_subscriptions
+    default: true
+  - name: verify_license
+    default: true
+  - name: subscribe_to_resource
+    default: false
+  - name: unsubscribe_from_resource
+    default: false

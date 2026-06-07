@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: crustdata
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/crustdata-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/crustdata-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:85175add1a792e7b8462d1012d1ce0b0e4e70ce8e10fd4ecd0bf0eefdbbe1676
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.crustdata.com
+credentials:
+  - id: crustdata_api_key
+    type: api_key
+    provider: crustdata
+    inject:
+      header: Authorization
+      format: "Token {token}"
+tools:
+  - name: screen_companies
+    default: true
+  - name: search_companies
+    default: true
+  - name: enrich_person
+    default: true
+  - name: filter_decision_makers
+    default: true
+  - name: get_headcount_timeseries
+    default: true
+  - name: get_funding_milestones
+    default: true
+  - name: get_job_listings
+    default: true
+  - name: get_web_traffic
+    default: true
+  - name: get_investor_portfolio
+    default: true
+  - name: search_linkedin_posts
+    default: true

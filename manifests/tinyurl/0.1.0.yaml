@@ -1,0 +1,35 @@
+schemaVersion: 1
+name: tinyurl
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/tinyurl-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/tinyurl-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:61b850132bfdfeebd2f4d1c2c473aa680cb7db90f2bb40c0fbc3523608414a94
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.tinyurl.com
+credentials:
+  - id: tinyurl_api_key
+    type: api_key
+    provider: tinyurl
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_urls
+    default: true
+  - name: get_url_info
+    default: true
+  - name: get_url_analytics
+    default: true
+  - name: create_short_url
+    default: false
+  - name: update_url
+    default: false
+  - name: archive_url
+    default: false

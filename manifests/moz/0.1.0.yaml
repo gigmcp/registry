@@ -1,0 +1,40 @@
+schemaVersion: 1
+name: moz
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/moz-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/moz-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c7f3a8163f35013fdad4f13b8aab014f0bf367043d33eca58225793e9d9ab7ec
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.moz.com
+    - lsapi.seomoz.com
+credentials:
+  - id: moz_api_key
+    type: api_key
+    provider: moz
+    inject:
+      header: x-moz-token
+      format: "{token}"
+tools:
+  - name: fetch_site_metrics
+    default: true
+  - name: check_link_status
+    default: true
+  - name: get_top_pages
+    default: true
+  - name: get_global_top_root_domains
+    default: true
+  - name: get_global_top_pages
+    default: true
+  - name: fetch_metadata_index
+    default: true
+  - name: lookup_quota
+    default: true
+  - name: get_usage_data
+    default: true

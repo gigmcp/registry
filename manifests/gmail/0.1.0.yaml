@@ -1,0 +1,50 @@
+schemaVersion: 1
+name: gmail
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/gmail-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/gmail-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:53d26b7699de6b627ecfbecd108c9770575a9ebabfd40297a0072efaf7c2aced
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - gmail.googleapis.com
+credentials:
+  - id: gmail_token
+    type: oauth2
+    provider: gmail
+    scopes:
+      [
+        https://www.googleapis.com/auth/gmail.readonly,
+        https://www.googleapis.com/auth/gmail.send,
+        https://www.googleapis.com/auth/gmail.modify,
+        https://www.googleapis.com/auth/gmail.labels,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: fetch_emails
+    default: true
+  - name: fetch_message_by_message_id
+    default: true
+  - name: list_threads
+    default: true
+  - name: list_labels
+    default: true
+  - name: get_profile
+    default: true
+  - name: send_email
+    default: false
+  - name: create_email_draft
+    default: false
+  - name: reply_to_thread
+    default: false
+  - name: add_label_to_email
+    default: false
+  - name: move_to_trash
+    default: false

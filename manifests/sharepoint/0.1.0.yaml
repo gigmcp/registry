@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: sharepoint
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/sharepoint-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/sharepoint-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:01033e0152dca5bfa8895623da22b7763a2a53b675350b349573dea6e9671194
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Microsoft Graph plus tenant SharePoint REST endpoints
+    # (server-relative URL operations hit <tenant>.sharepoint.com).
+    - graph.microsoft.com
+    - "*.sharepoint.com"
+credentials:
+  - id: sharepoint_token
+    type: oauth2
+    provider: sharepoint
+    scopes: [Sites.Read.All, Sites.ReadWrite.All, Files.ReadWrite.All, User.Read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_sites
+    default: true
+  - name: search_query
+    default: true
+  - name: list_sharepoint_lists
+    default: true
+  - name: get_sharepoint_list_items
+    default: true
+  - name: list_files_in_folder
+    default: true
+  - name: get_sharepoint_web_info
+    default: true
+  - name: create_sharepoint_list_item
+    default: false
+  - name: update_sharepoint_list_item
+    default: false
+  - name: delete_sharepoint_list_item
+    default: false
+  - name: upload_file_to_sharepoint
+    default: false

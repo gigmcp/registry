@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: metatextai
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/metatextai-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/metatextai-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:54d54c318300f81931e4aa5901120e6cac909763892147b2e0bced949d5d9127
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.metatext.ai
+credentials:
+  - id: metatextai_api_key
+    type: api_key
+    provider: metatextai
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_models
+    default: true
+  - name: list_applications
+    default: true
+  - name: list_policies_guardrails
+    default: true
+  - name: classify
+    default: true
+  - name: extract
+    default: true
+  - name: generate
+    default: false
+  - name: chat_completions
+    default: false
+  - name: create_policy_guardrails
+    default: false
+  - name: delete_policy_guardrails
+    default: false

@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: interzoid
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/interzoid-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/interzoid-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:5b48bd261bfb4395353d075c59c28011ecb12db94cee2b7ce00943a9ffee662c
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.interzoid.com
+credentials:
+  - id: interzoid_api_key
+    type: api_key
+    provider: interzoid
+    inject:
+      header: x-api-key
+      format: "{token}"
+tools:
+  - name: parse_address
+    default: true
+  - name: get_email_info
+    default: true
+  - name: get_full_name_match_score
+    default: true
+  - name: get_org_match_score
+    default: true
+  - name: get_currency_rate
+    default: true
+  - name: get_weather_by_zip_code
+    default: true
+  - name: get_area_code_from_number
+    default: true
+  - name: get_remaining_api_credits
+    default: true

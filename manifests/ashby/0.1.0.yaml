@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: ashby
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/ashby-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/ashby-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:46da4a3857ab7e93c5b2c8e0f6303058f9accc37a6665bef82db200780950bfe
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.ashbyhq.com
+credentials:
+  - id: ashby_api_key
+    type: basic
+    provider: ashby
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: list_candidates
+    default: true
+  - name: get_candidate
+    default: true
+  - name: list_jobs
+    default: true
+  - name: list_applications
+    default: true
+  - name: list_openings
+    default: true
+  - name: list_interview_schedules
+    default: true
+  - name: create_candidate
+    default: false
+  - name: create_application
+    default: false
+  - name: change_application_stage
+    default: false
+  - name: create_candidate_note
+    default: false

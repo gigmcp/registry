@@ -1,0 +1,49 @@
+schemaVersion: 1
+name: hubspot
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/hubspot-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/hubspot-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:11f281e3e327b13a618906de26bff6dad44154192445c86591144267b01ab7bd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.hubapi.com
+credentials:
+  - id: hubspot_token
+    type: oauth2
+    provider: hubspot
+    scopes:
+      [
+        crm.objects.contacts.read,
+        crm.objects.contacts.write,
+        crm.objects.companies.read,
+        crm.objects.deals.read,
+        crm.objects.deals.write,
+      ]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_contacts
+    default: true
+  - name: search_contacts
+    default: true
+  - name: get_contact
+    default: true
+  - name: list_deals
+    default: true
+  - name: search_companies
+    default: true
+  - name: create_contact
+    default: false
+  - name: update_contact
+    default: false
+  - name: create_deal
+    default: false
+  - name: create_note
+    default: false

@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: timecamp
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/timecamp-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/timecamp-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:a64449c747b236f3b9b4ab55b9e194e72c7c4356ab18d03ea7f9d73f40d0c361
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.timecamp.com
+credentials:
+  - id: timecamp_api_key
+    type: api_key
+    provider: timecamp
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_projects_list
+    default: true
+  - name: get_tasks
+    default: true
+  - name: get_time_entries
+    default: true
+  - name: get_users
+    default: true
+  - name: create_time_entry
+    default: false
+  - name: update_time_entry
+    default: false
+  - name: delete_time_entry
+    default: false
+  - name: create_task
+    default: false

@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: klipfolio
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/klipfolio-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/klipfolio-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:9e895e0862a0da2896e555d48bb96878d25599b0477e5d6237e17e59f7fb5855
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - app.klipfolio.com
+credentials:
+  - id: klipfolio_api_key
+    type: api_key
+    provider: klipfolio
+    inject:
+      header: kf-api-key
+      format: "{token}"
+tools:
+  - name: list_users
+    default: true
+  - name: list_groups
+    default: true
+  - name: list_data_sources
+    default: true
+  - name: get_dashboard_details
+    default: true
+  - name: get_klips
+    default: true
+  - name: get_data_source_instance_data
+    default: true
+  - name: create_user
+    default: false
+  - name: create_data_source
+    default: false
+  - name: refresh_data_source_instance
+    default: false
+  - name: update_user_properties
+    default: false

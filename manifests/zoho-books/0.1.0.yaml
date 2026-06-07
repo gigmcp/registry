@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: zoho-books
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/zoho-books-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/zoho-books-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:dab09ae2074c1918d20797872939f8c0ab7134d554a8d20d0b66cd5d444d3263
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Zoho Books REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)
+    # plus the accounts host for OAuth token refresh.
+    - www.zohoapis.com
+    - "*.zohoapis.com"
+    - accounts.zoho.com
+credentials:
+  - id: zoho-books_token
+    type: oauth2
+    provider: zoho-books
+    scopes: [ZohoBooks.invoices.READ, ZohoBooks.contacts.READ, ZohoBooks.expenses.READ, ZohoBooks.invoices.CREATE, ZohoBooks.customerpayments.CREATE]
+    inject:
+      header: Authorization
+      format: "Zoho-oauthtoken {token}"
+tools:
+  - name: list_invoices
+    default: true
+  - name: get_invoice
+    default: true
+  - name: list_contacts
+    default: true
+  - name: list_expenses
+    default: true
+  - name: list_bills
+    default: true
+  - name: list_chart_of_accounts
+    default: true
+  - name: create_invoice
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_expense
+    default: false
+  - name: create_customer_payment
+    default: false

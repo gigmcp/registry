@@ -1,0 +1,39 @@
+schemaVersion: 1
+name: dialpad
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/dialpad-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/dialpad-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0126deec3eaaf1934fab0e199b11e6161a1cff1e10c753d36abb844361f19085
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - dialpad.com
+credentials:
+  - id: dialpad_token
+    type: oauth2
+    provider: dialpad
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_access_control_policies
+    default: true
+  - name: create_contact
+    default: false
+  - name: delete_contact
+    default: false
+  - name: create_user
+    default: false
+  - name: create_callback_request
+    default: false
+  - name: add_call_participant
+    default: false
+  - name: create_webhook
+    default: false
+  - name: assign_phone_number
+    default: false

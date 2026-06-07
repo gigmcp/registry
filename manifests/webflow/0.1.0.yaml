@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: webflow
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/webflow-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/webflow-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:cf1439accbead9571cd2e8822bc36f1b93dd03afdbba3b62dd1a6e848dce717b
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.webflow.com
+credentials:
+  - id: webflow_token
+    type: oauth2
+    provider: webflow
+    scopes: ["sites:read", "cms:read", "cms:write", "pages:read", "assets:read"]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_sites
+    default: true
+  - name: get_site
+    default: true
+  - name: publish_site
+    default: false
+  - name: list_collections
+    default: true
+  - name: list_collection_items
+    default: true
+  - name: create_collection_item
+    default: false
+  - name: update_collection_item
+    default: false
+  - name: list_pages
+    default: true
+  - name: list_orders
+    default: true
+  - name: fulfill_order
+    default: false

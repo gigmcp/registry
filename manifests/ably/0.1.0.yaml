@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: ably
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/ably-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/ably-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:dcba8fd37ac25384a36b7d49c185fd7444c590f4c3d1556925dac110db6b8214
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - rest.ably.io
+credentials:
+  - id: ably_api_key
+    type: api_key
+    provider: ably
+    inject:
+      header: Authorization
+      format: "Basic {token}"
+tools:
+  - name: list_channels
+    default: true
+  - name: get_channel_details
+    default: true
+  - name: get_channel_history
+    default: true
+  - name: get_channel_presence
+    default: true
+  - name: get_application_stats
+    default: true
+  - name: publish_message_to_channel
+    default: false
+  - name: batch_publish_messages
+    default: false
+  - name: publish_push_notification
+    default: false
+  - name: list_registered_push_devices
+    default: true
+  - name: get_service_time
+    default: true

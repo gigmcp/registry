@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: tisane
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/tisane-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/tisane-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:24f82c8eee8e552374f63a2ae58971de24e2af2cb641e167eb46cca6c2d63c75
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.tisane.ai
+credentials:
+  - id: tisane_api_key
+    type: api_key
+    provider: tisane
+    inject:
+      header: Ocp-Apim-Subscription-Key
+      format: "{token}"
+tools:
+  - name: analyze_text
+    default: true
+  - name: detect_language
+    default: true
+  - name: get_supported_languages
+    default: true
+  - name: calculate_similarity
+    default: true
+  - name: list_word_senses
+    default: true
+  - name: extract_text
+    default: true
+  - name: transform_text
+    default: true

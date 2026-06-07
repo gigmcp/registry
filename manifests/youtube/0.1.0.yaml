@@ -1,0 +1,49 @@
+schemaVersion: 1
+name: youtube
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/youtube-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/youtube-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:22cca7bed91a33ab38b63c7fb235d97ed7f1f67942937c3a2d2a09296cf1ad1d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - www.googleapis.com
+    - youtube.googleapis.com
+credentials:
+  - id: youtube_token
+    type: oauth2
+    provider: youtube
+    scopes:
+      - "https://www.googleapis.com/auth/youtube.readonly"
+      - "https://www.googleapis.com/auth/youtube"
+      - "https://www.googleapis.com/auth/youtube.force-ssl"
+      - "https://www.googleapis.com/auth/youtube.upload"
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_videos
+    default: true
+  - name: get_video_details
+    default: true
+  - name: get_channel_statistics
+    default: true
+  - name: list_channel_videos
+    default: true
+  - name: list_playlist_items
+    default: true
+  - name: list_comment_threads
+    default: true
+  - name: create_playlist
+    default: false
+  - name: add_video_to_playlist
+    default: false
+  - name: post_comment
+    default: false
+  - name: upload_video
+    default: false

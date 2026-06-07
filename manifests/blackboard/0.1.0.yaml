@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: blackboard
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/blackboard-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/blackboard-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:afbb82362b149808149fa90548c41eb00c3b3b349edb6d35d85f4a14677b6fdc
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    # Blackboard Learn REST API is served from the institution's tenant
+    # host (Learn SaaS), which also hosts the OAuth2 token endpoint.
+    - "*.blackboard.com"
+credentials:
+  - id: blackboard_token
+    type: oauth2
+    provider: blackboard
+    scopes: [read, write, delete, offline]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_courses
+    default: true
+  - name: get_course
+    default: true
+  - name: list_course_announcements
+    default: true
+  - name: list_course_users
+    default: true
+  - name: get_user_grades
+    default: true
+  - name: create_course_announcement
+    default: false
+  - name: create_course
+    default: false
+  - name: update_course
+    default: false
+  - name: create_assignment
+    default: false
+  - name: record_attendance
+    default: false

@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: whatsapp
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/whatsapp-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/whatsapp-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:3857c11aca609ad647d78c00da7712087340aa304962f3e62e9338c349950c12
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - graph.facebook.com
+credentials:
+  - id: whatsapp_token
+    type: oauth2
+    provider: whatsapp
+    scopes: [whatsapp_business_messaging, whatsapp_business_management]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_business_profile
+    default: true
+  - name: get_phone_numbers
+    default: true
+  - name: get_message_templates
+    default: true
+  - name: get_template_status
+    default: true
+  - name: get_media_info
+    default: true
+  - name: send_message
+    default: false
+  - name: send_template_message
+    default: false
+  - name: send_media
+    default: false
+  - name: upload_media
+    default: false
+  - name: create_message_template
+    default: false

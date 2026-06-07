@@ -1,0 +1,33 @@
+schemaVersion: 1
+name: placekey
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/placekey-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/placekey-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b8c3f58d10135590409ad6fd52915356baea721702a482ef0480ede4228759f6
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.placekey.io
+credentials:
+  - id: placekey_api_key
+    type: api_key
+    provider: placekey
+    inject:
+      header: apikey
+      format: "{token}"
+tools:
+  - name: get_placekey
+    default: true
+  - name: get_placekey_from_address
+    default: true
+  - name: get_placekeys_bulk
+    default: true
+  - name: get_geocode_from_address
+    default: true
+  - name: lineage_placekey
+    default: true

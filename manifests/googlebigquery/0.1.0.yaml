@@ -1,0 +1,48 @@
+schemaVersion: 1
+name: googlebigquery
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/googlebigquery-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/googlebigquery-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:b3526c7be1c5453c64fb9c9f156a29325506e2664c9798c7e76a7dae064570a7
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - bigquery.googleapis.com
+credentials:
+  - id: googlebigquery_token
+    type: oauth2
+    provider: googlebigquery
+    scopes:
+      - "https://www.googleapis.com/auth/bigquery"
+      - "https://www.googleapis.com/auth/bigquery.readonly"
+      - "https://www.googleapis.com/auth/bigquery.insertdata"
+      - "https://www.googleapis.com/auth/cloud-platform"
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: query
+    default: true
+  - name: get_query_results
+    default: true
+  - name: list_datasets
+    default: true
+  - name: list_tables
+    default: true
+  - name: get_table_schema
+    default: true
+  - name: list_table_data
+    default: true
+  - name: list_jobs
+    default: true
+  - name: insert_table_data
+    default: false
+  - name: create_dataset
+    default: false
+  - name: delete_table
+    default: false

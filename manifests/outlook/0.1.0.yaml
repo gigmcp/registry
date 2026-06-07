@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: outlook
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/outlook-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/outlook-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:2514bdf66ebd8c30dedc8f659ec181a139e33a3fdba726a9bd5596acf0744d94
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - graph.microsoft.com
+    - login.microsoftonline.com
+credentials:
+  - id: outlook_token
+    type: oauth2
+    provider: outlook
+    scopes: [Mail.Read, Mail.Send, Calendars.ReadWrite, Contacts.Read, User.Read]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_messages
+    default: true
+  - name: get_message
+    default: true
+  - name: search_messages
+    default: true
+  - name: send_email
+    default: false
+  - name: create_draft
+    default: false
+  - name: reply_to_email
+    default: false
+  - name: move_message
+    default: false
+  - name: list_events
+    default: true
+  - name: create_event
+    default: false
+  - name: list_contacts
+    default: true

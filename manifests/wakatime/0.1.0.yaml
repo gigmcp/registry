@@ -1,0 +1,41 @@
+schemaVersion: 1
+name: wakatime
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/wakatime-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/wakatime-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:19190bca294f01ad427ff2b7bd073462e856320afe6366e57564886d09dd7334
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.wakatime.com
+    - wakatime.com
+credentials:
+  - id: wakatime_token
+    type: oauth2
+    provider: wakatime
+    scopes: [email, read_stats, read_summaries, read_goals]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: get_user_details
+    default: true
+  - name: get_user_stats
+    default: true
+  - name: get_user_summaries
+    default: true
+  - name: get_all_time_since_today
+    default: true
+  - name: list_goals
+    default: true
+  - name: list_user_projects
+    default: true
+  - name: list_machine_names
+    default: true
+  - name: list_leaders
+    default: true

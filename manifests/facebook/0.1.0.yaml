@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: facebook
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/facebook-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/facebook-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:764522af9d14c17a517e2489186f1ad89b824a3cd2ce0ed461096a20f9ee9890
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - graph.facebook.com
+credentials:
+  - id: facebook_token
+    type: oauth2
+    provider: facebook
+    scopes: [pages_show_list, pages_read_engagement, pages_manage_posts, pages_manage_engagement, business_management]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_managed_pages
+    default: true
+  - name: get_page_details
+    default: true
+  - name: get_page_posts
+    default: true
+  - name: get_comments
+    default: true
+  - name: get_page_insights
+    default: true
+  - name: get_post_insights
+    default: true
+  - name: create_post
+    default: false
+  - name: create_comment
+    default: false
+  - name: delete_post
+    default: false
+  - name: send_message
+    default: false

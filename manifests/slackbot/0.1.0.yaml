@@ -1,0 +1,45 @@
+schemaVersion: 1
+name: slackbot
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/slackbot-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/slackbot-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:0bcd73845c7261242ea4a2bf9cc425556ad12c317e7b2e375248200e92e681a8
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - slack.com
+    - "*.slack.com"
+credentials:
+  - id: slackbot_token
+    type: oauth2
+    provider: slackbot
+    scopes: [chat:write, channels:read, channels:history, users:read, reactions:write]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_channels
+    default: true
+  - name: fetch_conversation_history
+    default: true
+  - name: list_users
+    default: true
+  - name: search_messages
+    default: true
+  - name: retrieve_user_info
+    default: true
+  - name: send_message
+    default: false
+  - name: schedule_message
+    default: false
+  - name: add_reaction
+    default: false
+  - name: create_channel
+    default: false
+  - name: upload_file
+    default: false

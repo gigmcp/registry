@@ -1,0 +1,42 @@
+schemaVersion: 1
+name: harvest
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/harvest-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/harvest-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:6ba1cd97f226c51044d47395e6a40baa06b8733184d22cd72dbdd52cc8a3eef2
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.harvestapp.com
+    - id.getharvest.com
+credentials:
+  - id: harvest_token
+    type: oauth2
+    provider: harvest
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_time_entries
+    default: true
+  - name: list_projects
+    default: true
+  - name: list_clients
+    default: true
+  - name: list_invoices
+    default: true
+  - name: get_company_info
+    default: true
+  - name: create_time_entry
+    default: false
+  - name: create_project
+    default: false
+  - name: create_invoice
+    default: false
+  - name: delete_time_entry
+    default: false

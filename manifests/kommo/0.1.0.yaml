@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: kommo
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/kommo-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/kommo-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:c5fa8d1a1b2881a5e2282ad103f1b8016ae0ed5112b11eb3dd219b662c0dd1ef
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - kommo.com
+    - "*.kommo.com"
+credentials:
+  - id: kommo_token
+    type: oauth2
+    provider: kommo
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_leads
+    default: true
+  - name: get_lead
+    default: true
+  - name: list_contacts
+    default: true
+  - name: list_companies
+    default: true
+  - name: list_tasks
+    default: true
+  - name: list_leads_pipelines
+    default: true
+  - name: create_lead
+    default: false
+  - name: update_lead
+    default: false
+  - name: create_contact
+    default: false
+  - name: create_task
+    default: false

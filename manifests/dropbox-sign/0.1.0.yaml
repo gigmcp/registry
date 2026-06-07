@@ -1,0 +1,44 @@
+schemaVersion: 1
+name: dropbox-sign
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/dropbox-sign-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/dropbox-sign-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:52d3a95a351b62723e6dd09ccf2f7eee86815cfcfec1cf15e202559c02f145cd
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.hellosign.com
+credentials:
+  - id: dropbox_sign_token
+    type: oauth2
+    provider: dropbox-sign
+    scopes: [basic_account_info, request_signature, signature_request_access, template_access]
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_signature_requests
+    default: true
+  - name: get_signature_request
+    default: true
+  - name: download_signature_request_files
+    default: true
+  - name: list_templates
+    default: true
+  - name: get_template
+    default: true
+  - name: get_account
+    default: true
+  - name: send_signature_request
+    default: false
+  - name: send_request_reminder
+    default: false
+  - name: cancel_signature_request
+    default: false
+  - name: create_template
+    default: false

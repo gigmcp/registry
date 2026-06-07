@@ -1,0 +1,37 @@
+schemaVersion: 1
+name: echtpost
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/echtpost-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/echtpost-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:fd771acfd322216dbfad336e6d19058d21a24f5099bf9f6661f6df06cffeda05
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.echtpost.de
+credentials:
+  - id: echtpost_api_key
+    type: api_key
+    provider: echtpost
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: list_templates
+    default: true
+  - name: list_cards
+    default: true
+  - name: get_card
+    default: true
+  - name: preview_text_fit
+    default: true
+  - name: create_card
+    default: false
+  - name: create_card_from_template
+    default: false
+  - name: withdraw_card
+    default: false

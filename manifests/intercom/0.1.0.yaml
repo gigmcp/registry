@@ -1,0 +1,43 @@
+schemaVersion: 1
+name: intercom
+version: 0.1.0
+source:
+  repo: github.com/gigmcp/intercom-mcp
+  tag: v0.1.0
+image:
+  ref: ghcr.io/gigmcp/intercom-mcp
+  # PLACEHOLDER until build-images CI emits the real digest — see README.
+  digest: sha256:1b26c16ad6b1f4aeb5238cd6fff0e859cf506d219e9c669d2e092adb220e670d
+  entrypoint: /app/server
+tier: sealed
+entitlements:
+  egress:
+    - api.intercom.io
+credentials:
+  - id: intercom_token
+    type: oauth2
+    provider: intercom
+    inject:
+      header: Authorization
+      format: "Bearer {token}"
+tools:
+  - name: search_contacts
+    default: true
+  - name: get_contact
+    default: true
+  - name: list_conversations
+    default: true
+  - name: list_companies
+    default: true
+  - name: list_tags
+    default: true
+  - name: create_contact
+    default: false
+  - name: update_contact
+    default: false
+  - name: reply_to_conversation
+    default: false
+  - name: create_ticket
+    default: false
+  - name: attach_tag_to_conversation
+    default: false
