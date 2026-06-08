@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-mail-mcp
-  digest: sha256:e449f20824f6a6dbff3d03e43a75c63f388d193ecd3e5ef29452cbaa92dcead5
+  digest: sha256:1a229bfa575b82fb7e8c3fc2fbcef4e74661238b625432739137314acbeb0a2f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

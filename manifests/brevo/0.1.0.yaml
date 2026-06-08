@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brevo-mcp
-  digest: sha256:336552c3edf9cfa98a06ddb746baa1c6b7ed31b2cfb4a8d604e479430eb30840
+  digest: sha256:7d71cf02c8083019b0e46e0721fe038dabebbf01254d3279868dfef56fefbb6f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

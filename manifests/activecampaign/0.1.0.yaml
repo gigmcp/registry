@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/activecampaign-mcp
-  digest: sha256:e04bfda3b1899c347f5e2a8c213bbde24712a5516de36bab227c6a074c5bd7ba
+  digest: sha256:4155080e36daecc33b310455b7331d133ae3615d45207b7d91dc81f85ec862a0
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

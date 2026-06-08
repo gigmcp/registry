@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/snowflake-mcp
-  digest: sha256:2b55e3ec01c29815f831420dff22561fde1d547a5f4336daea7306f2c07c38e0
+  digest: sha256:63fe1b21cff2b41ef6e2e8185198fe551a70419167c6d64b39b117510a6c8d25
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

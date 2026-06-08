@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/trello-mcp
-  digest: sha256:c5bf796c7b3ca48260c68bcd5d731307b12dc2ad8caf5f661a35988ed80d1f8e
+  digest: sha256:c2e45584a36e21dc03fd616d7bbe028db9925e7f4defcd3a147359ed6932f54c
   entrypoint: /app/server
   builder: toolpack
 # Trello's REST API authenticates with key+token passed as query parameters

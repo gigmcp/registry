@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/acculynx-mcp
-  digest: sha256:a9cd4e8347d803ee14375503962f06ee991c9f48abd01b1e78dfdf655730ffa2
+  digest: sha256:0cf7a495cf87faf28ee8186f1d526a810197b1ca36399eeb3db966cfbe1ed199
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

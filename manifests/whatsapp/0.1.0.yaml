@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/whatsapp-mcp
-  digest: sha256:61a7ea791c1eace3e4ca2e2b50e38d12798af47607deb28e0b141636ac80b898
+  digest: sha256:465949e218dcf91d4fbc0f93671e1933185b67182194fbfc5e660c8c429efd06
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

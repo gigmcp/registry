@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/asana-mcp
-  digest: sha256:085d409916397fb07b953a8fa378fa4cab814c7097cba0d1c473f5191d2f326a
+  digest: sha256:42032ab3fd2daf593be8ff368a9c91b42a60dee56924d6ddd9165943c7df19e8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

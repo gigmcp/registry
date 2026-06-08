@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-inventory-mcp
-  digest: sha256:655727d32c3ac70f8f0177d2aa8edd48a87735bc05b54a8f1cfb131afc87c5ae
+  digest: sha256:9904e02b5822eedc8db171ae5d598c2b18f5e771f6f301c5e3ba6d4855fee7c4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

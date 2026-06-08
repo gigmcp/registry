@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/reddit-mcp
-  digest: sha256:e420473b39d3903b3aa7f0378121419bafee5f0d49117e8313a8264d54889226
+  digest: sha256:66d815f269bfa237487a1a1c7969df749ff4e8ed86204da9ab57f88680cb6017
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/klipfolio-mcp
-  digest: sha256:4e85578436c3c67058c975d143c86a5762e262b2f725f56879ed3aa4d52d718a
+  digest: sha256:674f34470892a4d19e7d8a90a7b38723ebb42937fe869d72644cf776f8af18e3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

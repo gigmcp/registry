@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/blackboard-mcp
-  digest: sha256:aee31d15a3f9ab4bdc44bbc5e02987fbdae2aedfa92a49253d15abbf2020eae4
+  digest: sha256:98b06ef4d39d4445493f46b0e02b18151a3b315e0f21c8bb44b1faf9e69d66c6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

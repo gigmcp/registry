@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/notion-mcp
-  digest: sha256:84621fa0c93867081129cb6ebe1172e32d92fc40ef1004458939a46c3d343d10
+  digest: sha256:a1cab9e0a9b4cb27f036b385ac4517bfbe6e779c62b077931cbb66f5a9e33d3f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

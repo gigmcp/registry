@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/breezy-hr-mcp
-  digest: sha256:137e0bae41c2b8d4bf4cc1056d8ec22b73224d65f27d5cb5cc2ea1a89995da90
+  digest: sha256:04cfd2c9db79bfd05e5c78df10c7d3a573b2eb3415b166ff7e2aef9c0fd3ebc6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

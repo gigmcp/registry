@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zendesk-mcp
-  digest: sha256:1a35760d66ffd0133fd43696329862a38731ef20075e73cb19fd01fd2580f43b
+  digest: sha256:6e1dc7ef72ceb6743c505eaadb4abe4b6f949511b5dd9ed076090db67adeaa35
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

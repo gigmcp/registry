@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/cal-mcp
-  digest: sha256:07d09223996bc3b62c4330a44dd58f393669e15cbc2d6ea9616300d2fa71c21b
+  digest: sha256:8bccde5703b3a74f7c341f38e2e23276c9d85432636bc59c9271a7ea9788a01e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

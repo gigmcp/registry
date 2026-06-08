@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/simplesat-mcp
-  digest: sha256:355878da9990882c94966465f286a2835de8bc1f1e464b1089544bab39625c97
+  digest: sha256:de8a5b565f7fd8f173b42c30f3058952d4a0065383aa78ef2f350db5b58f6e89
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

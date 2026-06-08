@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlebigquery-mcp
-  digest: sha256:76a5b90d8a8cda2f581ac332bba75cfa9c48061c3d51f34ccad5a78731942afe
+  digest: sha256:b71342477fa80d37b09579e0581b42534dbe4c5c7ebf269e27e51cc4a70502a7
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

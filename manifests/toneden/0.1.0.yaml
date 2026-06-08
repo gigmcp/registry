@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/toneden-mcp
-  digest: sha256:960bd5290114389f7129390524c8f786c87cd3211cdd6308325a392219aa8895
+  digest: sha256:b481b9dca314731d898435908a98ab13be5727dd0f905af11edc917adc6760cf
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

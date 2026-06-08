@@ -7,7 +7,7 @@ source:
   package: cmd/slack-mcp-server
 image:
   ref: ghcr.io/gigmcp/slackbot-mcp
-  digest: sha256:d3f1770e8fdf60bf0f15418de7bcab7e3cc1f2cd2fe992b7f5150971af47c414
+  digest: sha256:88bfe2a471fc6d977db78fdd00244f336e309a59f84a775d98ad2d9c1f8f56ae
   entrypoint: /app/server
 tier: sealed
 entitlements:

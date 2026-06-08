@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/yandex-mcp
-  digest: sha256:269e723d99cfe9f205c9b4faa57d157d19c698f316ebbe570a3bbdaac5edf0f0
+  digest: sha256:7be57a59e43c91738adbdce222c00debf176f187645dafd2b5dca525259f53b5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

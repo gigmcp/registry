@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/boldsign-mcp
-  digest: sha256:67cf36ff2b40e5d392a2c47ea1e49549f123ea70921843be3d5746f7d616c7a0
+  digest: sha256:2594b1aa8af58bf1814e06a46e17b023cc44e539e4c2b128fbb9b3205c28a147
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

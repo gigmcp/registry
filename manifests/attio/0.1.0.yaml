@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/attio-mcp
-  digest: sha256:d9cac844a8b59e9e11c972faa3ae23fb270f1034d4be0932c047ceb19531580c
+  digest: sha256:f78ece8605d20237a94a0d68872bd3f052e7a6fb221908e5ed55252b785da89b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

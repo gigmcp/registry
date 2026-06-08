@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/foursquare-mcp
-  digest: sha256:169096cc29da9afb33a38436d4c2c3fcd8e4f3c2fbfba7c15466182446258f3d
+  digest: sha256:d660fa809afda34aa3e8fcea2657df458a09af6ae3210138fc7ed582f7018410
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

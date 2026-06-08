@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/maintainx-mcp
-  digest: sha256:1d00a9a943edd01e375f36c50ebb5edbd17072b6e8e3000cd1a00df9362a923a
+  digest: sha256:8ce808da448072ba6ed3474a2a9c32aad0da90e37a6860314a2308eebb15b691
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

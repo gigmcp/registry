@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/firecrawl-mcp
-  digest: sha256:35f923bd8205fdcef11c18e6555ef0de7e78df9d1e759ad3373e40d48f86844f
+  digest: sha256:981fb81481fc1161031c2e8bcfab3ba9668e465b583e795451f93563178f3ab3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

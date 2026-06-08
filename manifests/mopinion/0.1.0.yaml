@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mopinion-mcp
-  digest: sha256:a86ef9e75bf7c763939dd77144dd37c6d780c460d46cb3770ce652da3084ec22
+  digest: sha256:9ca187fb973448cd757ecae4e5a731fd197ad5d862484528d782131aab7b4cbb
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

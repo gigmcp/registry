@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/launchdarkly-mcp
-  digest: sha256:9374e0064716c2ea049c71ec43d17ba30e51296c7b441178d30c46a9fad7fa34
+  digest: sha256:515ed181305c956c765693f04dfc87366b2483fffdef789cefd6d593ffdf37c6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

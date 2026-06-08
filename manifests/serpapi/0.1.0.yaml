@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/serpapi-mcp
-  digest: sha256:e734a639c6d7052ec850b31efef1d0d604b69917222d2241a904b17421b92fe3
+  digest: sha256:305a63a7b4636c9b591d9f7ad9bdae195592f3c6d650fe57244cd8870251c3ee
   entrypoint: /app/server
   builder: toolpack
 # SerpApi authenticates via the api_key query parameter only — no auth header

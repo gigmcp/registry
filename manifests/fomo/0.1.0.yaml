@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/fomo-mcp
-  digest: sha256:4bdbc04751566abe4c970f4de29689c4a8526145da648c0ef08156cf9f827da8
+  digest: sha256:ccd828a7bdc3842ba38233acb0756b2ee199b8be51f2bc6b4a8ca30661f3a1b1
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

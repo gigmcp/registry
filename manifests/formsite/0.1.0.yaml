@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/formsite-mcp
-  digest: sha256:bae5c2ecbd88abe6f98d0c9bcb91ce83b5177cace796925c7819447f3516b4a6
+  digest: sha256:8b2460c94bd06b09cb6b3ddb8e992778b32fd79811d478bf68e85b13734e41f2
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

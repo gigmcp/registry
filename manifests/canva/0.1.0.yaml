@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/canva-mcp
-  digest: sha256:20d12a8d94eaed30ff63fd26bef3ab876448d47a348b7479217b30b476c420ed
+  digest: sha256:aee287c750f12080f2992bfc35b0c05818993d08b5b47ea4e1a69ae75487157d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

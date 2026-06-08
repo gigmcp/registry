@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/shortcut-mcp
-  digest: sha256:f4abdcfb8509fbd51fa889064267d9d340c0af6f6aefbb51e221175add481422
+  digest: sha256:0b336ed59a04050f007fc38459c8910d7584b5c4cc3f1f0444e5e7f2a890eba9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

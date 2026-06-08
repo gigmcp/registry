@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/more-trees-mcp
-  digest: sha256:fd77051aed2526129e027511d51c7fa804d33d219a1099df36b424cdaf05d093
+  digest: sha256:91b1ab144037f8521ec34c4974b8ff136792206d71fe0294ea4e15c34e694637
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

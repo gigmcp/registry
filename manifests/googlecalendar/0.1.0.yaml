@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlecalendar-mcp
-  digest: sha256:bf99ed13f08ac6652327a7d5916b41c50b91e6500b90d74e2e1cc1c1b52faef7
+  digest: sha256:8e94f193dc219b5e0b4990872bd01168a9013228af473ae62f406cc35b5b8c91
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

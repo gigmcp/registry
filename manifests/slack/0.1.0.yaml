@@ -7,7 +7,7 @@ source:
   package: cmd/slack-mcp-server
 image:
   ref: ghcr.io/gigmcp/slack-mcp
-  digest: sha256:1a91a1fe92353b7d7d1997e8c1c1b11201cc1f697133e7fc4a7293fe3f740c8c
+  digest: sha256:064bf366ade8e043bed6383f8284f862e427ee58960d199aea6a5b4aa3b9e5ef
   entrypoint: /app/server
 tier: sealed
 entitlements:

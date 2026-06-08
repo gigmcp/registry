@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dropbox-mcp
-  digest: sha256:f0e7c8c201afd89dcd8309ba3a01b0c4bf2bb85af2524002884664f829f9361e
+  digest: sha256:46859e19445e9d613cefc0271c846bc8e335323049a20814efc82291c3ad4933
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

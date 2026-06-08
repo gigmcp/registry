@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/xero-mcp
-  digest: sha256:8583a446bc5177a8bf1fc6698153d323e7b9aa0feb870884d93b39e441c8aa86
+  digest: sha256:64b37b644a3b08fa5e72256459258d25394c84193680c91057fc5c0def093267
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

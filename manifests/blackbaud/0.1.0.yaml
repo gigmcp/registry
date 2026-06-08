@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/blackbaud-mcp
-  digest: sha256:f815c1875acfbe6e3f126fb2b5b425525d9cbcb9fd438ef32dbaecee9bcb955d
+  digest: sha256:de996b4b63e6ddb7d2387a3fea00abd55a05a76421982ecfa71ff0b6dd53ea88
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

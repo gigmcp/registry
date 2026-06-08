@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/opensea-mcp
-  digest: sha256:1e0f680066414559ebf04167b16e8c85756764f9bacc1165d824ec8640faa549
+  digest: sha256:730ffd393270d0d0aadc8623a486ff93f2a3935e26b880d634860f043950f3b8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

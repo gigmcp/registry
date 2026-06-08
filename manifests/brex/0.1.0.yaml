@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brex-mcp
-  digest: sha256:3340797074746c79bd806bc4aedb85b6d1d1bbf4093f9c88a07b53405baa78c1
+  digest: sha256:e3b27b36240ad2c2d63e1137b3f328cdb4083aa8f462622f7f0f32810960fa0f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

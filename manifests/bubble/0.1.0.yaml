@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bubble-mcp
-  digest: sha256:e18a1df07d59c848da300ec4e7ff2df46b1a15fd5237dda720de22ad5ddf3f56
+  digest: sha256:91c50739a63934a7405300fd672b3017c3a50af32c999b7620f17e9a104c5ad3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

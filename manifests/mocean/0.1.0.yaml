@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mocean-mcp
-  digest: sha256:087092318377e6ddafdcf99acd8306ddd869b3f80fe0f31e49bea63704bddd25
+  digest: sha256:b86244c58de75244a5976d392ae4801f35f8d23bc5cb4fc46ce8ea5362bf90f0
   entrypoint: /app/server
   builder: toolpack
 # Mocean's REST API authenticates with mocean-api-key / mocean-api-secret

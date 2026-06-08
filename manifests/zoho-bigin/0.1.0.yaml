@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-bigin-mcp
-  digest: sha256:516cfab059b22a910d06243387583ae0912bb268eba78977eaa9ad7d5a89a236
+  digest: sha256:d09d41d69ec499480f7a87d222fe891029bc7a81d40b7271fedce8f95c2e7a32
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

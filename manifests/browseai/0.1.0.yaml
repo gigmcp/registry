@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/browseai-mcp
-  digest: sha256:55f296c4184f5758cc1231f1fa090776061c85dc1e003c1baf87ae42727f3f72
+  digest: sha256:af910f06aeae5686316c8bf9b7013b0808aa0fbf8ad381dd71b21dfbe14caf3e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

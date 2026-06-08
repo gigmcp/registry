@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/interzoid-mcp
-  digest: sha256:68483345a13722d2c99d5f19fccb24bb2d91321d8f13232dc6ab7531b24c92e9
+  digest: sha256:30881121fbea69e74115ce699fce9f55d83ad18659766c1fe5d58fe7f0ebb131
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ably-mcp
-  digest: sha256:d3a890cfc756f2d1c0f24b760bdab395d327c05582d6933a9895835e0cb4ea38
+  digest: sha256:84686ed00e0498e40c2071a7fdbe668c99815fffd05802e3b34b5962b4ca0873
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

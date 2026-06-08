@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zenrows-mcp
-  digest: sha256:298dff7d3fbf382eec6066eb08b8292618af4af47e2b20aeec0baf7aa7b53503
+  digest: sha256:91dbe2d94dcfaeec6c8eaa25c8a494081c4e83d5eaa93e08b27b33b7ff0b15fb
   entrypoint: /app/server
   builder: toolpack
 # ZenRows authenticates via the apikey query parameter only — there is no

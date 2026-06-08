@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/airtable-mcp
-  digest: sha256:89a789c57a6e7d3c111f39ca63143ada7c8586d1f2aea1fedda6eb9365729e7b
+  digest: sha256:bd9a97a9a2fa09c69fc0c2eb260104b9e8a9d1ac6c8687aa3abb4068f18e4d29
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

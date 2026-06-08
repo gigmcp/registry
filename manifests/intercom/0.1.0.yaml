@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/intercom-mcp
-  digest: sha256:0b986fda7b932592ba46633196c087a9eb5ecb9778bbfeb9db95ce35bc66c6fe
+  digest: sha256:8afab53cbeb16941068b78149d50b817fe27d6e849189f4ad7ed9fbab8b91a19
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

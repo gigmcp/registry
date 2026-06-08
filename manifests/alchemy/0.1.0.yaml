@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/alchemy-mcp
-  digest: sha256:ed7108324e5147f983343c25b6fc638ea4b6df577e41aa774ec75570e3fb71cc
+  digest: sha256:bc19e89192ca86be994d4e7c81ef3b99e8ba7ed1af6a34457445af71beedd54c
   entrypoint: /app/server
   builder: toolpack
 # Alchemy authenticates via the API key embedded in the request URL path

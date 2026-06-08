@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/figma-mcp
-  digest: sha256:9713aced02589a1fde4a6174ab9806863cce0574dee9bb6784c7f963b4c810d4
+  digest: sha256:c9ccbb0fb99d8e5f8dcc35efc8ba2cc21fb99e6b858e61719b6db4ea9daef956
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

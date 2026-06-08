@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/hackerrank-work-mcp
-  digest: sha256:5fbe279d45e213a4664e805e705b1bd76ba56e82a46e26cc45427fb52e8b36d1
+  digest: sha256:12190f171e316ea413e3700a5ce4408d29518a4ea1d8aad46c309c45fa31ddf9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

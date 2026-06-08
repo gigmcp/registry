@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/metatextai-mcp
-  digest: sha256:5417985672ab98c428adcd4fc0907cf12926c323c2cf9564321dadc15856e33f
+  digest: sha256:3328705b250689ad9318a57c42a4f6dd1ace447678fff751f8c987a266c7b845
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

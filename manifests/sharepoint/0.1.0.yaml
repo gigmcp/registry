@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/sharepoint-mcp
-  digest: sha256:d152e57108df8917ccb8365b46bf61aede989a0f5b5d8a34c1550a97e8cd8738
+  digest: sha256:b509d5b2a25efe1539f043a9dcb814a3cbadfba7ca64af30b830f2668c4a6bd4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

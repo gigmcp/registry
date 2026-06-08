@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/yousearch-mcp
-  digest: sha256:f5e8237dd665a99a300854ad05d5d91dcd58a1c84425a9119b54ca520d2e7092
+  digest: sha256:5c3f7227112c7aa447e869e845127805bcb0533fbdab2cd756bfd301f643f749
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

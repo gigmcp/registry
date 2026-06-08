@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/perplexityai-mcp
-  digest: sha256:eea952c83e478bd318ec644f6f1262e5a654da4595bdf6e534cbabdd1ede9465
+  digest: sha256:76086f6e1f90e8d583e0103b8e72d5c377ff39ad100c9e94a783b72a6db29725
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

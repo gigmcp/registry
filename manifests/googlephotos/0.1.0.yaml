@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlephotos-mcp
-  digest: sha256:99e1ebe5e3d5fdc0f489e4a81c6e965e147f49dfb7978711a8f836788283f63a
+  digest: sha256:088e01fea709c10cd6e51d246f572bf6396b501552dfa99643d1f4651c64bd56
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

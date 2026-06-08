@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/twitter-mcp
-  digest: sha256:d726febee563e449ab98085929c7a2f7ebf147504b654b748d96d5d7453c9cf5
+  digest: sha256:39efe39612be4cef04367764a3934cdd65676863df4233b5c266c8dc5c63efa4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

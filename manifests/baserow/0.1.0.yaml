@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/baserow-mcp
-  digest: sha256:4b77ff4a0f309025b95386acc32db4803e1689d9b0a4f49da9c6f1824e506a17
+  digest: sha256:8f790a804effc5a9ebfccc094457e42c099823a507eeb70348ff896b22b20bd5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

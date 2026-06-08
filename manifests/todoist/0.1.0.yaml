@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/todoist-mcp
-  digest: sha256:7120003b0e86492571b57bb6556b1cfa51c52d2817a3ff029c1f3834dfe60290
+  digest: sha256:bb08447ceaec48e044cd769b6ba1b2cd8ffce18d511780b14502d3ab0d9c1224
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

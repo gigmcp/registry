@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mailchimp-mcp
-  digest: sha256:9822562b3cb03c54d76cad8486e87ee928983831bb81f247603a691ee120c8a3
+  digest: sha256:871aca0a8f65d6e78a5c07ebe87254cf816de933d592e30ec70ebdb48759c3a8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

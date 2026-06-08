@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/echtpost-mcp
-  digest: sha256:8fff59f426d52621db9101652ca3bde7b7219dcd9b97b4295a748862b2bb6416
+  digest: sha256:2ffc50ebcdae088f8712ffcc6cc7c275c852cc27f4b650b13c0e88a025a73f44
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

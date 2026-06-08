@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/apollo-mcp
-  digest: sha256:1e0bd6a00ddffc4d3e487f965e7d5d3403afee03ad87b3b46875440ebb2a22ba
+  digest: sha256:438e659cf5882f13eabf0c161504f366c772d8a93a712dbaf08d0b2053ad62f5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

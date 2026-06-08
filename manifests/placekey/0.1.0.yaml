@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/placekey-mcp
-  digest: sha256:59ea39f0dc5ee2d4528a392702a43bcc3494e785f50415156da27e6fa28d86de
+  digest: sha256:a2845b68bfb372627e036d1175fec12f9697d167aa0dcdbc4fae476854a9a763
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

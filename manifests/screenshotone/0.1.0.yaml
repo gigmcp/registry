@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/screenshotone-mcp
-  digest: sha256:3304113b8a30dd53c78115f76d04410fe9136947233f94601e160780c7b3e080
+  digest: sha256:1ba27146ced34fd0da83714812e1c75a70c7928a468697098ebcd1086c012b7f
   entrypoint: /app/server
   builder: toolpack
 tier: entrusted

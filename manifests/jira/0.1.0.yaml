@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/jira-mcp
-  digest: sha256:4f8623fdbd426298427de3ce7681271e1129310cb45029e109a6f13068490086
+  digest: sha256:56f4a6c228ef3fd6a0e4ec7a69bbdd9789ef526510f602560ec3b62d2f0f415e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

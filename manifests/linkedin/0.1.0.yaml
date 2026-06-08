@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/linkedin-mcp
-  digest: sha256:f0359930e119e81394a4f7700912947add542e71b66bf3e038bf04bddc6853a2
+  digest: sha256:2ddac53b03c43f9b09995fc80c29e947a8f3f95b60a1eac4d08e6ba3e87e6682
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

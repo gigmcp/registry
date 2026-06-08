@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/peopledatalabs-mcp
-  digest: sha256:9715879793aea9c96f4852ebdad7932d9a4092e98408106c9147a7452e82eb5b
+  digest: sha256:82e8e0ebfedf91437e5a5ab98dad744a768f9c968e4297fe1ec404c4d4ef6b4e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

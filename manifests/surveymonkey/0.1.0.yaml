@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/surveymonkey-mcp
-  digest: sha256:4e11c466e56f732ca06b4dfff8654afd970f6e3767613d7d3f3efa935c19d82b
+  digest: sha256:ff464663d5d7db7252aaa113ffadad109fa97aaf0dc5bbda87025bb4e718c515
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

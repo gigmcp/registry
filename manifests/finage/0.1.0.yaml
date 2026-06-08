@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/finage-mcp
-  digest: sha256:06505a3cf6ff95542992a2340cd4160bfdb7aa6bc19f97c73ea2e98227c36c11
+  digest: sha256:6dd999b1f8b679d442229b3cff6c2fe4e3de925d4bdb875b15300b2ee05a3eec
   entrypoint: /app/server
   builder: toolpack
 # Finage authenticates exclusively via the ?apikey= query parameter, so

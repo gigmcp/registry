@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googleads-mcp
-  digest: sha256:51560a678e951ad62dccb029b5558b3d1db46533d1b1fb82b1cc56f5846547fe
+  digest: sha256:0df1a96df20a6593005f374440b5c1d3d8913ae2b3da6f92255ff02239510908
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

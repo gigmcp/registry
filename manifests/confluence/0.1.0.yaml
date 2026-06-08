@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/confluence-mcp
-  digest: sha256:efb28f505e7cb19ccb7ebe5f1f3fd289e2a7f578ff70cec24682c517ca46d093
+  digest: sha256:2dd6014225c6625fa5758696a53e94acf8c40c661c6a0811bc7fdd316cd378a4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

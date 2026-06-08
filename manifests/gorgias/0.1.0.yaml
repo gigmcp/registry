@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gorgias-mcp
-  digest: sha256:9c91e876050019b0fc98cb4ea19cd2c3d2addfe0e55f4b9ecb5487090ba19d9a
+  digest: sha256:1edffd35426f204bba6dcbee9708d8b68f765e13c4a96f75cfc42804d4b93719
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

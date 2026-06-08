@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coinbase-mcp
-  digest: sha256:b547e1c540a2c530c489cb0f6ded89ef00f06ec9b4d537583082a7925e4ebea3
+  digest: sha256:3e59401670f4a52a7edba0a733276e416e1308e00ac957c3c7365637c596ded2
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

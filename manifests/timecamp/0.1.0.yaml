@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/timecamp-mcp
-  digest: sha256:d67ba399ddefe00318d648672d0a3054c2fc7aa14786c3572a69956d2baada86
+  digest: sha256:5e2d3d5ae5f8308f3d3b550e4620c9594081c5781f41e0d923c3550bbf13a792
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

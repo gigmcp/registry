@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/microsoft-teams-mcp
-  digest: sha256:2b750abe485c7f73962c5565e855780ac1613bdf3c42a13cee22d58cf3dd29cb
+  digest: sha256:a58088f35e0d5a80b5da2137a0fdf8ca6d7e418834757a30ccf9436fafd047f9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

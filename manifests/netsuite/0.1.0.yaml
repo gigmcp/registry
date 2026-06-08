@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/netsuite-mcp
-  digest: sha256:8553be6a2ad0222ce427e52bfa48d2d2fea81bc98fba69e2b6bf639e3b4fcb2d
+  digest: sha256:10a4b1e927fed97dea4895981cc8f2144d7110c748a88fd68902afeafd32a1f3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

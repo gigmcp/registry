@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mem0-mcp
-  digest: sha256:5fd0a6ab5ec8f5318154b7a78a9f31b453226bf289c7b2c2aee91063834a2b58
+  digest: sha256:b4b8395f2795797c33415554749d51d986e1ac43feb87da6de6e19797eeff0f5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

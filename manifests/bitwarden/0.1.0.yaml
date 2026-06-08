@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bitwarden-mcp
-  digest: sha256:4715ac68cb26c62eff6f2d974a311c923f1c0b8911f3ed9bd0c751db5470b26b
+  digest: sha256:981eab474b88365a7cbb2aa5a3c7725b8e006572d0faf23fb0914ca20bde75bd
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

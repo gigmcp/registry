@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/linkhut-mcp
-  digest: sha256:0d0f58620ac841ebcfbc47e25c88610da367a5563c0a0d49ca970757e07eb714
+  digest: sha256:fe14125d2ac55065dfa84f3ea33eff0efed248b0e94dc2a263c8b22898090f9f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

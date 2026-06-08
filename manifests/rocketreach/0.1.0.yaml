@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/rocketreach-mcp
-  digest: sha256:e5fed2f0f33f663ab54780882eb33e2ede8f93920dcbc2a34f6aaed4e35e2da0
+  digest: sha256:75398cd6032e8be095d98251f6d46ab901856b301e6a649f5c393eaf395a92e9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

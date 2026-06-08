@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/sentry-mcp
-  digest: sha256:25e941276adaf5c534a9a43bc10a101a667246665588bb4f907855813ff34dc9
+  digest: sha256:16ec8aadab0e8a204e8811ebea93fd7997667e1fe1b7af9a97ea14c3c2340ce1
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

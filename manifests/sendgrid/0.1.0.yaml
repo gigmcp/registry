@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/sendgrid-mcp
-  digest: sha256:5778bf61f8a15bea2db18752ca5cacc152de151b4b988fe987bba91b18aede27
+  digest: sha256:ef5f2ff94302e67a0e28147f391018f8f0dfd90712046353f5854a6be74d69e1
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

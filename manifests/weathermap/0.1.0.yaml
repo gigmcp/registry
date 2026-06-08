@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/weathermap-mcp
-  digest: sha256:3b4f7c20641752a73f45678bc3fc084c8af68b40b7f824744c97cf27cf33b00e
+  digest: sha256:7d21f0f4abbb74f724abac4149b29dfbf217fc4c0120edb728bfb5c41ac2dfcb
   entrypoint: /app/server
   builder: toolpack
 # OpenWeatherMap authenticates via the appid query parameter only — there is

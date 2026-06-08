@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-desk-mcp
-  digest: sha256:0f416240634d3fb87956e0f4ae5847909120c72fbf9b69bd573f497630b3ed78
+  digest: sha256:989f3bf3758552f4c9a888ed2fc1ef83c96157ee05dc3c3aeb6bdc69e859e46f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

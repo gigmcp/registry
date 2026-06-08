@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/altoviz-mcp
-  digest: sha256:7c7f786142a13c336d7c5d57cee67301ec0d7e9735c15898e4b446a9105ec746
+  digest: sha256:4b210558912655b7e9e209ae61b904c54eceed9bce489c3187a64c4dd903521d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

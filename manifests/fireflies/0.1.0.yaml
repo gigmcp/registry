@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/fireflies-mcp
-  digest: sha256:7664032e9c1b0e4a97004f20b4db026e222304ba6e83dd1637ce80ea6991d06b
+  digest: sha256:ca4ae8e812b0b866fa606e6557661aa6eb8e04105062d4c4ceb958a18f77f3c9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

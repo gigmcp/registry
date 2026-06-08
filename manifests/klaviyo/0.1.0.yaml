@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/klaviyo-mcp
-  digest: sha256:056df8a6913309bea22fe0f1fcf1e02142ca7eb0d405573dab87b98c311844b2
+  digest: sha256:df00826d6d760df555ca5d773e1ff57c1584a1038e03e4fdfcac726c82e4b005
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

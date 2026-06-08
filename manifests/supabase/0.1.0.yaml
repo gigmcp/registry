@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/supabase-mcp
-  digest: sha256:2ca7cb60cd8a54d69cc6cbe4a338b3613385fa7c1af6d511f764ff5d4964abc0
+  digest: sha256:ae36fb7f6a678932bbd618078bea763cb6e60e71faf7dc0599b665dd1b29453f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

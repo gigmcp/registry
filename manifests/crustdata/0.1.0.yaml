@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/crustdata-mcp
-  digest: sha256:6602b2636b7dd396dfbddf6116adc1d6452eff2302e14c4dade7484c872abd3e
+  digest: sha256:abd47a5fb8d1518f5e79fa9360b9029691f4ea15749e7b929671d5904478609b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/monday-mcp
-  digest: sha256:ae319c5bf6eafde3b0a641122dc00796004f394c93c49579ec2a7cf6cd5bd337
+  digest: sha256:2f057f780aba22c1d522722b29e34cfbacfb8b530a03fa2851c098fb851a4681
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
