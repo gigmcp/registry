@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dynamics365-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:25ffc0386df248628c77921dffb9965a8be33020c09b01c1a7f9ee0f30026574
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

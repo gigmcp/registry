@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/cloudflare-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:6792fe8f0cf017b0330fe059f7a8f525c2ec048e7a0f141c086e52ad8b0301a5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/apaleo-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:57e01f4f02feee20085e547f61ee04d313d317e48cd5dc52caf47711eb48f50e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

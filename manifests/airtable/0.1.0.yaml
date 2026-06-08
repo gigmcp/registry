@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/airtable-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:89a789c57a6e7d3c111f39ca63143ada7c8586d1f2aea1fedda6eb9365729e7b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/webflow-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:d63e8ed0cad069ee80123daa6eed31a2b0ad4ecf18585102bc00550ececbe4fc
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coinmarketcal-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:9395943afc52624ab72c7392d679fef0ce3e91274bbf5028c1dd8945d3b891cc
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

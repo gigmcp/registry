@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/pandadoc-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:0dcf98f1ba3ddcd1d8c15a0edf4b3bf906045d77a31a12a427399c084609b54e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datarobot-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:1e5ffb00405191e30c21992e74fae8515ebec786e52b2ed9c9c5d01c3cded50b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

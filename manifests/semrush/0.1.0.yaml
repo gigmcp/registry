@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/semrush-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:820bc37f2e445af00e8ee22b41bd29bf18c4d75c78dd31f7eb7164e4accc3201
   entrypoint: /app/server
   builder: toolpack
 # Semrush Analytics API accepts the API key only as a query parameter

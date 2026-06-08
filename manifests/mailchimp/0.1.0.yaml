@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mailchimp-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:9822562b3cb03c54d76cad8486e87ee928983831bb81f247603a691ee120c8a3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

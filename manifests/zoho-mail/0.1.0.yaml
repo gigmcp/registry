@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-mail-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:e449f20824f6a6dbff3d03e43a75c63f388d193ecd3e5ef29452cbaa92dcead5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/semanticscholar-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:b0d31e0927c00c5b810d844d2fe9f29b80127d559d4652bf2b6ff983336736e3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

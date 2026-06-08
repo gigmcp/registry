@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/productboard-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:f32061db9a2a9ccd1a87c388396b3c87939838fa3ebbd7c32da94ab7f2e6972b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

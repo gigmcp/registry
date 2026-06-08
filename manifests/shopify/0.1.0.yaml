@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/shopify-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:043a01c20034e9a91782e4158cdf0ad8ac3f8df1ee38aab736cbc6d7a2a45a9a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

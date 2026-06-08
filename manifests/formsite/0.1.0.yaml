@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/formsite-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:bae5c2ecbd88abe6f98d0c9bcb91ce83b5177cace796925c7819447f3516b4a6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/notion-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:84621fa0c93867081129cb6ebe1172e32d92fc40ef1004458939a46c3d343d10
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

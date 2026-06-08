@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bamboohr-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:63f716f580c0c70326f1cdcb42ed9b15eff9efbc492c985d65d5eb20c2d6da78
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/stripe-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:32dce28f2b95bdc0592cde44b6fed12d5f79ba5964451d1a71a6d5a73cc2a4e0
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

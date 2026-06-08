@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/eventbrite-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:945bb12985e2b62929648c432799241ed5898a28c61e897df4606af2abf9143c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

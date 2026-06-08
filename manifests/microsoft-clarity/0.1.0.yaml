@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/microsoft-clarity-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:8b7aabdd9400a0a8fa8653b6ccb621f90dc69af00c2127084a248f3b84e82c4f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
