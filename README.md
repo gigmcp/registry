@@ -39,9 +39,10 @@ here.
 1. Manifests are PR-gated; lint CI blocks invalid schemas, broad wildcards,
    and denylisted exfil domains. The path `manifests/<name>/<version>.yaml`
    must match the manifest contents.
-2. Images are built by CI from the author's tagged source; the manifest pins
-   the resulting **linux/amd64 image-manifest digest** — what was approved is
-   what runs.
+2. Images are built by CI from the author's tagged source as a multi-arch
+   (linux/amd64 + linux/arm64) OCI image index; the manifest pins the
+   resulting **image-index digest** (resolves per host arch) — what was
+   approved is what runs.
 3. On merge to main, CI compiles all manifests into `index.json`, signs it
    (ed25519), and publishes both as the rolling `latest` release. The gateway
    verifies the signature before trusting any entry.
