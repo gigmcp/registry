@@ -7,8 +7,7 @@ source:
   package: cmd/slack-mcp-server
 image:
   ref: ghcr.io/gigmcp/slackbot-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:d3f1770e8fdf60bf0f15418de7bcab7e3cc1f2cd2fe992b7f5150971af47c414
   entrypoint: /app/server
 tier: sealed
 entitlements:

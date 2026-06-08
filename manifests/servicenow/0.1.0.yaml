@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/servicenow-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:5527207d844dd9bbbc9c0ad044c8c5dcb08b2d1c22085c7c9df4ad21356b880f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

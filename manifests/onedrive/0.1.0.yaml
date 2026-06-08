@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/onedrive-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:f41d8e2861ca2c595e7a2808207d1c044ae49ad985db5a46a1c2fe9ee03a2cc3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

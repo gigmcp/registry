@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/figma-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:9713aced02589a1fde4a6174ab9806863cce0574dee9bb6784c7f963b4c810d4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

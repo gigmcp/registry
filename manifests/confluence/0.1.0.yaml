@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/confluence-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:efb28f505e7cb19ccb7ebe5f1f3fd289e2a7f578ff70cec24682c517ca46d093
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

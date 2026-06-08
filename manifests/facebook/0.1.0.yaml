@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/facebook-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:fed296bd735731c036c4ec4b2f9c5e57953bb231ef75a1cae42ef8fe96270ad9
   builder: toolpack
   entrypoint: /app/server
 tier: sealed

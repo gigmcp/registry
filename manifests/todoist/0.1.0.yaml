@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/todoist-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:7120003b0e86492571b57bb6556b1cfa51c52d2817a3ff029c1f3834dfe60290
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

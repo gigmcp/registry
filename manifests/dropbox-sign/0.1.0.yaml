@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dropbox-sign-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:34a1a9964e3e35d481c038c6c06e4789c2d39ca49ef3b14ca282d57c8604c4a3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

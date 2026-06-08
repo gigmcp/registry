@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/amcards-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:a145ac6103961ed3dc381a3d4cceb3b55a2a95f7dbbf1ec3dab0ea7f59312fba
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

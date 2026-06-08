@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/wrike-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:3037ac6bab733e74171cd2b34bea71f87eaa7eff12fb4fb8eda4bffc2e9000aa
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

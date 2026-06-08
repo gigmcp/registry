@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brandfetch-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:d1461a0f6b52182ecc3f46123c49056262451f7afea7e569c1823a95b611d8b5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

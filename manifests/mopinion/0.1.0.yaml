@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mopinion-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:a86ef9e75bf7c763939dd77144dd37c6d780c460d46cb3770ce652da3084ec22
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/demio-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:3e195f3767c920e73c1ce489d09fb9726465de0e8b6b07c67838f675c2da8f16
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googledrive-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:1de2b86be0e84d05dc2fde68938e7ce922718a31db6e9c026c93f464721d64ed
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

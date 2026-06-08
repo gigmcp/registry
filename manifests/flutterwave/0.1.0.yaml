@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/flutterwave-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:924f41022c63a8c2a1a999a3064ce3f217d484bd2fb56080cfb031bba495657a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

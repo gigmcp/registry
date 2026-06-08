@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bannerbear-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:bc3308938f2ba062d9c009eee0cd78b8331e8dd786dcf5900ce14d02b7b047a5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

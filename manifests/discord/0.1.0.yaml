@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/discord-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:3431c045984fd08b506245fd1326814b9ca5408129da99680bffba4bed7d297b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

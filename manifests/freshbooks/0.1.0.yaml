@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/freshbooks-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:748baeb691edb35060f54a5e1a2e4e1181f908eb526f7bcec8caba195ee61a29
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

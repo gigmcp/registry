@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/canva-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:20d12a8d94eaed30ff63fd26bef3ab876448d47a348b7479217b30b476c420ed
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

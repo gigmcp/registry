@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/boldsign-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:67cf36ff2b40e5d392a2c47ea1e49549f123ea70921843be3d5746f7d616c7a0
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

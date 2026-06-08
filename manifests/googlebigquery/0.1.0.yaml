@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlebigquery-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:76a5b90d8a8cda2f581ac332bba75cfa9c48061c3d51f34ccad5a78731942afe
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

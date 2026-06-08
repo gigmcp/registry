@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datagma-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:c674a13476ed06483966ddb33162db37c263ff84b1bbc044e24469e46dafba00
   entrypoint: /app/server
   builder: toolpack
 # Datagma authenticates via the ?apiId= query parameter on every endpoint,

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/pagerduty-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:daa2df1170d3457fea3e71436a5849d13f7d56ea8f2056f51e5c5cb8642e2b41
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

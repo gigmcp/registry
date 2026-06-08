@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/metatextai-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:5417985672ab98c428adcd4fc0907cf12926c323c2cf9564321dadc15856e33f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

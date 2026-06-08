@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/launchdarkly-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:9374e0064716c2ea049c71ec43d17ba30e51296c7b441178d30c46a9fad7fa34
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

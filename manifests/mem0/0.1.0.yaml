@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mem0-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:5fd0a6ab5ec8f5318154b7a78a9f31b453226bf289c7b2c2aee91063834a2b58
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

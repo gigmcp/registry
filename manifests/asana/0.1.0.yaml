@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/asana-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:085d409916397fb07b953a8fa378fa4cab814c7097cba0d1c473f5191d2f326a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

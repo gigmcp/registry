@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googletasks-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:45e666e87a16bde0c3f9ebc214623bdc37ee1d1605a604d6df08fb8be47ec65f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
