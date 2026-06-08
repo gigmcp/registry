@@ -2,13 +2,14 @@ schemaVersion: 1
 name: linkhut
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/linkhut-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/linkhut-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:35a490888c8c9461c7afdaf5d4d97e2bb155d14f88c728c034847d895c3786fc
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

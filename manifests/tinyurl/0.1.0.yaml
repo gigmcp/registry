@@ -2,13 +2,14 @@ schemaVersion: 1
 name: tinyurl
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/tinyurl-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/tinyurl-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:61b850132bfdfeebd2f4d1c2c473aa680cb7db90f2bb40c0fbc3523608414a94
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

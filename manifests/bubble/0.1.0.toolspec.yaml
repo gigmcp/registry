@@ -1,0 +1,71 @@
+schemaVersion: 1
+name: bubble
+version: 0.1.0
+# Bubble is a per-app SaaS: each app lives at <appname>.bubbleapps.io (or a
+# custom domain). The baseUrl below uses a representative subdomain that
+# satisfies the *.bubbleapps.io egress allowlist; the runtime engine
+# substitutes the actual app domain.
+baseUrl: https://yourapp.bubbleapps.io
+tools:
+  - name: get_thing_by_id
+    description: Retrieve a single database record (Thing) by its unique ID from a Bubble app's Data API
+    method: GET
+    path: /api/1.1/obj/{typename}/{id}
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: id, in: path, type: string, required: true, description: The unique ID of the record to retrieve}
+
+  - name: get_bubble_api_swagger_json
+    description: Retrieve the auto-generated OpenAPI (Swagger) specification for this Bubble app's Data API
+    method: GET
+    path: /api/1.1/meta/swagger.json
+
+  - name: create_thing
+    description: Create a new database record (Thing) of the given data type in a Bubble app
+    method: POST
+    path: /api/1.1/obj/{typename}
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: fields, in: body, type: object, description: "Key-value pairs of field names and their values for the new record"}
+
+  - name: bulk_create_things
+    description: "Create up to 1000 new database records of the given data type in a single request; the API expects newline-delimited JSON (NDJSON) with Content-Type: text/plain — each record is a JSON object on its own line"
+    method: POST
+    path: /api/1.1/obj/{typename}/bulk
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: records, in: body, type: array, required: true, description: "Array of objects each containing key-value pairs of field names and values for records to create (max 1000); serialised as newline-delimited JSON (NDJSON) with Content-Type: text/plain"}
+
+  - name: patch_thing_by_id
+    description: Update selected fields on an existing database record without overwriting other fields
+    method: PATCH
+    path: /api/1.1/obj/{typename}/{id}
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: id, in: path, type: string, required: true, description: The unique ID of the record to update}
+      - {name: fields, in: body, type: object, description: "Key-value pairs of field names and the new values to set"}
+
+  - name: replace_thing_by_id
+    description: Overwrite all editable fields on an existing database record by its unique ID
+    method: PUT
+    path: /api/1.1/obj/{typename}/{id}
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: id, in: path, type: string, required: true, description: The unique ID of the record to replace}
+      - {name: fields, in: body, type: object, description: "Key-value pairs of all editable field names and their replacement values"}
+
+  - name: delete_thing_by_id
+    description: Permanently delete a database record by its unique ID from a Bubble app
+    method: DELETE
+    path: /api/1.1/obj/{typename}/{id}
+    params:
+      - {name: typename, in: path, type: string, required: true, description: "The data type name in lowercase with no spaces (e.g. user, product)"}
+      - {name: id, in: path, type: string, required: true, description: The unique ID of the record to delete}
+
+  - name: trigger_workflow_via_post
+    description: Trigger a Bubble backend API workflow by its endpoint name via a POST request
+    method: POST
+    path: /api/1.1/wf/{endpoint_name}
+    params:
+      - {name: endpoint_name, in: path, type: string, required: true, description: "The URL-friendly name of the API workflow endpoint as configured in the Bubble app"}
+      - {name: body, in: body, type: object, description: "Parameter key-value pairs to pass to the workflow as defined in the workflow's input fields"}

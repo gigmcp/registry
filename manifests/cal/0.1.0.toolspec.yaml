@@ -1,0 +1,81 @@
+schemaVersion: 1
+name: cal
+version: 0.1.0
+baseUrl: https://api.cal.com
+tools:
+  - name: get_bookings
+    description: List all bookings for the authenticated user
+    method: GET
+    path: /v2/bookings
+    params:
+      - {name: status, in: query, type: string, description: "Filter by booking status: upcoming, recurring, past, cancelled, or unconfirmed"}
+      - {name: attendeeEmail, in: query, type: string, description: Filter bookings by attendee email}
+      - {name: attendeeName, in: query, type: string, description: Filter bookings by attendee name}
+      - {name: afterStart, in: query, type: string, description: "Only bookings starting after this ISO 8601 datetime"}
+      - {name: beforeEnd, in: query, type: string, description: "Only bookings ending before this ISO 8601 datetime"}
+      - {name: limit, in: query, type: integer, description: "Max bookings to return (default 50)"}
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+  - name: get_event_types
+    description: List all event types for the authenticated user
+    method: GET
+    path: /v2/event-types
+    params:
+      - {name: username, in: query, type: string, description: Retrieve event types for a specific user by username}
+      - {name: eventSlug, in: query, type: string, description: "Filter by event type slug (requires username)"}
+      - {name: orgSlug, in: query, type: string, description: Filter event types by organization slug}
+      - {name: sortCreatedAt, in: query, type: string, description: "Sort by creation date: asc (oldest first) or desc (newest first)"}
+  - name: get_available_slots
+    description: Get available time slots for a given event type and date range
+    method: GET
+    path: /v2/slots
+    params:
+      - {name: start, in: query, type: string, required: true, description: "Start of the date range in ISO 8601 format (e.g. 2024-09-05 or 2024-09-05T09:00:00Z)"}
+      - {name: end, in: query, type: string, required: true, description: "End of the date range in ISO 8601 format (e.g. 2024-09-06 or 2024-09-06T18:00:00Z)"}
+      - {name: eventTypeId, in: query, type: integer, description: Event type ID to check availability for}
+      - {name: eventTypeSlug, in: query, type: string, description: "Event type slug (requires username or teamSlug)"}
+      - {name: username, in: query, type: string, description: Username of the event type owner}
+      - {name: teamSlug, in: query, type: string, description: Team slug for team event types}
+      - {name: timeZone, in: query, type: string, description: "Timezone for the returned slots (defaults to UTC)"}
+      - {name: duration, in: query, type: integer, description: Slot duration in minutes}
+  - name: get_schedules
+    description: List all availability schedules for the authenticated user
+    method: GET
+    path: /v2/schedules
+  - name: create_booking
+    description: Create a new booking for an event type
+    method: POST
+    path: /v2/bookings
+    params:
+      - {name: start, in: body, type: string, required: true, description: "Booking start time in ISO 8601 UTC format (e.g. 2024-08-13T09:00:00Z)"}
+      - {name: eventTypeId, in: body, type: integer, description: "ID of the event type to book (required if not using eventTypeSlug)"}
+      - {name: eventTypeSlug, in: body, type: string, description: "Event type slug (requires username or teamSlug)"}
+      - {name: username, in: body, type: string, description: Username of the event type owner}
+      - {name: teamSlug, in: body, type: string, description: Team slug for team event types}
+      - {name: attendee, in: body, type: object, required: true, description: "Attendee info object with name (string), email (string), and timeZone (string)"}
+      - {name: guests, in: body, type: array, description: List of additional guest email addresses}
+      - {name: metadata, in: body, type: object, description: "Custom key-value metadata (max 50 keys)"}
+      - {name: lengthInMinutes, in: body, type: integer, description: Override the default event duration in minutes}
+  - name: cancel_booking
+    description: Cancel an existing booking by its unique ID
+    method: POST
+    path: /v2/bookings/{bookingUid}/cancel
+    params:
+      - {name: bookingUid, in: path, type: string, required: true, description: Unique identifier of the booking to cancel}
+      - {name: cancellationReason, in: body, type: string, description: Optional reason for cancellation}
+  - name: confirm_booking
+    description: Confirm a booking that is pending confirmation
+    method: POST
+    path: /v2/bookings/{bookingUid}/confirm
+    params:
+      - {name: bookingUid, in: path, type: string, required: true, description: Unique identifier of the booking to confirm}
+  - name: create_event_type
+    description: Create a new event type for the authenticated user
+    method: POST
+    path: /v2/event-types
+    params:
+      - {name: title, in: body, type: string, required: true, description: Name of the event type}
+      - {name: slug, in: body, type: string, required: true, description: URL-friendly identifier for the event type}
+      - {name: lengthInMinutes, in: body, type: integer, required: true, description: Duration of the event in minutes}
+      - {name: description, in: body, type: string, description: Description of the event type}
+      - {name: locations, in: body, type: array, description: List of location configurations for the event}
+      - {name: scheduleId, in: body, type: integer, description: ID of the availability schedule to use}

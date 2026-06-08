@@ -1,0 +1,62 @@
+schemaVersion: 1
+name: hackerrank-work
+version: 0.1.0
+baseUrl: https://www.hackerrank.com
+tools:
+  - name: list_companies
+    description: List companies accessible to the authenticated partner account
+    method: GET
+    path: /x/api/v3/companies
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return"}
+      - {name: offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+
+  - name: get_sso_sign_on_url
+    description: Get the SAML SSO sign-on URL for a company to initiate single sign-on login
+    method: GET
+    path: /x/api/v1/sso/saml/{company_unique_id}/sso
+    params:
+      - {name: company_unique_id, in: path, type: string, required: true, description: "Unique identifier of the company for SSO"}
+
+  - name: list_tests
+    description: List all tests available in the account
+    method: GET
+    path: /x/api/v3/tests
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of tests to return"}
+      - {name: offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+
+  - name: get_test
+    description: Retrieve details of a specific test by its ID
+    method: GET
+    path: /x/api/v3/tests/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "Unique ID of the test"}
+
+  - name: list_test_candidates
+    description: List candidates who have been invited to or attempted a specific test
+    method: GET
+    path: /x/api/v3/tests/{id}/candidates
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "Unique ID of the test"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of candidates to return"}
+      - {name: offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+
+  - name: invite_test_candidate
+    description: Invite a candidate to take a specific test by sending them an invitation email
+    method: POST
+    path: /x/api/v3/tests/{id}/candidates
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "Unique ID of the test"}
+      - {name: email, in: body, type: string, required: true, description: "Email address of the candidate to invite"}
+      - {name: name, in: body, type: string, description: "Full name of the candidate"}
+      - {name: send_email, in: body, type: boolean, description: "Whether to send an invitation email to the candidate (default true)"}
+
+  - name: consume_saml_assertion
+    description: Process an incoming SAML assertion from an identity provider to complete SSO login
+    method: POST
+    path: /x/api/v1/sso/saml/{company_unique_id}/acs
+    params:
+      - {name: company_unique_id, in: path, type: string, required: true, description: "Unique identifier of the company for SSO"}
+      - {name: SAMLResponse, in: body, type: string, required: true, description: "Base64-encoded SAML assertion response from the identity provider"}
+      - {name: RelayState, in: body, type: string, description: "Opaque value used to maintain state between the request and the callback"}

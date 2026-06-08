@@ -1,0 +1,107 @@
+schemaVersion: 1
+name: lever
+version: 0.1.0
+baseUrl: https://api.lever.co
+tools:
+  - name: list_opportunities
+    description: List all opportunities (candidates) in the Lever pipeline with optional filtering and pagination
+    method: GET
+    path: /v1/opportunities
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results to return (1-100)"}
+      - {name: offset, in: query, type: string, description: "Pagination token from a previous response's next field"}
+      - {name: contact_id, in: query, type: string, description: "Filter opportunities by contact UID"}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of related objects to expand (e.g. applications, contact)"}
+      - {name: include, in: query, type: string, description: "Comma-separated list of fields to include in the response"}
+
+  - name: get_opportunity
+    description: Retrieve a single opportunity (candidate record) by its UID
+    method: GET
+    path: /v1/opportunities/{opportunity}
+    params:
+      - {name: opportunity, in: path, type: string, required: true, description: "Opportunity UID"}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of related objects to expand"}
+      - {name: include, in: query, type: string, description: "Comma-separated list of fields to include in the response"}
+
+  - name: list_postings
+    description: List all job postings in the Lever account
+    method: GET
+    path: /v1/postings
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results to return (1-100)"}
+      - {name: offset, in: query, type: string, description: "Pagination token from a previous response's next field"}
+      - {name: include, in: query, type: string, description: "Comma-separated list of fields to include in the response"}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of related objects to expand"}
+
+  - name: list_stages
+    description: List all pipeline stages defined in the Lever account
+    method: GET
+    path: /v1/stages
+
+  - name: list_users
+    description: List all users in the Lever account
+    method: GET
+    path: /v1/users
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results to return (1-100)"}
+      - {name: offset, in: query, type: string, description: "Pagination token from a previous response's next field"}
+
+  - name: list_notes
+    description: List all notes on a specific opportunity
+    method: GET
+    path: /v1/opportunities/{opportunity}/notes
+    params:
+      - {name: opportunity, in: path, type: string, required: true, description: "Opportunity UID"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (1-100)"}
+      - {name: offset, in: query, type: string, description: "Pagination token from a previous response's next field"}
+
+  - name: create_opportunity
+    description: Create a new opportunity (candidate record) in Lever
+    method: POST
+    path: /v1/opportunities
+    params:
+      - {name: perform_as, in: query, type: string, required: true, description: "UID of the user on whose behalf the opportunity is created"}
+      - {name: name, in: body, type: string, description: "Candidate full name"}
+      - {name: headline, in: body, type: string, description: "Candidate headline or current role"}
+      - {name: stage, in: body, type: string, description: "Pipeline stage UID to place the opportunity in"}
+      - {name: location, in: body, type: string, description: "Candidate location"}
+      - {name: phones, in: body, type: array, description: "Array of phone number objects with type and value fields"}
+      - {name: emails, in: body, type: array, description: "Array of email address strings"}
+      - {name: links, in: body, type: array, description: "Array of URL strings (e.g. LinkedIn, GitHub)"}
+      - {name: tags, in: body, type: array, description: "Array of tag strings to associate with the opportunity"}
+      - {name: sources, in: body, type: array, description: "Array of source strings indicating how the candidate was found"}
+      - {name: owner, in: body, type: string, description: "UID of the user who owns the opportunity"}
+
+  - name: create_note
+    description: Add a note to an existing opportunity
+    method: POST
+    path: /v1/opportunities/{opportunity}/notes
+    params:
+      - {name: opportunity, in: path, type: string, required: true, description: "Opportunity UID"}
+      - {name: perform_as, in: query, type: string, description: "UID of the user on whose behalf the note is created"}
+      - {name: value, in: body, type: string, required: true, description: "Text content of the note"}
+
+  - name: add_opportunity_tags
+    description: Add tags to an existing opportunity
+    method: POST
+    path: /v1/opportunities/{opportunity}/addTags
+    params:
+      - {name: opportunity, in: path, type: string, required: true, description: "Opportunity UID"}
+      - {name: perform_as, in: query, type: string, description: "UID of the user on whose behalf the tags are added"}
+      - {name: tags, in: body, type: array, required: true, description: "Array of tag strings to add to the opportunity"}
+
+  - name: create_interview
+    description: Create a new interview on an opportunity
+    method: POST
+    path: /v1/opportunities/{opportunity}/interviews
+    params:
+      - {name: opportunity, in: path, type: string, required: true, description: "Opportunity UID"}
+      - {name: perform_as, in: query, type: string, description: "UID of the user on whose behalf the interview is created"}
+      - {name: panel, in: body, type: string, required: true, description: "Panel UID to associate with this interview"}
+      - {name: date, in: body, type: integer, required: true, description: "Scheduled date/time of the interview as a Unix timestamp in milliseconds"}
+      - {name: duration, in: body, type: integer, required: true, description: "Duration of the interview in minutes"}
+      - {name: interviewers, in: body, type: array, required: true, description: "Array of user UID strings for interviewers"}
+      - {name: subject, in: body, type: string, description: "Subject line for the interview invitation"}
+      - {name: note, in: body, type: string, description: "Additional notes for the interview"}
+      - {name: location, in: body, type: string, description: "Interview location or video call link"}
+      - {name: feedbackTemplate, in: body, type: string, description: "UID of the feedback template to use"}

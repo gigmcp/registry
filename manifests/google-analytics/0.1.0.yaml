@@ -2,13 +2,14 @@ schemaVersion: 1
 name: google-analytics
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/google-analytics-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/google-analytics-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:edfd56180a2e6b497651269acb2195d8ab55d299b3ddfc087c39a1cc1e51aa84
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,112 @@
+schemaVersion: 1
+name: metaads
+version: 0.1.0
+baseUrl: https://graph.facebook.com
+tools:
+  - name: get_ad_accounts
+    description: Retrieve all ad accounts accessible to the authenticated user
+    method: GET
+    path: /v22.0/me/adaccounts
+    params:
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return (e.g. id,name,account_status)"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of ad accounts to return per page"}
+
+  - name: list_ads
+    description: List ads belonging to an ad account
+    method: GET
+    path: /v22.0/act_{ad_account_id}/ads
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. id,name,status,adset_id)"}
+      - {name: effective_status, in: query, type: array, description: "Filter by effective status (e.g. ACTIVE, PAUSED, ARCHIVED)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of ads to return per page}
+
+  - name: read_ad_sets
+    description: List ad sets belonging to an ad account
+    method: GET
+    path: /v22.0/act_{ad_account_id}/adsets
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. id,name,campaign_id,status,daily_budget)"}
+      - {name: effective_status, in: query, type: array, description: "Filter by effective status (e.g. ACTIVE, PAUSED, ARCHIVED)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of ad sets to return per page}
+
+  - name: list_ad_creatives
+    description: List ad creatives belonging to an ad account
+    method: GET
+    path: /v22.0/act_{ad_account_id}/adcreatives
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. id,name,title,body,object_story_spec)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of ad creatives to return per page}
+
+  - name: get_insights
+    description: Retrieve performance insights (metrics) for an ad object such as account, campaign, ad set, or ad
+    method: GET
+    path: /v22.0/{object_id}/insights
+    params:
+      - {name: object_id, in: path, type: string, required: true, description: "ID of the ad object to query (ad account ID with act_ prefix, campaign ID, ad set ID, or ad ID)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated metric fields to return (e.g. impressions,clicks,spend,reach,actions)"}
+      - {name: level, in: query, type: string, description: "Aggregation level: ad, adset, campaign, or account"}
+      - {name: date_preset, in: query, type: string, description: "Predefined date range (e.g. today, yesterday, last_7d, last_30d, last_month, this_month)"}
+      - {name: time_range, in: query, type: object, description: "Custom date range as JSON object with since and until keys (YYYY-MM-DD format)"}
+      - {name: breakdowns, in: query, type: string, description: "Comma-separated breakdown dimensions (e.g. age,gender,country,publisher_platform)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of result rows to return per page}
+
+  - name: create_campaign
+    description: Create a new ad campaign under an ad account
+    method: POST
+    path: /v22.0/act_{ad_account_id}/campaigns
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: name, in: body, type: string, required: true, description: Name of the campaign}
+      - {name: objective, in: body, type: string, required: true, description: "Campaign objective (e.g. OUTCOME_AWARENESS, OUTCOME_TRAFFIC, OUTCOME_LEADS, OUTCOME_SALES)"}
+      - {name: status, in: body, type: string, required: true, description: "Initial status of the campaign: ACTIVE, PAUSED, or ARCHIVED"}
+      - {name: special_ad_categories, in: body, type: array, description: "Special ad categories if applicable (e.g. CREDIT, EMPLOYMENT, HOUSING, ISSUES_ELECTIONS_POLITICS)"}
+      - {name: buying_type, in: body, type: string, description: "Buying type: AUCTION (default) or RESERVED"}
+
+  - name: create_ad_set
+    description: Create a new ad set under an ad account
+    method: POST
+    path: /v22.0/act_{ad_account_id}/adsets
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: campaign_id, in: body, type: string, required: true, description: ID of the parent campaign}
+      - {name: name, in: body, type: string, required: true, description: Name of the ad set}
+      - {name: daily_budget, in: body, type: integer, description: "Daily budget in the account currency's smallest unit (e.g. cents)"}
+      - {name: lifetime_budget, in: body, type: integer, description: "Lifetime budget in the account currency's smallest unit"}
+      - {name: billing_event, in: body, type: string, required: true, description: "Event that triggers billing (e.g. IMPRESSIONS, LINK_CLICKS, APP_INSTALLS)"}
+      - {name: optimization_goal, in: body, type: string, required: true, description: "Optimization goal (e.g. REACH, IMPRESSIONS, LINK_CLICKS, LEAD_GENERATION, OFFSITE_CONVERSIONS)"}
+      - {name: targeting, in: body, type: object, required: true, description: "Targeting spec object defining audience (geo_locations, age_min, age_max, interests, etc.)"}
+      - {name: status, in: body, type: string, description: "Initial status: ACTIVE, PAUSED, or ARCHIVED"}
+      - {name: start_time, in: body, type: string, description: "Start time in ISO 8601 format"}
+      - {name: end_time, in: body, type: string, description: "End time in ISO 8601 format (required when using lifetime_budget)"}
+
+  - name: create_ad
+    description: Create a new ad under an ad account
+    method: POST
+    path: /v22.0/act_{ad_account_id}/ads
+    params:
+      - {name: ad_account_id, in: path, type: string, required: true, description: "Ad account ID (without the act_ prefix)"}
+      - {name: name, in: body, type: string, required: true, description: Name of the ad}
+      - {name: adset_id, in: body, type: string, required: true, description: ID of the parent ad set}
+      - {name: creative, in: body, type: object, required: true, description: "Creative spec object containing creative_id referencing an existing ad creative"}
+      - {name: status, in: body, type: string, required: true, description: "Initial status of the ad: ACTIVE, PAUSED, or ARCHIVED"}
+
+  - name: update_campaign
+    description: Update fields on an existing campaign
+    method: POST
+    path: /v22.0/{campaign_id}
+    params:
+      - {name: campaign_id, in: path, type: string, required: true, description: ID of the campaign to update}
+      - {name: name, in: body, type: string, description: New name for the campaign}
+      - {name: status, in: body, type: string, description: "New status: ACTIVE, PAUSED, or ARCHIVED"}
+      - {name: objective, in: body, type: string, description: Campaign objective}
+      - {name: special_ad_categories, in: body, type: array, description: Updated special ad categories}
+
+  - name: delete_campaign
+    description: Delete an existing campaign
+    method: DELETE
+    path: /v22.0/{campaign_id}
+    params:
+      - {name: campaign_id, in: path, type: string, required: true, description: ID of the campaign to delete}

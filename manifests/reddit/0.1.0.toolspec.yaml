@@ -1,0 +1,90 @@
+schemaVersion: 1
+name: reddit
+version: 0.1.0
+baseUrl: https://oauth.reddit.com
+tools:
+  - name: search_across_subreddits
+    description: Search posts across all of Reddit (or within a specific subreddit)
+    method: GET
+    path: /search
+    params:
+      - {name: q, in: query, type: string, required: true, description: Search query string}
+      - {name: restrict_sr, in: query, type: boolean, description: "Restrict search results to the current subreddit context (only meaningful when using the /r/{subreddit}/search path form)"}
+      - {name: sort, in: query, type: string, description: "Sort order: relevance, hot, top, new, comments"}
+      - {name: t, in: query, type: string, description: "Time filter: hour, day, week, month, year, all"}
+      - {name: limit, in: query, type: integer, description: "Max results to return (default 25, max 100)"}
+      - {name: after, in: query, type: string, description: Pagination cursor — full ID36 of the last item seen}
+      - {name: before, in: query, type: string, description: Pagination cursor — full ID36 of the first item seen}
+      - {name: type, in: query, type: string, description: "Result type filter: link, sr, user"}
+
+  - name: retrieve_posts_from_subreddit
+    description: Retrieve a listing of posts from a subreddit
+    method: GET
+    path: /r/{subreddit}/{sort}
+    params:
+      - {name: subreddit, in: path, type: string, required: true, description: Subreddit name}
+      - {name: sort, in: path, type: string, required: true, description: "Listing sort: hot, new, top, rising, controversial"}
+      - {name: t, in: query, type: string, description: "Time filter for top/controversial: hour, day, week, month, year, all"}
+      - {name: limit, in: query, type: integer, description: "Max posts to return (default 25, max 100)"}
+      - {name: after, in: query, type: string, description: Pagination cursor — full ID36 of the last item seen}
+      - {name: before, in: query, type: string, description: Pagination cursor — full ID36 of the first item seen}
+
+  - name: retrieve_comments_for_post
+    description: Retrieve the comment tree for a Reddit post/submission
+    method: GET
+    path: /r/{subreddit}/comments/{submission}
+    params:
+      - {name: subreddit, in: path, type: string, required: true, description: Subreddit name the post belongs to}
+      - {name: submission, in: path, type: string, required: true, description: ID36 of the submission}
+      - {name: sort, in: query, type: string, description: "Comment sort: confidence, top, new, controversial, old, random, qa, live"}
+      - {name: limit, in: query, type: integer, description: "Max comments to return (default 200, max 500)"}
+      - {name: depth, in: query, type: integer, description: "Depth of comment tree to retrieve (0-10, default 10)"}
+      - {name: comment, in: query, type: string, description: ID36 of a specific comment to use as the root}
+      - {name: context, in: query, type: integer, description: "Number of parent comments to include around a specific comment (0-8)"}
+
+  - name: get_user_information
+    description: Get public information about a Reddit user account by username
+    method: GET
+    path: /user/{username}/about
+    params:
+      - {name: username, in: path, type: string, required: true, description: Reddit account username to look up}
+
+  - name: get_subreddit_rules
+    description: Retrieve the rules for a subreddit
+    method: GET
+    path: /r/{subreddit}/about/rules
+    params:
+      - {name: subreddit, in: path, type: string, required: true, description: Subreddit name}
+
+  - name: create_post
+    description: Submit a new post (link or self/text post) to a subreddit
+    method: POST
+    path: /api/submit
+    encoding: form
+    params:
+      - {name: sr, in: body, type: string, required: true, description: Subreddit name to post to}
+      - {name: title, in: body, type: string, required: true, description: "Title of the post (max 300 characters)"}
+      - {name: kind, in: body, type: string, required: true, description: "Post type: self (text post) or link"}
+      - {name: text, in: body, type: string, description: "Markdown body text for self posts"}
+      - {name: url, in: body, type: string, description: URL for link posts}
+      - {name: nsfw, in: body, type: boolean, description: Mark post as NSFW}
+      - {name: spoiler, in: body, type: boolean, description: Mark post as a spoiler}
+      - {name: flair_id, in: body, type: string, description: ID of a flair template to apply}
+      - {name: flair_text, in: body, type: string, description: Custom flair text to apply}
+
+  - name: post_comment
+    description: Post a comment or reply on a submission or existing comment
+    method: POST
+    path: /api/comment
+    encoding: form
+    params:
+      - {name: thing_id, in: body, type: string, required: true, description: "Full ID36 (with type prefix, e.g. t3_ for submission or t1_ for comment) of the parent to reply to"}
+      - {name: text, in: body, type: string, required: true, description: Markdown-formatted comment body}
+
+  - name: delete_post
+    description: Delete a post or comment owned by the authenticated user
+    method: POST
+    path: /api/del
+    encoding: form
+    params:
+      - {name: id, in: body, type: string, required: true, description: "Full ID36 (with type prefix, e.g. t3_ for submission) of the item to delete"}

@@ -1,0 +1,57 @@
+schemaVersion: 1
+name: linkhut
+version: 0.1.0
+baseUrl: https://api.ln.ht
+tools:
+  - name: get_bookmarks
+    description: Retrieve bookmarks from the user's account, optionally filtered by tag, date, or URL
+    method: GET
+    path: /v1/posts/get
+    params:
+      - {name: tag, in: query, type: string, description: "Filter by up to three tags (space-delimited)"}
+      - {name: dt, in: query, type: string, description: "Return posts for a specific date in ISO8601 format (YYYY-MM-DDThh:mm:ssZ)"}
+      - {name: url, in: query, type: string, description: "Return bookmark for this exact URL"}
+      - {name: meta, in: query, type: string, description: "Include change-detection signatures (yes/no)"}
+  - name: get_all_tags
+    description: Return all tags the user has used along with the number of times each tag was used
+    method: GET
+    path: /v1/tags/get
+    params: []
+  - name: get_recent_bookmarks
+    description: Return the user's most recently saved bookmarks, optionally filtered by tag
+    method: GET
+    path: /v1/posts/recent
+    params:
+      - {name: tag, in: query, type: string, description: "Filter by up to three tags (space-delimited)"}
+      - {name: count, in: query, type: integer, description: "Number of bookmarks to return (1-100, default 15)"}
+  - name: add_bookmark
+    description: Add a new bookmark to the user's account
+    method: GET
+    path: /v1/posts/add
+    params:
+      - {name: url, in: query, type: string, required: true, description: "URL of the bookmark to add"}
+      - {name: description, in: query, type: string, required: true, description: "Title or description of the bookmark"}
+      - {name: extended, in: query, type: string, description: "Additional notes or extended description"}
+      - {name: tags, in: query, type: string, description: "Comma-delimited list of tags to assign"}
+      - {name: dt, in: query, type: string, description: "Creation datetime in ISO8601 format (CCYY-MM-DDThh:mm:ssZ)"}
+      - {name: shared, in: query, type: string, description: "Make bookmark private (no) or public (yes)"}
+      - {name: toread, in: query, type: string, description: "Mark bookmark as unread (yes/no)"}
+  - name: update_bookmark
+    description: Update an existing bookmark by re-adding it with replace enabled; replaces the existing entry for the same URL
+    method: GET
+    path: /v1/posts/add
+    params:
+      - {name: url, in: query, type: string, required: true, description: "URL of the bookmark to update"}
+      - {name: description, in: query, type: string, required: true, description: "New title or description for the bookmark"}
+      - {name: extended, in: query, type: string, description: "Updated notes or extended description"}
+      - {name: tags, in: query, type: string, description: "Updated comma-delimited list of tags"}
+      - {name: dt, in: query, type: string, description: "Updated datetime in ISO8601 format (CCYY-MM-DDThh:mm:ssZ)"}
+      - {name: shared, in: query, type: string, description: "Make bookmark private (no) or public (yes)"}
+      - {name: toread, in: query, type: string, description: "Mark bookmark as unread (yes/no)"}
+      - {name: replace, in: query, type: string, description: "Replace existing bookmark with same URL (yes/no, default yes)"}
+  - name: delete_bookmark
+    description: Delete a bookmark from the user's account by URL
+    method: GET
+    path: /v1/posts/delete
+    params:
+      - {name: url, in: query, type: string, required: true, description: "URL of the bookmark to delete"}

@@ -1,0 +1,75 @@
+schemaVersion: 1
+name: tavily
+version: 0.1.0
+baseUrl: https://api.tavily.com
+tools:
+  - name: search
+    description: Search the web using Tavily and return relevant results with optional AI-generated answers
+    method: POST
+    path: /search
+    params:
+      - {name: query, in: body, type: string, required: true, description: The search query to execute}
+      - {name: search_depth, in: body, type: string, description: "Controls latency vs relevance: basic (default), advanced, fast, or ultra-fast"}
+      - {name: max_results, in: body, type: integer, description: "Number of results to return (0-20, default 5)"}
+      - {name: topic, in: body, type: string, description: "Search category: general (default), news, or finance"}
+      - {name: time_range, in: body, type: string, description: "Filter by publish date: day, week, month, or year"}
+      - {name: include_answer, in: body, type: string, description: "Include an LLM-generated answer summary: false (default), true, basic, or advanced"}
+      - {name: include_raw_content, in: body, type: string, description: "Include parsed HTML/markdown content for each result: false (default), true, markdown, or text"}
+      - {name: include_images, in: body, type: boolean, description: Include query-related images in the response}
+      - {name: include_domains, in: body, type: array, description: "List of domains to restrict results to (max 300)"}
+      - {name: exclude_domains, in: body, type: array, description: "List of domains to exclude from results (max 150)"}
+      - {name: country, in: body, type: string, description: Boost results from a specific country}
+      - {name: include_usage, in: body, type: boolean, description: Include credit usage information in the response}
+
+  - name: extract
+    description: Extract structured content from one or more URLs
+    method: POST
+    path: /extract
+    params:
+      - {name: urls, in: body, type: array, required: true, description: "One or more URLs to extract content from"}
+      - {name: query, in: body, type: string, description: User intent used to rerank extracted content chunks}
+      - {name: extract_depth, in: body, type: string, description: "Extraction level: basic (default) or advanced"}
+      - {name: chunks_per_source, in: body, type: integer, description: "Maximum relevant content chunks per source (1-5, default 3)"}
+      - {name: include_images, in: body, type: boolean, description: Include extracted image URLs in the response}
+      - {name: format, in: body, type: string, description: "Output format: markdown (default) or text"}
+      - {name: include_usage, in: body, type: boolean, description: Include credit usage information in the response}
+
+  - name: crawl
+    description: Crawl a website starting from a root URL and return extracted content from discovered pages
+    method: POST
+    path: /crawl
+    params:
+      - {name: url, in: body, type: string, required: true, description: The root URL to begin the crawl from}
+      - {name: instructions, in: body, type: string, description: Natural language guidance for the crawler}
+      - {name: max_depth, in: body, type: integer, description: "Maximum exploration distance from the base URL (1-5, default 1)"}
+      - {name: max_breadth, in: body, type: integer, description: "Number of links to follow per page level (1-500, default 20)"}
+      - {name: limit, in: body, type: integer, description: "Total links to process before stopping (default 50)"}
+      - {name: select_paths, in: body, type: array, description: Regex patterns for URL paths to include}
+      - {name: exclude_paths, in: body, type: array, description: Regex patterns for URL paths to exclude}
+      - {name: allow_external, in: body, type: boolean, description: "Include external domain links in results (default true)"}
+      - {name: extract_depth, in: body, type: string, description: "Extraction level per page: basic (default) or advanced"}
+      - {name: format, in: body, type: string, description: "Response format: markdown (default) or text"}
+      - {name: include_images, in: body, type: boolean, description: Include images in the crawl results}
+      - {name: include_usage, in: body, type: boolean, description: Include credit usage information in the response}
+
+  - name: map_website
+    description: Map a website by discovering and listing all accessible URLs from a root URL
+    method: POST
+    path: /map
+    params:
+      - {name: url, in: body, type: string, required: true, description: The root URL to begin website mapping from}
+      - {name: instructions, in: body, type: string, description: Natural language guidance for the mapping crawler}
+      - {name: max_depth, in: body, type: integer, description: "Maximum exploration distance from the base URL (1-5, default 1)"}
+      - {name: max_breadth, in: body, type: integer, description: "Number of links to follow per page level (1-500, default 20)"}
+      - {name: limit, in: body, type: integer, description: "Total links to process before stopping (default 50)"}
+      - {name: select_paths, in: body, type: array, description: Regex patterns for URL paths to include}
+      - {name: exclude_paths, in: body, type: array, description: Regex patterns for URL paths to exclude}
+      - {name: allow_external, in: body, type: boolean, description: "Include external domain links in results (default true)"}
+      - {name: include_usage, in: body, type: boolean, description: Include credit usage information in the response}
+
+  - name: get_usage
+    description: Retrieve current API key and account usage statistics and plan limits
+    method: GET
+    path: /usage
+    params:
+      - {name: X-Project-ID, in: header, type: string, description: Optional project ID to scope the usage query to a specific project}

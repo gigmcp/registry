@@ -1,0 +1,95 @@
+schemaVersion: 1
+name: klipfolio
+version: 0.1.0
+baseUrl: https://app.klipfolio.com
+tools:
+  - name: list_users
+    description: Get a list of all users associated with your account or client accounts
+    method: GET
+    path: /api/1.0/users
+    params:
+      - {name: client_id, in: query, type: string, description: Show only users belonging to a specific client}
+      - {name: email, in: query, type: string, description: Search for a user by email address}
+      - {name: include_roles, in: query, type: boolean, description: Include the user's roles in the response}
+      - {name: include_groups, in: query, type: boolean, description: Include the user's groups in the response}
+
+  - name: list_groups
+    description: Get a list of all groups for your account or client accounts
+    method: GET
+    path: /api/1.0/groups
+    params:
+      - {name: client_id, in: query, type: string, description: Show only groups that belong to a specific client}
+
+  - name: list_data_sources
+    description: Get a list of all data sources to which the user has access
+    method: GET
+    path: /api/1.0/datasources
+    params:
+      - {name: client_id, in: query, type: string, description: Show only data sources belonging to a specific client}
+
+  - name: get_dashboard_details
+    description: Get details for a specific dashboard (tab) including layout and klip instances
+    method: GET
+    path: /api/1.0/tabs/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Dashboard (tab) identifier}
+      - {name: full, in: query, type: boolean, description: "Include associations such as klip instances in the response"}
+      - {name: client_id, in: query, type: string, description: Client account identifier}
+
+  - name: get_klips
+    description: Get a list of all Klips the user can access
+    method: GET
+    path: /api/1.0/klips
+    params:
+      - {name: client_id, in: query, type: string, description: Show only klips that belong to a specific client}
+      - {name: datasource_id, in: query, type: string, description: Show only klips using a specific data source}
+
+  - name: get_data_source_instance_data
+    description: Get details and data for a specific data source instance
+    method: GET
+    path: /api/1.0/datasource-instances/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Data source instance identifier}
+
+  - name: create_user
+    description: Create a new user in your account or a client account
+    method: POST
+    path: /api/1.0/users
+    params:
+      - {name: first_name, in: body, type: string, required: true, description: User's first name}
+      - {name: last_name, in: body, type: string, required: true, description: User's last name}
+      - {name: email, in: body, type: string, required: true, description: User's email address}
+      - {name: roles, in: body, type: array, required: true, description: List of roles to assign to the user}
+      - {name: password, in: body, type: string, description: User's password}
+      - {name: external_id, in: body, type: string, description: External identifier for the user}
+      - {name: client_id, in: body, type: string, description: Client account to create the user in}
+      - {name: send_email, in: query, type: boolean, description: Send an invitation email to the new user}
+
+  - name: create_data_source
+    description: Create a new data source connection
+    method: POST
+    path: /api/1.0/datasources
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the data source}
+      - {name: description, in: body, type: string, required: true, description: Description of the data source}
+      - {name: format, in: body, type: string, required: true, description: "Data format (e.g. JSON, CSV)"}
+      - {name: connector, in: body, type: string, required: true, description: Connector type for the data source}
+      - {name: refresh_interval, in: body, type: integer, required: true, description: Refresh interval in seconds}
+      - {name: properties, in: body, type: object, required: true, description: Connector-specific properties such as URL and authentication}
+      - {name: client_id, in: body, type: string, description: Client account to create the data source in}
+
+  - name: refresh_data_source_instance
+    description: Queue a data source instance for refresh
+    method: POST
+    path: /api/1.0/datasource-instances/{id}/@/refresh
+    params:
+      - {name: id, in: path, type: string, required: true, description: Data source instance identifier to refresh}
+
+  - name: update_user_properties
+    description: Create or update custom properties for a specific user
+    method: PUT
+    path: /api/1.0/users/{id}/properties
+    params:
+      - {name: id, in: path, type: string, required: true, description: User identifier}
+      - {name: client_id, in: query, type: string, description: Client account identifier}
+      - {name: properties, in: body, type: object, required: true, description: Key-value pairs of user properties to set or update}

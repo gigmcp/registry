@@ -2,13 +2,14 @@ schemaVersion: 1
 name: humanloop
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/humanloop-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/humanloop-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:03dc7d4ac81c0ff7729e73b36c68f394c5c4b927f949f294a39dd489d3d838dd
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

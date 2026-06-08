@@ -1,0 +1,88 @@
+schemaVersion: 1
+name: googlesheets
+version: 0.1.0
+baseUrl: https://sheets.googleapis.com
+tools:
+  - name: get_spreadsheet_info
+    description: Retrieve metadata and structure of a spreadsheet including properties, sheets, and named ranges
+    method: GET
+    path: /v4/spreadsheets/{spreadsheetId}
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to retrieve"}
+      - {name: ranges, in: query, type: string, description: "A1 notation ranges to retrieve; may be specified multiple times"}
+      - {name: includeGridData, in: query, type: boolean, description: "True if grid data should be returned (defaults to false)"}
+
+  - name: get_sheet_names
+    description: Retrieve the list of sheet (tab) names within a spreadsheet
+    method: GET
+    path: /v4/spreadsheets/{spreadsheetId}
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet"}
+
+  - name: batch_get_spreadsheet_values
+    description: Return values from one or more ranges of a spreadsheet in a single request
+    method: GET
+    path: /v4/spreadsheets/{spreadsheetId}/values:batchGet
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to retrieve data from"}
+      - {name: ranges, in: query, type: string, required: true, description: "A1 or R1C1 notation of ranges to retrieve; may be specified multiple times"}
+      - {name: majorDimension, in: query, type: string, description: "The major dimension that results should use (ROWS or COLUMNS)"}
+      - {name: valueRenderOption, in: query, type: string, description: "How values should be rendered in the output (FORMATTED_VALUE, UNFORMATTED_VALUE, or FORMULA)"}
+
+  - name: lookup_spreadsheet_row
+    description: Retrieve values from a single range in a spreadsheet to look up a specific row or set of cells
+    method: GET
+    path: /v4/spreadsheets/{spreadsheetId}/values/{range}
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to retrieve data from"}
+      - {name: range, in: path, type: string, required: true, description: "A1 or R1C1 notation of the range to retrieve values from"}
+      - {name: majorDimension, in: query, type: string, description: "The major dimension that results should use (ROWS or COLUMNS)"}
+      - {name: valueRenderOption, in: query, type: string, description: "How values should be rendered in the output (FORMATTED_VALUE, UNFORMATTED_VALUE, or FORMULA)"}
+
+  - name: create_google_sheet
+    description: Create a new spreadsheet with optional title and initial sheet configuration
+    method: POST
+    path: /v4/spreadsheets
+    params:
+      - {name: properties, in: body, type: object, description: "Spreadsheet properties such as title and locale"}
+      - {name: sheets, in: body, type: array, description: "Initial sheets to create within the spreadsheet"}
+
+  - name: append_values_to_spreadsheet
+    description: Append rows of values after the last row of data in a sheet range
+    method: POST
+    path: /v4/spreadsheets/{spreadsheetId}/values/{range}:append
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to update"}
+      - {name: range, in: path, type: string, required: true, description: "A1 notation of the range to search for a logical table of data"}
+      - {name: valueInputOption, in: query, type: string, required: true, description: "How the input data should be interpreted (RAW or USER_ENTERED)"}
+      - {name: insertDataOption, in: query, type: string, description: "How existing data is changed when new data is input (OVERWRITE or INSERT_ROWS)"}
+      - {name: majorDimension, in: body, type: string, description: "The major dimension of the values array (ROWS or COLUMNS)"}
+      - {name: values, in: body, type: array, required: true, description: "The data to be written as a 2D array of values"}
+
+  - name: update_values_single_range
+    description: Set values in a single range of a spreadsheet, overwriting existing content
+    method: PUT
+    path: /v4/spreadsheets/{spreadsheetId}/values/{range}
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to update"}
+      - {name: range, in: path, type: string, required: true, description: "A1 notation of the values to update"}
+      - {name: valueInputOption, in: query, type: string, required: true, description: "How the input data should be interpreted (RAW or USER_ENTERED)"}
+      - {name: includeValuesInResponse, in: query, type: boolean, description: "Whether the response should include the updated cell values (defaults to false)"}
+      - {name: majorDimension, in: body, type: string, description: "The major dimension of the values array (ROWS or COLUMNS)"}
+      - {name: values, in: body, type: array, required: true, description: "The data to write as a 2D array of values"}
+
+  - name: clear_spreadsheet_values
+    description: Clear all values from a specified range in a spreadsheet while preserving formatting
+    method: POST
+    path: /v4/spreadsheets/{spreadsheetId}/values/{range}:clear
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to update"}
+      - {name: range, in: path, type: string, required: true, description: "A1 or R1C1 notation of the range to clear"}
+
+  - name: delete_sheet
+    description: Delete a sheet (tab) from a spreadsheet by sending a batchUpdate request with a deleteSheet request
+    method: POST
+    path: /v4/spreadsheets/{spreadsheetId}:batchUpdate
+    params:
+      - {name: spreadsheetId, in: path, type: string, required: true, description: "The ID of the spreadsheet to update"}
+      - {name: requests, in: body, type: array, required: true, description: "Array of Request objects; use a deleteSheet entry with the sheetId of the sheet to delete"}

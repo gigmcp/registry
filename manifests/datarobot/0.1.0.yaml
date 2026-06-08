@@ -2,13 +2,14 @@ schemaVersion: 1
 name: datarobot
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/datarobot-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datarobot-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:cd3e3aaff166530c3421a9e137ba53d8d4a96211dff244665d3309d8fbcd8008
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

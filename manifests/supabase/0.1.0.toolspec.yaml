@@ -1,0 +1,80 @@
+schemaVersion: 1
+name: supabase
+version: 0.1.0
+baseUrl: https://api.supabase.com
+tools:
+  - name: list_all_projects
+    description: List all Supabase projects belonging to the authenticated user
+    method: GET
+    path: /v1/projects
+
+  - name: get_project
+    description: Retrieve details for a specific Supabase project by its ref
+    method: GET
+    path: /v1/projects/{ref}
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+
+  - name: list_organizations
+    description: List all organizations the authenticated user belongs to
+    method: GET
+    path: /v1/organizations
+
+  - name: list_edge_functions
+    description: List all Edge Functions deployed to a project
+    method: GET
+    path: /v1/projects/{ref}/functions
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+
+  - name: get_project_health_status
+    description: Get the health status of services for a project
+    method: GET
+    path: /v1/projects/{ref}/health
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+      - {name: included_services, in: query, type: string, description: "Comma-separated list of services to check (e.g. auth,rest,db)"}
+
+  - name: execute_sql_query
+    description: Execute a SQL query against a project's database
+    method: POST
+    path: /v1/projects/{ref}/database/query
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+      - {name: query, in: body, type: string, required: true, description: SQL query to execute}
+
+  - name: create_project
+    description: Create a new Supabase project in an organization
+    method: POST
+    path: /v1/projects
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name for the new project}
+      - {name: organization_slug, in: body, type: string, required: true, description: Organization slug to create the project under}
+      - {name: db_pass, in: body, type: string, required: true, description: Database password for the project}
+      - {name: region, in: body, type: string, description: "Deployment region (e.g. us-east-1)"}
+      - {name: desired_instance_size, in: body, type: string, description: "Instance size (e.g. micro, small, medium)"}
+
+  - name: deploy_edge_function
+    description: Deploy or update an Edge Function for a project
+    method: POST
+    path: /v1/projects/{ref}/functions/deploy
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+      - {name: slug, in: query, type: string, description: "Function slug identifier; if it exists the function is updated, otherwise a new function is created"}
+
+  - name: apply_migration
+    description: Apply a SQL migration to a project's database and record it in the migrations schema
+    method: POST
+    path: /v1/projects/{ref}/database/migrations
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+      - {name: query, in: body, type: string, required: true, description: SQL statement to run as the migration}
+      - {name: name, in: body, type: string, description: Human-readable name for the migration}
+
+  - name: create_project_secrets
+    description: Bulk-create secrets (environment variables) for Edge Functions in a project
+    method: POST
+    path: /v1/projects/{ref}/secrets
+    params:
+      - {name: ref, in: path, type: string, required: true, description: Project ref identifier}
+      - {name: secrets, in: body, type: array, required: true, description: "Array of secret objects with name and value fields"}

@@ -2,17 +2,18 @@ schemaVersion: 1
 name: rafflys
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/rafflys-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/rafflys-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:60f75ebca1dc0c889ce3c139bd1955aba080b12cc4c64dab64abe1964576f3f3
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
-    - api.app-sorteos.com
+    - app-sorteos.com
 credentials:
   - id: rafflys_api_key
     type: api_key

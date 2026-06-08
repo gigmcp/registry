@@ -2,13 +2,14 @@ schemaVersion: 1
 name: rocketreach
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/rocketreach-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/rocketreach-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:04eb29aadce040617026a66db599c8900fce6df885e4e750a702f2c53304e680
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

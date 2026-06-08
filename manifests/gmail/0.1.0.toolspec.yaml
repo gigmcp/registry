@@ -1,0 +1,96 @@
+schemaVersion: 1
+name: gmail
+version: 0.1.0
+baseUrl: https://gmail.googleapis.com
+tools:
+  - name: fetch_emails
+    description: List messages in the authenticated user's mailbox, optionally filtered by query, label, or spam/trash inclusion
+    method: GET
+    path: /gmail/v1/users/{userId}/messages
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: q, in: query, type: string, description: "Only return messages matching this query (Gmail search syntax, e.g. 'from:someone@example.com')"}
+      - {name: labelIds, in: query, type: string, description: "Only return messages with labels matching all of the specified label IDs (repeat for multiple)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of messages to return (default 100, max 500)"}
+      - {name: pageToken, in: query, type: string, description: Page token for retrieving a specific page of results}
+      - {name: includeSpamTrash, in: query, type: boolean, description: "Include messages from SPAM and TRASH in the results (default false)"}
+
+  - name: fetch_message_by_message_id
+    description: Get a specific email message by its ID
+    method: GET
+    path: /gmail/v1/users/{userId}/messages/{id}
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: id, in: path, type: string, required: true, description: The ID of the message to retrieve}
+      - {name: format, in: query, type: string, description: "The format to return the message in: full (default), metadata, minimal, or raw"}
+      - {name: metadataHeaders, in: query, type: string, description: "When format is METADATA, only include headers specified here (repeat for multiple)"}
+
+  - name: list_threads
+    description: List email threads in the authenticated user's mailbox
+    method: GET
+    path: /gmail/v1/users/{userId}/threads
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: q, in: query, type: string, description: "Only return threads matching this query (Gmail search syntax)"}
+      - {name: labelIds, in: query, type: string, description: "Only return threads with labels matching all of the specified label IDs (repeat for multiple)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of threads to return (default 100, max 500)"}
+      - {name: pageToken, in: query, type: string, description: Page token for retrieving a specific page of results}
+      - {name: includeSpamTrash, in: query, type: boolean, description: "Include threads from SPAM and TRASH in the results (default false)"}
+
+  - name: list_labels
+    description: List all labels in the authenticated user's mailbox
+    method: GET
+    path: /gmail/v1/users/{userId}/labels
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+
+  - name: get_profile
+    description: Get the authenticated user's Gmail profile including email address, messages total, threads total, and history ID
+    method: GET
+    path: /gmail/v1/users/{userId}/profile
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+
+  - name: send_email
+    description: Send an email message from the authenticated user's account
+    method: POST
+    path: /gmail/v1/users/{userId}/messages/send
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: raw, in: body, type: string, required: true, description: "The entire RFC 2822 formatted MIME message encoded as a base64url string"}
+
+  - name: create_email_draft
+    description: Create a draft email in the authenticated user's mailbox
+    method: POST
+    path: /gmail/v1/users/{userId}/drafts
+    encoding: json
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: message, in: body, type: object, required: true, description: "Message object containing a 'raw' field with the RFC 2822 formatted MIME message encoded as base64url"}
+
+  - name: reply_to_thread
+    description: Send a reply message associated with an existing thread
+    method: POST
+    path: /gmail/v1/users/{userId}/messages/send
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: raw, in: body, type: string, required: true, description: "The entire RFC 2822 formatted MIME message (including In-Reply-To and References headers) encoded as a base64url string"}
+      - {name: threadId, in: body, type: string, required: true, description: "The ID of the thread to reply to; associates this message with the existing thread"}
+
+  - name: add_label_to_email
+    description: Add or remove labels on a specific email message
+    method: POST
+    path: /gmail/v1/users/{userId}/messages/{id}/modify
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: id, in: path, type: string, required: true, description: The ID of the message to modify}
+      - {name: addLabelIds, in: body, type: array, description: "List of label IDs to add to the message (up to 100 per request)"}
+      - {name: removeLabelIds, in: body, type: array, description: "List of label IDs to remove from the message (up to 100 per request)"}
+
+  - name: move_to_trash
+    description: Move the specified email message to the trash
+    method: POST
+    path: /gmail/v1/users/{userId}/messages/{id}/trash
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user's email address. Use 'me' for the authenticated user."}
+      - {name: id, in: path, type: string, required: true, description: The ID of the message to move to trash}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: demio
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/demio-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/demio-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:069f10e698cf40fdf9eb5d5db34a747a983f850b43c2ca55d8f7b7ee867603f7
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

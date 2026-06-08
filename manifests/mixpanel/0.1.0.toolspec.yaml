@@ -1,0 +1,120 @@
+schemaVersion: 1
+name: mixpanel
+version: 0.1.0
+baseUrl: https://mixpanel.com
+tools:
+  - name: query_segmentation_report
+    description: Query an event segmented and filtered by properties over a date range, returning time-series counts
+    method: GET
+    path: /api/query/segmentation
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: event, in: query, type: string, required: true, description: The event name to query}
+      - {name: from_date, in: query, type: string, required: true, description: "Start date in yyyy-mm-dd format (inclusive)"}
+      - {name: to_date, in: query, type: string, required: true, description: "End date in yyyy-mm-dd format (inclusive)"}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+      - {name: on, in: query, type: string, description: Property expression to segment results by}
+      - {name: unit, in: query, type: string, description: "Time bucket: minute, hour, day (default), or month"}
+      - {name: where, in: query, type: string, description: Filter expression for events}
+      - {name: limit, in: query, type: integer, description: "Maximum number of segmentation values to return (default 60, max 10000)"}
+      - {name: type, in: query, type: string, description: "Analysis type: general (default), unique, or average"}
+  - name: query_funnel_report
+    description: Query a saved funnel report to retrieve conversion data over a date range
+    method: GET
+    path: /api/query/funnels
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: funnel_id, in: query, type: integer, required: true, description: ID of the saved funnel to query}
+      - {name: from_date, in: query, type: string, required: true, description: "Start date in yyyy-mm-dd format (inclusive)"}
+      - {name: to_date, in: query, type: string, required: true, description: "End date in yyyy-mm-dd format (inclusive)"}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+      - {name: length, in: query, type: integer, description: "Conversion window length (max 90 days)"}
+      - {name: length_unit, in: query, type: string, description: "Unit for length: second, minute, hour, or day"}
+      - {name: interval, in: query, type: integer, description: Bucket size in days}
+      - {name: unit, in: query, type: string, description: "Interval specification: day, week, or month"}
+      - {name: on, in: query, type: string, description: Property expression to segment results by}
+      - {name: where, in: query, type: string, description: Event filtering expression}
+      - {name: limit, in: query, type: integer, description: "Maximum number of top results to return (default 255, max 10000)"}
+  - name: query_retention_report
+    description: Query a retention report showing how often users return to perform an event after an initial event
+    method: GET
+    path: /api/query/retention
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: from_date, in: query, type: string, required: true, description: "Start date in yyyy-mm-dd format (inclusive)"}
+      - {name: to_date, in: query, type: string, required: true, description: "End date in yyyy-mm-dd format (inclusive)"}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+      - {name: retention_type, in: query, type: string, description: "Retention type: birth (default) or compounded"}
+      - {name: born_event, in: query, type: string, description: "Required when retention_type is birth; the qualifying event"}
+      - {name: event, in: query, type: string, description: Event for counting returning users; searches all events if omitted}
+      - {name: born_where, in: query, type: string, description: Filter expression for born events}
+      - {name: where, in: query, type: string, description: Filter expression for return events}
+      - {name: interval, in: query, type: integer, description: "Bucketing interval units (max 90 for day unit, default 1)"}
+      - {name: interval_count, in: query, type: integer, description: "Number of buckets to return (default 1)"}
+      - {name: unit, in: query, type: string, description: "Bucket unit: day (default), week, or month"}
+      - {name: on, in: query, type: string, description: Property expression for segmenting the return event}
+      - {name: limit, in: query, type: integer, description: Number of top segmentation values to return when on is specified}
+  - name: list_top_events
+    description: List the most common event names from the previous 31 days for a project
+    method: GET
+    path: /api/query/events/names
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: type, in: query, type: string, required: true, description: "Analysis type: general, unique, or average"}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+      - {name: limit, in: query, type: integer, description: "Maximum number of event names to return (default 255)"}
+  - name: run_jql_query
+    description: Execute a custom JQL (JavaScript Query Language) script against Mixpanel event and profile data
+    method: POST
+    path: /api/query/jql
+    encoding: form
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+      - {name: script, in: body, type: string, required: true, description: "The JQL JavaScript code to execute"}
+      - {name: params, in: body, type: string, description: "JSON object of named parameters to pass into the script"}
+  - name: list_cohorts
+    description: Return all cohorts defined in a project, including name, ID, count, description, and visibility
+    method: POST
+    path: /api/query/cohorts/list
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: Mixpanel project ID}
+      - {name: workspace_id, in: query, type: integer, description: Workspace identifier}
+  - name: list_annotations
+    description: List all annotations for a project within a date range
+    method: GET
+    path: /api/app/projects/{projectId}/annotations
+    params:
+      - {name: projectId, in: path, type: integer, required: true, description: "Mixpanel project ID (e.g. 12345)"}
+      - {name: from_date, in: query, type: string, required: true, description: "Start date in yyyy-mm-dd format (inclusive)"}
+      - {name: to_date, in: query, type: string, required: true, description: "End date in yyyy-mm-dd format (inclusive)"}
+  - name: update_user_profile
+    description: Set or update properties on a Mixpanel user profile
+    method: POST
+    path: /engage
+    baseUrl: https://api.mixpanel.com
+    params:
+      - {name: $token, in: body, type: string, required: true, description: Mixpanel project token}
+      - {name: $distinct_id, in: body, type: string, required: true, description: Unique identifier for the user profile}
+      - {name: $set, in: body, type: object, required: true, description: "JSON object of profile properties to set or create on the user"}
+      - {name: ip, in: query, type: integer, description: "Set to 0 to disable geolocation from IP (recommended for server-side)"}
+      - {name: verbose, in: query, type: integer, description: "Set to 1 to receive detailed success/failure response"}
+  - name: delete_user_profile
+    description: Permanently delete a Mixpanel user profile and all its properties
+    method: POST
+    path: /engage
+    baseUrl: https://api.mixpanel.com
+    params:
+      - {name: $token, in: body, type: string, required: true, description: Mixpanel project token}
+      - {name: $distinct_id, in: body, type: string, required: true, description: Unique identifier of the user profile to delete}
+      - {name: $delete, in: body, type: string, required: true, description: "Delete operation marker; set to null or empty string"}
+      - {name: $ignore_alias, in: body, type: boolean, description: "Set to true to avoid deleting the original when targeting a duplicate"}
+      - {name: verbose, in: query, type: integer, description: "Set to 1 to receive detailed success/failure response"}
+  - name: create_identity_alias
+    description: Create an alias linking a new identifier to an existing distinct_id in Mixpanel (Original ID Merge system)
+    method: POST
+    path: /track
+    baseUrl: https://api.mixpanel.com
+    encoding: form
+    params:
+      - {name: data, in: body, type: string, required: true, description: "Base64-encoded JSON event object with event set to $create_alias and properties containing distinct_id, alias, and token"}

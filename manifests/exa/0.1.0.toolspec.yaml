@@ -1,0 +1,92 @@
+schemaVersion: 1
+name: exa
+version: 0.1.0
+baseUrl: https://api.exa.ai
+tools:
+  - name: search
+    description: Search the web using Exa's neural or keyword search and return ranked results with optional content
+    method: POST
+    path: /search
+    params:
+      - {name: query, in: body, type: string, required: true, description: "The search query string"}
+      - {name: numResults, in: body, type: integer, description: "Number of results to return (1-100, default 10)"}
+      - {name: type, in: body, type: string, description: "Search mode: auto (default), instant, fast, deep-lite, deep, deep-reasoning"}
+      - {name: category, in: body, type: string, description: "Focus category: company, research paper, news, pdf, github, personal site, people, financial report"}
+      - {name: includeDomains, in: body, type: array, description: "Domains to include in results"}
+      - {name: excludeDomains, in: body, type: array, description: "Domains to exclude from results"}
+      - {name: startPublishedDate, in: body, type: string, description: "Only return links published after this ISO 8601 date"}
+      - {name: endPublishedDate, in: body, type: string, description: "Only return links published before this ISO 8601 date"}
+      - {name: startCrawlDate, in: body, type: string, description: "Only return links crawled after this ISO 8601 date"}
+      - {name: endCrawlDate, in: body, type: string, description: "Only return links crawled before this ISO 8601 date"}
+      - {name: contents, in: body, type: object, description: "Content extraction options (text, highlights, summary, subpages)"}
+
+  - name: find_similar
+    description: Find web pages that are semantically similar to a given URL
+    method: POST
+    path: /findSimilar
+    params:
+      - {name: url, in: body, type: string, required: true, description: "The URL to find similar pages for"}
+      - {name: numResults, in: body, type: integer, description: "Number of results to return (1-100, default 10)"}
+      - {name: excludeSourceDomain, in: body, type: boolean, description: "Exclude results from the same domain as the source URL"}
+      - {name: includeDomains, in: body, type: array, description: "Domains to include in results"}
+      - {name: excludeDomains, in: body, type: array, description: "Domains to exclude from results"}
+      - {name: startPublishedDate, in: body, type: string, description: "Only return links published after this ISO 8601 date"}
+      - {name: endPublishedDate, in: body, type: string, description: "Only return links published before this ISO 8601 date"}
+      - {name: contents, in: body, type: object, description: "Content extraction options (text, highlights, summary, subpages)"}
+
+  - name: get_contents
+    description: Retrieve clean text content, highlights, or summaries from one or more URLs
+    method: POST
+    path: /contents
+    params:
+      - {name: urls, in: body, type: array, required: true, description: "List of URLs to retrieve content from"}
+      - {name: text, in: body, type: boolean, description: "Extract full text content from the pages"}
+      - {name: highlights, in: body, type: boolean, description: "Extract highlighted excerpts from the pages"}
+      - {name: summary, in: body, type: object, description: "Generate a summary of the page content (optionally with a query)"}
+      - {name: subpages, in: body, type: integer, description: "Number of subpages to also retrieve (default 0)"}
+      - {name: maxAgeHours, in: body, type: integer, description: "Maximum age in hours for cached content"}
+      - {name: livecrawlTimeout, in: body, type: integer, description: "Timeout in ms for live crawling (default 10000)"}
+
+  - name: generate_answer
+    description: Generate a cited, grounded answer to a question using Exa search results
+    method: POST
+    path: /answer
+    params:
+      - {name: query, in: body, type: string, required: true, description: "The question to answer"}
+      - {name: text, in: body, type: boolean, description: "Include source text in the response"}
+      - {name: stream, in: body, type: boolean, description: "Enable server-sent events streaming for the response"}
+      - {name: outputSchema, in: body, type: object, description: "JSON Schema for structured response output"}
+
+  - name: get_research_task
+    description: Get the status and results of an existing research task by ID
+    method: GET
+    path: /research/v0/tasks/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The research task identifier"}
+
+  - name: create_research_task
+    description: Create an asynchronous research task that searches the web and synthesizes findings with citations
+    method: POST
+    path: /research/v0/tasks
+    params:
+      - {name: instructions, in: body, type: string, required: true, description: "Task description or research question (max 4096 chars)"}
+      - {name: model, in: body, type: string, description: "Research model to use: exa-research (default) or exa-research-pro"}
+      - {name: output, in: body, type: object, description: "Output configuration including schema and inferSchema options"}
+
+  - name: create_webset
+    description: Create a Webset — a curated collection of web items found via search with optional enrichments
+    method: POST
+    path: /websets/v0/websets
+    params:
+      - {name: title, in: body, type: string, description: "Name for the Webset (auto-generated if omitted)"}
+      - {name: search, in: body, type: object, description: "Initial search configuration with query, count, criteria, and entity type"}
+      - {name: enrichments, in: body, type: array, description: "Data extraction configurations to apply to found items"}
+      - {name: externalId, in: body, type: string, description: "Custom identifier for the Webset (max 300 chars)"}
+      - {name: metadata, in: body, type: object, description: "Key-value metadata to attach to the Webset"}
+
+  - name: delete_webset
+    description: Delete a Webset by its ID or external ID
+    method: DELETE
+    path: /websets/v0/websets/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID or externalId of the Webset to delete"}

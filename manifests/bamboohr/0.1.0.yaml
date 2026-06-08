@@ -2,13 +2,14 @@ schemaVersion: 1
 name: bamboohr
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/bamboohr-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bamboohr-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:e56c9f65a380d3caed7a40e4cc3b4dd4e4ee8dfae62ce48eccc417025b080553
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

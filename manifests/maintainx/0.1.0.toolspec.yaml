@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: maintainx
+version: 0.1.0
+baseUrl: https://api.getmaintainx.com
+tools:
+  - name: list_work_orders
+    description: List work orders with optional filters for status, asset, location, team, and priority
+    method: GET
+    path: /v1/workorders
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Max results to return (1-200, default 100)"}
+      - {name: statuses, in: query, type: array, description: "Filter by work order status (array of status strings)"}
+      - {name: assets, in: query, type: array, description: Filter by asset ID(s)}
+      - {name: locations, in: query, type: array, description: Filter by location ID(s)}
+      - {name: teams, in: query, type: array, description: Filter by team ID(s)}
+      - {name: priorities, in: query, type: array, description: "Filter by priority (e.g. LOW, MEDIUM, HIGH)"}
+  - name: list_assets
+    description: List assets and equipment with optional filters for location, manufacturer, and model
+    method: GET
+    path: /v1/assets
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Max results to return (1-200, default 100)"}
+      - {name: locationId, in: query, type: integer, description: Filter by location ID}
+      - {name: manufacturer, in: query, type: array, description: Filter by manufacturer name(s)}
+      - {name: model, in: query, type: array, description: Filter by model name(s)}
+  - name: list_locations
+    description: List facility locations and sites
+    method: GET
+    path: /v1/locations
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Max results to return (1-200, default 100)"}
+  - name: list_work_requests
+    description: List work requests with optional filters for status, location, asset, and priority
+    method: GET
+    path: /v1/workrequests
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Max results to return (1-200, default 100)"}
+      - {name: locations, in: query, type: array, description: Filter by location ID(s)}
+      - {name: assets, in: query, type: array, description: Filter by asset ID(s)}
+      - {name: statuses, in: query, type: array, description: Filter by work request status (array of status strings)}
+      - {name: priorities, in: query, type: array, description: "Filter by priority (e.g. LOW, MEDIUM, HIGH)"}
+  - name: get_user
+    description: Retrieve details of a specific user by ID
+    method: GET
+    path: /v1/users/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: User ID}
+  - name: find_entity
+    description: Retrieve a specific work order by ID
+    method: GET
+    path: /v1/workorders/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Work order ID}
+  - name: create_work_order
+    description: Create a new work order
+    method: POST
+    path: /v1/workorders
+    params:
+      - {name: title, in: body, type: string, required: true, description: Title of the work order}
+      - {name: description, in: body, type: string, description: Detailed description of the work order}
+      - {name: assetId, in: body, type: integer, description: ID of the associated asset}
+      - {name: locationId, in: body, type: integer, description: ID of the associated location}
+      - {name: priority, in: body, type: string, description: "Priority level (e.g. LOW, MEDIUM, HIGH)"}
+      - {name: dueDate, in: body, type: string, description: "Due date in ISO 8601 format (e.g. 2024-01-31T00:00:00Z)"}
+      - {name: assignees, in: body, type: array, description: "Array of assignee objects with id and type fields (type is USER or TEAM)"}
+  - name: update_work_order_status
+    description: Update the status of an existing work order
+    method: PATCH
+    path: /v1/workorders/{id}/status
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Work order ID}
+      - {name: status, in: body, type: string, required: true, description: New status value to set on the work order}
+  - name: create_work_order_comment
+    description: Add a comment to a specific work order
+    method: POST
+    path: /v1/workorders/{id}/comments
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Work order ID}
+      - {name: content, in: body, type: string, required: true, description: Text content of the comment}
+  - name: create_work_request
+    description: Create a new work request
+    method: POST
+    path: /v1/workrequests
+    params:
+      - {name: title, in: body, type: string, required: true, description: Title of the work request}
+      - {name: description, in: body, type: string, description: Detailed description of the work request}
+      - {name: locationId, in: body, type: integer, description: ID of the associated location}
+      - {name: assetId, in: body, type: integer, description: ID of the associated asset}
+      - {name: priority, in: body, type: string, description: "Priority level (e.g. LOW, MEDIUM, HIGH)"}

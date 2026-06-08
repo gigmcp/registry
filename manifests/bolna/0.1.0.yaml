@@ -2,13 +2,14 @@ schemaVersion: 1
 name: bolna
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/bolna-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bolna-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:17040f6643d05486b4c0e71eca2abe9e4920ea8d490a939e632060d6d2bcb50c
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

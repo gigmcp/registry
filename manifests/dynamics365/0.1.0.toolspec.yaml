@@ -1,0 +1,114 @@
+schemaVersion: 1
+name: dynamics365
+version: 0.1.0
+baseUrl: https://org.api.crm.dynamics.com
+tools:
+  - name: get_all_leads
+    description: Retrieve a list of leads from Dynamics 365, optionally filtered and paginated
+    method: GET
+    path: /api/data/v9.2/leads
+    params:
+      - {name: $select, in: query, type: string, description: "Comma-separated list of properties to return (e.g. firstname,lastname,subject,companyname)"}
+      - {name: $filter, in: query, type: string, description: "OData filter expression to restrict results (e.g. statecode eq 0)"}
+      - {name: $orderby, in: query, type: string, description: "OData orderby expression (e.g. createdon desc)"}
+      - {name: $top, in: query, type: integer, description: "Maximum number of records to return"}
+
+  - name: get_lead
+    description: Retrieve a single lead record by its unique identifier
+    method: GET
+    path: /api/data/v9.2/leads({leadid})
+    params:
+      - {name: leadid, in: path, type: string, required: true, description: "Unique identifier (GUID) of the lead to retrieve"}
+      - {name: $select, in: query, type: string, description: "Comma-separated list of properties to return"}
+
+  - name: get_all_invoices
+    description: Retrieve a list of invoices from Dynamics 365, optionally filtered and paginated
+    method: GET
+    path: /api/data/v9.2/invoices
+    params:
+      - {name: $select, in: query, type: string, description: "Comma-separated list of properties to return (e.g. name,totalamount,duedate,statecode)"}
+      - {name: $filter, in: query, type: string, description: "OData filter expression to restrict results (e.g. statecode eq 0)"}
+      - {name: $orderby, in: query, type: string, description: "OData orderby expression (e.g. createdon desc)"}
+      - {name: $top, in: query, type: integer, description: "Maximum number of records to return"}
+
+  - name: get_invoice
+    description: Retrieve a single invoice record by its unique identifier
+    method: GET
+    path: /api/data/v9.2/invoices({invoiceid})
+    params:
+      - {name: invoiceid, in: path, type: string, required: true, description: "Unique identifier (GUID) of the invoice to retrieve"}
+      - {name: $select, in: query, type: string, description: "Comma-separated list of properties to return"}
+
+  - name: create_lead
+    description: Create a new lead record in Dynamics 365
+    method: POST
+    path: /api/data/v9.2/leads
+    params:
+      - {name: subject, in: body, type: string, required: true, description: "Topic or subject of the lead (required)"}
+      - {name: lastname, in: body, type: string, required: true, description: "Last name of the lead contact (required)"}
+      - {name: firstname, in: body, type: string, description: "First name of the lead contact"}
+      - {name: companyname, in: body, type: string, description: "Company name of the lead"}
+      - {name: emailaddress1, in: body, type: string, description: "Primary email address of the lead"}
+      - {name: telephone1, in: body, type: string, description: "Business phone number of the lead"}
+      - {name: jobtitle, in: body, type: string, description: "Job title of the lead contact"}
+      - {name: description, in: body, type: string, description: "Additional notes or description for the lead"}
+
+  - name: create_contact
+    description: Create a new contact record in Dynamics 365
+    method: POST
+    path: /api/data/v9.2/contacts
+    params:
+      - {name: lastname, in: body, type: string, required: true, description: "Last name of the contact (required)"}
+      - {name: firstname, in: body, type: string, description: "First name of the contact"}
+      - {name: emailaddress1, in: body, type: string, description: "Primary email address of the contact"}
+      - {name: telephone1, in: body, type: string, description: "Business phone number of the contact"}
+      - {name: jobtitle, in: body, type: string, description: "Job title of the contact"}
+      - {name: description, in: body, type: string, description: "Additional notes about the contact"}
+
+  - name: create_account
+    description: Create a new account (company or organization) record in Dynamics 365
+    method: POST
+    path: /api/data/v9.2/accounts
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name of the account (required)"}
+      - {name: telephone1, in: body, type: string, description: "Main phone number of the account"}
+      - {name: emailaddress1, in: body, type: string, description: "Primary email address of the account"}
+      - {name: websiteurl, in: body, type: string, description: "Website URL of the account"}
+      - {name: description, in: body, type: string, description: "Additional notes about the account"}
+
+  - name: create_opportunity
+    description: Create a new sales opportunity record in Dynamics 365
+    method: POST
+    path: /api/data/v9.2/opportunities
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Topic or name of the opportunity (required)"}
+      - {name: estimatedvalue, in: body, type: number, description: "Estimated revenue value of the opportunity"}
+      - {name: estimatedclosedate, in: body, type: string, description: "Expected close date in ISO 8601 date format (e.g. 2025-12-31)"}
+      - {name: description, in: body, type: string, description: "Additional notes or description for the opportunity"}
+      - {name: closeprobability, in: body, type: integer, description: "Probability of closing the opportunity (0-100)"}
+
+  - name: update_lead
+    description: Update an existing lead record in Dynamics 365
+    method: PATCH
+    path: /api/data/v9.2/leads({leadid})
+    params:
+      - {name: leadid, in: path, type: string, required: true, description: "Unique identifier (GUID) of the lead to update"}
+      - {name: subject, in: body, type: string, description: "Updated topic or subject of the lead"}
+      - {name: firstname, in: body, type: string, description: "Updated first name of the lead contact"}
+      - {name: lastname, in: body, type: string, description: "Updated last name of the lead contact"}
+      - {name: companyname, in: body, type: string, description: "Updated company name of the lead"}
+      - {name: emailaddress1, in: body, type: string, description: "Updated primary email address of the lead"}
+      - {name: telephone1, in: body, type: string, description: "Updated business phone number of the lead"}
+      - {name: description, in: body, type: string, description: "Updated notes or description for the lead"}
+
+  - name: update_invoice
+    description: Update an existing invoice record in Dynamics 365
+    method: PATCH
+    path: /api/data/v9.2/invoices({invoiceid})
+    params:
+      - {name: invoiceid, in: path, type: string, required: true, description: "Unique identifier (GUID) of the invoice to update"}
+      - {name: name, in: body, type: string, description: "Updated name or description of the invoice"}
+      - {name: duedate, in: body, type: string, description: "Updated due date in ISO 8601 date format (e.g. 2025-12-31)"}
+      - {name: description, in: body, type: string, description: "Updated notes or description for the invoice"}
+      - {name: discountamount, in: body, type: number, description: "Updated discount amount for the invoice"}
+      - {name: discountpercentage, in: body, type: number, description: "Updated discount percentage for the invoice"}

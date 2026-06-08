@@ -2,17 +2,18 @@ schemaVersion: 1
 name: lexoffice
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/lexoffice-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/lexoffice-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:b672468fcba5ae0b3824469f07bb6c246679622f86c42f3e244e929e289dfbf5
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
-    - api.lexoffice.io
+    - api.lexware.io
 credentials:
   - id: lexoffice_api_key
     type: api_key

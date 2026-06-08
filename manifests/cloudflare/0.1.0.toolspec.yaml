@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: cloudflare
+version: 0.1.0
+baseUrl: https://api.cloudflare.com
+tools:
+  - name: list_zones
+    description: List, search, sort, and filter the zones you own or have access to
+    method: GET
+    path: /client/v4/zones
+    params:
+      - {name: name, in: query, type: string, description: Domain name filter}
+      - {name: status, in: query, type: string, description: "Zone status filter: initializing, pending, active, or moved"}
+      - {name: page, in: query, type: integer, description: Page number of paginated results}
+      - {name: per_page, in: query, type: integer, description: Number of zones per page}
+      - {name: order, in: query, type: string, description: "Field to order zones by: name, status, account.id, account.name, or plan.id"}
+      - {name: direction, in: query, type: string, description: "Sort direction: asc or desc"}
+      - {name: match, in: query, type: string, description: "Whether to match all or any filter parameters: any or all"}
+
+  - name: list_dns_records
+    description: List DNS records for a zone, with optional filtering by type, name, content, or search query
+    method: GET
+    path: /client/v4/zones/{zone_id}/dns_records
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+      - {name: type, in: query, type: string, description: "DNS record type filter (e.g. A, AAAA, CNAME, MX, TXT)"}
+      - {name: name, in: query, type: string, description: DNS record name filter}
+      - {name: content, in: query, type: string, description: DNS record content filter}
+      - {name: proxied, in: query, type: boolean, description: Filter by proxied status}
+      - {name: search, in: query, type: string, description: "Search records by name, type, or content"}
+      - {name: page, in: query, type: integer, description: Page number of paginated results}
+      - {name: per_page, in: query, type: integer, description: Number of records per page}
+      - {name: order, in: query, type: string, description: "Field to order records by: type, name, content, ttl, or proxied"}
+      - {name: direction, in: query, type: string, description: "Sort direction: asc or desc"}
+
+  - name: list_accounts
+    description: List accounts you own or have verified access to
+    method: GET
+    path: /client/v4/accounts
+    params:
+      - {name: name, in: query, type: string, description: Account name filter}
+      - {name: page, in: query, type: integer, description: Page number of paginated results}
+      - {name: per_page, in: query, type: integer, description: Number of accounts per page}
+      - {name: direction, in: query, type: string, description: "Sort direction: asc or desc"}
+
+  - name: list_firewall_rules
+    description: List WAF custom rules for a zone (via the Rulesets API http_request_firewall_custom entrypoint)
+    method: GET
+    path: /client/v4/zones/{zone_id}/rulesets/phases/http_request_firewall_custom/entrypoint
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+
+  - name: get_bot_management_settings
+    description: Get the bot management configuration for a zone
+    method: GET
+    path: /client/v4/zones/{zone_id}/bot_management
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+
+  - name: create_dns_record
+    description: Create a new DNS record for a zone
+    method: POST
+    path: /client/v4/zones/{zone_id}/dns_records
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+      - {name: type, in: body, type: string, required: true, description: "DNS record type (e.g. A, AAAA, CNAME, MX, TXT, NS)"}
+      - {name: name, in: body, type: string, required: true, description: "Complete DNS record name including zone name in Punycode"}
+      - {name: content, in: body, type: string, description: "Record content (IPv4 for A, IPv6 for AAAA, hostname for CNAME, etc.)"}
+      - {name: ttl, in: body, type: number, description: "Time to live in seconds (1 for automatic, or 60-86400)"}
+      - {name: proxied, in: body, type: boolean, description: Whether the record is proxied through Cloudflare}
+      - {name: comment, in: body, type: string, description: Optional comment or note about the record}
+
+  - name: update_dns_record
+    description: Update an existing DNS record for a zone
+    method: PUT
+    path: /client/v4/zones/{zone_id}/dns_records/{dns_record_id}
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+      - {name: dns_record_id, in: path, type: string, required: true, description: DNS record identifier}
+      - {name: type, in: body, type: string, required: true, description: "DNS record type (e.g. A, AAAA, CNAME, MX, TXT, NS)"}
+      - {name: name, in: body, type: string, required: true, description: "Complete DNS record name including zone name in Punycode"}
+      - {name: content, in: body, type: string, description: "Record content (IPv4 for A, IPv6 for AAAA, hostname for CNAME, etc.)"}
+      - {name: ttl, in: body, type: number, description: "Time to live in seconds (1 for automatic, or 60-86400)"}
+      - {name: proxied, in: body, type: boolean, description: Whether the record is proxied through Cloudflare}
+      - {name: comment, in: body, type: string, description: Optional comment or note about the record}
+
+  - name: delete_dns_record
+    description: Delete a DNS record from a zone
+    method: DELETE
+    path: /client/v4/zones/{zone_id}/dns_records/{dns_record_id}
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}
+      - {name: dns_record_id, in: path, type: string, required: true, description: DNS record identifier}
+
+  - name: create_zone
+    description: Create a new zone in Cloudflare
+    method: POST
+    path: /client/v4/zones
+    params:
+      - {name: name, in: body, type: string, required: true, description: "The domain name (up to 253 characters per RFC 1035)"}
+      - {name: account, in: body, type: object, description: "Account object with id field specifying the account to create the zone in"}
+      - {name: type, in: body, type: string, description: "Zone type: full, partial, secondary, or internal"}
+
+  - name: delete_zone
+    description: Delete a zone from Cloudflare
+    method: DELETE
+    path: /client/v4/zones/{zone_id}
+    params:
+      - {name: zone_id, in: path, type: string, required: true, description: Zone identifier}

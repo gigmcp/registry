@@ -2,13 +2,14 @@ schemaVersion: 1
 name: finage
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/finage-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/finage-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:99d4433a4f955050993eda15e8c3a8d42004decb18a63ff1420a87a192a0f5c6
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 # Finage authenticates exclusively via the ?apikey= query parameter, so
 # header injection cannot work — entrusted tier with env injection.
 tier: entrusted

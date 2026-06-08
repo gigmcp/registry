@@ -1,0 +1,67 @@
+schemaVersion: 1
+name: mopinion
+version: 0.1.0
+baseUrl: https://api.mopinion.com
+tools:
+  - name: get_account
+    description: Retrieve account information including reports, datasets, and package details
+    method: GET
+    path: /account
+
+  - name: list_deployments
+    description: Retrieve the collection of all deployment resources for the account
+    method: GET
+    path: /deployments
+
+  - name: get_deployment
+    description: Retrieve a specific deployment resource by its key
+    method: GET
+    path: /deployments/{deploymentKey}
+    params:
+      - {name: deploymentKey, in: path, type: string, required: true, description: The unique key identifying the deployment}
+
+  - name: get_dataset
+    description: Retrieve basic information about a specific dataset
+    method: GET
+    path: /datasets/{datasetId}
+    params:
+      - {name: datasetId, in: path, type: integer, required: true, description: The numeric ID of the dataset}
+
+  - name: get_dataset_feedback
+    description: Retrieve feedback entries collected in a specific dataset
+    method: GET
+    path: /datasets/{datasetId}/feedback
+    params:
+      - {name: datasetId, in: path, type: integer, required: true, description: The numeric ID of the dataset}
+      - {name: limit, in: query, type: integer, description: Maximum number of feedback items to return (default 10)}
+      - {name: page, in: query, type: integer, description: Page number for paginated results}
+
+  - name: get_dataset_fields
+    description: Retrieve the field definitions for a specific dataset
+    method: GET
+    path: /datasets/{datasetId}/fields
+    params:
+      - {name: datasetId, in: path, type: integer, required: true, description: The numeric ID of the dataset}
+
+  - name: get_report
+    description: Retrieve basic information about a specific report
+    method: GET
+    path: /reports/{reportId}
+    params:
+      - {name: reportId, in: path, type: integer, required: true, description: The numeric ID of the report}
+
+  - name: get_report_feedback
+    description: Retrieve feedback entries associated with a specific report
+    method: GET
+    path: /reports/{reportId}/feedback
+    params:
+      - {name: reportId, in: path, type: integer, required: true, description: The numeric ID of the report}
+      - {name: limit, in: query, type: integer, description: Maximum number of feedback items to return (default 10)}
+      - {name: page, in: query, type: integer, description: Page number for paginated results}
+
+  - name: get_report_fields
+    description: Retrieve the field definitions for a specific report
+    method: GET
+    path: /reports/{reportId}/fields
+    params:
+      - {name: reportId, in: path, type: integer, required: true, description: The numeric ID of the report}

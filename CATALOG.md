@@ -1,229 +1,227 @@
 # GigMCP Manifest Catalog
 
-This catalog mirrors [Composio's toolkit list](https://composio.dev/tools) as a curated, lint-enforced set of MCP-server manifests. All entries except `echo` and `fetch` are **planned**: their manifests are hand-curated and pass `registryctl lint` (schema, tier, credential-injection, and egress-denylist checks), but the server implementations are pending and the image digests are placeholders — placeholder digests are **not installable**. The reference-implementation entries have their source in separate repos (see Status column).
+This catalog mirrors [Composio's toolkit list](https://composio.dev/tools) as a curated, lint-enforced set of MCP-server manifests. Most entries are **toolspec-driven**: a `manifests/<name>/<version>.toolspec.yaml` maps each manifest tool to a real REST endpoint, served by the generic [toolpack](https://github.com/gigmcp/toolpack) engine. Every toolspec was researched against the service's official API docs and adversarially re-verified by an independent pass; `toolspec (unverified)` marks the few whose docs could not be independently confirmed. `adopts ...` entries build an established upstream Go MCP server instead. Image digests are placeholders (`sha256:0000...`) until `build-images` CI pins the real ones — placeholder digests are **not installable**.
 
 | Name | Auth | Tier | Egress | Status |
 |------|------|------|--------|--------|
-| echo | api_key | sealed | `api.example.com` | reference implementation: github.com/gigmcp/gigmcp |
-| fetch | api_key | sealed | `example.com`, `*.example.com` | reference implementation: github.com/gigmcp/gigmcp |
-| ably | api_key | sealed | `rest.ably.io` | planned |
-| acculynx | api_key | sealed | `api.acculynx.com` | planned |
-| activecampaign | api_key | sealed | `*.api-us1.com` | planned |
-| affinity | api_key | sealed | `api.affinity.co` | planned |
-| agencyzoom | api_key | sealed | `api.agencyzoom.com` | planned |
-| ahrefs | api_key | sealed | `api.ahrefs.com` | planned |
-| airtable | oauth2 | sealed | `api.airtable.com` | planned |
-| alchemy | api_key | entrusted | `*.g.alchemy.com` | planned |
-| altoviz | api_key | sealed | `api.altoviz.com` | planned |
-| amcards | api_key | sealed | `amcards.com` | planned |
-| amplitude | basic | sealed | `amplitude.com`, `api2.amplitude.com` | planned |
-| apaleo | oauth2 | sealed | `api.apaleo.com`, `identity.apaleo.com` | planned |
-| apollo | api_key | sealed | `api.apollo.io` | planned |
-| appdrag | api_key | sealed | `api.appdrag.com` | planned |
-| asana | oauth2 | sealed | `app.asana.com` | planned |
-| ashby | basic | sealed | `api.ashbyhq.com` | planned |
-| attio | oauth2 | sealed | `api.attio.com` | planned |
-| bamboohr | basic | sealed | `api.bamboohr.com` | planned |
-| bannerbear | api_key | sealed | `api.bannerbear.com` | planned |
-| baserow | api_key | sealed | `api.baserow.io` | planned |
-| beeminder | api_key | entrusted | `www.beeminder.com` | planned |
-| bitbucket | oauth2 | sealed | `api.bitbucket.org`, `bitbucket.org` | planned |
-| bitwarden | oauth2 | sealed | `api.bitwarden.com`, `identity.bitwarden.com` | planned |
-| blackbaud | oauth2 | sealed | `api.sky.blackbaud.com`, `oauth2.sky.blackbaud.com` | planned |
-| blackboard | oauth2 | sealed | `*.blackboard.com` | planned |
-| boldsign | oauth2 | sealed | `api.boldsign.com` | planned |
-| bolna | api_key | sealed | `api.bolna.ai` | planned |
-| borneo | api_key | sealed | `api.borneo.io`, `*.borneo.io` | planned |
-| botbaba | api_key | sealed | `botbaba.io`, `*.botbaba.io` | planned |
-| box | oauth2 | sealed | `api.box.com`, `upload.box.com` | planned |
-| brandfetch | api_key | sealed | `api.brandfetch.io`, `graphql.brandfetch.io` | planned |
-| breezy-hr | api_key | sealed | `api.breezy.hr` | planned |
-| brevo | api_key | sealed | `api.brevo.com` | planned |
-| brex | oauth2 | sealed | `platform.brexapis.com` | planned |
-| browseai | api_key | sealed | `api.browse.ai` | planned |
-| browserbase | api_key | sealed | `api.browserbase.com` | planned |
-| bubble | api_key | sealed | `bubble.io`, `*.bubbleapps.io` | planned |
-| cal | api_key | sealed | `api.cal.com` | planned |
-| calendly | oauth2 | sealed | `api.calendly.com`, `auth.calendly.com` | planned |
-| canva | oauth2 | sealed | `api.canva.com` | planned |
-| canvas | api_key | sealed | `canvas.instructure.com`, `*.instructure.com` | planned |
-| chatwork | api_key | sealed | `api.chatwork.com` | planned |
-| chmeetings | api_key | sealed | `api.chmeetings.com`, `chmeetings.com` | planned |
-| clickup | oauth2 | sealed | `api.clickup.com` | planned |
-| close | basic | sealed | `api.close.com` | planned |
-| cloudflare | api_key | sealed | `api.cloudflare.com` | planned |
-| coda | api_key | sealed | `coda.io` | planned |
-| coinbase | api_key | sealed | `api.coinbase.com`, `api.exchange.coinbase.com` | planned |
-| coinmarketcal | api_key | sealed | `developers.coinmarketcal.com` | planned |
-| confluence | oauth2 | sealed | `api.atlassian.com`, `*.atlassian.net` | planned |
-| contentful | oauth2 | sealed | `api.contentful.com`, `cdn.contentful.com` | planned |
-| crustdata | api_key | sealed | `api.crustdata.com` | planned |
-| d2lbrightspace | oauth2 | sealed | `auth.brightspace.com`, `*.brightspace.com` | planned |
-| dailybot | api_key | sealed | `api.dailybot.com` | planned |
-| datadog | api_key | sealed | `api.datadoghq.com`, `*.datadoghq.com` | planned |
-| datagma | api_key | entrusted | `gateway.datagma.net` | planned |
-| datarobot | api_key | sealed | `app.datarobot.com` | planned |
-| demio | api_key | sealed | `my.demio.com` | planned |
-| dialpad | oauth2 | sealed | `dialpad.com` | planned |
-| digicert | api_key | sealed | `www.digicert.com`, `api.digicert.com` | planned |
-| discord | oauth2 | sealed | `discord.com` | planned |
-| discordbot | api_key | sealed | `discord.com`, `cdn.discordapp.com` | planned |
-| docmosis | api_key | sealed | `*.dws4.docmosis.com`, `*.dws3.docmosis.com` | planned |
-| docusign | oauth2 | sealed | `account.docusign.com`, `*.docusign.net` | planned |
-| dropbox | oauth2 | sealed | `api.dropboxapi.com`, `content.dropboxapi.com` | planned |
-| dropbox-sign | oauth2 | sealed | `api.hellosign.com` | planned |
-| dynamics365 | oauth2 | sealed | `*.dynamics.com`, `login.microsoftonline.com` | planned |
-| echtpost | api_key | sealed | `api.echtpost.de` | planned |
-| elevenlabs | api_key | sealed | `api.elevenlabs.io` | planned |
-| eventbrite | oauth2 | sealed | `www.eventbriteapi.com` | planned |
-| exa | api_key | sealed | `api.exa.ai` | planned |
-| exist | oauth2 | sealed | `exist.io` | planned |
-| facebook | oauth2 | sealed | `graph.facebook.com` | planned |
-| figma | oauth2 | sealed | `api.figma.com` | planned |
-| finage | api_key | entrusted | `api.finage.co.uk` | planned |
-| firecrawl | api_key | sealed | `api.firecrawl.dev` | planned |
-| fireflies | api_key | sealed | `api.fireflies.ai` | planned |
-| flutterwave | api_key | sealed | `api.flutterwave.com` | planned |
-| fomo | api_key | sealed | `api.fomo.com` | planned |
-| formcarry | api_key | sealed | `formcarry.com` | planned |
-| formsite | api_key | sealed | `*.formsite.com` | planned |
-| foursquare | api_key | sealed | `api.foursquare.com`, `places-api.foursquare.com` | planned |
-| freshbooks | oauth2 | sealed | `api.freshbooks.com`, `auth.freshbooks.com` | planned |
-| freshdesk | basic | sealed | `*.freshdesk.com` | planned |
-| gmail | oauth2 | sealed | `gmail.googleapis.com` | planned |
-| gong | oauth2 | sealed | `api.gong.io`, `*.api.gong.io` | planned |
-| google-analytics | oauth2 | sealed | `analyticsdata.googleapis.com`, `analyticsadmin.googleapis.com`, `oauth2.googleapis.com` | planned |
-| google-maps | api_key | sealed | `maps.googleapis.com`, `places.googleapis.com`, `routes.googleapis.com` | planned |
-| googleads | oauth2 | sealed | `googleads.googleapis.com`, `oauth2.googleapis.com` | planned |
-| googlebigquery | oauth2 | sealed | `bigquery.googleapis.com` | planned |
-| googlecalendar | oauth2 | sealed | `www.googleapis.com` | planned |
-| googledocs | oauth2 | sealed | `docs.googleapis.com`, `www.googleapis.com`, `oauth2.googleapis.com` | planned |
-| googledrive | oauth2 | sealed | `www.googleapis.com`, `oauth2.googleapis.com` | planned |
-| googlemeet | oauth2 | sealed | `meet.googleapis.com`, `oauth2.googleapis.com` | planned |
-| googlephotos | oauth2 | sealed | `photoslibrary.googleapis.com` | planned |
-| googlesheets | oauth2 | sealed | `sheets.googleapis.com` | planned |
-| googletasks | oauth2 | sealed | `tasks.googleapis.com`, `www.googleapis.com` | planned |
-| gorgias | oauth2 | sealed | `gorgias.com`, `*.gorgias.com` | planned |
-| gumroad | oauth2 | sealed | `api.gumroad.com` | planned |
-| hackernews | none | sealed | `hacker-news.firebaseio.com`, `hn.algolia.com` | planned |
-| hackerrank-work | api_key | sealed | `www.hackerrank.com` | planned |
-| harvest | oauth2 | sealed | `api.harvestapp.com`, `id.getharvest.com` | planned |
-| heygen | api_key | sealed | `api.heygen.com`, `upload.heygen.com` | planned |
-| highlevel | oauth2 | sealed | `services.leadconnectorhq.com` | planned |
-| hubspot | oauth2 | sealed | `api.hubapi.com` | planned |
-| humanloop | api_key | sealed | `api.humanloop.com` | planned |
-| intercom | oauth2 | sealed | `api.intercom.io` | planned |
-| interzoid | api_key | sealed | `api.interzoid.com` | planned |
-| jira | oauth2 | sealed | `api.atlassian.com`, `*.atlassian.net` | planned |
-| junglescout | api_key | sealed | `developer.junglescout.com` | planned |
-| klaviyo | oauth2 | sealed | `a.klaviyo.com` | planned |
-| klipfolio | api_key | sealed | `app.klipfolio.com` | planned |
-| kommo | oauth2 | sealed | `kommo.com`, `*.kommo.com` | planned |
-| launchdarkly | api_key | sealed | `app.launchdarkly.com` | planned |
-| lever | oauth2 | sealed | `api.lever.co`, `auth.lever.co` | planned |
-| lexoffice | api_key | sealed | `api.lexoffice.io` | planned |
-| linear | oauth2 | sealed | `api.linear.app` | planned |
-| linkedin | oauth2 | sealed | `api.linkedin.com` | planned |
-| linkhut | oauth2 | sealed | `api.ln.ht`, `ln.ht` | planned |
-| linkup | api_key | sealed | `api.linkup.so` | planned |
-| listennotes | api_key | sealed | `listen-api.listennotes.com` | planned |
-| lmnt | api_key | sealed | `api.lmnt.com` | planned |
-| mailchimp | oauth2 | sealed | `login.mailchimp.com`, `*.api.mailchimp.com` | planned |
-| mailerlite | api_key | sealed | `connect.mailerlite.com` | planned |
-| maintainx | api_key | sealed | `api.getmaintainx.com` | planned |
-| mem0 | api_key | sealed | `api.mem0.ai` | planned |
-| metaads | oauth2 | sealed | `graph.facebook.com` | planned |
-| metatextai | api_key | sealed | `api.metatext.ai` | planned |
-| microsoft-clarity | api_key | sealed | `www.clarity.ms` | planned |
-| microsoft-teams | oauth2 | sealed | `graph.microsoft.com`, `login.microsoftonline.com` | planned |
-| miro | oauth2 | sealed | `api.miro.com` | planned |
-| mixpanel | basic | sealed | `mixpanel.com`, `api.mixpanel.com`, `data.mixpanel.com`, `eu.mixpanel.com` | planned |
-| mocean | api_key | entrusted | `rest.moceanapi.com` | planned |
-| monday | oauth2 | sealed | `api.monday.com` | planned |
-| mopinion | api_key | sealed | `api.mopinion.com` | planned |
-| more-trees | api_key | sealed | `api.moretrees.eco` | planned |
-| moz | api_key | sealed | `api.moz.com`, `lsapi.seomoz.com` | planned |
-| mural | oauth2 | sealed | `app.mural.co` | planned |
-| neon | api_key | sealed | `console.neon.tech` | planned |
-| netsuite | oauth2 | sealed | `*.suitetalk.api.netsuite.com`, `*.app.netsuite.com`, `system.netsuite.com` | planned |
-| ngrok | api_key | sealed | `api.ngrok.com` | planned |
-| notion | oauth2 | sealed | `api.notion.com` | planned |
-| onedrive | oauth2 | sealed | `graph.microsoft.com` | planned |
-| opensea | api_key | sealed | `api.opensea.io` | planned |
-| outlook | oauth2 | sealed | `graph.microsoft.com`, `login.microsoftonline.com` | planned |
-| pagerduty | oauth2 | sealed | `api.pagerduty.com` | planned |
-| pandadoc | api_key | sealed | `api.pandadoc.com` | planned |
-| peopledatalabs | api_key | sealed | `api.peopledatalabs.com` | planned |
-| perplexityai | api_key | sealed | `api.perplexity.ai` | planned |
-| piggy | api_key | sealed | `api.piggy.eu` | planned |
-| pipedrive | oauth2 | sealed | `api.pipedrive.com`, `*.pipedrive.com` | planned |
-| placekey | api_key | sealed | `api.placekey.io` | planned |
-| posthog | api_key | sealed | `app.posthog.com`, `us.posthog.com`, `eu.posthog.com` | planned |
-| process-street | api_key | sealed | `public-api.process.st` | planned |
-| productboard | oauth2 | sealed | `api.productboard.com` | planned |
-| rafflys | api_key | sealed | `api.app-sorteos.com` | planned |
-| recallai | api_key | sealed | `*.recall.ai` | planned |
-| reddit | oauth2 | sealed | `oauth.reddit.com`, `www.reddit.com` | planned |
-| retellai | api_key | sealed | `api.retellai.com` | planned |
-| rocketlane | api_key | sealed | `api.rocketlane.com` | planned |
-| rocketreach | api_key | sealed | `api.rocketreach.co` | planned |
-| salesforce | oauth2 | sealed | `login.salesforce.com`, `*.salesforce.com`, `*.my.salesforce.com` | planned |
-| screenshotone | api_key | entrusted | `api.screenshotone.com` | planned |
-| semanticscholar | api_key | sealed | `api.semanticscholar.org` | planned |
-| semrush | api_key | entrusted | `api.semrush.com` | planned |
-| sendgrid | api_key | sealed | `api.sendgrid.com` | planned |
-| sentry | oauth2 | sealed | `sentry.io`, `*.sentry.io` | planned |
-| serpapi | api_key | entrusted | `serpapi.com` | planned |
-| servicem8 | oauth2 | sealed | `api.servicem8.com` | planned |
-| servicenow | oauth2 | sealed | `*.service-now.com` | planned |
-| sharepoint | oauth2 | sealed | `graph.microsoft.com`, `*.sharepoint.com` | planned |
-| shopify | oauth2 | sealed | `*.myshopify.com` | planned |
-| shortcut | api_key | sealed | `api.app.shortcut.com` | planned |
-| simplesat | api_key | sealed | `api.simplesat.io` | planned |
-| slack | oauth2 | sealed | `slack.com`, `*.slack.com` | planned |
-| slackbot | oauth2 | sealed | `slack.com`, `*.slack.com` | planned |
-| smugmug | api_key | entrusted | `api.smugmug.com` | planned |
-| snowflake | oauth2 | sealed | `*.snowflakecomputing.com`, `status.snowflake.com` | planned |
-| square | oauth2 | sealed | `connect.squareup.com` | planned |
-| stack-exchange | oauth2 | entrusted | `api.stackexchange.com` | planned |
-| stripe | api_key | sealed | `api.stripe.com` | planned |
-| supabase | api_key | sealed | `api.supabase.com` | planned |
-| surveymonkey | oauth2 | sealed | `api.surveymonkey.com` | planned |
-| tavily | api_key | sealed | `api.tavily.com` | planned |
-| text-to-pdf | api_key | sealed | `v2.convertapi.com` | planned |
-| textrazor | api_key | sealed | `api.textrazor.com` | planned |
-| timecamp | api_key | sealed | `app.timecamp.com` | planned |
-| timely | oauth2 | sealed | `api.timelyapp.com` | planned |
-| tinypng | basic | sealed | `api.tinify.com` | planned |
-| tinyurl | api_key | sealed | `api.tinyurl.com` | planned |
-| tisane | api_key | sealed | `api.tisane.ai` | planned |
-| todoist | oauth2 | sealed | `api.todoist.com`, `todoist.com` | planned |
-| toneden | oauth2 | sealed | `api.toneden.io` | planned |
-| trello | api_key | entrusted | `api.trello.com`, `trello.com` | planned |
-| twitter | oauth2 | sealed | `api.twitter.com`, `api.x.com`, `upload.twitter.com` | planned |
-| typefully | api_key | sealed | `api.typefully.com` | planned |
-| waboxapp | api_key | entrusted | `www.waboxapp.com` | planned |
-| wakatime | oauth2 | sealed | `api.wakatime.com`, `wakatime.com` | planned |
-| weathermap | api_key | entrusted | `api.openweathermap.org` | planned |
-| webex | oauth2 | sealed | `webexapis.com` | planned |
-| webflow | oauth2 | sealed | `api.webflow.com` | planned |
-| whatsapp | oauth2 | sealed | `graph.facebook.com` | planned |
-| workiom | api_key | sealed | `workiom.com`, `*.workiom.com` | planned |
-| wrike | oauth2 | sealed | `www.wrike.com`, `*.wrike.com` | planned |
-| xero | oauth2 | sealed | `api.xero.com`, `identity.xero.com` | planned |
-| yandex | oauth2 | sealed | `cloud-api.yandex.net`, `api.music.yandex.net`, `api-metrika.yandex.net` | planned |
-| ynab | oauth2 | sealed | `api.ynab.com`, `app.ynab.com` | planned |
-| yousearch | api_key | sealed | `api.ydc-index.io`, `chat-api.you.com` | planned |
-| youtube | oauth2 | sealed | `www.googleapis.com`, `youtube.googleapis.com` | planned |
-| zendesk | oauth2 | sealed | `*.zendesk.com` | planned |
-| zenrows | api_key | entrusted | `api.zenrows.com` | planned |
-| zenserp | api_key | sealed | `app.zenserp.com` | planned |
-| zoho | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | planned |
-| zoho-bigin | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | planned |
-| zoho-books | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | planned |
-| zoho-desk | oauth2 | sealed | `desk.zoho.com`, `accounts.zoho.com` | planned |
-| zoho-inventory | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | planned |
-| zoho-invoice | oauth2 | sealed | `www.zohoapis.com`, `accounts.zoho.com` | planned |
-| zoho-mail | oauth2 | sealed | `mail.zoho.com`, `accounts.zoho.com` | planned |
-| zoom | oauth2 | sealed | `api.zoom.us` | planned |
-| zoominfo | oauth2 | sealed | `api.zoominfo.com` | planned |
+| ably | api_key | sealed | `rest.ably.io` | toolspec |
+| acculynx | api_key | sealed | `api.acculynx.com` | toolspec |
+| activecampaign | api_key | sealed | `*.api-us1.com` | toolspec |
+| affinity | api_key | sealed | `api.affinity.co` | toolspec |
+| agencyzoom | api_key | sealed | `api.agencyzoom.com` | toolspec |
+| ahrefs | api_key | sealed | `api.ahrefs.com` | toolspec |
+| airtable | oauth2 | sealed | `api.airtable.com` | toolspec |
+| alchemy | api_key | entrusted | `*.g.alchemy.com` | toolspec |
+| altoviz | api_key | sealed | `api.altoviz.com` | toolspec (unverified) |
+| amcards | api_key | sealed | `amcards.com` | toolspec |
+| amplitude | basic | sealed | `amplitude.com`, `api2.amplitude.com` | toolspec |
+| apaleo | oauth2 | sealed | `api.apaleo.com`, `identity.apaleo.com` | toolspec |
+| apollo | api_key | sealed | `api.apollo.io` | toolspec |
+| appdrag | api_key | sealed | `api.appdrag.com` | toolspec |
+| asana | oauth2 | sealed | `app.asana.com` | toolspec |
+| ashby | basic | sealed | `api.ashbyhq.com` | toolspec |
+| attio | oauth2 | sealed | `api.attio.com` | toolspec |
+| bamboohr | basic | sealed | `api.bamboohr.com` | toolspec |
+| bannerbear | api_key | sealed | `api.bannerbear.com` | toolspec |
+| baserow | api_key | sealed | `api.baserow.io` | toolspec |
+| beeminder | api_key | entrusted | `www.beeminder.com` | toolspec |
+| bitbucket | oauth2 | sealed | `api.bitbucket.org`, `bitbucket.org` | toolspec |
+| bitwarden | oauth2 | sealed | `api.bitwarden.com`, `identity.bitwarden.com` | toolspec |
+| blackbaud | oauth2 | sealed | `api.sky.blackbaud.com`, `oauth2.sky.blackbaud.com` | toolspec |
+| blackboard | oauth2 | sealed | `*.blackboard.com` | toolspec |
+| boldsign | oauth2 | sealed | `api.boldsign.com` | toolspec |
+| bolna | api_key | sealed | `api.bolna.ai` | toolspec |
+| borneo | api_key | sealed | `api.borneo.io`, `*.borneo.io` | planned (no public API found) |
+| botbaba | api_key | sealed | `botbaba.io`, `*.botbaba.io` | planned (no public API found) |
+| box | oauth2 | sealed | `api.box.com`, `upload.box.com` | toolspec |
+| brandfetch | api_key | sealed | `api.brandfetch.io`, `graphql.brandfetch.io` | toolspec |
+| breezy-hr | api_key | sealed | `api.breezy.hr` | toolspec |
+| brevo | api_key | sealed | `api.brevo.com` | toolspec |
+| brex | oauth2 | sealed | `api.brex.com` | toolspec |
+| browseai | api_key | sealed | `api.browse.ai` | toolspec |
+| browserbase | api_key | sealed | `api.browserbase.com` | toolspec |
+| bubble | api_key | sealed | `bubble.io`, `*.bubbleapps.io` | toolspec |
+| cal | api_key | sealed | `api.cal.com` | toolspec |
+| calendly | oauth2 | sealed | `api.calendly.com`, `auth.calendly.com` | toolspec |
+| canva | oauth2 | sealed | `api.canva.com` | toolspec |
+| canvas | api_key | sealed | `canvas.instructure.com`, `*.instructure.com` | toolspec |
+| chatwork | api_key | sealed | `api.chatwork.com` | toolspec |
+| chmeetings | api_key | sealed | `api.chmeetings.com`, `chmeetings.com` | planned (no public API found) |
+| clickup | oauth2 | sealed | `api.clickup.com` | toolspec |
+| close | basic | sealed | `api.close.com` | toolspec |
+| cloudflare | api_key | sealed | `api.cloudflare.com` | toolspec |
+| coda | api_key | sealed | `coda.io` | toolspec |
+| coinbase | api_key | sealed | `api.coinbase.com`, `api.exchange.coinbase.com` | toolspec |
+| coinmarketcal | api_key | sealed | `developers.coinmarketcal.com` | toolspec |
+| confluence | oauth2 | sealed | `api.atlassian.com`, `*.atlassian.net` | toolspec |
+| contentful | oauth2 | sealed | `api.contentful.com` | toolspec |
+| crustdata | api_key | sealed | `api.crustdata.com` | toolspec (unverified) |
+| d2lbrightspace | oauth2 | sealed | `auth.brightspace.com`, `*.brightspace.com` | toolspec |
+| dailybot | api_key | sealed | `api.dailybot.com` | toolspec |
+| datadog | api_key | sealed | `api.datadoghq.com`, `*.datadoghq.com` | toolspec |
+| datagma | api_key | entrusted | `gateway.datagma.net` | toolspec (unverified) |
+| datarobot | api_key | sealed | `app.datarobot.com` | toolspec |
+| demio | api_key | sealed | `my.demio.com` | toolspec (unverified) |
+| dialpad | oauth2 | sealed | `dialpad.com` | toolspec |
+| digicert | api_key | sealed | `www.digicert.com`, `api.digicert.com` | toolspec |
+| discord | oauth2 | sealed | `discord.com` | toolspec |
+| discordbot | api_key | sealed | `discord.com`, `cdn.discordapp.com` | toolspec |
+| docmosis | api_key | sealed | `*.dws4.docmosis.com`, `*.dws3.docmosis.com` | toolspec |
+| docusign | oauth2 | sealed | `account.docusign.com`, `*.docusign.net` | toolspec |
+| dropbox | oauth2 | sealed | `api.dropboxapi.com`, `content.dropboxapi.com` | toolspec |
+| dropbox-sign | oauth2 | sealed | `api.hellosign.com` | toolspec |
+| dynamics365 | oauth2 | sealed | `*.dynamics.com`, `login.microsoftonline.com` | toolspec |
+| echtpost | api_key | sealed | `api.echtpost.de` | toolspec |
+| elevenlabs | api_key | sealed | `api.elevenlabs.io` | toolspec |
+| eventbrite | oauth2 | sealed | `www.eventbriteapi.com` | toolspec |
+| exa | api_key | sealed | `api.exa.ai` | toolspec |
+| exist | oauth2 | sealed | `exist.io` | toolspec |
+| facebook | oauth2 | sealed | `graph.facebook.com` | toolspec |
+| figma | oauth2 | sealed | `api.figma.com` | toolspec |
+| finage | api_key | entrusted | `api.finage.co.uk` | toolspec |
+| firecrawl | api_key | sealed | `api.firecrawl.dev` | toolspec |
+| fireflies | api_key | sealed | `api.fireflies.ai` | toolspec |
+| flutterwave | api_key | sealed | `api.flutterwave.com` | toolspec |
+| fomo | api_key | sealed | `api.fomo.com` | toolspec |
+| formcarry | api_key | sealed | `formcarry.com` | toolspec (unverified) |
+| formsite | api_key | sealed | `*.formsite.com` | toolspec |
+| foursquare | api_key | sealed | `api.foursquare.com`, `places-api.foursquare.com` | toolspec |
+| freshbooks | oauth2 | sealed | `api.freshbooks.com`, `auth.freshbooks.com` | toolspec |
+| freshdesk | basic | sealed | `*.freshdesk.com` | toolspec |
+| gmail | oauth2 | sealed | `gmail.googleapis.com` | toolspec |
+| gong | oauth2 | sealed | `api.gong.io`, `*.api.gong.io` | toolspec |
+| google-analytics | oauth2 | sealed | `analyticsdata.googleapis.com`, `analyticsadmin.googleapis.com`, `oauth2.googleapis.com` | toolspec |
+| google-maps | api_key | sealed | `geocode.googleapis.com`, `places.googleapis.com`, `routes.googleapis.com` | toolspec |
+| googleads | oauth2 | sealed | `googleads.googleapis.com`, `oauth2.googleapis.com` | toolspec |
+| googlebigquery | oauth2 | sealed | `bigquery.googleapis.com` | toolspec |
+| googlecalendar | oauth2 | sealed | `www.googleapis.com` | toolspec |
+| googledocs | oauth2 | sealed | `docs.googleapis.com`, `www.googleapis.com`, `oauth2.googleapis.com` | toolspec |
+| googledrive | oauth2 | sealed | `www.googleapis.com`, `oauth2.googleapis.com` | toolspec |
+| googlemeet | oauth2 | sealed | `meet.googleapis.com`, `oauth2.googleapis.com` | toolspec |
+| googlephotos | oauth2 | sealed | `photoslibrary.googleapis.com` | toolspec |
+| googlesheets | oauth2 | sealed | `sheets.googleapis.com` | toolspec |
+| googletasks | oauth2 | sealed | `tasks.googleapis.com`, `www.googleapis.com` | toolspec |
+| gorgias | oauth2 | sealed | `gorgias.com`, `*.gorgias.com` | toolspec |
+| gumroad | oauth2 | sealed | `api.gumroad.com` | toolspec |
+| hackernews |  | sealed | `hacker-news.firebaseio.com`, `hn.algolia.com` | toolspec |
+| hackerrank-work | api_key | sealed | `www.hackerrank.com` | toolspec |
+| harvest | oauth2 | sealed | `api.harvestapp.com`, `id.getharvest.com` | toolspec |
+| heygen | api_key | sealed | `api.heygen.com`, `upload.heygen.com` | toolspec |
+| highlevel | oauth2 | sealed | `services.leadconnectorhq.com` | toolspec |
+| hubspot | oauth2 | sealed | `api.hubapi.com` | toolspec |
+| humanloop | api_key | sealed | `api.humanloop.com` | toolspec |
+| intercom | oauth2 | sealed | `api.intercom.io` | toolspec |
+| interzoid | api_key | sealed | `api.interzoid.com` | toolspec |
+| jira | oauth2 | sealed | `api.atlassian.com`, `*.atlassian.net` | toolspec |
+| junglescout | api_key | sealed | `developer.junglescout.com` | toolspec |
+| klaviyo | oauth2 | sealed | `a.klaviyo.com` | toolspec |
+| klipfolio | api_key | sealed | `app.klipfolio.com` | toolspec |
+| kommo | oauth2 | sealed | `kommo.com`, `*.kommo.com` | toolspec |
+| launchdarkly | api_key | sealed | `app.launchdarkly.com` | toolspec |
+| lever | oauth2 | sealed | `api.lever.co`, `auth.lever.co` | toolspec |
+| lexoffice | api_key | sealed | `api.lexware.io` | toolspec |
+| linear | oauth2 | sealed | `api.linear.app` | toolspec |
+| linkedin | oauth2 | sealed | `api.linkedin.com` | toolspec |
+| linkhut | oauth2 | sealed | `api.ln.ht`, `ln.ht` | toolspec |
+| linkup | api_key | sealed | `api.linkup.so` | toolspec |
+| listennotes | api_key | sealed | `listen-api.listennotes.com` | toolspec |
+| lmnt | api_key | sealed | `api.lmnt.com` | toolspec |
+| mailchimp | oauth2 | sealed | `login.mailchimp.com`, `*.api.mailchimp.com` | toolspec |
+| mailerlite | api_key | sealed | `connect.mailerlite.com` | toolspec (unverified) |
+| maintainx | api_key | sealed | `api.getmaintainx.com` | toolspec |
+| mem0 | api_key | sealed | `api.mem0.ai` | toolspec |
+| metaads | oauth2 | sealed | `graph.facebook.com` | toolspec |
+| metatextai | api_key | sealed | `api.metatext.ai`, `guard-api.metatext.ai` | toolspec |
+| microsoft-clarity | api_key | sealed | `www.clarity.ms` | toolspec |
+| microsoft-teams | oauth2 | sealed | `graph.microsoft.com`, `login.microsoftonline.com` | toolspec |
+| miro | oauth2 | sealed | `api.miro.com` | toolspec |
+| mixpanel | basic | sealed | `mixpanel.com`, `api.mixpanel.com`, `data.mixpanel.com`, `eu.mixpanel.com` | toolspec |
+| mocean | api_key | entrusted | `rest.moceanapi.com` | toolspec |
+| monday | oauth2 | sealed | `api.monday.com` | toolspec |
+| mopinion | api_key | sealed | `api.mopinion.com` | toolspec |
+| more-trees | api_key | sealed | `*.platform.moretrees.eco` | toolspec |
+| moz | api_key | sealed | `api.moz.com`, `lsapi.seomoz.com` | toolspec |
+| mural | oauth2 | sealed | `app.mural.co` | toolspec |
+| neon | api_key | sealed | `console.neon.tech` | toolspec |
+| netsuite | oauth2 | sealed | `*.suitetalk.api.netsuite.com`, `*.app.netsuite.com`, `system.netsuite.com` | toolspec |
+| ngrok | api_key | sealed | `api.ngrok.com` | toolspec |
+| notion | oauth2 | sealed | `api.notion.com` | toolspec |
+| onedrive | oauth2 | sealed | `graph.microsoft.com` | toolspec |
+| opensea | api_key | sealed | `api.opensea.io` | toolspec |
+| outlook | oauth2 | sealed | `graph.microsoft.com`, `login.microsoftonline.com` | toolspec |
+| pagerduty | oauth2 | sealed | `api.pagerduty.com` | toolspec |
+| pandadoc | api_key | sealed | `api.pandadoc.com` | toolspec |
+| peopledatalabs | api_key | sealed | `api.peopledatalabs.com` | toolspec |
+| perplexityai | api_key | sealed | `api.perplexity.ai` | toolspec |
+| piggy | api_key | sealed | `api.piggy.eu` | toolspec |
+| pipedrive | oauth2 | sealed | `api.pipedrive.com`, `*.pipedrive.com` | toolspec |
+| placekey | api_key | sealed | `api.placekey.io` | toolspec (unverified) |
+| posthog | api_key | sealed | `app.posthog.com`, `us.posthog.com`, `eu.posthog.com`, `us.i.posthog.com`, `eu.i.posthog.com` | toolspec |
+| process-street | api_key | sealed | `public-api.process.st` | toolspec |
+| productboard | oauth2 | sealed | `api.productboard.com` | toolspec |
+| rafflys | api_key | sealed | `app-sorteos.com` | toolspec (unverified) |
+| recallai | api_key | sealed | `*.recall.ai` | toolspec |
+| reddit | oauth2 | sealed | `oauth.reddit.com`, `www.reddit.com` | toolspec |
+| retellai | api_key | sealed | `api.retellai.com` | toolspec |
+| rocketlane | api_key | sealed | `api.rocketlane.com` | toolspec |
+| rocketreach | api_key | sealed | `api.rocketreach.co` | toolspec |
+| salesforce | oauth2 | sealed | `login.salesforce.com`, `*.salesforce.com`, `*.my.salesforce.com` | toolspec |
+| screenshotone | api_key | entrusted | `api.screenshotone.com` | toolspec |
+| semanticscholar | api_key | sealed | `api.semanticscholar.org` | toolspec |
+| semrush | api_key | entrusted | `api.semrush.com` | toolspec |
+| sendgrid | api_key | sealed | `api.sendgrid.com` | toolspec |
+| sentry | oauth2 | sealed | `sentry.io`, `*.sentry.io` | toolspec |
+| serpapi | api_key | entrusted | `serpapi.com` | toolspec |
+| servicem8 | oauth2 | sealed | `api.servicem8.com` | toolspec |
+| servicenow | oauth2 | sealed | `*.service-now.com` | toolspec |
+| sharepoint | oauth2 | sealed | `graph.microsoft.com`, `*.sharepoint.com` | toolspec |
+| shopify | oauth2 | sealed | `*.myshopify.com` | toolspec |
+| shortcut | api_key | sealed | `api.app.shortcut.com` | toolspec |
+| simplesat | api_key | sealed | `api.simplesat.io` | toolspec |
+| slack | oauth2 | sealed | `slack.com`, `edgeapi.slack.com` | adopts github.com/korotovsky/slack-mcp-server v1.3.0 |
+| slackbot | oauth2 | sealed | `slack.com`, `*.slack.com` | adopts github.com/korotovsky/slack-mcp-server v1.3.0 |
+| smugmug | api_key | entrusted | `api.smugmug.com` | toolspec |
+| snowflake | oauth2 | sealed | `*.snowflakecomputing.com`, `status.snowflake.com` | toolspec |
+| square | oauth2 | sealed | `connect.squareup.com` | toolspec |
+| stack-exchange | oauth2 | entrusted | `api.stackexchange.com` | toolspec |
+| stripe | api_key | sealed | `api.stripe.com` | toolspec |
+| supabase | api_key | sealed | `api.supabase.com` | toolspec |
+| surveymonkey | oauth2 | sealed | `api.surveymonkey.com` | toolspec |
+| tavily | api_key | sealed | `api.tavily.com` | toolspec |
+| text-to-pdf | api_key | sealed | `v2.convertapi.com` | toolspec |
+| textrazor | api_key | sealed | `api.textrazor.com` | toolspec |
+| timecamp | api_key | sealed | `app.timecamp.com` | toolspec |
+| timely | oauth2 | sealed | `api.timelyapp.com` | toolspec |
+| tinypng | basic | sealed | `api.tinify.com` | toolspec |
+| tinyurl | api_key | sealed | `api.tinyurl.com` | toolspec |
+| tisane | api_key | sealed | `api.tisane.ai` | toolspec |
+| todoist | oauth2 | sealed | `api.todoist.com`, `todoist.com` | toolspec |
+| toneden | oauth2 | sealed | `www.toneden.io` | toolspec |
+| trello | api_key | entrusted | `api.trello.com`, `trello.com` | toolspec |
+| twitter | oauth2 | sealed | `api.twitter.com`, `api.x.com`, `upload.twitter.com` | toolspec |
+| typefully | api_key | sealed | `api.typefully.com` | toolspec |
+| waboxapp | api_key | entrusted | `www.waboxapp.com` | planned (no public API found) |
+| wakatime | oauth2 | sealed | `api.wakatime.com`, `wakatime.com` | toolspec |
+| weathermap | api_key | entrusted | `api.openweathermap.org` | toolspec |
+| webex | oauth2 | sealed | `webexapis.com` | toolspec |
+| webflow | oauth2 | sealed | `api.webflow.com` | toolspec |
+| whatsapp | oauth2 | sealed | `graph.facebook.com` | toolspec |
+| workiom | api_key | sealed | `workiom.com`, `*.workiom.com` | toolspec (unverified) |
+| wrike | oauth2 | sealed | `www.wrike.com`, `*.wrike.com` | toolspec |
+| xero | oauth2 | sealed | `api.xero.com`, `identity.xero.com` | toolspec |
+| yandex | oauth2 | sealed | `cloud-api.yandex.net`, `api.music.yandex.net`, `api-metrika.yandex.net` | toolspec |
+| ynab | oauth2 | sealed | `api.ynab.com`, `app.ynab.com` | toolspec (unverified) |
+| yousearch | api_key | sealed | `ydc-index.io`, `api.ydc-index.io`, `chat-api.you.com`, `api.you.com` | toolspec |
+| youtube | oauth2 | sealed | `www.googleapis.com`, `youtube.googleapis.com` | toolspec |
+| zendesk | oauth2 | sealed | `*.zendesk.com` | toolspec |
+| zenrows | api_key | entrusted | `api.zenrows.com` | toolspec |
+| zenserp | api_key | sealed | `app.zenserp.com` | toolspec |
+| zoho | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | toolspec |
+| zoho-bigin | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | toolspec |
+| zoho-books | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | toolspec |
+| zoho-desk | oauth2 | sealed | `desk.zoho.com`, `accounts.zoho.com` | toolspec |
+| zoho-inventory | oauth2 | sealed | `www.zohoapis.com`, `*.zohoapis.com`, `accounts.zoho.com` | toolspec |
+| zoho-invoice | oauth2 | sealed | `www.zohoapis.com`, `accounts.zoho.com` | toolspec |
+| zoho-mail | oauth2 | sealed | `mail.zoho.com`, `accounts.zoho.com` | toolspec |
+| zoom | oauth2 | sealed | `api.zoom.us` | toolspec |
+| zoominfo | oauth2 | sealed | `api.zoominfo.com` | toolspec |

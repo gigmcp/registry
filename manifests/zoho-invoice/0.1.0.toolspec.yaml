@@ -1,0 +1,133 @@
+schemaVersion: 1
+name: zoho-invoice
+version: 0.1.0
+baseUrl: https://www.zohoapis.com
+tools:
+  - name: list_invoices
+    description: List invoices in the organization with optional filters
+    method: GET
+    path: /invoice/v3/invoices
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: invoice_number, in: query, type: string, description: "Filter by invoice number"}
+      - {name: customer_name, in: query, type: string, description: "Filter by customer name"}
+      - {name: status, in: query, type: string, description: "Filter by status (draft, sent, overdue, paid, void)"}
+      - {name: date, in: query, type: string, description: "Filter by invoice date (yyyy-mm-dd)"}
+      - {name: due_date, in: query, type: string, description: "Filter by due date (yyyy-mm-dd)"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default 200)"}
+
+  - name: get_invoice
+    description: Retrieve details of a specific invoice by its ID
+    method: GET
+    path: /invoice/v3/invoices/{invoice_id}
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: invoice_id, in: path, type: string, required: true, description: "Unique identifier of the invoice"}
+      - {name: print, in: query, type: boolean, description: "Set to true to print the invoice"}
+      - {name: accept, in: query, type: string, description: "Response format (json, pdf, or html)"}
+
+  - name: create_invoice
+    description: Create a new invoice for a customer
+    method: POST
+    path: /invoice/v3/invoices
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: send, in: query, type: boolean, description: "Set to true to send the invoice after creation"}
+      - {name: ignore_auto_number_generation, in: query, type: boolean, description: "Set to true to provide a custom invoice number"}
+      - {name: customer_id, in: body, type: string, required: true, description: "Unique identifier of the customer"}
+      - {name: date, in: body, type: string, description: "Invoice date in yyyy-mm-dd format"}
+      - {name: line_items, in: body, type: array, required: true, description: "Line items of the invoice; each item should include item_id, rate, and quantity"}
+      - {name: due_date, in: body, type: string, description: "Due date of the invoice in yyyy-mm-dd format"}
+      - {name: invoice_number, in: body, type: string, description: "Custom invoice number (requires ignore_auto_number_generation=true)"}
+      - {name: reference_number, in: body, type: string, description: "Reference number for the invoice"}
+
+  - name: email_invoice
+    description: Send an invoice to the customer via email
+    method: POST
+    path: /invoice/v3/invoices/{invoice_id}/email
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: invoice_id, in: path, type: string, required: true, description: "Unique identifier of the invoice to email"}
+      - {name: to_mail_ids, in: body, type: array, description: "List of email addresses to send the invoice to"}
+      - {name: subject, in: body, type: string, description: "Subject of the email"}
+      - {name: body, in: body, type: string, description: "Body of the email"}
+
+  - name: delete_invoice
+    description: Delete an existing invoice (cannot delete invoices with payments or credits applied)
+    method: DELETE
+    path: /invoice/v3/invoices/{invoice_id}
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: invoice_id, in: path, type: string, required: true, description: "Unique identifier of the invoice to delete"}
+
+  - name: list_contacts
+    description: List contacts (customers and vendors) in the organization
+    method: GET
+    path: /invoice/v3/contacts
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: contact_name, in: query, type: string, description: "Filter by contact name"}
+      - {name: company_name, in: query, type: string, description: "Filter by company name"}
+      - {name: email, in: query, type: string, description: "Filter by email address"}
+      - {name: filter_by, in: query, type: string, description: "Filter by status (Active, Inactive, Duplicate, CRM)"}
+      - {name: search_text, in: query, type: string, description: "Search across name and notes"}
+      - {name: sort_column, in: query, type: string, description: "Sort results by this column"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default 200)"}
+
+  - name: create_contact
+    description: Create a new contact (customer or vendor) in the organization
+    method: POST
+    path: /invoice/v3/contacts
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: contact_name, in: body, type: string, required: true, description: "Name of the contact (individual or organization)"}
+      - {name: company_name, in: body, type: string, description: "Company name of the contact"}
+      - {name: payment_terms, in: body, type: integer, description: "Net payment terms in days"}
+      - {name: currency_id, in: body, type: string, description: "Currency ID for the contact"}
+      - {name: website, in: body, type: string, description: "Website of the contact"}
+      - {name: billing_address, in: body, type: object, description: "Billing address (address, street2, city, state, zip, country, fax)"}
+      - {name: shipping_address, in: body, type: object, description: "Shipping address (address, street2, city, state, zip, country, fax)"}
+      - {name: contact_persons, in: body, type: array, description: "List of contact persons with name, email, and phone details"}
+
+  - name: list_estimates
+    description: List estimates in the organization
+    method: GET
+    path: /invoice/v3/estimates
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default 200)"}
+      - {name: zcrm_potential_id, in: query, type: string, description: "Filter by CRM Deal ID"}
+
+  - name: list_credit_notes
+    description: List credit notes in the organization
+    method: GET
+    path: /invoice/v3/creditnotes
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: creditnote_number, in: query, type: string, description: "Filter by credit note number"}
+      - {name: status, in: query, type: string, description: "Filter by status (open, closed, void)"}
+      - {name: customer_name, in: query, type: string, description: "Filter by customer name"}
+      - {name: customer_id, in: query, type: string, description: "Filter by customer ID"}
+      - {name: search_text, in: query, type: string, description: "Search across credit note number, customer name, or reference number"}
+      - {name: sort_column, in: query, type: string, description: "Sort results by this column (customer_name, creditnote_number, balance, total, date, created_time)"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default 200)"}
+
+  - name: create_customer_payment
+    description: Record a payment received from a customer against one or more invoices
+    method: POST
+    path: /invoice/v3/customerpayments
+    params:
+      - {name: X-com-zoho-invoice-organizationid, in: header, type: string, required: true, description: "Unique identifier of the organization"}
+      - {name: customer_id, in: body, type: string, required: true, description: "Unique identifier of the customer making the payment"}
+      - {name: payment_mode, in: body, type: string, required: true, description: "Mode of payment (check, cash, creditcard, banktransfer, bankremittance, autotransaction, or others)"}
+      - {name: amount, in: body, type: number, required: true, description: "Total payment amount received"}
+      - {name: date, in: body, type: string, required: true, description: "Payment date in yyyy-mm-dd format"}
+      - {name: invoices, in: body, type: array, description: "List of invoices to apply the payment to; each entry includes invoice_id and amount_applied"}
+      - {name: reference_number, in: body, type: string, description: "Reference number for the payment"}
+      - {name: description, in: body, type: string, description: "Description or notes for the payment"}
+      - {name: exchange_rate, in: body, type: number, description: "Exchange rate for foreign currency payments"}
+      - {name: bank_charges, in: body, type: number, description: "Bank charges associated with the payment"}

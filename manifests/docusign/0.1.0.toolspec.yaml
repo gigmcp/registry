@@ -1,0 +1,97 @@
+schemaVersion: 1
+name: docusign
+version: 0.1.0
+baseUrl: https://www.docusign.net
+tools:
+  - name: list_envelopes
+    description: List envelopes for an account, with optional filters by status, date range, and search text
+    method: GET
+    path: /restapi/v2.1/accounts/{accountId}/envelopes
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: from_date, in: query, type: string, description: "Start date for status changes (ISO 8601). Required unless envelope_ids or transaction_ids is provided."}
+      - {name: to_date, in: query, type: string, description: End date for status changes (ISO 8601).}
+      - {name: status, in: query, type: string, description: "Comma-separated list of envelope statuses to filter by (e.g. created, sent, delivered, signed, completed, declined, voided)."}
+      - {name: search_text, in: query, type: string, description: "Free text search criteria to filter the list of envelopes."}
+      - {name: count, in: query, type: integer, description: "Maximum number of results to return (max 1000)."}
+      - {name: start_position, in: query, type: integer, description: Zero-based index of the result from which to start returning results.}
+      - {name: order, in: query, type: string, description: "Sort order: asc or desc."}
+      - {name: order_by, in: query, type: string, description: "Property to sort by (e.g. last_modified, action_required, created, completed, envelope_name, expire, sent, status, subject)."}
+
+  - name: get_envelope
+    description: Get detailed information about a specific envelope by its ID
+    method: GET
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: include, in: query, type: string, description: "Comma-separated list of additional envelope attributes to include (e.g. recipients, documents, tabs, custom_fields, workflow)."}
+
+  - name: get_envelope_recipients
+    description: Get the recipients for a specific envelope, including their status and signing details
+    method: GET
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/recipients
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: include_tabs, in: query, type: string, description: "When true, the tab information associated with the recipient is included in the response."}
+      - {name: include_extended, in: query, type: string, description: "When true, the extended properties are included in the response."}
+
+  - name: get_envelope_documents
+    description: Get the list of documents in a specific envelope
+    method: GET
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/documents
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: include_metadata, in: query, type: string, description: "When true, the response includes metadata indicating which properties the current user can edit."}
+
+  - name: list_templates
+    description: List templates available to the account, with optional filters by name, date range, and folder
+    method: GET
+    path: /restapi/v2.1/accounts/{accountId}/templates
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: count, in: query, type: integer, description: "Maximum number of results to return."}
+      - {name: start_position, in: query, type: integer, description: Zero-based index of the result from which to start returning results.}
+      - {name: search_text, in: query, type: string, description: "Text to search in template names (limit 48 characters)."}
+      - {name: order, in: query, type: string, description: "Sort order: asc or desc."}
+      - {name: order_by, in: query, type: string, description: "Property to sort by (e.g. name, modified, used)."}
+      - {name: folder_types, in: query, type: string, description: "Type of folder to return templates for (e.g. templates, sharedtemplates)."}
+      - {name: user_filter, in: query, type: string, description: "Filter templates by ownership (e.g. owned_by_me, shared_with_me, all)."}
+
+  - name: create_envelope
+    description: Create a new envelope (draft or send immediately) with documents and recipients
+    method: POST
+    path: /restapi/v2.1/accounts/{accountId}/envelopes
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeDefinition, in: body, type: object, required: true, description: "Envelope definition including documents, recipients, email subject, and status (created for draft, sent to send immediately)."}
+
+  - name: send_envelope
+    description: Send a draft envelope or resend an existing envelope to its recipients
+    method: PUT
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: resend_envelope, in: query, type: string, description: "When true, sends the specified envelope again."}
+      - {name: envelope, in: body, type: object, required: true, description: "Envelope object with status set to sent to send the envelope."}
+
+  - name: void_envelope
+    description: Void a sent or delivered envelope, preventing further signing
+    method: PUT
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: envelope, in: body, type: object, required: true, description: "Envelope object with status set to voided and voidedReason explaining why the envelope was voided."}
+
+  - name: add_envelope_attachments
+    description: Add one or more attachments to a draft or in-process envelope
+    method: PUT
+    path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/attachments
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: The external account number (int) or account ID GUID.}
+      - {name: envelopeId, in: path, type: string, required: true, description: "The envelope's GUID."}
+      - {name: envelopeAttachmentsRequest, in: body, type: object, required: true, description: "Object containing the list of attachments to add to the envelope."}

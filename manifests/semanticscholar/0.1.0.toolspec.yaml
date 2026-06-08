@@ -1,0 +1,85 @@
+schemaVersion: 1
+name: semanticscholar
+version: 0.1.0
+baseUrl: https://api.semanticscholar.org
+tools:
+  - name: search_papers
+    description: Search for academic papers by keyword query using Semantic Scholar's relevance ranking
+    method: GET
+    path: /graph/v1/paper/search
+    params:
+      - {name: query, in: query, type: string, required: true, description: "Search query keywords"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. title,year,authors,abstract,citationCount)"}
+      - {name: limit, in: query, type: integer, description: "Max results to return (default 10, max 100)"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset"}
+      - {name: year, in: query, type: string, description: "Year range filter (e.g. 2010-2020 or 2015-)"}
+      - {name: fieldsOfStudy, in: query, type: string, description: "Comma-separated fields of study to filter by (e.g. Computer Science,Medicine)"}
+      - {name: publicationTypes, in: query, type: string, description: "Comma-separated publication types to filter by"}
+      - {name: minCitationCount, in: query, type: integer, description: "Minimum citation count threshold"}
+      - {name: openAccessPdf, in: query, type: boolean, description: "Filter to papers with a public PDF"}
+
+  - name: get_paper_details
+    description: Retrieve full details for a specific paper by its Semantic Scholar paper ID
+    method: GET
+    path: /graph/v1/paper/{paper_id}
+    params:
+      - {name: paper_id, in: path, type: string, required: true, description: "Semantic Scholar paper ID (S2PaperId, DOI:..., ARXIV:..., etc.)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. title,year,authors,abstract,citationCount,references)"}
+
+  - name: get_paper_citations
+    description: Retrieve the list of papers that cite a given paper
+    method: GET
+    path: /graph/v1/paper/{paper_id}/citations
+    params:
+      - {name: paper_id, in: path, type: string, required: true, description: "Semantic Scholar paper ID of the paper being cited"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return for each citing paper (e.g. title,year,authors)"}
+      - {name: limit, in: query, type: integer, description: "Max citations to return (default 100, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset"}
+
+  - name: get_paper_references
+    description: Retrieve the list of papers referenced by a given paper
+    method: GET
+    path: /graph/v1/paper/{paper_id}/references
+    params:
+      - {name: paper_id, in: path, type: string, required: true, description: "Semantic Scholar paper ID of the paper whose references to retrieve"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return for each referenced paper (e.g. title,year,authors)"}
+      - {name: limit, in: query, type: integer, description: "Max references to return (default 100, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset"}
+
+  - name: search_authors
+    description: Search for academic authors by name
+    method: GET
+    path: /graph/v1/author/search
+    params:
+      - {name: query, in: query, type: string, required: true, description: "Author name search query"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. name,affiliations,paperCount,hIndex)"}
+      - {name: limit, in: query, type: integer, description: "Max results to return (default 10, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset"}
+
+  - name: get_author_details
+    description: Retrieve details for a specific author by their Semantic Scholar author ID
+    method: GET
+    path: /graph/v1/author/{author_id}
+    params:
+      - {name: author_id, in: path, type: string, required: true, description: "Semantic Scholar author ID"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. name,affiliations,paperCount,citationCount,hIndex)"}
+
+  - name: get_author_papers
+    description: Retrieve the list of papers published by a specific author
+    method: GET
+    path: /graph/v1/author/{author_id}/papers
+    params:
+      - {name: author_id, in: path, type: string, required: true, description: "Semantic Scholar author ID"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return for each paper (e.g. title,year,citationCount,abstract)"}
+      - {name: limit, in: query, type: integer, description: "Max papers to return (default 100, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset"}
+
+  - name: get_paper_recommendations
+    description: Get recommended papers similar to a given paper using Semantic Scholar's recommendations engine
+    method: GET
+    path: /recommendations/v1/papers/forpaper/{paper_id}
+    params:
+      - {name: paper_id, in: path, type: string, required: true, description: "Semantic Scholar paper ID to base recommendations on"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return for each recommended paper (e.g. title,year,authors,abstract)"}
+      - {name: limit, in: query, type: integer, description: "Max recommendations to return (default 100, max 500)"}
+      - {name: from, in: query, type: string, description: "Paper pool to recommend from: 'recent' (default, last 60 days) or 'all-cs' (all CS papers)"}

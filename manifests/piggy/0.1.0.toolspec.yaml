@@ -1,0 +1,78 @@
+schemaVersion: 1
+name: piggy
+version: 0.1.0
+baseUrl: https://api.piggy.eu
+tools:
+  - name: list_perks
+    description: Fetch a list of all Perks with their Perk Options
+    method: GET
+    path: /api/perks
+
+  - name: list_forms
+    description: Fetch a list of all Forms, optionally filtered by status or type
+    method: GET
+    path: /api/forms
+    params:
+      - {name: status, in: query, type: string, description: "Filter by form status: PUBLISHED, DRAFT, or BIN"}
+      - {name: type, in: query, type: string, description: "Filter by form type: PUBLIC or PRIVATE"}
+
+  - name: find_voucher_by_code
+    description: Find a voucher by its unique code and return its details including redemption status and expiration date
+    method: GET
+    path: /api/vouchers/find
+    params:
+      - {name: code, in: query, type: string, required: true, description: The unique code of the voucher to look up}
+
+  - name: get_contact_credit_balance
+    description: Retrieve the current credit balance for a specific contact
+    method: GET
+    path: /api/contacts/{contact_uuid}/credit-balance
+    params:
+      - {name: contact_uuid, in: path, type: string, required: true, description: UUID of the contact}
+
+  - name: create_credit_reception
+    description: Create a new credit reception to award credits to a contact
+    method: POST
+    path: /api/credit-receptions
+    params:
+      - {name: shop_uuid, in: body, type: string, required: true, description: UUID of the shop where the credit reception occurs}
+      - {name: contact_uuid, in: body, type: string, description: UUID of the contact receiving the credits}
+      - {name: credits, in: body, type: number, description: Number of credits to award (provide either credits or unit_value)}
+      - {name: unit_value, in: body, type: number, description: Unit value to convert to credits (provide either credits or unit_value)}
+      - {name: unit_name, in: body, type: string, description: "Unit type for conversion; defaults to purchase_amount"}
+      - {name: contact_identifier_value, in: body, type: string, description: Alternative contact identifier value instead of contact_uuid}
+
+  - name: create_vouchers_batch
+    description: Create a batch of vouchers for a promotion, returning a pending batch status
+    method: POST
+    path: /api/vouchers/batch
+    params:
+      - {name: promotion_uuid, in: body, type: string, required: true, description: UUID of the promotion the vouchers belong to}
+      - {name: quantity, in: body, type: integer, required: true, description: "Number of vouchers to create (1-500)"}
+      - {name: contact_uuid, in: body, type: string, description: UUID of the contact to assign all vouchers to}
+      - {name: expiration_date, in: body, type: string, description: "Expiration date for the vouchers (ISO 8601)"}
+      - {name: activation_date, in: body, type: string, description: "Activation date for the vouchers (ISO 8601)"}
+
+  - name: merge_contacts
+    description: Merge two contacts by moving all data from the source contact to the destination contact (irreversible)
+    method: POST
+    path: /api/contacts/merge
+    params:
+      - {name: source_contact_uuid, in: body, type: string, required: true, description: UUID of the contact to merge from (will be removed)}
+      - {name: destination_contact_uuid, in: body, type: string, required: true, description: UUID of the contact to merge into (will be kept)}
+
+  - name: send_contact_verification_email
+    description: Send a verification email to a contact so they can verify their email address and log in to the Contacts Portal
+    method: POST
+    path: /api/contact-verification/send
+    params:
+      - {name: email, in: body, type: string, required: true, description: Email address of the contact to send the verification email to}
+
+  - name: update_contact_identifiers
+    description: Update a contact identifier's name or active status by its value (the value itself cannot be changed)
+    method: PUT
+    path: /api/contact-identifiers
+    params:
+      - {name: contact_identifier_value, in: body, type: string, required: true, description: The unique value of the contact identifier to update}
+      - {name: contact_identifier_name, in: body, type: string, description: New name for the contact identifier}
+      - {name: contact_identifier_active, in: body, type: boolean, description: Whether the contact identifier should be active}

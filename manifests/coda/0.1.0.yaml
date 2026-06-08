@@ -2,13 +2,14 @@ schemaVersion: 1
 name: coda
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/coda-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coda-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:23e91edff1485321ce5c587b484b949d0caf9a5490dada810ff8f485b5f1698e
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

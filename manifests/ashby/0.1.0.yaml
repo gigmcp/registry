@@ -2,13 +2,14 @@ schemaVersion: 1
 name: ashby
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/ashby-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ashby-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:46da4a3857ab7e93c5b2c8e0f6303058f9accc37a6665bef82db200780950bfe
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

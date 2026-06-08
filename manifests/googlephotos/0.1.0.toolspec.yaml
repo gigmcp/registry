@@ -1,0 +1,87 @@
+schemaVersion: 1
+name: googlephotos
+version: 0.1.0
+baseUrl: https://photoslibrary.googleapis.com
+tools:
+  - name: list_albums
+    description: List all app-created albums in the user's Google Photos library
+    method: GET
+    path: /v1/albums
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of albums to return (default 20, max 50)"}
+      - {name: pageToken, in: query, type: string, description: "Continuation token for pagination from a previous response"}
+      - {name: excludeNonAppCreatedData, in: query, type: boolean, description: "If true, only albums created by this app are returned"}
+
+  - name: get_album
+    description: Retrieve metadata for a specific album by its ID
+    method: GET
+    path: /v1/albums/{albumId}
+    params:
+      - {name: albumId, in: path, type: string, required: true, description: Identifier of the album to retrieve}
+
+  - name: list_media_items
+    description: List all app-created media items in the user's Google Photos library
+    method: GET
+    path: /v1/mediaItems
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of media items to return (default 25, max 100)"}
+      - {name: pageToken, in: query, type: string, description: "Continuation token for pagination from a previous response"}
+
+  - name: search_media_items
+    description: Search for app-created media items by album, date filters, or content categories
+    method: POST
+    path: /v1/mediaItems:search
+    params:
+      - {name: albumId, in: body, type: string, description: "Album ID to list all media items in; cannot be combined with filters"}
+      - {name: pageSize, in: body, type: integer, description: "Maximum number of media items to return (default 25, max 100)"}
+      - {name: pageToken, in: body, type: string, description: "Continuation token for pagination from a previous response"}
+      - {name: filters, in: body, type: object, description: "Filters to apply (date, content, media type, feature); cannot be combined with albumId"}
+      - {name: orderBy, in: body, type: string, description: "Sort order for results; only valid with date filters (e.g. MediaMetadata.creation_time desc)"}
+
+  - name: batch_get_media_items
+    description: Retrieve metadata for up to 50 media items by their IDs in a single request
+    method: GET
+    path: /v1/mediaItems:batchGet
+    params:
+      - {name: mediaItemIds, in: query, type: array, required: true, description: "List of media item IDs to retrieve (up to 50)"}
+
+  - name: download_media_item
+    description: Get a media item by ID including its download URL (baseUrl) and metadata
+    method: GET
+    path: /v1/mediaItems/{mediaItemId}
+    params:
+      - {name: mediaItemId, in: path, type: string, required: true, description: Identifier of the media item to retrieve}
+
+  - name: create_album
+    description: Create a new album in the user's Google Photos library
+    method: POST
+    path: /v1/albums
+    params:
+      - {name: album, in: body, type: object, required: true, description: "Album object to create; must include a title (max 500 characters)"}
+
+  - name: update_album
+    description: Update the title or cover photo of an app-created album
+    method: PATCH
+    path: /v1/albums/{albumId}
+    params:
+      - {name: albumId, in: path, type: string, required: true, description: Identifier of the album to update}
+      - {name: updateMask, in: query, type: string, required: true, description: "Comma-separated fields to update; valid values: title, coverPhotoMediaItemId"}
+      - {name: title, in: body, type: string, description: "New display name for the album (max 500 characters)"}
+      - {name: coverPhotoMediaItemId, in: body, type: string, description: New cover photo media item ID for the album}
+
+  - name: upload_media
+    description: Upload raw media bytes to Google Photos and receive an upload token for use with batch_create_media_items
+    method: POST
+    path: /v1/uploads
+    params:
+      - {name: X-Goog-Upload-Content-Type, in: header, type: string, required: true, description: "MIME type of the media being uploaded (e.g. image/jpeg, video/mp4)"}
+      - {name: X-Goog-Upload-Protocol, in: header, type: string, description: "Upload protocol; use raw for simple uploads"}
+
+  - name: batch_create_media_items
+    description: Create up to 50 media items in the user's library using upload tokens from upload_media
+    method: POST
+    path: /v1/mediaItems:batchCreate
+    params:
+      - {name: albumId, in: body, type: string, description: "Album ID to add the media items to; items are also added to the user's library"}
+      - {name: newMediaItems, in: body, type: array, required: true, description: "Array of new media items to create (up to 50); each item has an uploadToken and optional description and fileName"}
+      - {name: albumPosition, in: body, type: object, description: "Position in the album where media items are added; requires albumId"}

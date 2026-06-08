@@ -1,0 +1,70 @@
+schemaVersion: 1
+name: textrazor
+version: 0.1.0
+baseUrl: https://api.textrazor.com
+tools:
+  - name: account_info
+    description: Retrieve account information including subscription plan, daily request quota, and current usage metrics
+    method: GET
+    path: /account/
+
+  - name: analyze_content
+    description: Analyze text or a URL with multiple extractors (entities, topics, words, phrases, relations, entailments, senses, spelling) and optional classifiers
+    method: POST
+    path: /
+    encoding: form
+    params:
+      - {name: text, in: body, type: string, description: "Up to 200kb of UTF-8 encoded text content to analyze"}
+      - {name: url, in: body, type: string, description: "Publicly accessible URL to fetch and analyze content from"}
+      - {name: extractors, in: body, type: string, description: "Comma-separated list of extractors to run: entities, topics, words, phrases, dependency-trees, relations, entailments, senses, spelling"}
+      - {name: classifiers, in: body, type: string, description: "Comma-separated list of classifier IDs to evaluate against the text"}
+      - {name: cleanup.mode, in: body, type: string, description: "Text pre-processing mode: raw, stripTags, or cleanHTML"}
+      - {name: cleanup.returnCleaned, in: body, type: boolean, description: "Include the cleaned/processed text in the response"}
+      - {name: cleanup.returnRaw, in: body, type: boolean, description: "Include the original raw text in the response"}
+      - {name: languageOverride, in: body, type: string, description: "Force a specific ISO-639-2 language code instead of auto-detection"}
+
+  - name: extract_entities
+    description: Extract named entities from text or a URL using TextRazor's entity recognition, with optional dictionary and type filtering
+    method: POST
+    path: /
+    encoding: form
+    params:
+      - {name: text, in: body, type: string, description: "Up to 200kb of UTF-8 encoded text content to analyze"}
+      - {name: url, in: body, type: string, description: "Publicly accessible URL to fetch and analyze content from"}
+      - {name: extractors, in: body, type: string, description: "Comma-separated extractors; include 'entities' for entity extraction"}
+      - {name: entities.dictionaries, in: body, type: string, description: "Comma-separated custom dictionary IDs to match against"}
+      - {name: entities.filterDbpediaTypes, in: body, type: string, description: "Comma-separated DBPedia types to restrict entity results to"}
+      - {name: entities.filterFreebaseTypes, in: body, type: string, description: "Comma-separated Freebase types to restrict entity results to"}
+      - {name: entities.allowOverlap, in: body, type: boolean, description: "Whether to allow overlapping entity matches (default true)"}
+      - {name: languageOverride, in: body, type: string, description: "Force a specific ISO-639-2 language code instead of auto-detection"}
+
+  - name: classify_text
+    description: Classify text or a URL against a taxonomy using TextRazor's built-in or custom classifiers
+    method: POST
+    path: /
+    encoding: form
+    params:
+      - {name: text, in: body, type: string, description: "Up to 200kb of UTF-8 encoded text content to classify"}
+      - {name: url, in: body, type: string, description: "Publicly accessible URL to fetch and classify content from"}
+      - {name: classifiers, in: body, type: string, required: true, description: "Comma-separated list of classifier IDs to evaluate against the text"}
+      - {name: extractors, in: body, type: string, description: "Comma-separated list of additional extractors to run alongside classification"}
+      - {name: cleanup.mode, in: body, type: string, description: "Text pre-processing mode: raw, stripTags, or cleanHTML"}
+      - {name: languageOverride, in: body, type: string, description: "Force a specific ISO-639-2 language code instead of auto-detection"}
+
+  - name: custom_classifier_manager
+    description: Create or update a custom text classifier with categories defined in JSON or CSV format
+    method: PUT
+    path: /categories/{classifierId}
+    encoding: json
+    params:
+      - {name: classifierId, in: path, type: string, required: true, description: "Unique identifier for the custom classifier to create or update"}
+      - {name: categories, in: body, type: array, required: true, description: "Array of category objects, each with categoryId (string), label (string, optional), and query (string) fields defining the classifier categories"}
+
+  - name: dictionary_manager
+    description: Add entries to a custom entity dictionary for use in entity extraction
+    method: POST
+    path: /entities/{dictionaryId}/
+    encoding: json
+    params:
+      - {name: dictionaryId, in: path, type: string, required: true, description: "Unique identifier of the dictionary to add entries to"}
+      - {name: entries, in: body, type: array, required: true, description: "JSON array of entry objects; each entry must have a 'text' field (string to match), optional 'id' (unique identifier), and optional 'data' (map of string keys to string-list values)"}

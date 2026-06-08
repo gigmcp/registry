@@ -1,0 +1,114 @@
+schemaVersion: 1
+name: lexoffice
+version: 0.1.0
+baseUrl: https://api.lexware.io
+tools:
+  - name: list_contacts
+    description: List and filter contacts (customers and vendors) in lexoffice
+    method: GET
+    path: /v1/contacts
+    params:
+      - {name: email, in: query, type: string, description: "Filter by email address (min 3 chars, supports % and _ wildcards)"}
+      - {name: name, in: query, type: string, description: "Filter by contact name (min 3 chars, supports % and _ wildcards)"}
+      - {name: number, in: query, type: integer, description: Filter by customer or vendor number}
+      - {name: customer, in: query, type: boolean, description: Filter to only customer contacts}
+      - {name: vendor, in: query, type: boolean, description: Filter to only vendor contacts}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (0-based, default 0)"}
+
+  - name: get_contact
+    description: Retrieve a single contact by its unique identifier
+    method: GET
+    path: /v1/contacts/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique UUID of the contact}
+
+  - name: get_invoice
+    description: Retrieve a single invoice by its unique identifier
+    method: GET
+    path: /v1/invoices/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique UUID of the invoice}
+
+  - name: list_voucherlist
+    description: "Retrieve and filter the voucher list across all voucher types (invoices, quotations, credit notes, etc.)"
+    method: GET
+    path: /v1/voucherlist
+    params:
+      - {name: voucherType, in: query, type: string, description: "Comma-separated filter by voucher type: invoice, quotation, creditnote, orderconfirmation, downpaymentinvoice, salesinvoice, salescreditnote, purchaseinvoice, purchasecreditnote"}
+      - {name: voucherStatus, in: query, type: string, description: "Filter by status: draft, open, paid, paidoff, voided, overdue, accepted, rejected"}
+      - {name: voucherDateFrom, in: query, type: string, description: "Minimum voucher date (RFC 3339 / ISO 8601)"}
+      - {name: voucherDateTo, in: query, type: string, description: "Maximum voucher date (RFC 3339 / ISO 8601)"}
+      - {name: contactId, in: query, type: string, description: Filter by contact UUID}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (0-based, default 0)"}
+
+  - name: list_articles
+    description: List and filter articles (products and services) available in lexoffice
+    method: GET
+    path: /v1/articles
+    params:
+      - {name: articleNumber, in: query, type: string, description: Filter by article number}
+      - {name: gtin, in: query, type: string, description: Filter by Global Trade Item Number (GTIN)}
+      - {name: type, in: query, type: string, description: "Filter by article type: PRODUCT or SERVICE"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (0-based, default 0)"}
+
+  - name: get_profile
+    description: Retrieve the profile information of the authenticated lexoffice organisation
+    method: GET
+    path: /v1/profile
+
+  - name: create_contact
+    description: Create a new contact (customer or vendor) in lexoffice
+    method: POST
+    path: /v1/contacts
+    params:
+      - {name: version, in: body, type: integer, required: true, description: "Schema version; must be 0 on creation"}
+      - {name: roles, in: body, type: object, required: true, description: "Roles object specifying customer and/or vendor role (e.g. {\"customer\": {}, \"vendor\": {}})"}
+      - {name: company, in: body, type: object, description: "Company details object with required field name; mutually exclusive with person"}
+      - {name: person, in: body, type: object, description: "Person details object with required field lastName; mutually exclusive with company"}
+      - {name: addresses, in: body, type: object, description: "Address collection object with billing and/or shipping addresses; each address requires countryCode"}
+      - {name: emailAddresses, in: body, type: object, description: "Email address collection with business, office, private, and other arrays"}
+      - {name: phoneNumbers, in: body, type: object, description: "Phone number collection with business, office, mobile, private, fax, and other arrays"}
+      - {name: note, in: body, type: string, description: Free-text note for the contact}
+
+  - name: create_quotation
+    description: Create a new quotation (offer) in lexoffice
+    method: POST
+    path: /v1/quotations
+    params:
+      - {name: voucherDate, in: body, type: string, required: true, description: "Date of the quotation (RFC 3339 / ISO 8601)"}
+      - {name: address, in: body, type: object, required: true, description: "Recipient address; provide contactId or name with countryCode"}
+      - {name: lineItems, in: body, type: array, required: true, description: "Array of line items; each item needs type, name, quantity, unitName, and unitPrice"}
+      - {name: totalPrice, in: body, type: object, required: true, description: "Total price object with currency (ISO 4217 code)"}
+      - {name: taxConditions, in: body, type: object, required: true, description: "Tax conditions object with required taxType field"}
+      - {name: title, in: body, type: string, description: Optional title of the quotation document}
+      - {name: introduction, in: body, type: string, description: Optional introductory text}
+      - {name: remark, in: body, type: string, description: Optional closing remark}
+      - {name: finalize, in: query, type: boolean, description: "Set to true to immediately finalize the quotation (status: open); defaults to draft"}
+
+  - name: create_credit_note
+    description: Create a new credit note in lexoffice
+    method: POST
+    path: /v1/credit-notes
+    params:
+      - {name: voucherDate, in: body, type: string, required: true, description: "Date of the credit note (RFC 3339 / ISO 8601)"}
+      - {name: address, in: body, type: object, required: true, description: "Recipient address; provide contactId or name with countryCode"}
+      - {name: lineItems, in: body, type: array, required: true, description: "Array of line items; each item needs type, name, quantity, unitName, and unitPrice"}
+      - {name: totalPrice, in: body, type: object, required: true, description: "Total price object with currency (ISO 4217 code)"}
+      - {name: taxConditions, in: body, type: object, required: true, description: "Tax conditions object with required taxType field"}
+      - {name: title, in: body, type: string, description: Optional title of the credit note document}
+      - {name: introduction, in: body, type: string, description: Optional introductory text}
+      - {name: remark, in: body, type: string, description: Optional closing remark}
+      - {name: finalize, in: query, type: boolean, description: "Set to true to immediately finalize the credit note (status: open); defaults to draft"}
+
+  - name: create_voucher
+    description: Create a new incoming voucher (expense receipt) in lexoffice
+    method: POST
+    path: /v1/vouchers
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Voucher type: invoice, creditnote, downpayment, asset, purchaseInvoice, purchaseCreditNote, etc."}
+      - {name: voucherDate, in: body, type: string, required: true, description: "Date of the voucher (RFC 3339 / ISO 8601)"}
+      - {name: voucherItems, in: body, type: array, required: true, description: "Array of voucher line items; each item needs amount, taxAmount, taxRatePercent, and categoryId"}
+      - {name: supplierName, in: body, type: string, description: Name of the supplier or vendor}
+      - {name: voucherNumber, in: body, type: string, description: External voucher/invoice number from the supplier}
+      - {name: useCollectiveContact, in: body, type: boolean, description: "Use the collective contact instead of a specific contact"}
+      - {name: remark, in: body, type: string, description: Optional free-text remark}

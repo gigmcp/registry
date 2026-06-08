@@ -154,6 +154,78 @@ func writeTreeForBuildArgs(t *testing.T) string {
 	return filepath.Join(manifestDir, "github")
 }
 
+const testToolSpec = `
+schemaVersion: 1
+name: echo
+version: 0.1.0
+baseUrl: https://api.example.com
+tools:
+  - name: echo
+    description: Echo a message back
+    method: POST
+    path: /echo
+    params:
+      - {name: message, in: body, type: string, required: true}
+`
+
+// writeToolspecTree colocates manifests/echo/0.1.0.toolspec.yaml beside a
+// toolpack-builder variant of testManifest.
+func writeToolspecTree(t *testing.T, specYAML string) (specPath, manifestDir string) {
+	t.Helper()
+	manifest := strings.Replace(testManifest, "entrypoint: /app/echo",
+		"entrypoint: /app/echo\n  builder: toolpack", 1)
+	manifestDir, _ = writeTree(t, manifest)
+	specPath = filepath.Join(manifestDir, "echo", "0.1.0.toolspec.yaml")
+	if err := os.WriteFile(specPath, []byte(specYAML), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	return specPath, manifestDir
+}
+
+func TestLintToolspecs(t *testing.T) {
+	specPath, manifestDir := writeToolspecTree(t, testToolSpec)
+	if err := run([]string{"lint-toolspecs", manifestDir}); err != nil {
+		t.Fatalf("lint-toolspecs: %v", err)
+	}
+	// Single-file mode.
+	if err := run([]string{"lint-toolspecs", specPath}); err != nil {
+		t.Fatalf("lint-toolspecs single file: %v", err)
+	}
+	// Manifest lint must ignore colocated toolspecs.
+	if err := run([]string{"lint", manifestDir}); err != nil {
+		t.Fatalf("lint must skip *.toolspec.yaml: %v", err)
+	}
+}
+
+func TestLintToolspecsFailsOnEgressViolation(t *testing.T) {
+	bad := strings.Replace(testToolSpec, "https://api.example.com", "https://api.evil.com", 1)
+	_, manifestDir := writeToolspecTree(t, bad)
+	err := run([]string{"lint-toolspecs", manifestDir})
+	if err == nil || !strings.Contains(err.Error(), "not allowed by manifest egress") {
+		t.Fatalf("want egress violation, got %v", err)
+	}
+}
+
+func TestLintToolspecsFailsOnToolMismatch(t *testing.T) {
+	bad := strings.Replace(testToolSpec, "name: echo\n    description", "name: shout\n    description", 1)
+	_, manifestDir := writeToolspecTree(t, bad)
+	err := run([]string{"lint-toolspecs", manifestDir})
+	if err == nil || !strings.Contains(err.Error(), "missing from toolspec") {
+		t.Fatalf("want tool-set mismatch, got %v", err)
+	}
+}
+
+func TestLintToolspecsFailsOnMissingSpecForToolpackBuilder(t *testing.T) {
+	specPath, manifestDir := writeToolspecTree(t, testToolSpec)
+	if err := os.Remove(specPath); err != nil {
+		t.Fatal(err)
+	}
+	err := run([]string{"lint-toolspecs", manifestDir})
+	if err == nil || !strings.Contains(err.Error(), "no toolspec") {
+		t.Fatalf("want missing-toolspec error, got %v", err)
+	}
+}
+
 func TestBuildArgs(t *testing.T) {
 	serverDir := writeTreeForBuildArgs(t)
 

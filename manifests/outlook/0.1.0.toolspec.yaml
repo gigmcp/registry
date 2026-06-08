@@ -1,0 +1,105 @@
+schemaVersion: 1
+name: outlook
+version: 0.1.0
+baseUrl: https://graph.microsoft.com
+tools:
+  - name: list_messages
+    description: List messages in the signed-in user's mailbox
+    method: GET
+    path: /v1.0/me/messages
+    params:
+      - {name: "$top", in: query, type: integer, description: "Maximum number of messages to return (default 10, max 1000)"}
+      - {name: "$filter", in: query, type: string, description: "OData filter expression to narrow results (e.g. isRead eq false)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to include in the response"}
+      - {name: "$orderby", in: query, type: string, description: "OData orderby expression (e.g. receivedDateTime desc)"}
+      - {name: "$skip", in: query, type: integer, description: "Number of messages to skip for pagination"}
+
+  - name: get_message
+    description: Retrieve the properties and relationships of a single message by ID
+    method: GET
+    path: /v1.0/me/messages/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The unique identifier of the message"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to include in the response"}
+
+  - name: search_messages
+    description: Search messages in the signed-in user's mailbox using a search query
+    method: GET
+    path: /v1.0/me/messages
+    params:
+      - {name: "$search", in: query, type: string, required: true, description: "Search query string (e.g. \"pizza\" or \"subject:lunch\")"}
+      - {name: "$top", in: query, type: integer, description: "Maximum number of messages to return (default 10, max 1000)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to include in the response"}
+
+  - name: send_email
+    description: Send an email message from the signed-in user
+    method: POST
+    path: /v1.0/me/sendMail
+    encoding: json
+    params:
+      - {name: message, in: body, type: object, required: true, description: "The message object to send (subject, body, toRecipients, ccRecipients, bccRecipients)"}
+      - {name: saveToSentItems, in: body, type: boolean, description: "Whether to save the message in Sent Items (default true)"}
+
+  - name: create_draft
+    description: Create a draft message in the signed-in user's Drafts folder
+    method: POST
+    path: /v1.0/me/messages
+    encoding: json
+    params:
+      - {name: subject, in: body, type: string, description: "Subject of the draft message"}
+      - {name: body, in: body, type: object, description: "Body of the message with contentType (Text or HTML) and content fields"}
+      - {name: toRecipients, in: body, type: array, description: "List of To recipients, each with emailAddress.address and optionally emailAddress.name"}
+      - {name: ccRecipients, in: body, type: array, description: "List of CC recipients, each with emailAddress.address and optionally emailAddress.name"}
+      - {name: importance, in: body, type: string, description: "Message importance: Low, Normal, or High"}
+
+  - name: reply_to_email
+    description: Create a draft reply to the sender of a message; the draft can later be sent
+    method: POST
+    path: /v1.0/me/messages/{id}/createReply
+    encoding: json
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The unique identifier of the message to reply to"}
+      - {name: comment, in: body, type: string, description: "A comment to include in the reply body"}
+
+  - name: move_message
+    description: Move a message to another mail folder within the user's mailbox
+    method: POST
+    path: /v1.0/me/messages/{id}/move
+    encoding: json
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The unique identifier of the message to move"}
+      - {name: destinationId, in: body, type: string, required: true, description: "The destination folder ID or well-known folder name (inbox, drafts, sentitems, deleteditems, archive)"}
+
+  - name: list_events
+    description: List calendar events in the signed-in user's default calendar
+    method: GET
+    path: /v1.0/me/events
+    params:
+      - {name: "$top", in: query, type: integer, description: "Maximum number of events to return"}
+      - {name: "$filter", in: query, type: string, description: "OData filter expression to narrow results"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to include in the response"}
+      - {name: "$orderby", in: query, type: string, description: "OData orderby expression (e.g. start/dateTime asc)"}
+
+  - name: create_event
+    description: Create a calendar event in the signed-in user's default calendar
+    method: POST
+    path: /v1.0/me/events
+    encoding: json
+    params:
+      - {name: subject, in: body, type: string, required: true, description: "Subject or title of the event"}
+      - {name: start, in: body, type: object, required: true, description: "Start time with dateTime (ISO 8601) and timeZone fields"}
+      - {name: end, in: body, type: object, required: true, description: "End time with dateTime (ISO 8601) and timeZone fields"}
+      - {name: body, in: body, type: object, description: "Event body with contentType (Text or HTML) and content fields"}
+      - {name: location, in: body, type: object, description: "Event location with displayName field"}
+      - {name: attendees, in: body, type: array, description: "List of attendees, each with emailAddress.address, emailAddress.name, and type (required/optional)"}
+      - {name: isOnlineMeeting, in: body, type: boolean, description: "Whether to create an online meeting"}
+
+  - name: list_contacts
+    description: List contacts from the signed-in user's default Contacts folder
+    method: GET
+    path: /v1.0/me/contacts
+    params:
+      - {name: "$top", in: query, type: integer, description: "Maximum number of contacts to return"}
+      - {name: "$filter", in: query, type: string, description: "OData filter expression (e.g. emailAddresses/any(a:a/address eq 'user@contoso.com'))"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to include in the response"}
+      - {name: "$orderby", in: query, type: string, description: "OData orderby expression (e.g. displayName asc)"}

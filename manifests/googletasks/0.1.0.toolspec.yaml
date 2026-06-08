@@ -1,0 +1,96 @@
+schemaVersion: 1
+name: googletasks
+version: 0.1.0
+baseUrl: https://tasks.googleapis.com
+tools:
+  - name: list_task_lists
+    description: Retrieve all task lists for the authenticated user
+    method: GET
+    path: /tasks/v1/users/@me/lists
+    params:
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of task lists returned on one page (default 1000, max 1000)"}
+      - {name: pageToken, in: query, type: string, description: Token specifying the result page to return}
+
+  - name: get_task_list
+    description: Retrieve a specific task list by its identifier
+    method: GET
+    path: /tasks/v1/users/@me/lists/{tasklist}
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+
+  - name: list_tasks
+    description: Retrieve all tasks in a specified task list
+    method: GET
+    path: /tasks/v1/lists/{tasklist}/tasks
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: completedMax, in: query, type: string, description: "Upper bound for a task's completion date (RFC 3339 timestamp)"}
+      - {name: completedMin, in: query, type: string, description: "Lower bound for a task's completion date (RFC 3339 timestamp)"}
+      - {name: dueMax, in: query, type: string, description: "Upper bound for a task's due date (RFC 3339 timestamp)"}
+      - {name: dueMin, in: query, type: string, description: "Lower bound for a task's due date (RFC 3339 timestamp)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of tasks returned on one page (default 20, max 100)"}
+      - {name: pageToken, in: query, type: string, description: Token specifying the result page to return}
+      - {name: showCompleted, in: query, type: boolean, description: "Whether completed tasks are returned in the result (default true)"}
+      - {name: showDeleted, in: query, type: boolean, description: "Whether deleted tasks are returned in the result (default false)"}
+      - {name: showHidden, in: query, type: boolean, description: "Whether hidden tasks are returned in the result (default false)"}
+      - {name: updatedMin, in: query, type: string, description: "Lower bound for a task's last modification time (RFC 3339 timestamp)"}
+      - {name: showAssigned, in: query, type: boolean, description: "Whether tasks assigned to the current user are returned in the result (default false)"}
+
+  - name: get_task
+    description: Retrieve a specific task from a task list
+    method: GET
+    path: /tasks/v1/lists/{tasklist}/tasks/{task}
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: task, in: path, type: string, required: true, description: Task identifier}
+
+  - name: insert_task
+    description: Create a new task in a specified task list
+    method: POST
+    path: /tasks/v1/lists/{tasklist}/tasks
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: parent, in: query, type: string, description: "Parent task identifier; omit to create a top-level task"}
+      - {name: previous, in: query, type: string, description: "Previous sibling task identifier; omit to create at the first position"}
+      - {name: title, in: body, type: string, description: "Title of the task (max 1024 characters)"}
+      - {name: notes, in: body, type: string, description: "Notes describing the task (max 8192 characters)"}
+      - {name: status, in: body, type: string, description: "Status of the task; either needsAction or completed"}
+      - {name: due, in: body, type: string, description: "Due date of the task (RFC 3339 timestamp)"}
+
+  - name: patch_task
+    description: Partially update an existing task using patch semantics
+    method: PATCH
+    path: /tasks/v1/lists/{tasklist}/tasks/{task}
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: task, in: path, type: string, required: true, description: Task identifier}
+      - {name: title, in: body, type: string, description: "Title of the task (max 1024 characters)"}
+      - {name: notes, in: body, type: string, description: "Notes describing the task (max 8192 characters)"}
+      - {name: status, in: body, type: string, description: "Status of the task; either needsAction or completed"}
+      - {name: due, in: body, type: string, description: "Due date of the task (RFC 3339 timestamp)"}
+
+  - name: move_task
+    description: Move a task to a different position within or across task lists
+    method: POST
+    path: /tasks/v1/lists/{tasklist}/tasks/{task}/move
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: task, in: path, type: string, required: true, description: Task identifier}
+      - {name: parent, in: query, type: string, description: "New parent task identifier; omit to move to top level"}
+      - {name: previous, in: query, type: string, description: "New previous sibling task identifier; omit to move to first position"}
+      - {name: destinationTasklist, in: query, type: string, description: "Destination task list identifier; moves task across lists if provided"}
+
+  - name: delete_task
+    description: Delete a task from a task list
+    method: DELETE
+    path: /tasks/v1/lists/{tasklist}/tasks/{task}
+    params:
+      - {name: tasklist, in: path, type: string, required: true, description: Task list identifier}
+      - {name: task, in: path, type: string, required: true, description: Task identifier}
+
+  - name: create_task_list
+    description: Create a new task list for the authenticated user
+    method: POST
+    path: /tasks/v1/users/@me/lists
+    params:
+      - {name: title, in: body, type: string, description: Title of the new task list}

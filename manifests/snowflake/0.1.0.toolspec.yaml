@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: snowflake
+version: 0.1.0
+# Snowflake is a per-account SaaS: each account lives at <account_identifier>.snowflakecomputing.com.
+# The baseUrl below uses a representative subdomain that satisfies the *.snowflakecomputing.com
+# egress allowlist; the runtime engine substitutes the actual account hostname.
+baseUrl: https://account.snowflakecomputing.com
+tools:
+  - name: execute_sql
+    description: Submit a SQL statement for synchronous execution and return the result set
+    method: POST
+    path: /api/v2/statements
+    params:
+      - {name: async, in: query, type: boolean, description: "Set to false to wait for the statement to complete (synchronous mode)"}
+      - {name: statement, in: body, type: string, required: true, description: "The SQL statement to execute"}
+      - {name: warehouse, in: body, type: string, description: "Virtual warehouse to use for execution (case-sensitive)"}
+      - {name: database, in: body, type: string, description: "Database context for execution (case-sensitive)"}
+      - {name: schema, in: body, type: string, description: "Schema context for execution (case-sensitive)"}
+      - {name: role, in: body, type: string, description: "Role to use for execution (case-sensitive)"}
+      - {name: timeout, in: body, type: integer, description: "Maximum seconds to wait for statement execution"}
+
+  - name: submit_sql_statement
+    description: Asynchronously submit a SQL statement for execution and receive a statement handle to poll for results
+    method: POST
+    path: /api/v2/statements
+    params:
+      - {name: async, in: query, type: boolean, description: "Set to true to submit asynchronously and return a statement handle"}
+      - {name: statement, in: body, type: string, required: true, description: "The SQL statement to execute"}
+      - {name: warehouse, in: body, type: string, description: "Virtual warehouse to use for execution (case-sensitive)"}
+      - {name: database, in: body, type: string, description: "Database context for execution (case-sensitive)"}
+      - {name: schema, in: body, type: string, description: "Schema context for execution (case-sensitive)"}
+      - {name: role, in: body, type: string, description: "Role to use for execution (case-sensitive)"}
+      - {name: timeout, in: body, type: integer, description: "Maximum seconds to wait for statement execution"}
+
+  - name: check_statement_status
+    description: Check the execution status of an asynchronously submitted SQL statement and retrieve results
+    method: GET
+    path: /api/v2/statements/{statementHandle}
+    params:
+      - {name: statementHandle, in: path, type: string, required: true, description: "Unique statement handle returned by a prior asynchronous SQL submission"}
+      - {name: partition, in: query, type: integer, description: "Zero-based partition index to retrieve when result set spans multiple partitions"}
+
+  - name: cancel_statement_execution
+    description: Cancel the execution of a running SQL statement
+    method: POST
+    path: /api/v2/statements/{statementHandle}/cancel
+    params:
+      - {name: statementHandle, in: path, type: string, required: true, description: "Unique statement handle of the statement to cancel"}
+
+  - name: show_databases
+    description: List accessible databases in the Snowflake account
+    method: GET
+    path: /api/v2/databases
+    params:
+      - {name: like, in: query, type: string, description: "Filter by database name using case-insensitive pattern matching with SQL wildcard characters"}
+      - {name: startsWith, in: query, type: string, description: "Filter databases whose names begin with this string (case-sensitive)"}
+      - {name: showLimit, in: query, type: integer, description: "Maximum number of rows to return"}
+      - {name: fromName, in: query, type: string, description: "Return rows following the first row whose name matches this string (case-sensitive)"}
+
+  - name: show_schemas
+    description: List schemas within a database
+    method: GET
+    path: /api/v2/databases/{database}/schemas
+    params:
+      - {name: database, in: path, type: string, required: true, description: "Name of the database whose schemas to list"}
+      - {name: like, in: query, type: string, description: "Filter by schema name using case-insensitive pattern matching with SQL wildcard characters"}
+      - {name: startsWith, in: query, type: string, description: "Filter schemas whose names begin with this string (case-sensitive)"}
+      - {name: showLimit, in: query, type: integer, description: "Maximum number of rows to return"}
+      - {name: fromName, in: query, type: string, description: "Return rows following the first row whose name matches this string (case-sensitive)"}
+
+  - name: show_tables
+    description: List tables within a schema
+    method: GET
+    path: /api/v2/databases/{database}/schemas/{schema}/tables
+    params:
+      - {name: database, in: path, type: string, required: true, description: "Name of the database containing the schema"}
+      - {name: schema, in: path, type: string, required: true, description: "Name of the schema whose tables to list"}
+      - {name: like, in: query, type: string, description: "Filter by table name using case-insensitive pattern matching with SQL wildcard characters"}
+      - {name: startsWith, in: query, type: string, description: "Filter tables whose names begin with this string (case-sensitive)"}
+      - {name: showLimit, in: query, type: integer, description: "Maximum number of rows to return"}
+      - {name: fromName, in: query, type: string, description: "Return rows following the first row whose name matches this string (case-sensitive)"}
+
+  - name: get_status_summary
+    description: Get a summary of the Snowflake service status including component statuses and any unresolved incidents or scheduled maintenances
+    method: GET
+    path: /api/v2/summary.json
+    baseUrl: https://status.snowflake.com
+
+  - name: get_unresolved_incidents
+    description: Get a list of any current unresolved Snowflake service incidents in Investigating, Identified, or Monitoring state
+    method: GET
+    path: /api/v2/incidents/unresolved.json
+    baseUrl: https://status.snowflake.com

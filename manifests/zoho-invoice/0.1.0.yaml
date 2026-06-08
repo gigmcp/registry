@@ -2,13 +2,14 @@ schemaVersion: 1
 name: zoho-invoice
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/zoho-invoice-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-invoice-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2a78449a8bf7f241d4143d472f4ef4d5a7f4eb60715d1d001ffae3bfd683b81a
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

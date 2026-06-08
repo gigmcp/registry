@@ -1,0 +1,128 @@
+schemaVersion: 1
+name: xero
+version: 0.1.0
+baseUrl: https://api.xero.com
+tools:
+  - name: list_invoices
+    description: Retrieve a list of invoices from Xero, optionally filtered by status, contact, date, or other criteria
+    method: GET
+    path: /api.xro/2.0/Invoices
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: where, in: query, type: string, description: "Filter by any element (e.g. Status==\"AUTHORISED\")"}
+      - {name: order, in: query, type: string, description: "Order by any element (e.g. DueDate ASC)"}
+      - {name: IDs, in: query, type: string, description: "Comma-separated list of InvoiceIDs to filter by"}
+      - {name: InvoiceNumbers, in: query, type: string, description: "Comma-separated list of invoice numbers to filter by"}
+      - {name: ContactIDs, in: query, type: string, description: "Comma-separated list of ContactIDs to filter by"}
+      - {name: Statuses, in: query, type: string, description: "Comma-separated list of statuses (DRAFT, SUBMITTED, AUTHORISED, PAID, VOIDED)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination; up to 100 invoices per page"}
+      - {name: includeArchived, in: query, type: boolean, description: "Include archived invoices when true"}
+      - {name: summaryOnly, in: query, type: boolean, description: "Return summary-only fields to reduce response size"}
+
+  - name: get_invoice
+    description: Retrieve a single invoice by its InvoiceID from Xero
+    method: GET
+    path: /api.xro/2.0/Invoices/{InvoiceID}
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: InvoiceID, in: path, type: string, required: true, description: "The unique identifier (UUID) of the invoice"}
+      - {name: unitdp, in: query, type: integer, description: "Decimal places for unit amounts (2 or 4)"}
+
+  - name: get_contacts
+    description: Retrieve a list of contacts (customers and suppliers) from Xero
+    method: GET
+    path: /api.xro/2.0/Contacts
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: where, in: query, type: string, description: "Filter by any element (e.g. IsSupplier==true)"}
+      - {name: order, in: query, type: string, description: "Order by any element (e.g. Name ASC)"}
+      - {name: IDs, in: query, type: string, description: "Comma-separated list of ContactIDs to filter by"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination; up to 100 contacts per page"}
+      - {name: includeArchived, in: query, type: boolean, description: "Include archived contacts when true"}
+      - {name: searchTerm, in: query, type: string, description: "Search term to filter contacts by name, email, or account number"}
+
+  - name: list_accounts
+    description: Retrieve the chart of accounts from Xero
+    method: GET
+    path: /api.xro/2.0/Accounts
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: where, in: query, type: string, description: "Filter by any element (e.g. Type==\"EXPENSE\")"}
+      - {name: order, in: query, type: string, description: "Order by any element (e.g. Name ASC)"}
+
+  - name: list_bank_transactions
+    description: Retrieve a list of bank transactions (spend or receive money) from Xero
+    method: GET
+    path: /api.xro/2.0/BankTransactions
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: where, in: query, type: string, description: "Filter by any element (e.g. Status==\"AUTHORISED\")"}
+      - {name: order, in: query, type: string, description: "Order by any element"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination; up to 100 transactions per page"}
+      - {name: unitdp, in: query, type: integer, description: "Decimal places for unit amounts (2 or 4)"}
+
+  - name: get_balance_sheet_report
+    description: Retrieve a Balance Sheet report for a Xero organisation
+    method: GET
+    path: /api.xro/2.0/Reports/BalanceSheet
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: date, in: query, type: string, description: "Report date in YYYY-MM-DD format; defaults to last day of previous month"}
+      - {name: periods, in: query, type: integer, description: "Number of prior periods to include"}
+      - {name: timeframe, in: query, type: string, description: "Period grouping (MONTH, QUARTER, YEAR)"}
+      - {name: standardLayout, in: query, type: boolean, description: "Use the standard layout instead of custom when true"}
+      - {name: paymentsOnly, in: query, type: boolean, description: "Include only cash-basis payments when true"}
+
+  - name: get_profit_loss_report
+    description: Retrieve a Profit and Loss report for a Xero organisation
+    method: GET
+    path: /api.xro/2.0/Reports/ProfitAndLoss
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to query"}
+      - {name: fromDate, in: query, type: string, description: "Start date of the report period in YYYY-MM-DD format"}
+      - {name: toDate, in: query, type: string, description: "End date of the report period in YYYY-MM-DD format"}
+      - {name: periods, in: query, type: integer, description: "Number of prior periods to include (max 11)"}
+      - {name: timeframe, in: query, type: string, description: "Period grouping (MONTH, QUARTER, YEAR)"}
+      - {name: standardLayout, in: query, type: boolean, description: "Use the standard layout instead of custom when true"}
+      - {name: paymentsOnly, in: query, type: boolean, description: "Include only cash-basis payments when true"}
+
+  - name: create_invoice
+    description: Create one or more sales invoices or purchase bills in Xero
+    method: POST
+    path: /api.xro/2.0/Invoices
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to operate on"}
+      - {name: summarizeErrors, in: query, type: boolean, description: "If true, validation errors are summarised instead of failing the entire batch"}
+      - {name: unitdp, in: query, type: integer, description: "Decimal places for unit amounts (2 or 4)"}
+      - {name: Type, in: body, type: string, required: true, description: "Invoice type (ACCREC for accounts receivable, ACCPAY for accounts payable)"}
+      - {name: Contact, in: body, type: object, required: true, description: "Contact object containing ContactID of the customer or supplier"}
+      - {name: LineItems, in: body, type: array, required: true, description: "Array of line items; each with Description, Quantity, UnitAmount, and AccountCode"}
+      - {name: Date, in: body, type: string, description: "Invoice date in YYYY-MM-DD format; defaults to today"}
+      - {name: DueDate, in: body, type: string, description: "Due date in YYYY-MM-DD format"}
+      - {name: Status, in: body, type: string, description: "Invoice status (DRAFT or AUTHORISED)"}
+
+  - name: create_contact
+    description: Create one or more contacts in Xero
+    method: POST
+    path: /api.xro/2.0/Contacts
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to operate on"}
+      - {name: summarizeErrors, in: query, type: boolean, description: "If true, validation errors are summarised instead of failing the entire batch"}
+      - {name: Name, in: body, type: string, required: true, description: "Full name of the contact (must be unique within the organisation)"}
+      - {name: EmailAddress, in: body, type: string, description: "Email address of the contact"}
+      - {name: FirstName, in: body, type: string, description: "First name of the contact"}
+      - {name: LastName, in: body, type: string, description: "Last name of the contact"}
+      - {name: IsSupplier, in: body, type: boolean, description: "True if the contact is a supplier"}
+      - {name: IsCustomer, in: body, type: boolean, description: "True if the contact is a customer"}
+
+  - name: create_payment
+    description: Create a payment applied to an invoice, credit note, prepayment, or overpayment in Xero
+    method: POST
+    path: /api.xro/2.0/Payments
+    params:
+      - {name: xero-tenant-id, in: header, type: string, required: true, description: "The Xero tenant (organisation) ID to operate on"}
+      - {name: summarizeErrors, in: query, type: boolean, description: "If true, validation errors are summarised instead of failing the entire batch"}
+      - {name: Invoice, in: body, type: object, required: true, description: "Invoice object with InvoiceID identifying the invoice to pay"}
+      - {name: Account, in: body, type: object, required: true, description: "Account object with AccountID of the bank or payment account"}
+      - {name: Amount, in: body, type: number, required: true, description: "Amount of the payment"}
+      - {name: Date, in: body, type: string, required: true, description: "Date the payment is made in YYYY-MM-DD format"}

@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: stripe
+version: 0.1.0
+baseUrl: https://api.stripe.com
+tools:
+  - name: list_customers
+    description: List all customers, with optional filters by email and pagination cursors
+    method: GET
+    path: /v1/customers
+    params:
+      - {name: email, in: query, type: string, description: "Filter by exact email address (case-sensitive, max 512 characters)"}
+      - {name: limit, in: query, type: integer, description: "Number of customers to return (1-100, default 10)"}
+      - {name: starting_after, in: query, type: string, description: "Pagination cursor; returns objects after this customer ID"}
+      - {name: ending_before, in: query, type: string, description: "Pagination cursor; returns objects before this customer ID"}
+
+  - name: get_customer
+    description: Retrieve a customer by their ID
+    method: GET
+    path: /v1/customers/{customer}
+    params:
+      - {name: customer, in: path, type: string, required: true, description: "ID of the customer to retrieve"}
+
+  - name: create_customer
+    description: Create a new customer
+    method: POST
+    path: /v1/customers
+    params:
+      - {name: email, in: body, type: string, description: "Customer's email address (max 512 characters)"}
+      - {name: name, in: body, type: string, description: "Customer's full name or business name (max 256 characters)"}
+      - {name: phone, in: body, type: string, description: "Customer's phone number (max 20 characters)"}
+      - {name: description, in: body, type: string, description: "Arbitrary string displayed with the customer in the dashboard"}
+      - {name: metadata, in: body, type: object, description: "Key-value pairs for storing additional structured information"}
+
+  - name: list_payment_intents
+    description: List all PaymentIntents, with optional filters by customer and pagination
+    method: GET
+    path: /v1/payment_intents
+    params:
+      - {name: customer, in: query, type: string, description: "Return only PaymentIntents for this customer ID"}
+      - {name: limit, in: query, type: integer, description: "Number of objects to return (1-100, default 10)"}
+      - {name: starting_after, in: query, type: string, description: "Pagination cursor; returns objects after this PaymentIntent ID"}
+      - {name: ending_before, in: query, type: string, description: "Pagination cursor; returns objects before this PaymentIntent ID"}
+
+  - name: create_payment_intent
+    description: Create a PaymentIntent to track and handle a payment lifecycle
+    method: POST
+    path: /v1/payment_intents
+    params:
+      - {name: amount, in: body, type: integer, required: true, description: "Amount to charge in the smallest currency unit (e.g. cents for USD)"}
+      - {name: currency, in: body, type: string, required: true, description: "Three-letter ISO currency code in lowercase (e.g. usd)"}
+      - {name: customer, in: body, type: string, description: "ID of the Customer this PaymentIntent belongs to"}
+      - {name: description, in: body, type: string, description: "Arbitrary string attached to the object, useful for displaying to users"}
+      - {name: payment_method, in: body, type: string, description: "ID of the PaymentMethod to attach to this PaymentIntent"}
+      - {name: metadata, in: body, type: object, description: "Key-value pairs for storing additional structured information"}
+
+  - name: list_invoices
+    description: List all invoices, with optional filters by customer, status, and subscription
+    method: GET
+    path: /v1/invoices
+    params:
+      - {name: customer, in: query, type: string, description: "Return only invoices for this customer ID"}
+      - {name: status, in: query, type: string, description: "Filter by invoice status (draft, open, paid, uncollectible, or void)"}
+      - {name: subscription, in: query, type: string, description: "Return only invoices for this subscription ID"}
+      - {name: limit, in: query, type: integer, description: "Number of invoices to return (1-100, default 10)"}
+      - {name: starting_after, in: query, type: string, description: "Pagination cursor; returns objects after this invoice ID"}
+      - {name: ending_before, in: query, type: string, description: "Pagination cursor; returns objects before this invoice ID"}
+
+  - name: create_invoice
+    description: Create a draft invoice for a customer
+    method: POST
+    path: /v1/invoices
+    params:
+      - {name: customer, in: body, type: string, required: true, description: "ID of the customer to bill"}
+      - {name: description, in: body, type: string, description: "Arbitrary string (memo) attached to the invoice"}
+      - {name: collection_method, in: body, type: string, description: "charge_automatically or send_invoice (default charge_automatically)"}
+      - {name: days_until_due, in: body, type: integer, description: "Number of days until invoice is due (only valid for send_invoice)"}
+      - {name: currency, in: body, type: string, description: "Three-letter ISO currency code (defaults to customer's currency)"}
+      - {name: metadata, in: body, type: object, description: "Key-value pairs for storing additional structured information"}
+
+  - name: create_refund
+    description: Create a refund for a charge or PaymentIntent
+    method: POST
+    path: /v1/refunds
+    params:
+      - {name: charge, in: body, type: string, description: "ID of the charge to refund"}
+      - {name: payment_intent, in: body, type: string, description: "ID of the PaymentIntent to refund"}
+      - {name: amount, in: body, type: integer, description: "Amount to refund in the smallest currency unit; defaults to full remaining amount"}
+      - {name: reason, in: body, type: string, description: "Reason for the refund (duplicate, fraudulent, or requested_by_customer)"}
+      - {name: metadata, in: body, type: object, description: "Key-value pairs for storing additional structured information"}
+
+  - name: list_subscriptions
+    description: List all subscriptions, with optional filters by customer, status, and price
+    method: GET
+    path: /v1/subscriptions
+    params:
+      - {name: customer, in: query, type: string, description: "Return only subscriptions for this customer ID"}
+      - {name: status, in: query, type: string, description: "Filter by status (canceled, ended, or all; default returns non-canceled)"}
+      - {name: price, in: query, type: string, description: "Return only subscriptions containing this recurring price ID"}
+      - {name: limit, in: query, type: integer, description: "Number of subscriptions to return (1-100, default 10)"}
+      - {name: starting_after, in: query, type: string, description: "Pagination cursor; returns objects after this subscription ID"}
+      - {name: ending_before, in: query, type: string, description: "Pagination cursor; returns objects before this subscription ID"}
+
+  - name: cancel_subscription
+    description: Cancel a subscription immediately
+    method: DELETE
+    path: /v1/subscriptions/{subscription}
+    params:
+      - {name: subscription, in: path, type: string, required: true, description: "ID of the subscription to cancel"}

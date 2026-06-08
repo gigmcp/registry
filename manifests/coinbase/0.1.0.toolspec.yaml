@@ -1,0 +1,75 @@
+schemaVersion: 1
+name: coinbase
+version: 0.1.0
+baseUrl: https://api.coinbase.com
+tools:
+  - name: list_market_products
+    description: List available trading products (currency pairs) on Coinbase
+    method: GET
+    path: /api/v3/brokerage/market/products
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of products to return"}
+      - {name: offset, in: query, type: integer, description: "Number of products to skip"}
+      - {name: product_type, in: query, type: string, description: "Filter by product type (e.g. SPOT)"}
+      - {name: product_ids, in: query, type: string, description: "Comma-separated list of product IDs to filter by"}
+
+  - name: get_product_details
+    description: Get details for a single trading product by product ID
+    method: GET
+    path: /api/v3/brokerage/market/products/{product_id}
+    params:
+      - {name: product_id, in: path, type: string, required: true, description: "The trading pair (e.g. BTC-USD)"}
+
+  - name: get_product_order_book
+    description: Get the order book (bids and asks) for a trading product
+    method: GET
+    path: /api/v3/brokerage/market/product_book
+    params:
+      - {name: product_id, in: query, type: string, required: true, description: "The trading pair (e.g. BTC-USD)"}
+      - {name: limit, in: query, type: integer, description: "Number of bids and asks to return"}
+      - {name: aggregation_price_increment, in: query, type: number, description: "Price increment for aggregating order book levels"}
+
+  - name: list_product_candles
+    description: Get historical OHLCV candle data for a product grouped in time buckets
+    method: GET
+    path: /api/v3/brokerage/market/products/{product_id}/candles
+    params:
+      - {name: product_id, in: path, type: string, required: true, description: "The trading pair (e.g. BTC-USD)"}
+      - {name: start, in: query, type: string, required: true, description: "UNIX timestamp for the start of the time interval"}
+      - {name: end, in: query, type: string, required: true, description: "UNIX timestamp for the end of the time interval"}
+      - {name: granularity, in: query, type: string, required: true, description: "Candle timeframe (ONE_MINUTE, FIVE_MINUTE, FIFTEEN_MINUTE, THIRTY_MINUTE, ONE_HOUR, TWO_HOUR, FOUR_HOUR, SIX_HOUR, ONE_DAY)"}
+      - {name: limit, in: query, type: integer, description: "Number of candle buckets to return (default 350, max 350)"}
+
+  - name: get_public_market_trades
+    description: Get recent market trades (ticks), best bid/ask, and 24h volume for a product
+    method: GET
+    path: /api/v3/brokerage/market/products/{product_id}/ticker
+    params:
+      - {name: product_id, in: path, type: string, required: true, description: "The trading pair (e.g. BTC-USD)"}
+      - {name: limit, in: query, type: integer, required: true, description: "Number of recent trades to return"}
+      - {name: start, in: query, type: string, description: "UNIX timestamp for the start of the time range"}
+      - {name: end, in: query, type: string, description: "UNIX timestamp for the end of the time range"}
+
+  - name: list_all_known_currencies
+    description: Get a list of all known currencies on Coinbase Exchange
+    method: GET
+    path: /currencies
+    baseUrl: https://api.exchange.coinbase.com
+
+  - name: get_server_time
+    description: Get the current Coinbase server time as a UNIX timestamp
+    method: GET
+    path: /api/v3/brokerage/time
+
+  - name: list_wallets
+    description: Get all Coinbase wallets (coinbase accounts) linked to the authenticated user
+    method: GET
+    path: /api/v3/brokerage/accounts
+
+  - name: get_daily_trading_volume
+    description: Get 24-hour and 30-day trading volume statistics for a product on Coinbase Exchange
+    method: GET
+    path: /products/{product_id}/stats
+    baseUrl: https://api.exchange.coinbase.com
+    params:
+      - {name: product_id, in: path, type: string, required: true, description: "The trading pair (e.g. BTC-USD)"}

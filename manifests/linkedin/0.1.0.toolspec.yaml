@@ -1,0 +1,74 @@
+schemaVersion: 1
+name: linkedin
+version: 0.1.0
+baseUrl: https://api.linkedin.com
+tools:
+  - name: get_my_info
+    description: Retrieve the authenticated member's profile information (name, email, picture, locale) via the OpenID Connect userinfo endpoint
+    method: GET
+    path: /v2/userinfo
+
+  - name: get_company_info
+    description: Retrieve profile information for a LinkedIn organization (company page) by its numeric organization ID
+    method: GET
+    path: /rest/organizations/{organizationId}
+    params:
+      - {name: organizationId, in: path, type: string, required: true, description: Numeric LinkedIn organization ID (e.g. 79988552)}
+
+  - name: get_post_content
+    description: Retrieve a single LinkedIn post by its URN (ugcPost or share URN)
+    method: GET
+    path: /rest/posts/{postUrn}
+    params:
+      - {name: postUrn, in: path, type: string, required: true, description: "URL-encoded post URN (e.g. urn%3Ali%3AugcPost%3A123)"}
+      - {name: viewContext, in: query, type: string, description: "READER (default, published view) or AUTHOR (latest author view including drafts)"}
+
+  - name: get_share_stats
+    description: Retrieve lifetime organic share statistics (impressions, clicks, likes, comments, shares) for a LinkedIn organization
+    method: GET
+    path: /rest/organizationalEntityShareStatistics
+    params:
+      - {name: q, in: query, type: string, required: true, description: "Must be set to organizationalEntity"}
+      - {name: organizationalEntity, in: query, type: string, required: true, description: "Organization URN (e.g. urn:li:organization:2414183)"}
+      - {name: shares, in: query, type: string, description: "Comma-separated list of share URNs in List() syntax to filter stats to specific shares"}
+      - {name: ugcPosts, in: query, type: string, description: "Indexed ugcPost URN params (e.g. ugcPosts[0]=urn:li:ugcPost:123) to filter stats to specific UGC posts"}
+
+  - name: list_reactions
+    description: Retrieve reactions on a LinkedIn post or comment, sorted by recency
+    method: GET
+    path: /rest/reactions/(entity:{entityUrn})
+    params:
+      - {name: entityUrn, in: path, type: string, required: true, description: "URL-encoded share, ugcPost, or comment URN to fetch reactions for"}
+      - {name: q, in: query, type: string, required: true, description: "Must be set to entity"}
+      - {name: sort, in: query, type: string, description: "Sort order: (value:CHRONOLOGICAL), (value:REVERSE_CHRONOLOGICAL) (default), or (value:RELEVANCE)"}
+
+  - name: create_post
+    description: Create a new LinkedIn post (text, article, image, video, or document) on behalf of a member or organization
+    method: POST
+    path: /rest/posts
+    params:
+      - {name: author, in: body, type: string, required: true, description: "Author URN (e.g. urn:li:person:{id} or urn:li:organization:{id})"}
+      - {name: commentary, in: body, type: string, required: true, description: Text body of the post}
+      - {name: visibility, in: body, type: string, required: true, description: "Audience visibility: PUBLIC or CONNECTIONS"}
+      - {name: distribution, in: body, type: object, required: true, description: "Distribution settings including feedDistribution (MAIN_FEED or NONE) and targetEntities array"}
+      - {name: lifecycleState, in: body, type: string, required: true, description: "Must be PUBLISHED for new posts"}
+      - {name: content, in: body, type: object, description: "Optional media content object with a media field containing id (image/video/document URN) and optional title"}
+      - {name: isReshareDisabledByAuthor, in: body, type: boolean, description: Whether to disable resharing of this post}
+
+  - name: create_comment_on_post
+    description: Create a comment on a LinkedIn post or on an existing comment (nested reply)
+    method: POST
+    path: /rest/socialActions/{postUrn}/comments
+    params:
+      - {name: postUrn, in: path, type: string, required: true, description: "URL-encoded share or ugcPost URN to comment on"}
+      - {name: actor, in: body, type: string, required: true, description: "Commenter URN (urn:li:person:{id} or urn:li:organization:{id})"}
+      - {name: object, in: body, type: string, required: true, description: "Activity URN of the thread being commented on (e.g. urn:li:activity:{id})"}
+      - {name: message, in: body, type: object, required: true, description: "Comment message object with a text field containing the comment text"}
+      - {name: parentComment, in: body, type: string, description: "Parent comment URN for nested replies (e.g. urn:li:comment:(urn:li:activity:{id},{commentId}))"}
+
+  - name: delete_post
+    description: Delete a LinkedIn post by its URN (ugcPost or share URN)
+    method: DELETE
+    path: /rest/posts/{postUrn}
+    params:
+      - {name: postUrn, in: path, type: string, required: true, description: "URL-encoded post URN to delete (e.g. urn%3Ali%3AugcPost%3A123)"}

@@ -1,0 +1,110 @@
+schemaVersion: 1
+name: surveymonkey
+version: 0.1.0
+baseUrl: https://api.surveymonkey.com
+tools:
+  - name: get_surveys
+    description: List surveys owned or shared with the authenticated user
+    method: GET
+    path: /v3/surveys
+    params:
+      - {name: page, in: query, type: integer, description: "Page number to return (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of surveys per page"}
+      - {name: sort_by, in: query, type: string, description: "Sort field: title, date_modified, or num_responses"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: title, in: query, type: string, description: "Filter surveys by title"}
+      - {name: start_modified_at, in: query, type: string, description: "Return surveys last modified after this date (YYYY-MM-DDTHH:MM:SS)"}
+      - {name: end_modified_at, in: query, type: string, description: "Return surveys last modified before this date (YYYY-MM-DDTHH:MM:SS)"}
+      - {name: folder_id, in: query, type: string, description: "Return surveys within this folder ID"}
+
+  - name: get_survey_details
+    description: Get full details of a specific survey including pages and questions
+    method: GET
+    path: /v3/surveys/{survey_id}/details
+    params:
+      - {name: survey_id, in: path, type: string, required: true, description: "ID of the survey to retrieve"}
+
+  - name: get_survey_responses
+    description: List responses collected for a survey
+    method: GET
+    path: /v3/surveys/{survey_id}/responses/bulk
+    params:
+      - {name: survey_id, in: path, type: string, required: true, description: "ID of the survey"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of responses per page (max 100)"}
+      - {name: start_created_at, in: query, type: string, description: "Filter responses created after this date (YYYY-MM-DDTHH:MM:SS+HH:MM)"}
+      - {name: end_created_at, in: query, type: string, description: "Filter responses created before this date (YYYY-MM-DDTHH:MM:SS+HH:MM)"}
+      - {name: status, in: query, type: string, description: "Filter by response status: completed, partial, overquota, or disqualified"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: sort_by, in: query, type: string, description: "Field to sort by: date_modified"}
+
+  - name: get_survey_collectors
+    description: List collectors for a specific survey
+    method: GET
+    path: /v3/surveys/{survey_id}/collectors
+    params:
+      - {name: survey_id, in: path, type: string, required: true, description: "ID of the survey"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of collectors per page"}
+      - {name: sort_by, in: query, type: string, description: "Field to sort by: id, date_modified, type, status, or name"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: name, in: query, type: string, description: "Filter collectors by name"}
+      - {name: start_date, in: query, type: string, description: "Filter collectors created after this date"}
+      - {name: end_date, in: query, type: string, description: "Filter collectors created before this date"}
+
+  - name: get_contacts
+    description: List contacts in the authenticated user's address book
+    method: GET
+    path: /v3/contacts
+    params:
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of contacts per page"}
+      - {name: status, in: query, type: string, description: "Filter by contact status: active, optout, or bounced"}
+      - {name: sort_by, in: query, type: string, description: "Field to sort by: first_name, last_name, or email"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: search_by, in: query, type: string, description: "Field to search: first_name, last_name, or email"}
+      - {name: search, in: query, type: string, description: "Search value to match against the search_by field"}
+
+  - name: list_contact_lists
+    description: List contact lists in the authenticated user's account
+    method: GET
+    path: /v3/contact_lists
+    params:
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of contact lists per page"}
+
+  - name: create_survey
+    description: Create a new survey, optionally from an existing template or survey
+    method: POST
+    path: /v3/surveys
+    params:
+      - {name: title, in: body, type: string, description: "Survey title (default: New Survey)"}
+      - {name: nickname, in: body, type: string, description: "Survey nickname"}
+      - {name: language, in: body, type: string, description: "Survey language code (default: en)"}
+      - {name: from_template_id, in: body, type: string, description: "Template ID to copy survey from"}
+      - {name: from_survey_id, in: body, type: string, description: "Existing survey ID to copy from"}
+      - {name: folder_id, in: body, type: string, description: "Folder ID to add the survey to"}
+
+  - name: create_contact
+    description: Create a new contact in the authenticated user's address book
+    method: POST
+    path: /v3/contacts
+    params:
+      - {name: first_name, in: body, type: string, description: "Contact's first name"}
+      - {name: last_name, in: body, type: string, description: "Contact's last name"}
+      - {name: email, in: body, type: string, description: "Contact's email address (required if phone_number not provided)"}
+      - {name: phone_number, in: body, type: string, description: "Contact's phone number (required if email not provided)"}
+
+  - name: create_contact_list
+    description: Create a new contact list in the authenticated user's account
+    method: POST
+    path: /v3/contact_lists
+    params:
+      - {name: name, in: body, type: string, description: "Name of the contact list (defaults to 'New List' if omitted)"}
+
+  - name: delete_survey
+    description: Delete a survey permanently
+    method: DELETE
+    path: /v3/surveys/{survey_id}
+    params:
+      - {name: survey_id, in: path, type: string, required: true, description: "ID of the survey to delete"}

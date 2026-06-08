@@ -1,0 +1,112 @@
+schemaVersion: 1
+name: coda
+version: 0.1.0
+baseUrl: https://coda.io
+tools:
+  - name: list_docs
+    description: List all docs accessible to the user, with optional filters by owner, workspace, folder, and search query
+    method: GET
+    path: /apis/v1/docs
+    params:
+      - {name: isOwner, in: query, type: boolean, description: "Filter to only docs owned by the requesting user"}
+      - {name: isPublished, in: query, type: boolean, description: "Filter to only published docs"}
+      - {name: query, in: query, type: string, description: "Search docs by title"}
+      - {name: sourceDoc, in: query, type: string, description: "Filter by source doc ID"}
+      - {name: isStarred, in: query, type: boolean, description: "Filter to starred (true) or non-starred (false) docs"}
+      - {name: inGallery, in: query, type: boolean, description: "Filter to docs visible in the gallery"}
+      - {name: workspaceId, in: query, type: string, description: "Restrict results to a specific workspace"}
+      - {name: folderId, in: query, type: string, description: "Restrict results to a specific folder"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return (default 25)"}
+      - {name: pageToken, in: query, type: string, description: "Opaque token for fetching the next page of results"}
+
+  - name: get_doc
+    description: Get metadata and details for a specific Coda doc by its ID
+    method: GET
+    path: /apis/v1/docs/{docId}
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+
+  - name: list_pages
+    description: List all pages in a Coda doc
+    method: GET
+    path: /apis/v1/docs/{docId}/pages
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return"}
+      - {name: pageToken, in: query, type: string, description: "Opaque token for fetching the next page of results"}
+
+  - name: list_tables
+    description: List all tables and views in a Coda doc
+    method: GET
+    path: /apis/v1/docs/{docId}/tables
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return"}
+      - {name: pageToken, in: query, type: string, description: "Opaque token for fetching the next page of results"}
+      - {name: sortBy, in: query, type: string, description: "How to sort the returned tables (e.g. name)"}
+      - {name: tableTypes, in: query, type: string, description: "Comma-separated list of table types to include (table, view)"}
+
+  - name: list_rows
+    description: List rows in a Coda table or view, with optional filtering and sorting
+    method: GET
+    path: /apis/v1/docs/{docId}/tables/{tableIdOrName}/rows
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: "ID or name of the table"}
+      - {name: query, in: query, type: string, description: "Filter rows by column values (format: columnId:value)"}
+      - {name: sortBy, in: query, type: string, description: "Column ID or natural sort order to sort rows by"}
+      - {name: useColumnNames, in: query, type: boolean, description: "Return column names instead of IDs in the response"}
+      - {name: valueFormat, in: query, type: string, description: "Format for cell values: simple, simpleWithArrays, or rich"}
+      - {name: visibleOnly, in: query, type: boolean, description: "Only return rows visible in the table (respects filters)"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of rows to return"}
+      - {name: pageToken, in: query, type: string, description: "Opaque token for fetching the next page of results"}
+      - {name: syncToken, in: query, type: string, description: "Sync token for incremental row sync"}
+
+  - name: get_row
+    description: Get a single row from a Coda table by its ID or name
+    method: GET
+    path: /apis/v1/docs/{docId}/tables/{tableIdOrName}/rows/{rowIdOrName}
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: "ID or name of the table"}
+      - {name: rowIdOrName, in: path, type: string, required: true, description: "ID or name of the row"}
+      - {name: useColumnNames, in: query, type: boolean, description: "Return column names instead of IDs in the response"}
+      - {name: valueFormat, in: query, type: string, description: "Format for cell values: simple, simpleWithArrays, or rich"}
+
+  - name: upsert_rows
+    description: Insert new rows or update existing rows in a Coda table
+    method: POST
+    path: /apis/v1/docs/{docId}/tables/{tableIdOrName}/rows
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: "ID or name of the table"}
+      - {name: disableParsing, in: query, type: boolean, description: "If true, disable automatic parsing of cell values"}
+      - {name: rows, in: body, type: array, required: true, description: "Array of row objects to insert or upsert; each row contains a cells array of {column, value} objects"}
+      - {name: keyColumns, in: body, type: array, description: "Column IDs to use as upsert keys; if a row matches on these columns it will be updated instead of inserted"}
+
+  - name: delete_rows
+    description: "Delete one or more rows from a Coda table; the request body must contain a rowIds array of row ID strings to delete"
+    method: DELETE
+    path: /apis/v1/docs/{docId}/tables/{tableIdOrName}/rows
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: "ID or name of the table"}
+
+  - name: create_doc
+    description: Create a new Coda doc in the user's account
+    method: POST
+    path: /apis/v1/docs
+    params:
+      - {name: title, in: body, type: string, description: "Title of the new doc"}
+      - {name: sourceDoc, in: body, type: string, description: "ID of a doc to copy as the source for the new doc"}
+      - {name: timezone, in: body, type: string, description: "Timezone of the new doc (e.g. America/New_York)"}
+      - {name: folderId, in: body, type: string, description: "ID of the folder to create the doc in"}
+
+  - name: list_permissions
+    description: List the sharing permissions (ACL) for a Coda doc
+    method: GET
+    path: /apis/v1/docs/{docId}/acl/permissions
+    params:
+      - {name: docId, in: path, type: string, required: true, description: "ID of the doc"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return"}
+      - {name: pageToken, in: query, type: string, description: "Opaque token for fetching the next page of results"}

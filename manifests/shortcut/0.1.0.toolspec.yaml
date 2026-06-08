@@ -1,0 +1,101 @@
+schemaVersion: 1
+name: shortcut
+version: 0.1.0
+baseUrl: https://api.app.shortcut.com
+tools:
+  - name: get_story
+    description: Retrieve a single Shortcut story by its public ID
+    method: GET
+    path: /api/v3/stories/{story-public-id}
+    params:
+      - {name: story-public-id, in: path, type: integer, required: true, description: The unique integer ID of the story}
+
+  - name: search_stories
+    description: Search for stories across the workspace using Shortcut search operators
+    method: GET
+    path: /api/v3/search/stories
+    params:
+      - {name: query, in: query, type: string, required: true, description: "Search query using Shortcut search operators (e.g. state:in-progress owner:username)"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page (min 1, max 250)"}
+      - {name: detail, in: query, type: string, description: "Level of detail to return: full or slim"}
+      - {name: next, in: query, type: string, description: Pagination cursor returned in the previous response to fetch the next page}
+
+  - name: list_epics
+    description: List all epics in the workspace
+    method: GET
+    path: /api/v3/epics
+    params:
+      - {name: includes_description, in: query, type: boolean, description: Include the description field in each returned epic}
+
+  - name: get_epic
+    description: Retrieve a single epic by its public ID
+    method: GET
+    path: /api/v3/epics/{epic-public-id}
+    params:
+      - {name: epic-public-id, in: path, type: integer, required: true, description: The unique integer ID of the epic}
+
+  - name: list_iterations
+    description: List all iterations in the workspace
+    method: GET
+    path: /api/v3/iterations
+
+  - name: list_members
+    description: List all members of the workspace
+    method: GET
+    path: /api/v3/members
+    params:
+      - {name: disabled, in: query, type: boolean, description: When true include disabled members in results}
+
+  - name: create_story
+    description: Create a new story in the workspace
+    method: POST
+    path: /api/v3/stories
+    params:
+      - {name: name, in: body, type: string, required: true, description: The name of the story (required)}
+      - {name: description, in: body, type: string, description: Free-form text description of the story}
+      - {name: story_type, in: body, type: string, description: "Type of story: feature, bug, or chore"}
+      - {name: workflow_state_id, in: body, type: integer, description: The ID of the workflow state to place the story in}
+      - {name: project_id, in: body, type: integer, description: The ID of the project to associate the story with}
+      - {name: epic_id, in: body, type: integer, description: The ID of the epic to associate the story with}
+      - {name: iteration_id, in: body, type: integer, description: The ID of the iteration to associate the story with}
+      - {name: owner_ids, in: body, type: array, description: Array of UUIDs of the members who own the story}
+      - {name: estimate, in: body, type: integer, description: Numeric point estimate for the story}
+      - {name: deadline, in: body, type: string, description: "The due date of the story in ISO 8601 format (e.g. 2025-01-31T00:00:00Z)"}
+      - {name: labels, in: body, type: array, description: Array of label objects to attach to the story}
+
+  - name: update_story
+    description: Update an existing story by its public ID
+    method: PUT
+    path: /api/v3/stories/{story-public-id}
+    params:
+      - {name: story-public-id, in: path, type: integer, required: true, description: The unique integer ID of the story to update}
+      - {name: name, in: body, type: string, description: New name for the story}
+      - {name: description, in: body, type: string, description: New description for the story}
+      - {name: story_type, in: body, type: string, description: "Type of story: feature, bug, or chore"}
+      - {name: workflow_state_id, in: body, type: integer, description: The ID of the workflow state to move the story to}
+      - {name: epic_id, in: body, type: integer, description: The ID of the epic to associate the story with}
+      - {name: iteration_id, in: body, type: integer, description: The ID of the iteration to associate the story with}
+      - {name: owner_ids, in: body, type: array, description: Array of UUIDs of the members who own the story}
+      - {name: estimate, in: body, type: integer, description: Numeric point estimate for the story}
+      - {name: deadline, in: body, type: string, description: "The due date of the story in ISO 8601 format (e.g. 2025-01-31T00:00:00Z)"}
+      - {name: archived, in: body, type: boolean, description: Whether to archive the story}
+
+  - name: create_epic
+    description: Create a new epic in the workspace
+    method: POST
+    path: /api/v3/epics
+    params:
+      - {name: name, in: body, type: string, required: true, description: "The name of the epic (required, max 256 characters)"}
+      - {name: description, in: body, type: string, description: Free-form text description of the epic}
+      - {name: deadline, in: body, type: string, description: "The due date of the epic in ISO 8601 format (e.g. 2025-01-31T00:00:00Z)"}
+      - {name: owner_ids, in: body, type: array, description: Array of UUIDs of members who own the epic}
+      - {name: follower_ids, in: body, type: array, description: Array of UUIDs of members following the epic}
+      - {name: epic_state_id, in: body, type: integer, description: The ID of the epic state to place the epic in}
+      - {name: labels, in: body, type: array, description: Array of label objects to attach to the epic}
+
+  - name: delete_story
+    description: Delete a story permanently by its public ID
+    method: DELETE
+    path: /api/v3/stories/{story-public-id}
+    params:
+      - {name: story-public-id, in: path, type: integer, required: true, description: The unique integer ID of the story to delete}

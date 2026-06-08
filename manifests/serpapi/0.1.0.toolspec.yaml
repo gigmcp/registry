@@ -1,0 +1,115 @@
+schemaVersion: 1
+name: serpapi
+version: 0.1.0
+baseUrl: https://serpapi.com
+# SerpApi authenticates via the api_key query parameter injected from the
+# SERPAPI_API_KEY env var by the toolpack engine — there is no auth header.
+# The auth block is required by the entrusted-tier validator; the engine
+# uses the env credential rather than header injection at runtime.
+auth:
+  header: X-Api-Key
+  format: "{token}"
+tools:
+  - name: search
+    description: Perform a Google web search and return organic results, knowledge graph, and related content
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google'"}
+      - {name: q, in: query, type: string, required: true, description: "Search query string"}
+      - {name: location, in: query, type: string, description: "Geographic location to originate the search from (city, state, or country)"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for localized results (e.g. us, uk, fr)"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the search interface (e.g. en, es, fr)"}
+      - {name: start, in: query, type: integer, description: "Pagination offset; number of results to skip (default 0)"}
+      - {name: num, in: query, type: integer, description: "Number of results to return per page (default 10)"}
+      - {name: safe, in: query, type: string, description: "Safe search filter: active or off"}
+      - {name: device, in: query, type: string, description: "Device type to emulate: desktop, tablet, or mobile"}
+
+  - name: news_search
+    description: Search Google News and return recent news articles and stories matching the query
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_news'"}
+      - {name: q, in: query, type: string, description: "News search query; supports site: and when: operators"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for the news region (e.g. us, uk, fr)"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the interface (e.g. en, es, fr)"}
+      - {name: topic_token, in: query, type: string, description: "Token to retrieve news for a specific topic (World, Business, Technology, etc.)"}
+      - {name: so, in: query, type: integer, description: "Sort order: 0 for relevance, 1 for date"}
+
+  - name: image_search
+    description: Search Google Images and return image results with thumbnails, URLs, and dimensions
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_images'"}
+      - {name: q, in: query, type: string, required: true, description: "Image search query string"}
+      - {name: ijn, in: query, type: integer, description: "Pagination parameter; page number starting at 0 (100 images per page)"}
+      - {name: tbs, in: query, type: string, description: "Advanced filters for image size, type, and other criteria (e.g. itp:photos,isz:l)"}
+      - {name: imgar, in: query, type: string, description: "Aspect ratio filter for images"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for localized results"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the search interface"}
+
+  - name: google_maps_search
+    description: Search Google Maps for places or businesses and return location details and listings
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_maps'"}
+      - {name: q, in: query, type: string, description: "Maps search query (place name, business type, address, etc.)"}
+      - {name: type, in: query, type: string, required: true, description: "Search type: 'search' for keyword search or 'place' for a specific place lookup"}
+      - {name: ll, in: query, type: string, description: "GPS coordinates in @latitude,longitude,zoom format (e.g. @40.7127753,-74.0059731,15.1z)"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for localized results"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the interface"}
+      - {name: start, in: query, type: integer, description: "Pagination offset for result pages"}
+
+  - name: shopping_search
+    description: Search Google Shopping and return product listings with prices, sellers, and availability
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_shopping'"}
+      - {name: q, in: query, type: string, required: true, description: "Product search query string"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for localized results"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the interface"}
+      - {name: min_price, in: query, type: number, description: "Minimum price filter for product listings"}
+      - {name: max_price, in: query, type: number, description: "Maximum price filter for product listings"}
+      - {name: sort_by, in: query, type: integer, description: "Sort order: 1 for price low to high, 2 for price high to low"}
+      - {name: start, in: query, type: integer, description: "Pagination offset for result pages"}
+
+  - name: scholar_search
+    description: Search Google Scholar and return academic papers, citations, and scholarly articles
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_scholar'"}
+      - {name: q, in: query, type: string, description: "Scholar search query; supports author: and source: operators"}
+      - {name: as_ylo, in: query, type: integer, description: "Earliest publication year to include in results"}
+      - {name: as_yhi, in: query, type: integer, description: "Latest publication year to include in results"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the search interface"}
+      - {name: start, in: query, type: integer, description: "Pagination offset; default 0"}
+      - {name: num, in: query, type: integer, description: "Number of results per page (1–20; default 10)"}
+      - {name: cites, in: query, type: string, description: "Unique article ID to retrieve articles that cite it"}
+
+  - name: trends_search
+    description: Query Google Trends and return interest-over-time data and related queries for up to 5 search terms
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'google_trends'"}
+      - {name: q, in: query, type: string, required: true, description: "Query or comma-separated list of up to 5 queries to compare trends for"}
+      - {name: data_type, in: query, type: string, description: "Trend data type: TIMESERIES, GEO_MAP, RELATED_TOPICS, or RELATED_QUERIES"}
+      - {name: date, in: query, type: string, description: "Time range for trend data (e.g. 'now 1-d', 'now 7-d', 'today 1-m', '2004-01-01 2026-01-01')"}
+      - {name: geo, in: query, type: string, description: "Geographic location code to scope results (default is Worldwide)"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the interface"}
+
+  - name: youtube_search
+    description: Search YouTube and return video results with titles, channels, views, and metadata
+    method: GET
+    path: /search
+    params:
+      - {name: engine, in: query, type: string, required: true, description: "Search engine to use; must be 'youtube'"}
+      - {name: search_query, in: query, type: string, required: true, description: "YouTube search query string"}
+      - {name: gl, in: query, type: string, description: "Two-letter country code for localized results (e.g. us, uk, fr)"}
+      - {name: hl, in: query, type: string, description: "Two-letter language code for the YouTube interface (e.g. en, es, fr)"}
+      - {name: sp, in: query, type: string, description: "Filter/pagination token for upload date, quality (4K), or spelling filters"}

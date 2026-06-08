@@ -1,0 +1,88 @@
+schemaVersion: 1
+name: toneden
+version: 0.1.0
+baseUrl: https://www.toneden.io
+tools:
+  - name: get_user
+    description: Retrieve a ToneDen user profile by user ID
+    method: GET
+    path: /api/v1/users/{userID}
+    params:
+      - {name: userID, in: path, type: string, required: true, description: "Numeric ID of the user to retrieve, or 'me' for the currently-authenticated user"}
+
+  - name: get_link
+    description: Retrieve a ToneDen smart link (FanLink) by ID
+    method: GET
+    path: /api/v1/links/{linkID}
+    params:
+      - {name: linkID, in: path, type: integer, required: true, description: Numeric ID of the link to retrieve}
+
+  - name: get_link_insights
+    description: Retrieve performance metrics for a ToneDen smart link
+    method: GET
+    path: /api/v1/links/{linkID}/insights
+    params:
+      - {name: linkID, in: path, type: integer, required: true, description: Numeric ID of the link to retrieve performance data for}
+      - {name: metric, in: query, type: string, required: true, description: "Action type to measure: clicks, clickthroughs, or rsvps"}
+      - {name: start_date, in: query, type: string, description: "Filter actions after this date (ISO 8601 format)"}
+      - {name: end_date, in: query, type: string, description: "Filter actions before this date (ISO 8601 format)"}
+      - {name: aggregate_interval, in: query, type: string, description: "Group results by: day, hour, or week"}
+      - {name: aggregate_geo, in: query, type: string, description: "Group results by location: city, country, or region"}
+      - {name: aggregate_by_referrer, in: query, type: boolean, description: Group results by referring domain}
+      - {name: aggregate_by_service, in: query, type: boolean, description: Group results by service clicked}
+      - {name: for_distinct_fans, in: query, type: boolean, description: Count only one action per fan when true}
+
+  - name: create_link
+    description: Create a new ToneDen smart link (FanLink) for music, podcast, or event
+    method: POST
+    path: /api/v1/links
+    params:
+      - {name: title, in: body, type: string, description: "Internal title of the link (not fan-facing)"}
+      - {name: user_id, in: body, type: integer, description: ID of the user account that owns the link}
+      - {name: target_type, in: body, type: string, description: "Determines what type of link landing page to render"}
+      - {name: target_url, in: body, type: string, description: Target URL for the link}
+
+  - name: get_advertising_campaign
+    description: Retrieve a ToneDen advertising campaign by ID
+    method: GET
+    path: /api/v1/advertising/campaigns/{campaignID}
+    params:
+      - {name: campaignID, in: path, type: integer, required: true, description: Numeric ID of the ad campaign to retrieve}
+
+  - name: get_advertising_campaign_insights
+    description: Retrieve performance data for a ToneDen advertising campaign
+    method: GET
+    path: /api/v1/advertising/campaigns/{campaignID}/insights
+    params:
+      - {name: campaignID, in: path, type: integer, required: true, description: Numeric ID of the ad campaign to retrieve performance data for}
+
+  - name: create_advertising_campaign
+    description: Create a new ToneDen advertising campaign on Facebook or Google
+    method: POST
+    path: /api/v1/advertising/campaigns
+    params:
+      - {name: title, in: body, type: string, description: Campaign name}
+      - {name: platform, in: body, type: string, description: "Advertising platform: facebook or google"}
+      - {name: user_id, in: body, type: integer, description: Associated user identifier}
+      - {name: status, in: body, type: string, description: "Campaign state: active, inactive, draft, error, pending"}
+      - {name: budget_type, in: body, type: string, description: "Spending limit type: daily or lifetime"}
+      - {name: budget_amount, in: body, type: number, description: Spending limit amount}
+      - {name: start_timestamp, in: body, type: integer, description: Campaign start time (UNIX timestamp)}
+      - {name: end_timestamp, in: body, type: integer, description: Campaign end time (UNIX timestamp)}
+
+  - name: delete_advertising_campaign
+    description: Delete a ToneDen advertising campaign by ID
+    method: DELETE
+    path: /api/v1/advertising/campaigns/{campaignID}
+    params:
+      - {name: campaignID, in: path, type: integer, required: true, description: Numeric ID of the ad campaign to delete}
+
+  - name: list_playbook_campaigns
+    description: List playbook campaigns for a ToneDen user
+    method: GET
+    path: /api/v1/users/{userID}/advertising/campaigns
+    params:
+      - {name: userID, in: path, type: integer, required: true, description: Numeric ID of the user whose campaigns to list}
+      - {name: status, in: query, type: string, description: "Filter by campaign status: active, live, recent, paused, error, inactive, or scheduled"}
+      - {name: offset, in: query, type: integer, description: Pagination offset (default 0)}
+      - {name: limit, in: query, type: integer, description: Max number of campaigns to return}

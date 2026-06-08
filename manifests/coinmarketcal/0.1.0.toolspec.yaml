@@ -1,0 +1,62 @@
+schemaVersion: 1
+name: coinmarketcal
+version: 0.1.0
+baseUrl: https://developers.coinmarketcal.com
+tools:
+  - name: list_events
+    description: Retrieve a paginated list of upcoming cryptocurrency events with optional date range, coin, and category filters
+    method: GET
+    path: /v1/events
+    params:
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: max, in: query, type: integer, description: "Max results per page (default 16, max 300)"}
+      - {name: dateRangeStart, in: query, type: string, description: "Start date filter in MM/DD/YYYY format"}
+      - {name: dateRangeEnd, in: query, type: string, description: "End date filter in MM/DD/YYYY format"}
+      - {name: coins, in: query, type: string, description: "Comma-separated list of coin names to filter by (e.g. bitcoin,ethereum)"}
+      - {name: categories, in: query, type: string, description: "Comma-separated list of category IDs to filter by"}
+      - {name: sortBy, in: query, type: string, description: "Sort order: created_desc or hot_events"}
+      - {name: showOnly, in: query, type: string, description: "Filter to specific event types (e.g. hot_events)"}
+  - name: list_coins
+    description: Retrieve the full list of coins and cryptocurrencies available in the CoinMarketCal database
+    method: GET
+    path: /v1/coins
+  - name: list_event_categories
+    description: Retrieve the full list of event categories available in CoinMarketCal
+    method: GET
+    path: /v1/categories
+  - name: get_coin_events
+    description: Retrieve upcoming cryptocurrency events filtered to a specific coin or set of coins
+    method: GET
+    path: /v1/events
+    params:
+      - {name: coins, in: query, type: string, required: true, description: "Comma-separated list of coin names to filter by (e.g. bitcoin,ethereum)"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: max, in: query, type: integer, description: "Max results per page (default 16, max 300)"}
+      - {name: dateRangeStart, in: query, type: string, description: "Start date filter in MM/DD/YYYY format"}
+      - {name: dateRangeEnd, in: query, type: string, description: "End date filter in MM/DD/YYYY format"}
+      - {name: categories, in: query, type: string, description: "Comma-separated list of category IDs to filter by"}
+      - {name: sortBy, in: query, type: string, description: "Sort order: created_desc or hot_events"}
+  - name: search_events
+    description: Search cryptocurrency events by filtering on coins, categories, date range, and sort order
+    method: GET
+    path: /v1/events
+    params:
+      - {name: coins, in: query, type: string, description: "Comma-separated list of coin names to filter by (e.g. bitcoin,ethereum)"}
+      - {name: categories, in: query, type: string, description: "Comma-separated list of category IDs to filter by"}
+      - {name: dateRangeStart, in: query, type: string, description: "Start date filter in MM/DD/YYYY format"}
+      - {name: dateRangeEnd, in: query, type: string, description: "End date filter in MM/DD/YYYY format"}
+      - {name: sortBy, in: query, type: string, description: "Sort order: created_desc or hot_events"}
+      - {name: showOnly, in: query, type: string, description: "Filter to specific event types (e.g. hot_events)"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: max, in: query, type: integer, description: "Max results per page (default 16, max 300)"}
+  - name: list_trending_events
+    description: Retrieve the most trending and popular cryptocurrency events sorted by community engagement
+    method: GET
+    path: /v1/events
+    params:
+      - {name: sortBy, in: query, type: string, description: "Sort order; use hot_events to retrieve trending events"}
+      - {name: showOnly, in: query, type: string, description: "Filter to specific event types; use hot_events for trending only"}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: max, in: query, type: integer, description: "Max results per page (default 16, max 300)"}
+      - {name: dateRangeStart, in: query, type: string, description: "Start date filter in MM/DD/YYYY format"}
+      - {name: dateRangeEnd, in: query, type: string, description: "End date filter in MM/DD/YYYY format"}

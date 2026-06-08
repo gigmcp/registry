@@ -1,0 +1,75 @@
+schemaVersion: 1
+name: docmosis
+version: 0.1.0
+baseUrl: https://us1.dws4.docmosis.com
+tools:
+  - name: list_templates
+    description: List templates available in the Docmosis Cloud environment
+    method: POST
+    path: /api/listTemplates
+    encoding: form
+    params:
+      - {name: folder, in: body, type: string, description: "Limit results to the given folder; returned names are relative to this folder"}
+      - {name: includeSubFolders, in: body, type: boolean, description: Include contents of sub-folders recursively}
+      - {name: includeDetail, in: body, type: boolean, description: "Include extra detail about parameters (default true)"}
+  - name: get_template_details
+    description: Retrieve metadata and details for a specific template
+    method: POST
+    path: /api/getTemplateDetails
+    encoding: form
+    params:
+      - {name: templateName, in: body, type: string, required: true, description: The name of the template}
+  - name: get_template_structure
+    description: Return the field and structural information of a template
+    method: POST
+    path: /api/getTemplateStructure
+    encoding: form
+    params:
+      - {name: templateName, in: body, type: string, required: true, description: The name of the template}
+  - name: get_template_sample_data
+    description: Generate sample data for a template based on its current field structure
+    method: POST
+    path: /api/getSampleData
+    encoding: form
+    params:
+      - {name: templateName, in: body, type: string, required: true, description: The name of the template for which to generate sample data}
+  - name: list_images
+    description: List images available in the Docmosis Cloud environment
+    method: POST
+    path: /api/listImages
+    encoding: form
+    params:
+      - {name: folder, in: body, type: string, description: "Limit results to the given folder; returned names are relative to this folder"}
+      - {name: includeSubFolders, in: body, type: boolean, description: Include contents of sub-folders recursively}
+  - name: get_render_queue
+    description: Return current status of the render queue for the environment
+    method: POST
+    path: /api/getRenderQueue
+    encoding: form
+    params: []
+  - name: get_environment_summary
+    description: Return details about the environment including plan information, status, and quotas
+    method: POST
+    path: /api/environment/summary
+    encoding: form
+    params: []
+  - name: delete_template
+    description: Delete one or more templates from the Docmosis Cloud environment
+    method: POST
+    path: /api/deleteTemplate
+    encoding: form
+    params:
+      - {name: templateName, in: body, type: string, required: true, description: "Name of the template to delete; specify multiple times to delete multiple templates"}
+  - name: delete_image
+    description: Delete one or more images from the Docmosis Cloud environment
+    method: POST
+    path: /api/deleteImage
+    encoding: form
+    params:
+      - {name: imageName, in: body, type: string, required: true, description: "Name of the image to delete; specify multiple times to delete multiple images"}
+  - name: ping_service
+    description: Check that the Docmosis Cloud service is online and reachable
+    method: POST
+    path: /api/ping
+    encoding: form
+    params: []

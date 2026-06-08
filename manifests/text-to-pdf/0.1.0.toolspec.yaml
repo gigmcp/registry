@@ -1,0 +1,76 @@
+schemaVersion: 1
+name: text-to-pdf
+version: 0.1.0
+baseUrl: https://v2.convertapi.com
+tools:
+  - name: download_file
+    description: Download a previously uploaded or converted file by its file ID
+    method: GET
+    path: /d/{FileId}
+    params:
+      - {name: FileId, in: path, type: string, required: true, description: File ID returned from an upload or conversion operation}
+
+  - name: get_async_job_status
+    description: Poll the status of an asynchronous conversion job and retrieve the result when complete
+    method: GET
+    path: /async/job/{JobId}
+    params:
+      - {name: JobId, in: path, type: string, required: true, description: "Job ID returned when the async conversion was started (32 lowercase alphanumeric characters)"}
+
+  - name: convert_text_to_pdf
+    description: Synchronously convert a plain text file to PDF
+    method: POST
+    path: /convert/txt/to/pdf
+    params:
+      - {name: File, in: body, type: string, required: true, description: "File to convert — a URL pointing to the file or a file ID from a prior upload"}
+      - {name: StoreFile, in: body, type: boolean, description: "When true, store the result file temporarily on the server; when false, stream in-memory (default: false)"}
+      - {name: FileName, in: body, type: string, description: "Output filename (1-200 characters); extension and index are added automatically"}
+      - {name: FontName, in: body, type: string, description: "Font for the output PDF text (e.g. Arial, Calibri, Georgia, CourierNew — default: CourierNew)"}
+      - {name: FontSize, in: body, type: integer, description: "Font size in points (4-72, default: 12)"}
+      - {name: PageOrientation, in: body, type: string, description: "Page layout — portrait or landscape (default: portrait)"}
+      - {name: PageSize, in: body, type: string, description: "Paper size (e.g. a4, letter, a3 — default: a4)"}
+      - {name: MarginLeft, in: body, type: integer, description: "Left margin in millimeters (0-500, default: 5)"}
+      - {name: MarginRight, in: body, type: integer, description: "Right margin in millimeters (0-500, default: 5)"}
+      - {name: MarginTop, in: body, type: integer, description: "Top margin in millimeters (0-500, default: 10)"}
+      - {name: MarginBottom, in: body, type: integer, description: "Bottom margin in millimeters (0-500, default: 10)"}
+      - {name: Pdfa, in: body, type: boolean, description: "Create a PDF/A-1b compliant document (default: false)"}
+      - {name: Timeout, in: body, type: integer, description: "Conversion timeout in seconds (10-1200, default: 900)"}
+
+  - name: start_async_conversion
+    description: Start an asynchronous text-to-PDF conversion and return a job ID for polling
+    method: POST
+    path: /async/convert/txt/to/pdf
+    params:
+      - {name: File, in: body, type: string, required: true, description: "File to convert — a URL pointing to the file or a file ID from a prior upload"}
+      - {name: StoreFile, in: body, type: boolean, description: "When true, store the result file temporarily on the server (default: false)"}
+      - {name: FileName, in: body, type: string, description: "Output filename (1-200 characters); extension and index are added automatically"}
+      - {name: JobId, in: query, type: string, description: "Custom job identifier (32 lowercase alphanumeric characters); auto-generated if omitted"}
+      - {name: WebHook, in: query, type: string, description: "Callback URL to POST the JobId to once conversion completes"}
+      - {name: FontName, in: body, type: string, description: "Font for the output PDF text (e.g. Arial, Calibri, Georgia, CourierNew — default: CourierNew)"}
+      - {name: FontSize, in: body, type: integer, description: "Font size in points (4-72, default: 12)"}
+      - {name: PageOrientation, in: body, type: string, description: "Page layout — portrait or landscape (default: portrait)"}
+      - {name: PageSize, in: body, type: string, description: "Paper size (e.g. a4, letter, a3 — default: a4)"}
+      - {name: Pdfa, in: body, type: boolean, description: "Create a PDF/A-1b compliant document (default: false)"}
+      - {name: Timeout, in: body, type: integer, description: "Conversion timeout in seconds (10-1200, default: 900)"}
+
+  - name: upload_file
+    description: Upload a file to ConvertAPI temporary storage and receive a file ID for use in conversion requests
+    method: POST
+    path: /upload
+    params:
+      - {name: url, in: query, type: string, description: "Remote file URL to upload from an external server instead of sending raw file data"}
+      - {name: filename, in: query, type: string, description: Custom filename to assign to the uploaded file}
+
+  - name: delete_file
+    description: Delete a stored file from ConvertAPI temporary storage by its file ID
+    method: DELETE
+    path: /d/{FileId}
+    params:
+      - {name: FileId, in: path, type: string, required: true, description: File ID of the stored file to delete}
+
+  - name: delete_async_job
+    description: Delete an asynchronous conversion job and its associated result files
+    method: DELETE
+    path: /async/job/{JobId}
+    params:
+      - {name: JobId, in: path, type: string, required: true, description: "Job ID of the async conversion job to delete (32 lowercase alphanumeric characters)"}

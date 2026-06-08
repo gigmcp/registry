@@ -1,0 +1,105 @@
+schemaVersion: 1
+name: googlecalendar
+version: 0.1.0
+baseUrl: https://www.googleapis.com
+tools:
+  - name: list_calendars
+    description: List the calendars on the user's calendar list
+    method: GET
+    path: /calendar/v3/users/me/calendarList
+    params:
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of entries returned (default 100, max 250)"}
+      - {name: minAccessRole, in: query, type: string, description: "Minimum access role for the user in the returned entries (freeBusyReader, owner, reader, writer)"}
+      - {name: pageToken, in: query, type: string, description: Token specifying which result page to return}
+      - {name: showDeleted, in: query, type: boolean, description: "Whether to include deleted calendar list entries (default false)"}
+      - {name: showHidden, in: query, type: boolean, description: "Whether to show hidden entries (default false)"}
+
+  - name: list_events
+    description: Return events on the specified calendar
+    method: GET
+    path: /calendar/v3/calendars/{calendarId}/events
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: timeMin, in: query, type: string, description: "Lower bound (exclusive) for event end time to filter by, formatted as RFC3339 timestamp"}
+      - {name: timeMax, in: query, type: string, description: "Upper bound (exclusive) for event start time to filter by, formatted as RFC3339 timestamp"}
+      - {name: q, in: query, type: string, description: "Free text search terms to find events matching summary, description, location, or attendees"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of events returned on one result page (default 250, max 2500)"}
+      - {name: orderBy, in: query, type: string, description: "Order of the events returned: startTime (for single events only) or updated"}
+      - {name: singleEvents, in: query, type: boolean, description: "Whether to expand recurring events into instances (default false)"}
+      - {name: timeZone, in: query, type: string, description: Time zone used in the response (IANA timezone name); defaults to the calendar's time zone}
+      - {name: pageToken, in: query, type: string, description: Token specifying which result page to return}
+      - {name: showDeleted, in: query, type: boolean, description: "Whether to include deleted events (default false)"}
+
+  - name: get_event
+    description: Return metadata for a single event on the specified calendar
+    method: GET
+    path: /calendar/v3/calendars/{calendarId}/events/{eventId}
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: eventId, in: path, type: string, required: true, description: Event identifier}
+      - {name: timeZone, in: query, type: string, description: Time zone used in the response (IANA timezone name); defaults to the calendar's time zone}
+      - {name: maxAttendees, in: query, type: integer, description: Maximum number of attendees to include in the response}
+
+  - name: find_free_slots
+    description: Return free/busy information for a set of calendars within a time range
+    method: POST
+    path: /calendar/v3/freeBusy
+    params:
+      - {name: timeMin, in: body, type: string, required: true, description: "Start of the interval to query, formatted as RFC3339 timestamp"}
+      - {name: timeMax, in: body, type: string, required: true, description: "End of the interval to query, formatted as RFC3339 timestamp"}
+      - {name: items, in: body, type: array, required: true, description: "List of calendars to query, each as an object with an 'id' field"}
+      - {name: timeZone, in: body, type: string, description: "Time zone used in the response (default UTC)"}
+      - {name: calendarExpansionMax, in: body, type: integer, description: "Maximum number of calendars for which free/busy information is provided (max 50)"}
+
+  - name: get_current_date_time
+    description: Return the current user's timezone setting from Google Calendar
+    method: GET
+    path: /calendar/v3/users/me/settings/timezone
+
+  - name: create_event
+    description: Create an event on the specified calendar
+    method: POST
+    path: /calendar/v3/calendars/{calendarId}/events
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: summary, in: body, type: string, description: Title of the event}
+      - {name: description, in: body, type: string, description: Description of the event (supports HTML)}
+      - {name: location, in: body, type: string, description: Geographic location of the event as free-form text}
+      - {name: start, in: body, type: object, required: true, description: "Start time of the event as an object with 'dateTime' (RFC3339) or 'date' (all-day) and optional 'timeZone'"}
+      - {name: end, in: body, type: object, required: true, description: "End time of the event (exclusive) as an object with 'dateTime' (RFC3339) or 'date' (all-day) and optional 'timeZone'"}
+      - {name: attendees, in: body, type: array, description: "List of attendees, each as an object with an 'email' field"}
+      - {name: recurrence, in: body, type: array, description: "List of RRULE, EXRULE, RDATE, and EXDATE lines for a recurring event"}
+      - {name: sendUpdates, in: query, type: string, description: "Whether to send notifications about the creation: all, externalOnly, or none"}
+
+  - name: update_event
+    description: Update an existing event on the specified calendar using patch semantics (only specified fields are updated)
+    method: PATCH
+    path: /calendar/v3/calendars/{calendarId}/events/{eventId}
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: eventId, in: path, type: string, required: true, description: Event identifier}
+      - {name: summary, in: body, type: string, description: Title of the event}
+      - {name: description, in: body, type: string, description: Description of the event}
+      - {name: location, in: body, type: string, description: Geographic location of the event as free-form text}
+      - {name: start, in: body, type: object, description: "Start time of the event as an object with 'dateTime' (RFC3339) or 'date' (all-day) and optional 'timeZone'"}
+      - {name: end, in: body, type: object, description: "End time of the event (exclusive) as an object with 'dateTime' (RFC3339) or 'date' (all-day) and optional 'timeZone'"}
+      - {name: attendees, in: body, type: array, description: "List of attendees, each as an object with an 'email' field"}
+      - {name: sendUpdates, in: query, type: string, description: "Whether to send notifications about the update: all, externalOnly, or none"}
+
+  - name: quick_add_event
+    description: Create an event based on a simple text string on the specified calendar
+    method: POST
+    path: /calendar/v3/calendars/{calendarId}/events/quickAdd
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: text, in: query, type: string, required: true, description: The text describing the event to be created}
+      - {name: sendUpdates, in: query, type: string, description: "Whether to send notifications: all, externalOnly, or none"}
+
+  - name: delete_event
+    description: Delete an event from the specified calendar
+    method: DELETE
+    path: /calendar/v3/calendars/{calendarId}/events/{eventId}
+    params:
+      - {name: calendarId, in: path, type: string, required: true, description: "Calendar identifier. Use 'primary' for the currently logged-in user's primary calendar."}
+      - {name: eventId, in: path, type: string, required: true, description: Event identifier}
+      - {name: sendUpdates, in: query, type: string, description: "Whether to send notifications about the deletion: all, externalOnly, or none"}

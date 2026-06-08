@@ -1,0 +1,46 @@
+schemaVersion: 1
+name: tinypng
+version: 0.1.0
+baseUrl: https://api.tinify.com
+tools:
+  - name: get_compression_count
+    description: Validate the API key and retrieve the number of compressions made this calendar month; the count is returned in the Compression-Count response header
+    method: POST
+    path: /shrink
+    encoding: json
+
+  - name: shrink_image
+    description: Upload an image by URL and compress it using the Tinify engine; returns the output location URL for subsequent download or transform operations
+    method: POST
+    path: /shrink
+    encoding: json
+    params:
+      - {name: source, in: body, type: object, required: true, description: "Source object containing the image URL: {url: 'https://...'} — publicly accessible URL of the source image to compress (AVIF, WebP, JPEG, or PNG)"}
+
+  - name: download_compressed_image
+    description: Download the compressed image binary produced by a prior shrink operation
+    method: GET
+    path: /output/{output_id}
+    params:
+      - {name: output_id, in: path, type: string, required: true, description: "Output identifier returned in the Location header of a POST /shrink response"}
+
+  - name: transform_image
+    description: "Apply transformations to a compressed image: resize to new dimensions, convert to a different format, add a background colour for transparent images, or preserve metadata such as copyright and location"
+    method: POST
+    path: /output/{output_id}
+    encoding: json
+    params:
+      - {name: output_id, in: path, type: string, required: true, description: "Output identifier from a prior POST /shrink Location header"}
+      - {name: resize, in: body, type: object, description: "Resize options: {method: scale|fit|cover|thumb, width: integer, height: integer}"}
+      - {name: convert, in: body, type: object, description: "Format conversion options: {type: image/webp|image/png|image/jpeg|image/avif}"}
+      - {name: transform, in: body, type: object, description: "Transform options: {background: hex-colour string or white|black} — used when converting transparent images to opaque formats"}
+      - {name: preserve, in: body, type: array, description: "Metadata fields to copy from the original image; allowed values: copyright, creation, location"}
+
+  - name: compress_and_store_in_azure
+    description: "Store a compressed output image to Amazon S3 or Google Cloud Storage using the Tinify store endpoint. Note: the Tinify API has no direct Azure Blob Storage integration; for S3 use service 's3' with aws_access_key_id/aws_secret_access_key/region/path; for GCS use service 'gcs' with gcp_access_token/path"
+    method: POST
+    path: /output/{output_id}
+    encoding: json
+    params:
+      - {name: output_id, in: path, type: string, required: true, description: "Output identifier from a prior POST /shrink Location header"}
+      - {name: store, in: body, type: object, required: true, description: "Store options object for S3: {service: s3, aws_access_key_id: string, aws_secret_access_key: string, region: string, path: 'bucket/key', headers: {Cache-Control: '...'}, acl: public-read|no-acl}; for GCS: {service: gcs, gcp_access_token: string, path: 'bucket/key', headers: {Cache-Control: '...'}}. The Tinify API does not support Azure Blob Storage as a store target."}

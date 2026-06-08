@@ -1,0 +1,84 @@
+schemaVersion: 1
+name: zoominfo
+version: 0.1.0
+baseUrl: https://api.zoominfo.com
+tools:
+  - name: search_company
+    description: Search ZoomInfo's company database using firmographic criteria to discover matching companies
+    method: POST
+    path: /gtm/data/v1/companies/search
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort field; valid values: name, employeeCount, revenue. Prefix with - for descending (default -revenue)"}
+      - {name: data, in: body, type: object, required: true, description: "Company search request resource containing search criteria"}
+  - name: search_contact
+    description: Search ZoomInfo's contact database using demographic and firmographic criteria to discover matching contacts
+    method: POST
+    path: /gtm/data/v1/contacts/search
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort field; valid values: contactAccuracyScore, lastName, companyName, hierarchy, sourceCount, lastMentioned, relevance. Prefix with - for descending (default -relevance)"}
+      - {name: data, in: body, type: object, required: true, description: "Contact search request resource containing search criteria"}
+  - name: search_intent
+    description: Search for companies showing buying intent signals for specified topics
+    method: POST
+    path: /gtm/data/v1/intent/search
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort field; valid values: signalDate, companyName, signalScore, category, topic, audienceStrength. Prefix with - for descending (default -topic)"}
+      - {name: data, in: body, type: object, required: true, description: "Intent search request resource containing 1-50 intent topics and optional filters"}
+  - name: search_news
+    description: Search for news articles about companies tracked in ZoomInfo
+    method: POST
+    path: /gtm/data/v1/news/search
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: data, in: body, type: object, required: true, description: "News search request resource containing search criteria; at least one input parameter required"}
+  - name: search_scoop
+    description: Search for business intelligence scoops (signals about hiring, expansion, initiatives) about companies
+    method: POST
+    path: /gtm/data/v1/scoops/search
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort field; valid values: scoopId, originalPublishedDate, description, link, linkText. Prefix with - for descending (default -originalPublishedDate)"}
+      - {name: data, in: body, type: object, required: true, description: "Scoop search request resource containing search criteria"}
+  - name: enrich_company
+    description: Enrich up to 25 company records with full ZoomInfo firmographic data using company IDs or input criteria
+    method: POST
+    path: /gtm/data/v1/companies/enrich
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Company enrich request resource containing up to 25 company records to enrich"}
+  - name: enrich_contact
+    description: Enrich up to 25 contact records with full ZoomInfo data using contact IDs or input criteria
+    method: POST
+    path: /gtm/data/v1/contacts/enrich
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Contact enrich request resource containing up to 25 contact records to enrich"}
+  - name: enrich_intent
+    description: Retrieve intent signal data for specified companies and topics
+    method: POST
+    path: /gtm/data/v1/intent/enrich
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort field; valid values: audiencestrength, category, companyname, issuedate, signaldate, signalscore, signalstrength, surgescore, topic. Prefix with - for descending"}
+      - {name: data, in: body, type: object, required: true, description: "Intent enrich request resource; must include at least one company identifier (companyId, companyName, or companyWebsite) and 1-50 intent topics"}
+  - name: enrich_technology
+    description: Enrich company records with technology stack data showing which technologies companies use
+    method: POST
+    path: /gtm/data/v1/companies/technologies/enrich
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Technology enrich request resource containing company criteria to retrieve technology stack data"}
+  - name: enrich_news
+    description: Retrieve news articles for specified companies
+    method: POST
+    path: /gtm/data/v1/news/enrich
+    params:
+      - {name: "page[number]", in: query, type: integer, description: "Page number to retrieve (default 1)"}
+      - {name: "page[size]", in: query, type: integer, description: "Number of records per page, 1-100 (default 25)"}
+      - {name: data, in: body, type: object, required: true, description: "News enrich request resource; must include at least one company identifier: companyId, companyName, or companyWebsite"}

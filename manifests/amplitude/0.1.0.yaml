@@ -2,13 +2,14 @@ schemaVersion: 1
 name: amplitude
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/amplitude-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/amplitude-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:50f744b6bbb34f73986043d9d576a2f41436fd112ceccb6537f79bf7b7e0bd0d
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

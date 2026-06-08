@@ -29,6 +29,7 @@ the gateway uses when it mounts or runs the server.
 | Builder     | Runtime image base              | /app/server artifact                          |
 |-------------|----------------------------------|-----------------------------------------------|
 | `go-static` | `scratch` (no OS)                | Static ELF binary (CGO_ENABLED=0)             |
+| `toolpack`  | `scratch` (no OS)                | Static toolpack engine + baked-in `/app/manifest.yaml` and `/app/toolspec.yaml` |
 | `node`      | `node:22-bookworm-slim`          | esbuild-bundled JS with `#!/usr/bin/env node` shebang |
 | `python`    | `python:3.13-slim-bookworm`      | shiv zipapp with `#!/usr/local/bin/python3` shebang   |
 
@@ -41,6 +42,17 @@ the gateway uses when it mounts or runs the server.
   (e.g. a subdirectory of the author's repo); defaults to `.` (repo root).
 - The builder runs `CGO_ENABLED=0 go build -trimpath -o /out/server .` in that
   directory.
+
+### toolpack
+
+- `source.repo` / `source.tag` — the generic engine
+  (`github.com/gigmcp/toolpack`); built exactly like `go-static`.
+- Additionally bakes `manifests/<name>/<version>.yaml` and
+  `manifests/<name>/<version>.toolspec.yaml` from this repo (the build context) into
+  the image as `/app/manifest.yaml` and `/app/toolspec.yaml`. The engine reads
+  the manifest for the credential-inject contract and the toolspec for the
+  tool→HTTP mappings; `registryctl lint-toolspecs` enforces their coherence
+  in CI.
 
 ### node
 
@@ -60,7 +72,7 @@ the gateway uses when it mounts or runs the server.
 
 ## Runnability caveat for node and python
 
-**node and python images are NOT yet installable.** The gigmcp gateway v1
+**node and python images are NOT yet installable.** The gigmcp gateway
 sandbox mounts a single static binary from a `scratch`-based image. Support
 for runtime-rootfs images (full OS layer, node/python interpreter on PATH)
 requires the gateway's rootfs sandbox extension, which is designed but not yet

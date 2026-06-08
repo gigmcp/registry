@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: miro
+version: 0.1.0
+baseUrl: https://api.miro.com
+tools:
+  - name: get_boards
+    description: Retrieve a list of boards accessible to the current user
+    method: GET
+    path: /v2/boards
+    params:
+      - {name: team_id, in: query, type: string, description: Filter boards by team ID}
+      - {name: project_id, in: query, type: string, description: Filter boards by project ID}
+      - {name: query, in: query, type: string, description: "Search query string (max 500 characters)"}
+      - {name: owner, in: query, type: string, description: Filter boards by owner}
+      - {name: limit, in: query, type: string, description: "Number of results per page (1-50)"}
+      - {name: offset, in: query, type: string, description: Pagination offset}
+      - {name: sort, in: query, type: string, description: "Sort order: default, last_modified, last_opened, last_created, or alphabetically"}
+
+  - name: get_specific_board
+    description: Retrieve details for a specific board by its ID
+    method: GET
+    path: /v2/boards/{board_id}
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+
+  - name: get_board_items
+    description: Retrieve a list of items on a specific board
+    method: GET
+    path: /v2/boards/{board_id}/items
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: limit, in: query, type: string, description: "Number of results per page (10-50, default 10)"}
+      - {name: type, in: query, type: string, description: "Filter by item type (e.g. sticky_note, card, shape, text, frame, image)"}
+      - {name: cursor, in: query, type: string, description: Cursor for pagination to retrieve the next page of results}
+
+  - name: get_board_members
+    description: Retrieve a paginated list of members for a specific board
+    method: GET
+    path: /v2/boards/{board_id}/members
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: limit, in: query, type: string, description: "Number of results per page (1-50)"}
+      - {name: offset, in: query, type: string, description: Pagination offset}
+
+  - name: get_specific_item
+    description: Retrieve details for a specific item on a board
+    method: GET
+    path: /v2/boards/{board_id}/items/{item_id}
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: item_id, in: path, type: string, required: true, description: Unique identifier of the item}
+
+  - name: create_board
+    description: Create a new board in a team
+    method: POST
+    path: /v2/boards
+    params:
+      - {name: name, in: body, type: string, description: Name of the board}
+      - {name: description, in: body, type: string, description: Description of the board}
+      - {name: teamId, in: body, type: string, description: Unique identifier of the team where the board is created}
+      - {name: projectId, in: body, type: string, description: Unique identifier of the project to assign the board to}
+
+  - name: create_sticky_note_item
+    description: Add a sticky note item to a board
+    method: POST
+    path: /v2/boards/{board_id}/sticky_notes
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: data, in: body, type: object, description: "Sticky note content: {content: string, shape: 'square'|'rectangle'}"}
+      - {name: style, in: body, type: object, description: "Sticky note style: {fillColor: string}"}
+      - {name: position, in: body, type: object, description: "Position on the board: {x: number, y: number, origin: string}"}
+      - {name: geometry, in: body, type: object, description: "Dimensions of the sticky note: {width: number}"}
+      - {name: parent, in: body, type: object, description: "Parent frame or container: {id: string}"}
+
+  - name: create_card_item
+    description: Add a card item to a board
+    method: POST
+    path: /v2/boards/{board_id}/cards
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: data, in: body, type: object, description: "Card content: {title: string, description: string, assignee_id: string, due_date: string}"}
+      - {name: style, in: body, type: object, description: "Card style properties"}
+      - {name: position, in: body, type: object, description: "Position on the board: {x: number, y: number, origin: string}"}
+      - {name: geometry, in: body, type: object, description: "Dimensions of the card: {width: number, height: number}"}
+      - {name: parent, in: body, type: object, description: "Parent frame or container: {id: string}"}
+
+  - name: update_board
+    description: Update properties of an existing board such as name, description, or policies
+    method: PATCH
+    path: /v2/boards/{board_id}
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: name, in: body, type: string, description: New name for the board}
+      - {name: description, in: body, type: string, description: New description for the board}
+
+  - name: delete_item
+    description: Delete a specific item from a board
+    method: DELETE
+    path: /v2/boards/{board_id}/items/{item_id}
+    params:
+      - {name: board_id, in: path, type: string, required: true, description: Unique identifier of the board}
+      - {name: item_id, in: path, type: string, required: true, description: Unique identifier of the item to delete}

@@ -1,0 +1,76 @@
+schemaVersion: 1
+name: heygen
+version: 0.1.0
+baseUrl: https://api.heygen.com
+tools:
+  - name: list_avatars
+    description: List all available avatars including instant avatars
+    method: GET
+    path: /v2/avatars
+
+  - name: list_voices
+    description: List all available voices for use in video generation
+    method: GET
+    path: /v2/voices
+    params:
+      - {name: limit, in: query, type: integer, description: "Max voices per page (1-100, default 20)"}
+      - {name: token, in: query, type: string, description: Opaque pagination cursor from a previous response}
+
+  - name: list_videos
+    description: List all videos in the account
+    method: GET
+    path: /v1/video.list
+
+  - name: retrieve_video_status
+    description: Retrieve the status and details of a specific video by its ID
+    method: GET
+    path: /v1/video_status.get
+    params:
+      - {name: video_id, in: query, type: string, required: true, description: Unique identifier of the video to retrieve status for}
+
+  - name: retrieve_all_templates
+    description: List all video templates created in the account
+    method: GET
+    path: /v2/templates
+
+  - name: retrieve_user_remaining_quota
+    description: Retrieve the remaining API quota for the authenticated user
+    method: GET
+    path: /v2/user/remaining_quota
+
+  - name: generate_video
+    description: Generate an AI avatar video from text inputs
+    method: POST
+    path: /v2/video/generate
+    params:
+      - {name: video_inputs, in: body, type: array, required: true, description: "Array of video input configurations with character and voice settings"}
+      - {name: title, in: body, type: string, description: Title to assign to the generated video}
+      - {name: test, in: body, type: boolean, description: "Set to true to generate a test video with watermark"}
+      - {name: aspect_ratio, in: body, type: string, description: "Aspect ratio of the video (e.g. 16:9, 9:16, 1:1)"}
+      - {name: callback_id, in: body, type: string, description: Identifier passed back in webhook callbacks}
+
+  - name: generate_text_to_speech_audio
+    description: Generate speech audio from text using a specified voice
+    method: POST
+    path: /v1/audio/text_to_speech
+    params:
+      - {name: voice_id, in: body, type: string, required: true, description: "Voice identifier from the list voices endpoint"}
+      - {name: text, in: body, type: string, required: true, description: "Text to synthesize into speech (max 5000 characters)"}
+      - {name: speed, in: body, type: number, description: "Speed multiplier for speech delivery (0.5-1.5)"}
+      - {name: pitch, in: body, type: integer, description: "Pitch adjustment for the voice (-50 to 50)"}
+
+  - name: upload_asset
+    description: Upload an image or video file asset to the account
+    method: POST
+    path: /v1/asset
+    baseUrl: https://upload.heygen.com
+    encoding: form
+    params:
+      - {name: file, in: body, type: string, required: true, description: "Binary file to upload (png, jpeg, mp4, webm, mp3, wav; max 32 MB)"}
+
+  - name: delete_video
+    description: Permanently delete a video and its associated files
+    method: DELETE
+    path: /v1/video.delete
+    params:
+      - {name: video_id, in: query, type: string, required: true, description: Unique identifier of the video to delete}

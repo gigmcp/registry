@@ -1,0 +1,72 @@
+schemaVersion: 1
+name: perplexityai
+version: 0.1.0
+baseUrl: https://api.perplexity.ai
+tools:
+  - name: create_chat_completion
+    description: Generate a chat completion response for the given conversation using Perplexity AI Sonar models
+    method: POST
+    path: /v1/sonar
+    params:
+      - {name: model, in: body, type: string, required: true, description: "Model to use, e.g. sonar, sonar-pro, sonar-deep-research, sonar-reasoning-pro"}
+      - {name: messages, in: body, type: array, required: true, description: Array of message objects forming the conversation history}
+      - {name: max_tokens, in: body, type: integer, description: "Maximum number of completion tokens to generate (1-128000)"}
+      - {name: stream, in: body, type: boolean, description: "Return streaming SSE response; default: false"}
+      - {name: temperature, in: body, type: number, description: "Controls randomness in the response (0-2)"}
+      - {name: top_p, in: body, type: number, description: "Nucleus sampling parameter for diversity control (0-1)"}
+      - {name: search_mode, in: body, type: string, description: "Search mode: web, academic, or sec"}
+      - {name: return_images, in: body, type: boolean, description: Include image results in the response}
+      - {name: return_related_questions, in: body, type: boolean, description: Generate suggested follow-up queries}
+      - {name: disable_search, in: body, type: boolean, description: Disable all web search capabilities}
+      - {name: search_domain_filter, in: body, type: array, description: Limit results to specific domains}
+      - {name: search_recency_filter, in: body, type: string, description: "Recency filter: hour, day, week, month, or year"}
+      - {name: reasoning_effort, in: body, type: string, description: "Reasoning effort level: minimal, low, medium, or high"}
+      - {name: language_preference, in: body, type: string, description: ISO 639-1 language code for response language}
+
+  - name: create_async_chat_completion
+    description: Submit an asynchronous chat completion request to be processed in the background
+    method: POST
+    path: /v1/async/sonar
+    params:
+      - {name: request, in: body, type: object, required: true, description: "The chat completion request to execute asynchronously (contains model, messages, and optional parameters)"}
+      - {name: idempotency_key, in: body, type: string, description: Unique key to prevent duplicate requests}
+
+  - name: get_async_chat_completion
+    description: Retrieve the response for a given asynchronous chat completion request by its ID
+    method: GET
+    path: /v1/async/sonar/{api_request}
+    params:
+      - {name: api_request, in: path, type: string, required: true, description: Identifier for the asynchronous request whose response is being retrieved}
+
+  - name: list_async_chat_completions
+    description: Retrieve a list of all asynchronous chat completion requests for the authenticated user
+    method: GET
+    path: /v1/async/sonar
+
+  - name: perplexity_search
+    description: Search the web and retrieve relevant web page contents with structured results
+    method: POST
+    path: /search
+    params:
+      - {name: query, in: body, type: string, required: true, description: Search query text}
+      - {name: max_results, in: body, type: integer, description: "Number of results to return (1-20, default: 10)"}
+      - {name: search_context_size, in: body, type: string, description: "Content extraction level: low, medium, or high (default)"}
+      - {name: max_tokens, in: body, type: integer, description: "Maximum total tokens across all results (1-1,000,000)"}
+      - {name: country, in: body, type: string, description: ISO 3166-1 alpha-2 country code to localize results}
+      - {name: search_domain_filter, in: body, type: array, description: "Limit results to specific domains (max 20)"}
+      - {name: search_recency_filter, in: body, type: string, description: "Recency filter: hour, day, week, month, or year"}
+
+  - name: list_models
+    description: List the models available for use with the Perplexity AI API
+    method: GET
+    path: /v1/models
+
+  - name: create_embeddings
+    description: Generate text embeddings for semantic search, RAG, and machine learning applications
+    method: POST
+    path: /v1/embeddings
+    params:
+      - {name: input, in: body, type: string, required: true, description: "Input text to embed, encoded as a string or array of strings (max 512 texts, 120,000 tokens combined)"}
+      - {name: model, in: body, type: string, required: true, description: "Embedding model to use: pplx-embed-v1-0.6b or pplx-embed-v1-4b"}
+      - {name: dimensions, in: body, type: integer, description: "Output embedding dimensions (128-1024 for 0.6b model, 128-2560 for 4b model)"}
+      - {name: encoding_format, in: body, type: string, description: "Output encoding format: base64_int8 (default) or base64_binary"}

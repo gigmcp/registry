@@ -1,0 +1,67 @@
+schemaVersion: 1
+name: screenshotone
+version: 0.1.0
+baseUrl: https://api.screenshotone.com
+auth:
+  header: X-Access-Key
+  format: "{token}"
+tools:
+  - name: get_usage
+    description: Retrieve current API usage and rate limit information for the account
+    method: GET
+    path: /usage
+    params: []
+  - name: list_devices
+    description: List all supported device emulation profiles with their viewport specs and user agents
+    method: GET
+    path: /devices
+    params: []
+  - name: take_screenshot
+    description: Capture a screenshot of a URL or HTML content and return the image
+    method: GET
+    path: /take
+    params:
+      - {name: url, in: query, type: string, description: "URL of the website to screenshot (required if html/markdown not provided)"}
+      - {name: html, in: query, type: string, description: "HTML content to render (required if url/markdown not provided)"}
+      - {name: format, in: query, type: string, description: "Output format: png, jpeg, webp, pdf (default: png)"}
+      - {name: full_page, in: query, type: boolean, description: "Capture the entire page height (default: false)"}
+      - {name: viewport_width, in: query, type: integer, description: "Viewport width in pixels (default: 1280)"}
+      - {name: viewport_height, in: query, type: integer, description: "Viewport height in pixels (default: 1024)"}
+      - {name: device_scale_factor, in: query, type: number, description: "Device pixel ratio, 1-5"}
+      - {name: image_quality, in: query, type: integer, description: "Image quality 0-100 (default: 80)"}
+      - {name: selector, in: query, type: string, description: "CSS selector to capture a specific element"}
+      - {name: viewport_device, in: query, type: string, description: "Device preset id to emulate (e.g. galaxy_s9+_landscape)"}
+      - {name: block_ads, in: query, type: boolean, description: "Block advertisements (default: false)"}
+      - {name: block_cookie_banners, in: query, type: boolean, description: "Hide cookie consent banners (default: false)"}
+      - {name: block_chats, in: query, type: boolean, description: "Hide chat widgets (default: false)"}
+      - {name: dark_mode, in: query, type: boolean, description: "Force dark color scheme"}
+      - {name: wait_until, in: query, type: string, description: "Page event to wait for before capturing: load, domcontentloaded, networkidle0, networkidle2"}
+      - {name: delay, in: query, type: integer, description: "Additional wait time in seconds after page load"}
+      - {name: timeout, in: query, type: integer, description: "Maximum time to wait in seconds (max: 90, default: 60)"}
+      - {name: wait_for_selector, in: query, type: string, description: "Wait for a specific CSS selector to appear before capturing"}
+      - {name: cache, in: query, type: boolean, description: "Enable response caching (default: false)"}
+      - {name: cache_ttl, in: query, type: integer, description: "Cache duration in seconds (min: 4 hours, max: 30 days)"}
+  - name: take_animated_screenshot
+    description: Capture an animated screenshot (video or GIF) of a URL with optional scroll animation
+    method: GET
+    path: /animate
+    params:
+      - {name: url, in: query, type: string, required: true, description: "URL of the website to animate"}
+      - {name: scenario, in: query, type: string, description: "Animation scenario: default (stand still) or scroll"}
+      - {name: format, in: query, type: string, description: "Output format: mp4, mov, avi, webm, gif (default: mp4)"}
+      - {name: duration, in: query, type: integer, description: "Animation length in seconds, 1-30 (default: 5)"}
+      - {name: width, in: query, type: integer, description: "Video width in pixels"}
+      - {name: height, in: query, type: integer, description: "Video height in pixels"}
+      - {name: scroll_delay, in: query, type: integer, description: "Milliseconds between scrolls when scenario=scroll (default: 500)"}
+      - {name: scroll_duration, in: query, type: integer, description: "Single scroll duration in ms when scenario=scroll (default: 1500)"}
+      - {name: scroll_by, in: query, type: integer, description: "Pixels to scroll per step when scenario=scroll (default: 1000)"}
+      - {name: scroll_back, in: query, type: boolean, description: "Reverse scroll back to top when scenario=scroll (default: true)"}
+  - name: take_bulk_screenshots
+    description: Capture multiple screenshots in a single request (up to 20 per call)
+    method: POST
+    path: /bulk
+    params:
+      - {name: requests, in: body, type: array, required: true, description: "Array of screenshot request configurations (max 20)"}
+      - {name: execute, in: body, type: boolean, description: "Process requests immediately and return results (default: false)"}
+      - {name: optimize, in: body, type: boolean, description: "Speed up identical URLs with different parameters (default: false)"}
+      - {name: options, in: body, type: object, description: "Default screenshot options applied to all requests in the batch"}

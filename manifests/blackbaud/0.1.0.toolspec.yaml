@@ -1,0 +1,53 @@
+schemaVersion: 1
+name: blackbaud
+version: 0.1.0
+baseUrl: https://api.sky.blackbaud.com
+tools:
+  - name: get_gift_by_id
+    description: Returns information about a single gift by its system record ID
+    method: GET
+    path: /gift/v1/gifts/{gift_id}
+    params:
+      - {name: gift_id, in: path, type: string, required: true, description: The system record ID of the gift to retrieve}
+
+  - name: add_gifts_to_batch
+    description: Add one or more gifts to an existing gift batch
+    method: POST
+    path: /gift/v1/giftbatches/{batch_id}/gifts
+    params:
+      - {name: batch_id, in: path, type: string, required: true, description: The system record ID of the gift batch}
+      - {name: constituent_id, in: body, type: string, required: true, description: The system record ID of the constituent associated with the gift}
+      - {name: type, in: body, type: string, required: true, description: "The gift type (e.g. Donation, Pledge, RecurringGift)"}
+      - {name: date, in: body, type: string, required: true, description: "The gift date (ex: 2020-09-18)"}
+      - {name: amount, in: body, type: object, required: true, description: "The monetary amount of the gift as an object with a value field (e.g. {\"value\": 100.00})"}
+      - {name: gift_splits, in: body, type: array, required: true, description: "Array of gift split objects; each split must include fund_id and amount ({\"value\": <number>}) and optionally campaign_id and appeal_id"}
+      - {name: payments, in: body, type: array, required: true, description: "Array of payment objects; each payment must include payment_method (e.g. PersonalCheck, Cash, CreditCard)"}
+
+  - name: get_membership_details
+    description: Lists the memberships for a constituent
+    method: GET
+    path: /constituent/v1/constituents/{constituent_id}/memberships
+    params:
+      - {name: constituent_id, in: path, type: string, required: true, description: The system record ID of the constituent}
+      - {name: limit, in: query, type: integer, description: "The number of records to return (default 500)"}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+
+  - name: get_payment_transaction
+    description: Returns information about a payment transaction by its ID
+    method: GET
+    path: /payments/v1/transactions/{transaction_id}
+    params:
+      - {name: transaction_id, in: path, type: string, required: true, description: The system record ID of the payment transaction to retrieve}
+
+  - name: query_oneroster_api
+    description: Query the OneRoster v1.1 API to retrieve rostering data such as courses, classes, enrollments, or users
+    method: GET
+    path: /afe-rostr/ims/oneroster/v1p1/{resource}
+    params:
+      - {name: resource, in: path, type: string, required: true, description: "The OneRoster resource to query (e.g. courses, classes, enrollments, users, orgs)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of records to return}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+      - {name: filter, in: query, type: string, description: "Filter expression for the results (e.g. metadata.classId='990_2421')"}
+      - {name: sort, in: query, type: string, description: Field to sort results by}
+      - {name: orderBy, in: query, type: string, description: "Sort direction: asc or desc"}
+      - {name: fields, in: query, type: string, description: Comma-separated list of fields to include in the response}

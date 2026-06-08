@@ -2,13 +2,14 @@ schemaVersion: 1
 name: serpapi
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/serpapi-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/serpapi-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2cabfa9889db75c71f7711d2f2d7b7effbac0cdec5971994ddd874ec7fc1b1e9
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 # SerpApi authenticates via the api_key query parameter only — no auth header
 # exists, so header injection cannot work and the key must come in via env.
 tier: entrusted

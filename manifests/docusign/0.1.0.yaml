@@ -2,13 +2,14 @@ schemaVersion: 1
 name: docusign
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/docusign-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/docusign-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2fcc1c1c4aef626259412b460a97b17b3dd953e7642d49817394f2424a90048e
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

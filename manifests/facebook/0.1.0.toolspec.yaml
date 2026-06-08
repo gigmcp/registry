@@ -1,0 +1,101 @@
+schemaVersion: 1
+name: facebook
+version: 0.1.0
+baseUrl: https://graph.facebook.com
+tools:
+  - name: list_managed_pages
+    description: List all Facebook Pages that the current user manages
+    method: GET
+    path: /v25.0/me/accounts
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of pages to return"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of Page fields to include in the response"}
+
+  - name: get_page_details
+    description: Get details and metadata for a specific Facebook Page
+    method: GET
+    path: /v25.0/{page_id}
+    params:
+      - {name: page_id, in: path, type: string, required: true, description: "The ID of the Facebook Page"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of Page fields to return (e.g. name,about,fan_count)"}
+
+  - name: get_page_posts
+    description: Retrieve posts published on a Facebook Page's feed
+    method: GET
+    path: /v25.0/{page_id}/feed
+    params:
+      - {name: page_id, in: path, type: string, required: true, description: "The ID of the Facebook Page"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of posts to return (max 100)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of Post fields to return"}
+      - {name: since, in: query, type: string, description: "Return posts after this Unix timestamp or date"}
+      - {name: until, in: query, type: string, description: "Return posts before this Unix timestamp or date"}
+
+  - name: get_comments
+    description: Retrieve comments on a Facebook Page post or other object
+    method: GET
+    path: /v25.0/{object_id}/comments
+    params:
+      - {name: object_id, in: path, type: string, required: true, description: "The ID of the post or object to retrieve comments for"}
+      - {name: summary, in: query, type: boolean, description: "Whether to include a summary with total_count and order fields"}
+      - {name: filter, in: query, type: string, description: "toplevel (default) returns top-level comments; stream returns all comments including replies"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of comments to return"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of Comment fields to return"}
+
+  - name: get_page_insights
+    description: Retrieve engagement and reach metrics for a Facebook Page
+    method: GET
+    path: /v25.0/{page_id}/insights
+    params:
+      - {name: page_id, in: path, type: string, required: true, description: "The ID of the Facebook Page"}
+      - {name: metric, in: query, type: string, description: "Comma-separated list of insight metrics to retrieve (e.g. page_impressions,page_fans)"}
+      - {name: period, in: query, type: string, description: "Aggregation period: day, week, days_28, month, lifetime, or total_over_range"}
+      - {name: since, in: query, type: string, description: "Start of the date range as a Unix timestamp"}
+      - {name: until, in: query, type: string, description: "End of the date range as a Unix timestamp"}
+      - {name: date_preset, in: query, type: string, description: "Preset date range: today, yesterday, last_7d, last_28d, last_30d, last_90d"}
+
+  - name: get_post_insights
+    description: Retrieve engagement metrics for a specific Facebook Page post
+    method: GET
+    path: /v25.0/{post_id}/insights
+    params:
+      - {name: post_id, in: path, type: string, required: true, description: "The ID of the Facebook Page post"}
+      - {name: metric, in: query, type: string, description: "Comma-separated list of post insight metrics to retrieve"}
+      - {name: period, in: query, type: string, description: "Aggregation period: day, week, days_28, month, lifetime, or total_over_range"}
+      - {name: since, in: query, type: string, description: "Start of the date range as a Unix timestamp"}
+      - {name: until, in: query, type: string, description: "End of the date range as a Unix timestamp"}
+
+  - name: create_post
+    description: Publish a new post to a Facebook Page's feed
+    method: POST
+    path: /v25.0/{page_id}/feed
+    params:
+      - {name: page_id, in: path, type: string, required: true, description: "The ID of the Facebook Page to post on"}
+      - {name: message, in: body, type: string, description: "The text content of the post"}
+      - {name: link, in: body, type: string, description: "URL of a link to attach to the post"}
+      - {name: published, in: body, type: boolean, description: "Whether to publish immediately (default true); set false to create a draft"}
+      - {name: scheduled_publish_time, in: body, type: integer, description: "Unix timestamp for scheduled publishing (10 minutes to 75 days ahead)"}
+
+  - name: create_comment
+    description: Post a comment on a Facebook Page post or object
+    method: POST
+    path: /v25.0/{object_id}/comments
+    params:
+      - {name: object_id, in: path, type: string, required: true, description: "The ID of the post or object to comment on"}
+      - {name: message, in: body, type: string, required: true, description: "The text content of the comment"}
+
+  - name: delete_post
+    description: Delete a Facebook Page post
+    method: DELETE
+    path: /v25.0/{post_id}
+    params:
+      - {name: post_id, in: path, type: string, required: true, description: "The ID of the post to delete"}
+
+  - name: send_message
+    description: Send a Messenger message from a Facebook Page to a user
+    method: POST
+    path: /v25.0/{page_id}/messages
+    params:
+      - {name: page_id, in: path, type: string, required: true, description: "The ID of the Facebook Page sending the message"}
+      - {name: recipient, in: body, type: object, required: true, description: "Recipient object containing the user's Page-Scoped ID (e.g. {\"id\": \"<PSID>\"})"}
+      - {name: message, in: body, type: object, required: true, description: "Message object containing the content to send (e.g. {\"text\": \"Hello\"})"}
+      - {name: messaging_type, in: body, type: string, description: "Messaging type: RESPONSE, UPDATE, or MESSAGE_TAG"}

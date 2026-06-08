@@ -2,18 +2,19 @@ schemaVersion: 1
 name: slack
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/slack-mcp
-  tag: v0.1.0
+  repo: github.com/korotovsky/slack-mcp-server
+  tag: v1.3.0
+  package: cmd/slack-mcp-server
 image:
   ref: ghcr.io/gigmcp/slack-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:5abc326f0d2b52d537685f4887b9eae2087b4a6534ec5e7c21c6b52d2dd6ebb5
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
 entitlements:
   egress:
     - slack.com
-    - "*.slack.com"
+    - edgeapi.slack.com
 credentials:
   - id: slack_token
     type: oauth2
@@ -23,23 +24,39 @@ credentials:
       header: Authorization
       format: "Bearer {token}"
 tools:
-  - name: list_all_channels
+  - name: channels_list
     default: true
-  - name: fetch_conversation_history
+  - name: conversations_history
     default: true
-  - name: retrieve_message_thread
+  - name: conversations_replies
     default: true
-  - name: list_all_users
+  - name: conversations_search_messages
     default: true
-  - name: lookup_by_email
+  - name: conversations_unreads
     default: true
-  - name: send_message
+  - name: users_search
+    default: true
+  - name: usergroups_list
+    default: true
+  - name: saved_list
+    default: true
+  - name: conversations_add_message
     default: false
-  - name: schedule_message
+  - name: conversations_mark
     default: false
-  - name: add_reaction_to_message
+  - name: reactions_add
     default: false
-  - name: create_channel
+  - name: reactions_remove
     default: false
-  - name: invite_users_to_channel
+  - name: usergroups_create
+    default: false
+  - name: usergroups_update
+    default: false
+  - name: usergroups_users_update
+    default: false
+  - name: usergroups_me
+    default: false
+  - name: saved_update
+    default: false
+  - name: saved_clear_completed
     default: false

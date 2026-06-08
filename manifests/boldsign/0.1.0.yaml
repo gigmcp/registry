@@ -2,13 +2,14 @@ schemaVersion: 1
 name: boldsign
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/boldsign-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/boldsign-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:bb3869b29d353783f997bcae0b071a824a9b18e5b307e187785d87f1bb58d73b
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,97 @@
+schemaVersion: 1
+name: zenserp
+version: 0.1.0
+baseUrl: https://app.zenserp.com
+tools:
+  - name: google_search
+    description: Perform a Google search and retrieve organic results, ads, featured snippets, and more
+    method: GET
+    path: /api/v2/search
+    params:
+      - {name: q, in: query, type: string, required: true, description: Search query}
+      - {name: location, in: query, type: string, description: "Geographic location for the search (e.g. Manhattan,New York,United States)"}
+      - {name: gl, in: query, type: string, description: "Country code for the search (e.g. us)"}
+      - {name: hl, in: query, type: string, description: "Language code for the search interface (e.g. en)"}
+      - {name: num, in: query, type: integer, description: "Number of results to return (up to 100)"}
+      - {name: start, in: query, type: integer, description: "Pagination offset (0, 10, 20, ...)"}
+      - {name: device, in: query, type: string, description: "Device type: desktop, mobile, or tablet"}
+      - {name: tbm, in: query, type: string, description: "Search type modifier: isch (images), vid (videos), nws (news), lcl (maps), shop (shopping)"}
+
+  - name: bing_search
+    description: Perform a Bing search and retrieve organic results, ads, video results, and image results
+    method: GET
+    path: /api/v2/search
+    params:
+      - {name: q, in: query, type: string, required: true, description: Search query}
+      - {name: search_engine, in: query, type: string, required: true, description: "Set to bing.com to route the query to Bing"}
+      - {name: location, in: query, type: string, description: "Geographic location for the search"}
+      - {name: gl, in: query, type: string, description: "Country code for the search (e.g. us)"}
+      - {name: hl, in: query, type: string, description: "Language code for the search interface (e.g. en)"}
+      - {name: num, in: query, type: integer, description: "Number of results to return (up to 100)"}
+      - {name: start, in: query, type: integer, description: "Pagination offset (0, 10, 20, ...)"}
+      - {name: device, in: query, type: string, description: "Device type: desktop, mobile, or tablet"}
+
+  - name: yandex_search
+    description: Perform a Yandex search and retrieve organic search results in JSON format
+    method: GET
+    path: /api/v2/search
+    params:
+      - {name: q, in: query, type: string, required: true, description: Search query}
+      - {name: search_engine, in: query, type: string, required: true, description: "Set to yandex.com to route the query to Yandex"}
+      - {name: location, in: query, type: string, description: "Geographic location for the search"}
+      - {name: gl, in: query, type: string, description: "Country code for the search (e.g. ru)"}
+      - {name: hl, in: query, type: string, description: "Language code for the search interface"}
+      - {name: num, in: query, type: integer, description: "Number of results to return (up to 100)"}
+      - {name: start, in: query, type: integer, description: "Pagination offset (0, 10, 20, ...)"}
+      - {name: device, in: query, type: string, description: "Device type: desktop, mobile, or tablet"}
+
+  - name: google_trends
+    description: Retrieve Google Trends data for one or more keywords including popularity over time, related queries, and popularity by region
+    method: GET
+    path: /api/v1/trends
+    params:
+      - {name: "keyword[]", in: query, type: string, required: true, description: "Keyword or phrase to look up trends for (repeat parameter for multiple keywords)"}
+      - {name: hl, in: query, type: string, description: "Language code (e.g. en)"}
+      - {name: timeframe, in: query, type: string, description: "Date range for trends data (e.g. today 5-y, today 12-m)"}
+
+  - name: google_reverse_image_search
+    description: Perform a Google reverse image search to find pages and images similar to a given image URL
+    method: GET
+    path: /api/v2/search
+    params:
+      - {name: image_url, in: query, type: string, required: true, description: "Publicly accessible URL of the image to search for"}
+      - {name: num, in: query, type: integer, description: "Number of results to return (up to 100)"}
+      - {name: start, in: query, type: integer, description: "Pagination offset for results beyond 100"}
+      - {name: location, in: query, type: string, description: "Geographic location for the search"}
+      - {name: gl, in: query, type: string, description: "Country code for the search"}
+      - {name: hl, in: query, type: string, description: "Language code for the search interface"}
+
+  - name: get_shopping_product_details
+    description: Retrieve detailed product information from Google Shopping using a product ID obtained from a shopping search
+    method: GET
+    path: /api/v1/shopping
+    params:
+      - {name: product_id, in: query, type: string, required: true, description: "Product ID from a previous shopping search result"}
+      - {name: location, in: query, type: string, description: "Geographic location for targeted results (e.g. Manhattan,New York,United States)"}
+      - {name: gl, in: query, type: string, description: "Country code (e.g. us)"}
+      - {name: hl, in: query, type: string, description: "Language code (e.g. en)"}
+
+  - name: get_api_status
+    description: Retrieve the number of remaining API requests available for the current subscription
+    method: GET
+    path: /api/v2/status
+    params: []
+
+  - name: list_locations
+    description: Search for supported geographic location strings that can be used as the location parameter in search requests
+    method: GET
+    path: /api/v2/locations
+    params:
+      - {name: q, in: query, type: string, description: "Location search query to filter results"}
+
+  - name: list_search_engines
+    description: List available search engine domains that can be used as the search_engine parameter in search requests
+    method: GET
+    path: /api/v2/search_engines
+    params:
+      - {name: q, in: query, type: string, description: "Filter query to narrow the list of search engines"}

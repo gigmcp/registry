@@ -2,13 +2,14 @@ schemaVersion: 1
 name: launchdarkly
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/launchdarkly-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/launchdarkly-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:abf93d343d112e43c2eda3241b385ebdabcfbb5862ec5107b758969f814a5d81
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

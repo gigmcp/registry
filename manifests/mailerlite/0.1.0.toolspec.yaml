@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: mailerlite
+version: 0.1.0
+baseUrl: https://connect.mailerlite.com
+tools:
+  - name: get_subscribers
+    description: List all subscribers in the MailerLite account with optional status filtering and pagination
+    method: GET
+    path: /api/subscribers
+    params:
+      - {name: "filter[status]", in: query, type: string, description: "Filter by subscriber status: active, unsubscribed, unconfirmed, bounced, or junk"}
+      - {name: limit, in: query, type: integer, description: "Number of subscribers per page (default 25)"}
+      - {name: cursor, in: query, type: string, description: "Cursor for pagination; defaults to first page"}
+      - {name: include, in: query, type: string, description: "Additional resources to include in the response; only 'groups' is currently supported"}
+
+  - name: get_groups
+    description: List all subscriber groups in the MailerLite account with optional filtering and sorting
+    method: GET
+    path: /api/groups
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of groups per page"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: "filter[name]", in: query, type: string, description: "Filter groups by name"}
+      - {name: sort, in: query, type: string, description: "Sort order for results"}
+
+  - name: get_campaigns
+    description: List all email campaigns in the MailerLite account with optional status and type filtering
+    method: GET
+    path: /api/campaigns
+    params:
+      - {name: "filter[status]", in: query, type: string, description: "Filter by campaign status: sent, draft, or ready"}
+      - {name: "filter[type]", in: query, type: string, description: "Filter by campaign type: regular, ab, resend, or rss"}
+      - {name: limit, in: query, type: integer, description: "Number of campaigns per page"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+
+  - name: get_segments
+    description: List all subscriber segments in the MailerLite account
+    method: GET
+    path: /api/segments
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of segments per page (max 250)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+
+  - name: get_account_info
+    description: Retrieve basic MailerLite account details including plan, timezone, and account metadata
+    method: GET
+    path: /api/me
+
+  - name: create_or_update_subscriber
+    description: Create a new subscriber or update an existing one by email address (upsert); returns 201 for new subscribers and 200 for updates
+    method: POST
+    path: /api/subscribers
+    params:
+      - {name: email, in: body, type: string, required: true, description: "Valid email address of the subscriber (RFC 2821)"}
+      - {name: fields, in: body, type: object, description: "Custom field values; keys must match existing field names"}
+      - {name: groups, in: body, type: array, description: "Array of group IDs to assign the subscriber to"}
+      - {name: status, in: body, type: string, description: "Subscriber status: active, unsubscribed, unconfirmed, bounced, or junk"}
+      - {name: subscribed_at, in: body, type: string, description: "Subscription date in format yyyy-MM-dd HH:mm:ss"}
+      - {name: ip_address, in: body, type: string, description: "IP address of the subscriber"}
+      - {name: opted_in_at, in: body, type: string, description: "Opt-in date in format yyyy-MM-dd HH:mm:ss"}
+      - {name: optin_ip, in: body, type: string, description: "IP address at opt-in time"}
+      - {name: unsubscribed_at, in: body, type: string, description: "Unsubscription date in format yyyy-MM-dd HH:mm:ss"}
+      - {name: resubscribe, in: body, type: boolean, description: "Set to true to reactivate previously unsubscribed subscribers"}
+
+  - name: delete_subscriber
+    description: Delete a subscriber from the MailerLite account by subscriber ID
+    method: DELETE
+    path: /api/subscribers/{subscriber_id}
+    params:
+      - {name: subscriber_id, in: path, type: string, required: true, description: "Unique identifier of the subscriber to delete"}
+
+  - name: create_campaign
+    description: Create a new email campaign draft in the MailerLite account
+    method: POST
+    path: /api/campaigns
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Campaign name (max 255 characters)"}
+      - {name: type, in: body, type: string, required: true, description: "Campaign type: regular, ab, resend, or multivariate"}
+      - {name: emails, in: body, type: array, required: true, description: "Array of email objects each containing subject, from_name, and from fields"}
+      - {name: language_id, in: body, type: integer, description: "Language ID for the campaign (defaults to English)"}
+      - {name: groups, in: body, type: array, description: "Array of group IDs to target as recipients"}
+      - {name: segments, in: body, type: array, description: "Array of segment IDs to target as recipients (overrides groups if both provided)"}
+
+  - name: create_webhook
+    description: Create a new webhook to receive real-time event notifications from MailerLite
+    method: POST
+    path: /api/webhooks
+    params:
+      - {name: events, in: body, type: array, required: true, description: "Array of event types to subscribe to (e.g. subscriber.created, campaign.sent)"}
+      - {name: url, in: body, type: string, required: true, description: "HTTPS URL that will receive webhook POST requests"}
+      - {name: name, in: body, type: string, description: "Optional name for the webhook"}
+      - {name: enabled, in: body, type: boolean, description: "Whether the webhook is active (default true)"}
+      - {name: batchable, in: body, type: boolean, description: "Required as true for campaign.open and campaign.click events"}

@@ -1,0 +1,125 @@
+schemaVersion: 1
+name: harvest
+version: 0.1.0
+baseUrl: https://api.harvestapp.com
+tools:
+  - name: list_time_entries
+    description: List all time entries, optionally filtered by user, client, project, task, date range, or billing status
+    method: GET
+    path: /v2/time_entries
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: user_id, in: query, type: integer, description: Filter by user ID}
+      - {name: client_id, in: query, type: integer, description: Filter by client ID}
+      - {name: project_id, in: query, type: integer, description: Filter by project ID}
+      - {name: task_id, in: query, type: integer, description: Filter by task ID}
+      - {name: is_billed, in: query, type: boolean, description: "Filter by billed status (true or false)"}
+      - {name: is_running, in: query, type: boolean, description: "Filter by running timer status (true or false)"}
+      - {name: from, in: query, type: string, description: "Only return entries with spent_date on or after this date (YYYY-MM-DD)"}
+      - {name: to, in: query, type: string, description: "Only return entries with spent_date on or before this date (YYYY-MM-DD)"}
+      - {name: updated_since, in: query, type: string, description: Only return entries updated after this datetime}
+      - {name: page, in: query, type: integer, description: "Page number (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page, 1-2000 (default: 2000)"}
+
+  - name: list_projects
+    description: List all projects, optionally filtered by active status or client
+    method: GET
+    path: /v2/projects
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: is_active, in: query, type: boolean, description: "Filter by active status (true or false)"}
+      - {name: client_id, in: query, type: integer, description: Filter by client ID}
+      - {name: updated_since, in: query, type: string, description: Only return projects updated after this datetime}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: per_page, in: query, type: integer, description: "Records per page, 1-2000 (default: 2000)"}
+
+  - name: list_clients
+    description: List all clients, optionally filtered by active status
+    method: GET
+    path: /v2/clients
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: is_active, in: query, type: boolean, description: "Filter by active status (true or false)"}
+      - {name: updated_since, in: query, type: string, description: Only return clients updated after this datetime}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: per_page, in: query, type: integer, description: "Records per page, 1-2000 (default: 2000)"}
+
+  - name: list_invoices
+    description: List all invoices, optionally filtered by client, project, state, or date range
+    method: GET
+    path: /v2/invoices
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: client_id, in: query, type: integer, description: Filter by client ID}
+      - {name: project_id, in: query, type: integer, description: Filter by project ID}
+      - {name: state, in: query, type: string, description: "Filter by invoice state: draft, open, paid, or closed"}
+      - {name: from, in: query, type: string, description: "Only return invoices with issue_date on or after this date (YYYY-MM-DD)"}
+      - {name: to, in: query, type: string, description: "Only return invoices with issue_date on or before this date (YYYY-MM-DD)"}
+      - {name: updated_since, in: query, type: string, description: Only return invoices updated after this datetime}
+      - {name: page, in: query, type: integer, description: "Page number (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page, 1-2000 (default: 100)"}
+
+  - name: get_company_info
+    description: Retrieve the company details for the currently authenticated Harvest account
+    method: GET
+    path: /v2/company
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+
+  - name: create_time_entry
+    description: Create a new time entry for a project and task on a specific date
+    method: POST
+    path: /v2/time_entries
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: project_id, in: body, type: integer, required: true, description: ID of the project to log time against}
+      - {name: task_id, in: body, type: integer, required: true, description: ID of the task to log time against}
+      - {name: spent_date, in: body, type: string, required: true, description: "Date of the time entry (YYYY-MM-DD)"}
+      - {name: user_id, in: body, type: integer, description: ID of the user to log time for (defaults to current user)}
+      - {name: hours, in: body, type: number, description: Number of hours to log}
+      - {name: notes, in: body, type: string, description: Notes or description for the time entry}
+
+  - name: create_project
+    description: Create a new project associated with a client
+    method: POST
+    path: /v2/projects
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: client_id, in: body, type: integer, required: true, description: ID of the client the project belongs to}
+      - {name: name, in: body, type: string, required: true, description: Name of the project}
+      - {name: is_billable, in: body, type: boolean, required: true, description: Whether the project is billable}
+      - {name: bill_by, in: body, type: string, required: true, description: "Method for invoicing: Project, Tasks, People, or none"}
+      - {name: budget_by, in: body, type: string, required: true, description: "Budget tracking method: project, project_cost, task, task_fees, person, or none"}
+      - {name: code, in: body, type: string, description: Optional project code}
+      - {name: is_active, in: body, type: boolean, description: "Whether the project is active (default: true)"}
+      - {name: hourly_rate, in: body, type: number, description: Rate per hour for the project}
+      - {name: budget, in: body, type: number, description: Budget amount (hours or fees depending on budget_by)}
+      - {name: notes, in: body, type: string, description: Notes about the project}
+      - {name: starts_on, in: body, type: string, description: "Project start date (YYYY-MM-DD)"}
+      - {name: ends_on, in: body, type: string, description: "Project end date (YYYY-MM-DD)"}
+
+  - name: create_invoice
+    description: Create a new invoice for a client, optionally with line items
+    method: POST
+    path: /v2/invoices
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: client_id, in: body, type: integer, required: true, description: ID of the client to invoice}
+      - {name: subject, in: body, type: string, description: Subject line for the invoice}
+      - {name: notes, in: body, type: string, description: Notes to include on the invoice}
+      - {name: number, in: body, type: string, description: Invoice number (auto-generated if omitted)}
+      - {name: purchase_order, in: body, type: string, description: Purchase order number}
+      - {name: issue_date, in: body, type: string, description: "Invoice issue date (YYYY-MM-DD)"}
+      - {name: due_date, in: body, type: string, description: "Invoice due date (YYYY-MM-DD)"}
+      - {name: payment_term, in: body, type: string, description: "Payment term (e.g. net30, upon_receipt)"}
+      - {name: currency, in: body, type: string, description: Three-letter currency code}
+      - {name: tax, in: body, type: number, description: First tax percentage}
+      - {name: discount, in: body, type: number, description: Discount percentage}
+
+  - name: delete_time_entry
+    description: Delete a time entry by ID
+    method: DELETE
+    path: /v2/time_entries/{time_entry_id}
+    params:
+      - {name: Harvest-Account-Id, in: header, type: string, required: true, description: "Numeric Harvest account ID to target (find yours at https://id.getharvest.com/api/v2/accounts)"}
+      - {name: time_entry_id, in: path, type: integer, required: true, description: ID of the time entry to delete}

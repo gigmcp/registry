@@ -2,13 +2,14 @@ schemaVersion: 1
 name: apaleo
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/apaleo-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/apaleo-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:295e2e43bde214853aec4e280950d69161f38340f192144d44c66a2d084eae46
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

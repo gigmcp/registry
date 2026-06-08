@@ -2,13 +2,14 @@ schemaVersion: 1
 name: clickup
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/clickup-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/clickup-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:d817171f5a31f04b36357154d679e697d436f7f1e42cd7be12014d4d95df5e22
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

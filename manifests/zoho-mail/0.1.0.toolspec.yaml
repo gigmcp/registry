@@ -1,0 +1,115 @@
+schemaVersion: 1
+name: zoho-mail
+version: 0.1.0
+baseUrl: https://mail.zoho.com
+tools:
+  - name: list_accounts
+    description: Retrieve all mail accounts associated with the authenticated user
+    method: GET
+    path: /api/accounts
+
+  - name: list_emails
+    description: List emails in a folder or across the account with optional filtering and pagination
+    method: GET
+    path: /api/accounts/{accountId}/messages/view
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account"}
+      - {name: folderId, in: query, type: string, description: "Unique identifier for the folder to list emails from"}
+      - {name: start, in: query, type: integer, description: "Starting sequence number of emails to retrieve (default: 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of emails to retrieve; min 1, max 200 (default: 10)"}
+      - {name: status, in: query, type: string, description: "Filter by read/unread/all status (default: all)"}
+      - {name: sortBy, in: query, type: string, description: "Sort by date, messageId, or size (default: date)"}
+      - {name: sortorder, in: query, type: boolean, description: "Sort order; true for ascending, false for descending (default: false)"}
+      - {name: includeto, in: query, type: boolean, description: "Whether to include recipient (To) details (default: false)"}
+      - {name: includesent, in: query, type: boolean, description: "Whether to include sent emails (default: false)"}
+      - {name: attachedMails, in: query, type: boolean, description: "Filter for emails with attachments (default: false)"}
+
+  - name: get_message_content
+    description: Retrieve the full content of a specific email message
+    method: GET
+    path: /api/accounts/{accountId}/folders/{folderId}/messages/{messageId}/content
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account"}
+      - {name: folderId, in: path, type: string, required: true, description: "Unique identifier for the folder containing the message"}
+      - {name: messageId, in: path, type: string, required: true, description: "Unique identifier for the email message"}
+      - {name: includeBlockContent, in: query, type: boolean, description: "Whether to include block quote content (true) or exclude it (false)"}
+
+  - name: search_messages
+    description: Search emails in an account using custom search criteria
+    method: GET
+    path: /api/accounts/{accountId}/messages/search
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account"}
+      - {name: searchKey, in: query, type: string, required: true, description: "Search criteria string specifying the search conditions"}
+      - {name: start, in: query, type: integer, description: "Starting sequence number for retrieval (default: 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of emails to retrieve; min 1, max 200 (default: 10)"}
+      - {name: includeto, in: query, type: boolean, description: "Whether to include recipient (To) details (default: false)"}
+      - {name: receivedTime, in: query, type: integer, description: "Unix timestamp in milliseconds to filter emails by receipt date"}
+
+  - name: get_all_bookmarks
+    description: Retrieve all bookmarks saved by the authenticated user
+    method: GET
+    path: /api/links/me
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of bookmarks to retrieve; min 1, max 399 (default: 20)"}
+      - {name: after, in: query, type: integer, description: "Starting position for pagination; retrieve bookmarks after this position (1 to total count)"}
+      - {name: isPrev, in: query, type: boolean, description: "Sort order by created time; true for ascending, false for descending (default: false)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of bookmark fields to include; omit to retrieve all fields"}
+
+  - name: send_email
+    description: Send an email from the authenticated user's mail account
+    method: POST
+    path: /api/accounts/{accountId}/messages
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account to send from"}
+      - {name: fromAddress, in: body, type: string, required: true, description: "Sender's email address associated with the authenticated account"}
+      - {name: toAddress, in: body, type: string, required: true, description: "Recipient's email address for the To field"}
+      - {name: ccAddress, in: body, type: string, description: "Recipient's email address for the Cc field"}
+      - {name: bccAddress, in: body, type: string, description: "Recipient's email address for the Bcc field"}
+      - {name: subject, in: body, type: string, description: "Subject line of the email"}
+      - {name: content, in: body, type: string, description: "Body content of the email"}
+      - {name: mailFormat, in: body, type: string, description: "Format of the email body; html or plaintext (default: html)"}
+      - {name: askReceipt, in: body, type: string, description: "Request a read receipt; yes or no"}
+      - {name: encoding, in: body, type: string, description: "Character encoding for the email (default: UTF-8)"}
+
+  - name: reply_to_email
+    description: Send a reply to an existing email message
+    method: POST
+    path: /api/accounts/{accountId}/messages/{messageId}
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account"}
+      - {name: messageId, in: path, type: string, required: true, description: "Unique identifier for the message to reply to"}
+      - {name: fromAddress, in: body, type: string, required: true, description: "Sender's email address associated with the authenticated account"}
+      - {name: toAddress, in: body, type: string, required: true, description: "Recipient's email address for the reply"}
+      - {name: action, in: body, type: string, required: true, description: "Action type for the reply; must be Reply"}
+      - {name: ccAddress, in: body, type: string, description: "Recipient's email address for the Cc field"}
+      - {name: bccAddress, in: body, type: string, description: "Recipient's email address for the Bcc field"}
+      - {name: subject, in: body, type: string, description: "Subject line of the reply email"}
+      - {name: content, in: body, type: string, description: "Body content of the reply"}
+      - {name: mailFormat, in: body, type: string, description: "Format of the email body; html or plaintext (default: html)"}
+      - {name: askReceipt, in: body, type: string, description: "Request a read receipt; yes or no"}
+      - {name: encoding, in: body, type: string, description: "Character encoding for the email (default: UTF-8)"}
+
+  - name: create_email_draft
+    description: Save an email as a draft for later editing and sending
+    method: POST
+    path: /api/accounts/{accountId}/messages
+    params:
+      - {name: accountId, in: path, type: string, required: true, description: "Unique identifier for the mail account"}
+      - {name: fromAddress, in: body, type: string, required: true, description: "Sender's email address associated with the authenticated account"}
+      - {name: toAddress, in: body, type: string, required: true, description: "Recipient's email address for the To field"}
+      - {name: mode, in: body, type: string, required: true, description: "Save mode; use draft to save as a draft"}
+      - {name: ccAddress, in: body, type: string, description: "Recipient's email address for the Cc field"}
+      - {name: bccAddress, in: body, type: string, description: "Recipient's email address for the Bcc field"}
+      - {name: subject, in: body, type: string, description: "Subject line of the draft email"}
+      - {name: content, in: body, type: string, description: "Body content of the draft email"}
+      - {name: mailFormat, in: body, type: string, description: "Format of the email body; html or plaintext (default: html)"}
+      - {name: encoding, in: body, type: string, description: "Character encoding for the email (default: UTF-8)"}
+
+  - name: delete_group
+    description: Delete a specific email group in the organization
+    method: DELETE
+    path: /api/organization/{zoid}/groups/{zgid}
+    params:
+      - {name: zoid, in: path, type: string, required: true, description: "Unique Zoho Organization Identifier for the organization"}
+      - {name: zgid, in: path, type: string, required: true, description: "Unique identifier of the group to delete"}

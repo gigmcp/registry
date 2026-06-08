@@ -1,0 +1,53 @@
+schemaVersion: 1
+name: more-trees
+version: 0.1.0
+baseUrl: https://project-management-service.platform.moretrees.eco
+tools:
+  - name: list_projects
+    description: Retrieve all active tree-planting projects with name, description, country, and available tree types
+    method: GET
+    path: /project-management-api/external/projects
+
+  - name: get_total_carbon_offset
+    description: Get forest statistics including total CO2 captured, trees planted, gifted, and received for an account
+    method: GET
+    path: /user-management-api/external/forest/{forest_slug}
+    baseUrl: https://user-management-service.platform.moretrees.eco
+    params:
+      - {name: forest_slug, in: path, type: string, required: true, description: "Forest slug or account code identifying the forest to retrieve"}
+
+  - name: get_marketing_preferences
+    description: Retrieve account information including name, credit balance, forest name, and forest slug
+    method: GET
+    path: /user-management-api/external/accounts/{account_code}
+    baseUrl: https://user-management-service.platform.moretrees.eco
+    params:
+      - {name: account_code, in: path, type: string, required: true, description: "Unique account code identifying the account"}
+
+  - name: get_tree_types
+    description: Retrieve all active projects including the tree types available within each project
+    method: GET
+    path: /project-management-api/external/projects
+
+  - name: create_user
+    description: Create a new user account in the More Trees platform
+    method: POST
+    path: /user-management-api/external/accounts
+    baseUrl: https://user-management-service.platform.moretrees.eco
+    params:
+      - {name: email, in: body, type: string, required: true, description: "Email address for the new user account"}
+      - {name: name, in: body, type: string, required: true, description: "Full name of the new user"}
+
+  - name: plant_tree
+    description: Plant one or more trees for the authenticated account or on behalf of others
+    method: POST
+    path: /transaction-management-api/external/plant
+    baseUrl: https://transaction-management-service.platform.moretrees.eco
+    params:
+      - {name: payment_account_code, in: body, type: string, required: true, description: "Account code of the account to charge credits from"}
+      - {name: plant_for_others, in: body, type: boolean, required: true, description: "Whether to plant trees for other recipients (true) or the authenticated account (false)"}
+      - {name: quantity, in: body, type: integer, description: "Number of trees to plant; required when plant_for_others is false"}
+      - {name: project_id, in: body, type: integer, description: "ID of the project to plant trees in; uses default project if omitted"}
+      - {name: tree_id, in: body, type: integer, description: "ID of the tree type to plant; uses default tree type if omitted"}
+      - {name: test, in: body, type: boolean, description: "If true, performs a test transaction without deducting credits (default false)"}
+      - {name: recipients, in: body, type: array, description: "Array of recipient objects (each with name, quantity, and account_code or email); required when plant_for_others is true"}

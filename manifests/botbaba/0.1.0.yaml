@@ -7,7 +7,7 @@ source:
 image:
   ref: ghcr.io/gigmcp/botbaba-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:08a8a0a6d9211c256105dc731919298968646dd71241b7d44c085345c3702d1b
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
 entitlements:

@@ -1,0 +1,153 @@
+schemaVersion: 1
+name: peopledatalabs
+version: 0.1.0
+baseUrl: https://api.peopledatalabs.com
+tools:
+  - name: enrich_person
+    description: Enrich a person profile by matching against PDL's dataset using identity signals such as email, phone, name, location, or social profile URL
+    method: GET
+    path: /v5/person/enrich
+    params:
+      - {name: pdl_id, in: query, type: string, description: The PDL ID of the person to enrich}
+      - {name: name, in: query, type: string, description: "The person's full name, at least first and last"}
+      - {name: first_name, in: query, type: string, description: "The person's first name"}
+      - {name: last_name, in: query, type: string, description: "The person's last name"}
+      - {name: middle_name, in: query, type: string, description: "The person's middle name"}
+      - {name: location, in: query, type: string, description: A location in which the person lives}
+      - {name: street_address, in: query, type: string, description: A street address in which the person lives}
+      - {name: locality, in: query, type: string, description: A locality in which the person lives}
+      - {name: region, in: query, type: string, description: A state or region in which the person lives}
+      - {name: country, in: query, type: string, description: A country in which the person lives}
+      - {name: postal_code, in: query, type: string, description: The postal code where the person lives}
+      - {name: company, in: query, type: string, description: "A name, website, or social url of a company where the person has worked"}
+      - {name: school, in: query, type: string, description: "A name, website, or social url of a university or college the person has attended"}
+      - {name: phone, in: query, type: string, description: A phone number the person has used}
+      - {name: email, in: query, type: string, description: An email the person has used}
+      - {name: email_hash, in: query, type: string, description: "A SHA-256 or MD5 email hash"}
+      - {name: profile, in: query, type: string, description: "A social profile URL the person has used (e.g. LinkedIn)"}
+      - {name: lid, in: query, type: string, description: "The person's LinkedIn ID"}
+      - {name: birth_date, in: query, type: string, description: "The person's birth date as a year or full date in YYYY-MM-DD format"}
+      - {name: min_likelihood, in: query, type: integer, description: "Minimum likelihood score (1-10) the response must have to count as a match"}
+      - {name: required, in: query, type: string, description: Comma-separated fields the response must have to count as a match}
+      - {name: data_include, in: query, type: string, description: Comma-separated fields to include in the response}
+      - {name: include_if_matched, in: query, type: boolean, description: "If true, includes a matched_on field in the response"}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase the person data in responses"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: enrich_company
+    description: Enrich a company profile by matching against PDL's dataset using identifiers such as name, website, ticker, or social profile URL
+    method: GET
+    path: /v5/company/enrich
+    params:
+      - {name: pdl_id, in: query, type: string, description: The PDL ID of the company to enrich}
+      - {name: name, in: query, type: string, description: The name of the company}
+      - {name: website, in: query, type: string, description: A website the company uses}
+      - {name: ticker, in: query, type: string, description: "The company's stock ticker if publicly traded"}
+      - {name: profile, in: query, type: string, description: "A social profile of the company (linkedin/facebook/twitter/crunchbase)"}
+      - {name: location, in: query, type: string, description: "The location of the company's headquarters"}
+      - {name: street_address, in: query, type: string, description: The company HQ street address}
+      - {name: locality, in: query, type: string, description: "The company HQ locality (e.g. San Francisco)"}
+      - {name: region, in: query, type: string, description: "The company HQ region (e.g. California)"}
+      - {name: country, in: query, type: string, description: The company HQ country}
+      - {name: postal_code, in: query, type: string, description: The company HQ postal code}
+      - {name: min_likelihood, in: query, type: integer, description: Minimum likelihood score the response must have to return a 200}
+      - {name: required, in: query, type: string, description: Fields the response must have to count as a match}
+      - {name: include_if_matched, in: query, type: boolean, description: "If true, includes a matched field in the response"}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase the company data in responses"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: enrich_ip
+    description: Enrich an IP address to retrieve associated company, location, and person metadata from PDL's dataset
+    method: GET
+    path: /v5/ip/enrich
+    params:
+      - {name: ip, in: query, type: string, required: true, description: "IP address to enrich in IPv4 or IPv6 format"}
+      - {name: return_ip_location, in: query, type: boolean, description: "If true, include location data for the IP in the response"}
+      - {name: return_ip_metadata, in: query, type: boolean, description: "If true, include IP-specific metadata in the response"}
+      - {name: return_person, in: query, type: boolean, description: "If true, return person fields associated with the IP"}
+      - {name: return_if_unmatched, in: query, type: boolean, description: "If true, return IP metadata or location data even without a company match"}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase any records returned"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: identify_person
+    description: "Identify one or more persons by providing broad identity signals such as name, email, phone, location, or company; returns multiple candidate matches"
+    method: GET
+    path: /v5/person/identify
+    params:
+      - {name: name, in: query, type: string, description: "The person's full name, at least first and last"}
+      - {name: first_name, in: query, type: string, description: "The person's first name"}
+      - {name: last_name, in: query, type: string, description: "The person's last name"}
+      - {name: middle_name, in: query, type: string, description: "The person's middle name"}
+      - {name: location, in: query, type: string, description: A location in which the person lives}
+      - {name: street_address, in: query, type: string, description: A street address in which the person lives}
+      - {name: locality, in: query, type: string, description: A locality in which the person lives}
+      - {name: region, in: query, type: string, description: A state or region in which the person lives}
+      - {name: country, in: query, type: string, description: A country in which the person lives}
+      - {name: postal_code, in: query, type: string, description: The postal code where the person lives}
+      - {name: company, in: query, type: string, description: "A name, website, or social url of a company where the person has worked"}
+      - {name: school, in: query, type: string, description: "A name, website, or social url of a university or college the person has attended"}
+      - {name: phone, in: query, type: string, description: A phone number the person has used}
+      - {name: email, in: query, type: string, description: An email the person has used}
+      - {name: email_hash, in: query, type: string, description: A SHA-256 email hash}
+      - {name: profile, in: query, type: string, description: A social profile URL the person has used}
+      - {name: lid, in: query, type: string, description: "The person's LinkedIn ID"}
+      - {name: birth_date, in: query, type: string, description: "The person's birth date as a year or full date in YYYY-MM-DD format"}
+      - {name: data_include, in: query, type: string, description: Comma-separated fields to include in the response}
+      - {name: include_if_matched, in: query, type: boolean, description: "If true, includes matched_on field in the response"}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase the person data in responses"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: person_search
+    description: Search PDL's person dataset using an Elasticsearch query or SQL expression to retrieve matching person records
+    method: GET
+    path: /v5/person/search
+    params:
+      - {name: query, in: query, type: string, description: "An Elasticsearch (v7.7) query against the person dataset"}
+      - {name: sql, in: query, type: string, description: "A SQL query of the format SELECT * FROM person WHERE conditions"}
+      - {name: size, in: query, type: integer, description: "Number of matched records to return (1-100)"}
+      - {name: scroll_token, in: query, type: string, description: Pagination offset key for retrieving subsequent batches}
+      - {name: dataset, in: query, type: string, description: "Dataset category to return records from (e.g. resume, email, phone)"}
+      - {name: data_include, in: query, type: string, description: Comma-separated fields to include in the response}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase any records returned"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: company_search
+    description: Search PDL's company dataset using an Elasticsearch query or SQL expression to retrieve matching company records
+    method: GET
+    path: /v5/company/search
+    params:
+      - {name: query, in: query, type: string, description: "An Elasticsearch (v7.7) query against the company dataset"}
+      - {name: sql, in: query, type: string, description: "A SQL query of the format SELECT * FROM company WHERE conditions"}
+      - {name: size, in: query, type: integer, description: "Number of matched records to return (1-100)"}
+      - {name: scroll_token, in: query, type: string, description: Pagination offset key for retrieving subsequent batches}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase any records returned"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: clean_company
+    description: Clean and normalize a company name or identifier against PDL's company dataset to produce a canonical company record
+    method: GET
+    path: /v5/company/clean
+    params:
+      - {name: name, in: query, type: string, description: The name of the company to clean}
+      - {name: website, in: query, type: string, description: A website the company uses}
+      - {name: profile, in: query, type: string, description: "A social profile of the company (linkedin/facebook/twitter/crunchbase)"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: clean_location
+    description: "Parse and normalize a raw location string into structured location fields such as locality, region, country, and geo coordinates"
+    method: GET
+    path: /v5/location/clean
+    params:
+      - {name: location, in: query, type: string, required: true, description: The raw location string to parse and normalize}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}
+
+  - name: autocomplete
+    description: Get autocomplete suggestions for a specified PDL field based on a seed text string
+    method: GET
+    path: /v5/autocomplete
+    params:
+      - {name: field, in: query, type: string, required: true, description: The enumerated field to perform autocompletion on}
+      - {name: text, in: query, type: string, description: Seed text used to generate autocomplete suggestions}
+      - {name: size, in: query, type: integer, description: "Number of autocomplete results to return (1-100, default 10)"}
+      - {name: titlecase, in: query, type: boolean, description: "If true, titlecase any records returned"}
+      - {name: pretty, in: query, type: boolean, description: Whether the output should have human-readable indentation}

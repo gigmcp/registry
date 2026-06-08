@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googlebigquery
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googlebigquery-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlebigquery-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:b3526c7be1c5453c64fb9c9f156a29325506e2664c9798c7e76a7dae064570a7
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

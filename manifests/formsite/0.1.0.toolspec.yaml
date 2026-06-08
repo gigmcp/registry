@@ -1,0 +1,53 @@
+schemaVersion: 1
+name: formsite
+version: 0.1.0
+# Formsite is per-account: each account has its own server subdomain
+# (fs1, fs2, fs18, etc.). The host below is a representative placeholder
+# that matches the *.formsite.com egress allowlist; the runtime substitutes the
+# real server host from the credential configuration.
+baseUrl: https://fs1.formsite.com
+tools:
+  - name: list_all_forms
+    description: List all forms in the account directory
+    method: GET
+    path: /api/v2/{user_dir}/forms
+    params:
+      - {name: user_dir, in: path, type: string, required: true, description: "Account directory identifier (found in the form's API base URL)"}
+  - name: get_form
+    description: Get metadata for a single form
+    method: GET
+    path: /api/v2/{user_dir}/forms/{form_dir}
+    params:
+      - {name: user_dir, in: path, type: string, required: true, description: "Account directory identifier"}
+      - {name: form_dir, in: path, type: string, required: true, description: "Form directory identifier"}
+  - name: get_form_items
+    description: Get the list of items (fields) in a form
+    method: GET
+    path: /api/v2/{user_dir}/forms/{form_dir}/items
+    params:
+      - {name: user_dir, in: path, type: string, required: true, description: "Account directory identifier"}
+      - {name: form_dir, in: path, type: string, required: true, description: "Form directory identifier"}
+      - {name: results_labels, in: query, type: integer, description: "Set to 1 to return results labels instead of item labels"}
+  - name: get_form_results
+    description: Get submitted results for a form with optional filtering and pagination
+    method: GET
+    path: /api/v2/{user_dir}/forms/{form_dir}/results
+    params:
+      - {name: user_dir, in: path, type: string, required: true, description: "Account directory identifier"}
+      - {name: form_dir, in: path, type: string, required: true, description: "Form directory identifier"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 100)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: after_date, in: query, type: string, description: "Return results submitted after this date (ISO 8601)"}
+      - {name: before_date, in: query, type: string, description: "Return results submitted before this date (ISO 8601)"}
+      - {name: after_id, in: query, type: integer, description: "Return results with result ID greater than this value"}
+      - {name: before_id, in: query, type: integer, description: "Return results with result ID less than this value"}
+      - {name: sort_id, in: query, type: string, description: "Sort by item with this ID (default: result_id)"}
+      - {name: sort_direction, in: query, type: string, description: "Sort order: asc or desc (default: desc)"}
+      - {name: results_view, in: query, type: integer, description: "ID of a saved Results View to apply for column filtering"}
+  - name: get_webhooks
+    description: List webhooks configured for a form
+    method: GET
+    path: /api/v2/{user_dir}/forms/{form_dir}/webhooks
+    params:
+      - {name: user_dir, in: path, type: string, required: true, description: "Account directory identifier"}
+      - {name: form_dir, in: path, type: string, required: true, description: "Form directory identifier"}

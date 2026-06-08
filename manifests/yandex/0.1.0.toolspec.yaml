@@ -1,0 +1,73 @@
+schemaVersion: 1
+name: yandex
+version: 0.1.0
+baseUrl: https://cloud-api.yandex.net
+tools:
+  - name: get_account_status
+    description: Retrieve general information about a user's Yandex Disk, including used and total space and system folder paths
+    method: GET
+    path: /v1/disk
+
+  - name: get_public_resource_metadata
+    description: Get meta-information about a public file or directory on Yandex Disk by its public key or URL
+    method: GET
+    path: /v1/disk/public/resources
+    params:
+      - {name: public_key, in: query, type: string, required: true, description: Public key or URL of the resource}
+      - {name: path, in: query, type: string, description: Path inside a public directory}
+      - {name: limit, in: query, type: integer, description: Number of items to return for a public directory listing}
+      - {name: offset, in: query, type: integer, description: Offset from the start of the directory listing}
+
+  - name: get_public_resource_download_link
+    description: Get a download link for a publicly shared file on Yandex Disk
+    method: GET
+    path: /v1/disk/public/resources/download
+    params:
+      - {name: public_key, in: query, type: string, required: true, description: Public key or URL of the resource to download}
+      - {name: path, in: query, type: string, description: Path to a file inside a public directory}
+
+  - name: get_music_genres
+    description: Retrieve the list of all music genres available in Yandex Music
+    method: GET
+    path: /genres
+    baseUrl: https://api.music.yandex.net
+
+  - name: get_yandex_music_stations_list
+    description: Retrieve all radio stations available in Yandex Music with user settings
+    method: GET
+    path: /rotor/stations/list
+    baseUrl: https://api.music.yandex.net
+    params:
+      - {name: language, in: query, type: string, description: "Language for station information (e.g. en, ru, uz, uk, kk, hy)"}
+
+  - name: list_goals
+    description: List all goals configured for a Yandex Metrica counter
+    method: GET
+    path: /management/v1/counter/{counterId}/goals
+    baseUrl: https://api-metrika.yandex.net
+    params:
+      - {name: counterId, in: path, type: integer, required: true, description: Counter (tag) ID}
+
+  - name: list_filters
+    description: List all traffic filters configured for a Yandex Metrica counter
+    method: GET
+    path: /management/v1/counter/{counterId}/filters
+    baseUrl: https://api-metrika.yandex.net
+    params:
+      - {name: counterId, in: path, type: integer, required: true, description: Counter (tag) ID}
+
+  - name: list_counter_grants
+    description: List all access grants for a Yandex Metrica counter showing which users have access
+    method: GET
+    path: /management/v1/counter/{counterId}/grants
+    baseUrl: https://api-metrika.yandex.net
+    params:
+      - {name: counterId, in: path, type: integer, required: true, description: Counter (tag) ID}
+
+  - name: list_log_requests
+    description: List all log export requests submitted for a Yandex Metrica counter
+    method: GET
+    path: /management/v1/counter/{counterId}/logrequests
+    baseUrl: https://api-metrika.yandex.net
+    params:
+      - {name: counterId, in: path, type: integer, required: true, description: Counter (tag) ID}

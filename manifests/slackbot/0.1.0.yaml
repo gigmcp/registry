@@ -2,12 +2,13 @@ schemaVersion: 1
 name: slackbot
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/slackbot-mcp
-  tag: v0.1.0
+  repo: github.com/korotovsky/slack-mcp-server
+  tag: v1.3.0
+  package: cmd/slack-mcp-server
 image:
   ref: ghcr.io/gigmcp/slackbot-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0bcd73845c7261242ea4a2bf9cc425556ad12c317e7b2e375248200e92e681a8
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
 entitlements:
@@ -23,23 +24,39 @@ credentials:
       header: Authorization
       format: "Bearer {token}"
 tools:
-  - name: list_channels
+  - name: conversations_history
     default: true
-  - name: fetch_conversation_history
+  - name: conversations_replies
     default: true
-  - name: list_users
+  - name: conversations_search_messages
     default: true
-  - name: search_messages
+  - name: channels_list
     default: true
-  - name: retrieve_user_info
+  - name: users_search
     default: true
-  - name: send_message
+  - name: usergroups_list
+    default: true
+  - name: usergroups_me
+    default: true
+  - name: conversations_unreads
+    default: true
+  - name: saved_list
+    default: true
+  - name: conversations_add_message
     default: false
-  - name: schedule_message
+  - name: reactions_add
     default: false
-  - name: add_reaction
+  - name: reactions_remove
     default: false
-  - name: create_channel
+  - name: usergroups_create
     default: false
-  - name: upload_file
+  - name: usergroups_update
+    default: false
+  - name: usergroups_users_update
+    default: false
+  - name: conversations_mark
+    default: false
+  - name: saved_update
+    default: false
+  - name: saved_clear_completed
     default: false

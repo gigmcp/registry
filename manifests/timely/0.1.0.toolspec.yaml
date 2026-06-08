@@ -1,0 +1,109 @@
+schemaVersion: 1
+name: timely
+version: 0.1.0
+baseUrl: https://api.timelyapp.com
+tools:
+  - name: list_accounts
+    description: Retrieve all Timely accounts accessible to the authenticated user
+    method: GET
+    path: /1.1/accounts
+
+  - name: get_current_user
+    description: Retrieve the profile of the currently authenticated user within an account
+    method: GET
+    path: /1.1/{account_id}/users/current
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+
+  - name: list_users
+    description: List all users in a Timely account with optional filtering and pagination
+    method: GET
+    path: /1.1/{account_id}/users
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+      - {name: limit, in: query, type: integer, description: Maximum number of records to return}
+      - {name: order, in: query, type: string, description: "Sort direction (asc or desc)"}
+      - {name: filter, in: query, type: string, description: "Filter users (e.g. deleted)"}
+
+  - name: list_projects
+    description: List all projects in a Timely account with optional filtering and sorting
+    method: GET
+    path: /1.1/{account_id}/projects
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+      - {name: limit, in: query, type: integer, description: Maximum number of records to return}
+      - {name: sort, in: query, type: string, description: Field to sort results by}
+      - {name: order, in: query, type: string, description: "Sort direction (asc or desc)"}
+      - {name: filter, in: query, type: string, description: "Filter projects: mine, active, archived, or all"}
+      - {name: updated_after, in: query, type: string, description: Return only projects updated after this timestamp}
+
+  - name: list_clients
+    description: List all clients in a Timely account with optional filtering and sorting
+    method: GET
+    path: /1.1/{account_id}/clients
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+      - {name: limit, in: query, type: integer, description: Maximum number of records to return}
+      - {name: show, in: query, type: string, description: "Filter clients: all, active, or archived"}
+
+  - name: list_events
+    description: "List all time-entry events in a Timely account with optional filtering by date range, users, and projects"
+    method: GET
+    path: /1.1/{account_id}/events
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: since, in: query, type: string, description: "Return events on or after this date (YYYY-MM-DD)"}
+      - {name: upto, in: query, type: string, description: "Return events on or before this date (YYYY-MM-DD)"}
+      - {name: filter, in: query, type: string, description: Optional keyword filter applied to event notes}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: per_page, in: query, type: integer, description: Number of events per page}
+
+  - name: filter_reports
+    description: "Filter Timely reports based on date range, users, projects, labels, teams, and billing status"
+    method: GET
+    path: /1.1/{account_id}/reports/filter
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: since, in: query, type: string, description: "Start of the reporting date range (YYYY-MM-DD)"}
+      - {name: until, in: query, type: string, description: "End of the reporting date range (YYYY-MM-DD)"}
+      - {name: user_ids, in: query, type: string, description: Comma-separated list of user IDs to filter by}
+      - {name: project_ids, in: query, type: string, description: Comma-separated list of project IDs to filter by}
+      - {name: label_ids, in: query, type: string, description: Comma-separated list of label IDs to filter by}
+      - {name: team_ids, in: query, type: string, description: Comma-separated list of team IDs to filter by}
+      - {name: billed, in: query, type: boolean, description: Filter by billed status}
+
+  - name: create_client
+    description: Create a new client in a Timely account
+    method: POST
+    path: /1.1/{account_id}/clients
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: name, in: body, type: string, required: true, description: Name of the new client}
+      - {name: color, in: body, type: string, description: "Six-character hex color code for the client (without #)"}
+      - {name: active, in: body, type: boolean, description: Whether the client is active}
+      - {name: external_id, in: body, type: string, description: Optional external reference ID}
+
+  - name: update_project
+    description: Update an existing project by ID in a Timely account
+    method: PUT
+    path: /1.1/{account_id}/projects/{project_id}
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: project_id, in: path, type: integer, required: true, description: ID of the project to update}
+      - {name: name, in: body, type: string, description: New name for the project}
+      - {name: color, in: body, type: string, description: "Six-character hex color code for the project (without #)"}
+      - {name: client_id, in: body, type: integer, description: ID of the client to associate with the project}
+      - {name: active, in: body, type: boolean, description: Whether the project is active}
+
+  - name: process_bulk_events
+    description: "Create, update, or delete multiple time-entry events in a single bulk operation (up to 100 per request)"
+    method: POST
+    path: /1.1/{account_id}/bulk/events
+    params:
+      - {name: account_id, in: path, type: integer, required: true, description: Timely account ID}
+      - {name: create, in: body, type: array, description: Array of event objects to create}
+      - {name: update, in: body, type: array, description: Array of event objects to update (each must include id)}
+      - {name: delete, in: body, type: array, description: Array of event IDs to delete}

@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: recallai
+version: 0.1.0
+baseUrl: https://us-east-1.recall.ai
+tools:
+  - name: list_bots
+    description: List all bots in the workspace, with optional filtering by status, platform, meeting URL, or join time
+    method: GET
+    path: /api/v1/bot/
+    params:
+      - {name: join_at_after, in: query, type: string, description: "Filter bots scheduled to join at or after this ISO 8601 datetime"}
+      - {name: join_at_before, in: query, type: string, description: "Filter bots scheduled to join at or before this ISO 8601 datetime"}
+      - {name: meeting_url, in: query, type: string, description: Filter bots by meeting URL}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: status, in: query, type: array, description: "Filter by bot status (e.g. ready, joining_call, in_call, done)"}
+      - {name: platform, in: query, type: array, description: "Filter by meeting platform (e.g. zoom, google_meet, teams)"}
+
+  - name: retrieve_bot
+    description: Retrieve details of a specific bot by its ID
+    method: GET
+    path: /api/v1/bot/{id}/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot to retrieve}
+
+  - name: create_bot
+    description: Create and optionally schedule a bot to join a meeting for recording and transcription
+    method: POST
+    path: /api/v1/bot/
+    params:
+      - {name: meeting_url, in: body, type: string, required: true, description: The URL of the meeting for the bot to join}
+      - {name: bot_name, in: body, type: string, description: Display name for the bot (default "Meeting Notetaker")}
+      - {name: join_at, in: body, type: string, description: "ISO 8601 datetime to schedule the bot to join; omit for immediate join"}
+      - {name: recording_config, in: body, type: object, description: Recording configuration options}
+      - {name: automatic_leave, in: body, type: object, description: Configuration for when the bot should automatically leave}
+      - {name: metadata, in: body, type: object, description: Custom key-value metadata to attach to the bot}
+
+  - name: delete_bot
+    description: Cancel and delete a scheduled bot before it joins a meeting
+    method: DELETE
+    path: /api/v1/bot/{id}/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot to delete}
+
+  - name: remove_bot_from_call
+    description: Instruct an in-call bot to immediately leave the meeting
+    method: POST
+    path: /api/v1/bot/{id}/leave_call/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot to remove from the call}
+
+  - name: start_recording
+    description: Instruct a bot to start recording the meeting; overrides any recording config set at bot creation
+    method: POST
+    path: /api/v1/bot/{id}/start_recording/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot to start recording}
+      - {name: recording_config, in: body, type: object, description: Recording configuration that overrides the bot-level config}
+
+  - name: stop_recording
+    description: Instruct a bot to stop the current recording, creating a new recording segment
+    method: POST
+    path: /api/v1/bot/{id}/stop_recording/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot to stop recording}
+
+  - name: list_transcripts
+    description: Retrieve the transcript produced by a bot; returns the in-progress transcript if the call is not yet complete
+    method: GET
+    path: /api/v1/bot/{id}/transcript/
+    params:
+      - {name: id, in: path, type: string, required: true, description: The UUID of the bot whose transcript to retrieve}
+      - {name: enhanced_diarization, in: query, type: boolean, description: Enable enhanced speaker identification in the returned transcript}
+
+  - name: list_calendar_events
+    description: List calendar events for connected calendars, with optional filtering by calendar, start time, or last-updated timestamp
+    method: GET
+    path: /api/v2/calendar-events/
+    params:
+      - {name: calendar_id, in: query, type: string, description: Filter events by the UUID of a specific calendar}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for fetching the next page of results}
+      - {name: ical_uid, in: query, type: string, description: Filter by iCalendar unique identifier}
+      - {name: is_deleted, in: query, type: boolean, description: Filter by whether the event has been deleted}
+      - {name: start_time__gte, in: query, type: string, description: "Filter events with start time at or after this ISO 8601 datetime"}
+      - {name: start_time__lte, in: query, type: string, description: "Filter events with start time at or before this ISO 8601 datetime"}
+      - {name: updated_at__gte, in: query, type: string, description: "Filter events updated at or after this ISO 8601 datetime"}
+
+  - name: retrieve_billing_usage
+    description: Retrieve bot usage statistics for the workspace in a given time period
+    method: GET
+    path: /api/v1/billing/usage/
+    params:
+      - {name: start, in: query, type: string, description: "Start of the usage period (ISO 8601 datetime)"}
+      - {name: end, in: query, type: string, description: "End of the usage period (ISO 8601 datetime)"}

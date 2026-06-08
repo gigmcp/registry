@@ -1,0 +1,97 @@
+schemaVersion: 1
+name: googledrive
+version: 0.1.0
+baseUrl: https://www.googleapis.com
+tools:
+  - name: find_file
+    description: Search for files in Google Drive using a query string
+    method: GET
+    path: /drive/v3/files
+    params:
+      - {name: q, in: query, type: string, required: true, description: "Search query string (e.g. \"name = 'report.pdf'\" or \"mimeType = 'application/pdf'\")"}
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of files to return (1-100; default 100)"}
+      - {name: pageToken, in: query, type: string, description: Token for continuing a previous list request on the next page}
+      - {name: orderBy, in: query, type: string, description: "Comma-separated list of sort keys (e.g. modifiedTime desc, name)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to include in the response (e.g. files(id,name,mimeType))"}
+      - {name: spaces, in: query, type: string, description: "Comma-separated spaces to query: drive or appDataFolder (default drive)"}
+  - name: list_files
+    description: List files and folders in Google Drive
+    method: GET
+    path: /drive/v3/files
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of files to return (1-100; default 100)"}
+      - {name: pageToken, in: query, type: string, description: Token for continuing a previous list request on the next page}
+      - {name: q, in: query, type: string, description: "Query string for filtering results (e.g. \"'folderId' in parents\")"}
+      - {name: orderBy, in: query, type: string, description: "Comma-separated list of sort keys (e.g. modifiedTime desc, name)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to include in the response (e.g. files(id,name,mimeType,modifiedTime))"}
+      - {name: spaces, in: query, type: string, description: "Comma-separated spaces to query: drive or appDataFolder (default drive)"}
+      - {name: corpora, in: query, type: string, description: "Scope of files to include: user, domain, drive, or allDrives (default user)"}
+  - name: get_file_metadata
+    description: Retrieve metadata for a specific file or folder by its ID
+    method: GET
+    path: /drive/v3/files/{fileId}
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. id,name,mimeType,size,modifiedTime,parents)"}
+      - {name: supportsAllDrives, in: query, type: boolean, description: Whether the application supports both My Drives and shared drives}
+  - name: download_file
+    description: Download the binary content of a file by its ID
+    method: GET
+    path: /drive/v3/files/{fileId}
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file to download}
+      - {name: alt, in: query, type: string, required: true, description: "Must be set to 'media' to retrieve file content instead of metadata"}
+      - {name: acknowledgeAbuse, in: query, type: boolean, description: Set to true to acknowledge the risk of downloading known malware or abusive files}
+  - name: list_permissions
+    description: List all permissions for a file or shared drive
+    method: GET
+    path: /drive/v3/files/{fileId}/permissions
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file or shared drive}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to include in the response (e.g. permissions(id,type,role,emailAddress))"}
+      - {name: pageSize, in: query, type: integer, description: Maximum number of permissions to return per page}
+      - {name: pageToken, in: query, type: string, description: Token for continuing a previous list request on the next page}
+  - name: upload_file
+    description: Upload a new file to Google Drive with metadata
+    method: POST
+    path: /upload/drive/v3/files
+    params:
+      - {name: uploadType, in: query, type: string, required: true, description: "Upload type: 'media' for simple upload, 'multipart' for multipart upload, or 'resumable' for resumable upload"}
+      - {name: name, in: body, type: string, required: true, description: The name of the file to create}
+      - {name: mimeType, in: body, type: string, description: "MIME type of the file (e.g. 'application/pdf', 'text/plain')"}
+      - {name: parents, in: body, type: array, description: IDs of the parent folders in which to place the file}
+      - {name: description, in: body, type: string, description: A short description of the file}
+  - name: create_folder
+    description: Create a new folder in Google Drive
+    method: POST
+    path: /drive/v3/files
+    params:
+      - {name: name, in: body, type: string, required: true, description: The name of the folder to create}
+      - {name: mimeType, in: body, type: string, required: true, description: "Must be 'application/vnd.google-apps.folder' to create a folder"}
+      - {name: parents, in: body, type: array, description: IDs of the parent folders in which to place the new folder}
+      - {name: description, in: body, type: string, description: A short description of the folder}
+  - name: move_file
+    description: Move a file to a different folder by updating its parent folders
+    method: PATCH
+    path: /drive/v3/files/{fileId}
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file to move}
+      - {name: addParents, in: query, type: string, required: true, description: Comma-separated list of parent folder IDs to add}
+      - {name: removeParents, in: query, type: string, required: true, description: Comma-separated list of parent folder IDs to remove}
+      - {name: supportsAllDrives, in: query, type: boolean, description: Whether the application supports both My Drives and shared drives}
+  - name: copy_file
+    description: Create a copy of a file in Google Drive
+    method: POST
+    path: /drive/v3/files/{fileId}/copy
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file to copy}
+      - {name: name, in: body, type: string, description: The name for the copied file (defaults to original name prefixed with 'Copy of')}
+      - {name: parents, in: body, type: array, description: IDs of the parent folders for the copy (defaults to same parents as original)}
+      - {name: supportsAllDrives, in: query, type: boolean, description: Whether the application supports both My Drives and shared drives}
+  - name: delete_file
+    description: Permanently delete a file or folder owned by the user
+    method: DELETE
+    path: /drive/v3/files/{fileId}
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the file or folder to delete}
+      - {name: supportsAllDrives, in: query, type: boolean, description: Whether the application supports both My Drives and shared drives}

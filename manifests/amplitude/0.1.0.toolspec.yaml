@@ -1,0 +1,92 @@
+schemaVersion: 1
+name: amplitude
+version: 0.1.0
+baseUrl: https://amplitude.com
+tools:
+  - name: get_event_segmentation_data
+    description: Get event metrics with optional segmentation, group-by, and interval filtering
+    method: GET
+    path: /api/2/events/segmentation
+    params:
+      - {name: e, in: query, type: string, required: true, description: "JSON event object specifying the event type and optional filters"}
+      - {name: start, in: query, type: string, required: true, description: "Start date in YYYYMMDD format"}
+      - {name: end, in: query, type: string, required: true, description: "End date in YYYYMMDD format"}
+      - {name: m, in: query, type: string, description: "Metric type: uniques, totals, pct_dau, average, histogram, sums, value_avg, or formula"}
+      - {name: i, in: query, type: integer, description: "Interval in days: 1 (daily), 7 (weekly), 30 (monthly), -3600000 (hourly), -300000 (real-time)"}
+      - {name: s, in: query, type: string, description: "JSON array of segment definition objects"}
+      - {name: g, in: query, type: string, description: "Property to group by (first group)"}
+      - {name: g2, in: query, type: string, description: "Property to group by (second group)"}
+      - {name: limit, in: query, type: integer, description: "Number of group-by values to return (default 100, max 1000)"}
+
+  - name: get_funnel_analysis_data
+    description: Get funnel drop-off and conversion rates for a sequence of events
+    method: GET
+    path: /api/2/funnels
+    params:
+      - {name: e, in: query, type: string, required: true, description: "JSON event objects for each funnel step (repeat parameter for multiple steps)"}
+      - {name: start, in: query, type: string, required: true, description: "Start date in YYYYMMDD format"}
+      - {name: end, in: query, type: string, required: true, description: "End date in YYYYMMDD format"}
+      - {name: mode, in: query, type: string, description: "Funnel mode: ordered (default), unordered, or sequential"}
+      - {name: i, in: query, type: integer, description: "Interval in days: 1 (daily), 7 (weekly), 30 (monthly)"}
+      - {name: n, in: query, type: string, description: "User type: new or active (default active)"}
+      - {name: s, in: query, type: string, description: "JSON array of segment definition objects"}
+      - {name: g, in: query, type: string, description: "Property to group by (limit 1)"}
+      - {name: cs, in: query, type: integer, description: "Conversion window in seconds (default 2592000)"}
+      - {name: limit, in: query, type: integer, description: "Number of group-by values to return (default 100, max 1000)"}
+
+  - name: get_real_time_active_users
+    description: Get active user counts with 5-minute granularity for today and yesterday
+    method: GET
+    path: /api/2/realtime
+
+  - name: get_user_activity
+    description: Get a user summary and the user's most or least recent events
+    method: GET
+    path: /api/2/useractivity
+    params:
+      - {name: user, in: query, type: string, required: true, description: "Amplitude ID of the user"}
+      - {name: offset, in: query, type: integer, description: "Zero-indexed offset from the most recent event (default 0)"}
+      - {name: limit, in: query, type: integer, description: "Number of events to return (default 1000, max 1000)"}
+      - {name: direction, in: query, type: string, description: "Event order: latest (default) or earliest"}
+
+  - name: list_events
+    description: Get the list of visible events with the current week's totals and unique counts
+    method: GET
+    path: /api/2/events/list
+
+  - name: list_cohorts
+    description: Get all cohorts in the project
+    method: GET
+    path: /api/3/cohorts
+    params:
+      - {name: includeSyncInfo, in: query, type: boolean, description: "Include cohort sync metadata in the response"}
+
+  - name: send_events
+    description: Upload one or more events to Amplitude in real time
+    method: POST
+    path: /2/httpapi
+    baseUrl: https://api2.amplitude.com
+    params:
+      - {name: api_key, in: body, type: string, required: true, description: "Amplitude project API key"}
+      - {name: events, in: body, type: array, required: true, description: "Array of event objects to upload; each must include event_type and at least one of user_id or device_id"}
+
+  - name: update_user_properties
+    description: Set or update properties on a user profile using the Identify API
+    method: POST
+    path: /identify
+    baseUrl: https://api2.amplitude.com
+    encoding: form
+    params:
+      - {name: api_key, in: body, type: string, required: true, description: "Amplitude project API key"}
+      - {name: identification, in: body, type: string, required: true, description: "JSON identification object or array of objects; each must include user_id or device_id and a user_properties map"}
+
+  - name: delete_users
+    description: Request deletion of one or more users by Amplitude ID or user ID
+    method: POST
+    path: /api/2/deletions/users
+    params:
+      - {name: amplitude_ids, in: body, type: array, description: "List of Amplitude IDs of users to delete"}
+      - {name: user_ids, in: body, type: array, description: "List of user IDs to delete"}
+      - {name: requester, in: body, type: string, description: "Email of the person requesting the deletion"}
+      - {name: ignore_invalid_id, in: body, type: boolean, description: "If true, skip invalid IDs instead of returning an error (default false)"}
+      - {name: delete_from_org, in: body, type: boolean, description: "If true, delete the user from all projects in the org (default false)"}

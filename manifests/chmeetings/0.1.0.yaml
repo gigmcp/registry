@@ -7,7 +7,7 @@ source:
 image:
   ref: ghcr.io/gigmcp/chmeetings-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:b991db5c6c9215130be79ebf419b27287a647ad757969884fde5e356bc2dac25
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
 entitlements:

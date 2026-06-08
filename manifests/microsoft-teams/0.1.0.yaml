@@ -2,13 +2,14 @@ schemaVersion: 1
 name: microsoft-teams
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/microsoft-teams-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/microsoft-teams-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:66bd04a92c9ddcff2e6064bef363fc6731329fdb559b88e22c8c9fcdb6f960b6
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

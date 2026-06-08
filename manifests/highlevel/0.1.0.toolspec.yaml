@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: highlevel
+version: 0.1.0
+baseUrl: https://services.leadconnectorhq.com
+tools:
+  - name: get_calendars
+    description: Retrieve all calendars for a location
+    method: GET
+    path: /calendars
+    params:
+      - {name: locationId, in: query, type: string, required: true, description: Sub-account location ID}
+      - {name: showDrafted, in: query, type: boolean, description: "Include draft calendars (default true)"}
+
+  - name: get_calendar_events
+    description: Retrieve calendar events for a location within a time range
+    method: GET
+    path: /calendars/events
+    params:
+      - {name: locationId, in: query, type: string, required: true, description: Sub-account location ID}
+      - {name: startTime, in: query, type: string, required: true, description: "Start of the time range (ISO 8601 or ms epoch)"}
+      - {name: endTime, in: query, type: string, required: true, description: "End of the time range (ISO 8601 or ms epoch)"}
+      - {name: calendarId, in: query, type: string, description: Filter events by calendar ID}
+      - {name: groupId, in: query, type: string, description: Filter events by calendar group ID}
+      - {name: userId, in: query, type: string, description: Filter events by assigned user ID}
+
+  - name: search_conversations
+    description: Search conversations in a location optionally filtered by contact
+    method: GET
+    path: /conversations/search
+    params:
+      - {name: locationId, in: query, type: string, required: true, description: Sub-account location ID}
+      - {name: contactId, in: query, type: string, description: Filter conversations by contact ID}
+
+  - name: get_email_campaigns
+    description: List email campaigns for a location
+    method: GET
+    path: /campaigns
+    params:
+      - {name: locationId, in: query, type: string, required: true, description: Sub-account location ID}
+      - {name: status, in: query, type: string, description: "Filter by campaign status: draft or published"}
+
+  - name: list_media_files
+    description: Fetch list of files and folders from the media storage for a location
+    method: GET
+    path: /medias/files
+    params:
+      - {name: locationId, in: query, type: string, required: true, description: Sub-account location ID}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: limit, in: query, type: integer, description: Number of items per page}
+      - {name: sortBy, in: query, type: string, description: Field to sort results by}
+      - {name: order, in: query, type: string, description: "Sort order: asc or desc"}
+      - {name: search, in: query, type: string, description: Search term to filter files by name}
+      - {name: type, in: query, type: string, description: "Filter by file type (e.g. image, video)"}
+
+  - name: get_custom_objects_records
+    description: Search records for a custom or standard object schema
+    method: POST
+    path: /objects/{schemaKey}/records/search
+    params:
+      - {name: schemaKey, in: path, type: string, required: true, description: "Schema key of the custom or standard object (e.g. custom_objects.pet or business)"}
+
+  - name: create_calendar
+    description: Create a new calendar in a location
+    method: POST
+    path: /calendars
+    params:
+      - {name: locationId, in: body, type: string, required: true, description: Sub-account location ID}
+      - {name: name, in: body, type: string, required: true, description: Display name for the calendar}
+      - {name: description, in: body, type: string, description: Description of the calendar}
+      - {name: calendarType, in: body, type: string, description: "Type of calendar (e.g. event_calendar, round_robin)"}
+
+  - name: create_task
+    description: Create a task for a contact
+    method: POST
+    path: /contacts/{contactId}/tasks
+    params:
+      - {name: contactId, in: path, type: string, required: true, description: ID of the contact to assign the task to}
+      - {name: title, in: body, type: string, required: true, description: Title of the task}
+      - {name: body, in: body, type: string, required: true, description: Description or details of the task}
+      - {name: dueDate, in: body, type: string, required: true, description: Due date for the task (ISO 8601)}
+      - {name: completed, in: body, type: boolean, required: true, description: Whether the task is already completed}
+      - {name: assignedTo, in: body, type: string, description: User ID of the person assigned to the task}
+
+  - name: create_note
+    description: Create a note on a contact
+    method: POST
+    path: /contacts/{contactId}/notes
+    params:
+      - {name: contactId, in: path, type: string, required: true, description: ID of the contact to attach the note to}
+      - {name: body, in: body, type: string, required: true, description: Text content of the note}
+      - {name: userId, in: body, type: string, description: ID of the user creating the note}
+
+  - name: create_product
+    description: Create a new product in a location
+    method: POST
+    path: /products
+    params:
+      - {name: locationId, in: body, type: string, required: true, description: Sub-account location ID}
+      - {name: name, in: body, type: string, required: true, description: Product name}
+      - {name: description, in: body, type: string, description: Product description}
+      - {name: productType, in: body, type: string, required: true, description: "Product type (e.g. DIGITAL, PHYSICAL, SERVICE)"}
+      - {name: active, in: body, type: boolean, description: Whether the product is active}

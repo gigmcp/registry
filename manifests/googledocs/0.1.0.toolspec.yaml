@@ -1,0 +1,67 @@
+schemaVersion: 1
+name: googledocs
+version: 0.1.0
+baseUrl: https://docs.googleapis.com
+tools:
+  - name: get_document
+    description: Retrieve the full content and metadata of a Google Docs document by ID
+    method: GET
+    path: /v1/documents/{documentId}
+    params:
+      - {name: documentId, in: path, type: string, required: true, description: The ID of the document to retrieve}
+      - {name: includeTabsContent, in: query, type: boolean, description: "When true, populates Document.tabs with content from all tabs instead of the legacy body field"}
+      - {name: suggestionsViewMode, in: query, type: string, description: "Mode for viewing suggested edits (DEFAULT_FOR_CURRENT_ACCESS, SUGGESTIONS_INLINE, PREVIEW_SUGGESTIONS_ACCEPTED, PREVIEW_WITHOUT_SUGGESTIONS)"}
+  - name: get_document_plain_text
+    description: Export a Google Docs document as plain text
+    method: GET
+    path: /drive/v3/files/{fileId}/export
+    baseUrl: https://www.googleapis.com
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the Google Docs document to export}
+      - {name: mimeType, in: query, type: string, required: true, description: "The MIME type of the export format; use text/plain for plain text"}
+  - name: search_documents
+    description: Search for Google Docs documents in Google Drive using a query string
+    method: GET
+    path: /drive/v3/files
+    baseUrl: https://www.googleapis.com
+    params:
+      - {name: q, in: query, type: string, description: "Query string for filtering results (e.g. mimeType='application/vnd.google-apps.document' and name contains 'report')"}
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of files to return per page (max 100)"}
+      - {name: pageToken, in: query, type: string, description: Token for continuing a previous list request on the next page}
+      - {name: orderBy, in: query, type: string, description: "Sort keys such as createdTime, modifiedTime, name"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to include in the response"}
+  - name: export_doc_as_pdf
+    description: Export a Google Docs document as a PDF file
+    method: GET
+    path: /drive/v3/files/{fileId}/export
+    baseUrl: https://www.googleapis.com
+    params:
+      - {name: fileId, in: path, type: string, required: true, description: The ID of the Google Docs document to export as PDF}
+      - {name: mimeType, in: query, type: string, required: true, description: "The MIME type of the export format; use application/pdf for PDF"}
+  - name: create_document
+    description: Create a new Google Docs document with the specified title
+    method: POST
+    path: /v1/documents
+    params:
+      - {name: title, in: body, type: string, required: true, description: The title of the new document}
+  - name: insert_text
+    description: Insert text at a specific location in a Google Docs document using batchUpdate
+    method: POST
+    path: /v1/documents/{documentId}:batchUpdate
+    params:
+      - {name: documentId, in: path, type: string, required: true, description: The ID of the document to update}
+      - {name: requests, in: body, type: array, required: true, description: "Array of request objects; use insertText requests with text and location fields to insert text at a position"}
+  - name: replace_all_text
+    description: Replace all occurrences of a text string in a Google Docs document using batchUpdate
+    method: POST
+    path: /v1/documents/{documentId}:batchUpdate
+    params:
+      - {name: documentId, in: path, type: string, required: true, description: The ID of the document to update}
+      - {name: requests, in: body, type: array, required: true, description: "Array of request objects; use replaceAllText requests with containsText (text to find) and replaceText (replacement string) fields"}
+  - name: update_document_markdown
+    description: Apply a batch of structural updates to a Google Docs document to reflect markdown-style content changes
+    method: POST
+    path: /v1/documents/{documentId}:batchUpdate
+    params:
+      - {name: documentId, in: path, type: string, required: true, description: The ID of the document to update}
+      - {name: requests, in: body, type: array, required: true, description: "Array of request objects representing document mutations such as insertText, deleteContentRange, updateParagraphStyle, and updateTextStyle"}

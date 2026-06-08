@@ -1,0 +1,100 @@
+schemaVersion: 1
+name: datadog
+version: 0.1.0
+baseUrl: https://api.datadoghq.com
+tools:
+  - name: list_dashboards
+    description: Get all dashboards for the organization
+    method: GET
+    path: /api/v1/dashboard
+    params:
+      - {name: count, in: query, type: integer, description: "Maximum number of dashboards to return in the list"}
+      - {name: start, in: query, type: integer, description: "Specific offset to use as the beginning of the returned response"}
+
+  - name: get_dashboard
+    description: Get details of a specific dashboard by ID
+    method: GET
+    path: /api/v1/dashboard/{dashboard_id}
+    params:
+      - {name: dashboard_id, in: path, type: string, required: true, description: "The ID of the dashboard to retrieve"}
+
+  - name: list_monitors
+    description: Get all monitors for the organization
+    method: GET
+    path: /api/v1/monitor
+    params:
+      - {name: group_states, in: query, type: string, description: "Show additional info about group states. Comma-separated values from all, alert, warn, no data"}
+      - {name: name, in: query, type: string, description: "Filter monitors by name"}
+      - {name: tags, in: query, type: string, description: "Comma-separated list of scope tags to filter the monitor list"}
+      - {name: monitor_tags, in: query, type: string, description: "Comma-separated list of service and custom tags to filter monitors"}
+      - {name: with_downtimes, in: query, type: boolean, description: "Include active downtimes for each monitor in results"}
+      - {name: id_offset, in: query, type: integer, description: "Pagination offset; set to last ID of previous result set"}
+      - {name: page, in: query, type: integer, description: "Page number to start paginating from"}
+      - {name: page_size, in: query, type: integer, description: "Number of monitors to return per page (max 1000)"}
+
+  - name: create_monitor
+    description: Create a new monitor
+    method: POST
+    path: /api/v1/monitor
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Monitor type (e.g. metric alert, service check, logs alert, composite)"}
+      - {name: query, in: body, type: string, required: true, description: "The query that triggers the monitor alert"}
+      - {name: name, in: body, type: string, description: "Name of the monitor"}
+      - {name: message, in: body, type: string, description: "Notification message sent when the monitor triggers"}
+      - {name: tags, in: body, type: array, description: "Tags to associate with the monitor"}
+      - {name: options, in: body, type: object, description: "Monitor options such as thresholds, notify_no_data, renotify_interval"}
+
+  - name: mute_monitor
+    description: Mute a monitor to silence its notifications
+    method: POST
+    path: /api/v1/monitor/{monitor_id}/mute
+    params:
+      - {name: monitor_id, in: path, type: integer, required: true, description: "The ID of the monitor to mute"}
+      - {name: scope, in: body, type: string, description: "The scope to apply the mute to (e.g. host:foo)"}
+      - {name: end, in: body, type: integer, description: "POSIX timestamp for when the mute should end; omit to mute indefinitely"}
+
+  - name: query_metrics
+    description: Query timeseries metric data points for a given time range
+    method: GET
+    path: /api/v1/query
+    params:
+      - {name: from, in: query, type: integer, required: true, description: "Start of the queried time period in seconds since Unix epoch"}
+      - {name: to, in: query, type: integer, required: true, description: "End of the queried time period in seconds since Unix epoch"}
+      - {name: query, in: query, type: string, required: true, description: "Metric query string"}
+
+  - name: submit_metrics
+    description: Submit metric data points to Datadog for graphing on dashboards
+    method: POST
+    path: /api/v2/series
+    params:
+      - {name: series, in: body, type: array, required: true, description: "List of metric series to submit; each item has metric (name), points (array of {timestamp, value}), type (0=unspecified,1=count,2=rate,3=gauge), and optionally resources"}
+
+  - name: search_logs
+    description: Search log events matching a query within a time range
+    method: POST
+    path: /api/v2/logs/events/search
+    params:
+      - {name: filter, in: body, type: object, description: "Filter object with query (string), from (ISO 8601 start time), and to (ISO 8601 end time)"}
+      - {name: sort, in: body, type: string, description: "Sort order for results; timestamp (ascending) or -timestamp (descending)"}
+      - {name: page, in: body, type: object, description: "Pagination object with limit (max results, up to 1000) and cursor (from previous response)"}
+
+  - name: list_incidents
+    description: Get a list of incidents for the organization
+    method: GET
+    path: /api/v2/incidents
+    params:
+      - {name: include, in: query, type: string, description: "Comma-separated list of related objects to include in the response (e.g. attachments)"}
+
+  - name: list_hosts
+    description: Get all hosts reporting to the organization
+    method: GET
+    path: /api/v1/hosts
+    params:
+      - {name: filter, in: query, type: string, description: "String to filter search results"}
+      - {name: sort_field, in: query, type: string, description: "Field to sort hosts by"}
+      - {name: sort_dir, in: query, type: string, description: "Sort direction; asc or desc"}
+      - {name: start, in: query, type: integer, description: "Starting point for host search results for pagination"}
+      - {name: count, in: query, type: integer, description: "Number of hosts to return (max 1000)"}
+      - {name: from, in: query, type: integer, description: "Number of seconds since Unix epoch from which to search hosts"}
+      - {name: include_muted_hosts_data, in: query, type: boolean, description: "Include muted status and mute expiry for each host"}
+      - {name: include_hosts_metadata, in: query, type: boolean, description: "Include additional host metadata such as agent_version, platform, processor"}

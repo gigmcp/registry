@@ -1,0 +1,106 @@
+schemaVersion: 1
+name: kommo
+version: 0.1.0
+# Kommo is a per-tenant SaaS: each account lives at <subdomain>.kommo.com.
+# The baseUrl below uses a representative subdomain that satisfies the *.kommo.com
+# egress allowlist; the runtime engine substitutes the actual tenant domain.
+baseUrl: https://yourcompany.kommo.com
+tools:
+  - name: list_leads
+    description: Retrieve a paginated list of leads in the Kommo CRM account with optional filtering and sorting
+    method: GET
+    path: /api/v4/leads
+    params:
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: limit, in: query, type: integer, description: "Number of leads to return per page (max 250)"}
+      - {name: query, in: query, type: string, description: "Search query across filled fields of leads"}
+      - {name: with, in: query, type: string, description: "Comma-separated list of additional data to embed (e.g. contacts, companies, catalog_elements)"}
+
+  - name: get_lead
+    description: Retrieve a single lead by its ID from the Kommo CRM account
+    method: GET
+    path: /api/v4/leads/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "Unique identifier of the lead"}
+      - {name: with, in: query, type: string, description: "Comma-separated list of additional data to embed (e.g. contacts, companies, catalog_elements)"}
+
+  - name: list_contacts
+    description: Retrieve a paginated list of contacts in the Kommo CRM account with optional filtering
+    method: GET
+    path: /api/v4/contacts
+    params:
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: limit, in: query, type: integer, description: "Number of contacts to return per page (max 250)"}
+      - {name: query, in: query, type: string, description: "Search query across custom field values of contacts"}
+      - {name: with, in: query, type: string, description: "Comma-separated list of additional data to embed (e.g. leads, companies)"}
+
+  - name: list_companies
+    description: Retrieve a paginated list of companies in the Kommo CRM account with optional filtering
+    method: GET
+    path: /api/v4/companies
+    params:
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: limit, in: query, type: integer, description: "Number of companies to return per page (max 250)"}
+      - {name: query, in: query, type: string, description: "Search query across custom field values of companies"}
+      - {name: with, in: query, type: string, description: "Comma-separated list of additional data to embed (e.g. leads, contacts)"}
+
+  - name: list_tasks
+    description: Retrieve a paginated list of tasks in the Kommo CRM account with optional filtering
+    method: GET
+    path: /api/v4/tasks
+    params:
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: limit, in: query, type: integer, description: "Number of tasks to return per page (max 250)"}
+      - {name: "filter[is_completed]", in: query, type: integer, description: "Filter by completion status: 1 for completed, 0 for open"}
+      - {name: "filter[entity_type]", in: query, type: string, description: "Filter by linked entity type: leads, contacts, or companies"}
+      - {name: "filter[responsible_user_id][]", in: query, type: integer, description: "Filter by ID of the responsible user"}
+
+  - name: list_leads_pipelines
+    description: Retrieve the list of sales pipelines (with their stages) configured in the Kommo CRM account
+    method: GET
+    path: /api/v4/leads/pipelines
+
+  - name: create_lead
+    description: Create one or more new leads in the Kommo CRM account
+    method: POST
+    path: /api/v4/leads
+    params:
+      - {name: name, in: body, type: string, description: "Name of the lead"}
+      - {name: price, in: body, type: integer, description: "Sale amount associated with the lead"}
+      - {name: status_id, in: body, type: integer, description: "ID of the pipeline stage to place the lead in"}
+      - {name: pipeline_id, in: body, type: integer, description: "ID of the pipeline to add the lead to"}
+      - {name: responsible_user_id, in: body, type: integer, description: "ID of the user responsible for this lead"}
+
+  - name: update_lead
+    description: Update an existing lead by its ID in the Kommo CRM account
+    method: PATCH
+    path: /api/v4/leads/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "Unique identifier of the lead to update"}
+      - {name: name, in: body, type: string, description: "Updated name of the lead"}
+      - {name: price, in: body, type: integer, description: "Updated sale amount for the lead"}
+      - {name: status_id, in: body, type: integer, description: "Updated pipeline stage ID for the lead"}
+      - {name: pipeline_id, in: body, type: integer, description: "Updated pipeline ID for the lead"}
+      - {name: responsible_user_id, in: body, type: integer, description: "Updated ID of the user responsible for this lead"}
+
+  - name: create_contact
+    description: Create one or more new contacts in the Kommo CRM account
+    method: POST
+    path: /api/v4/contacts
+    params:
+      - {name: name, in: body, type: string, description: "Full name of the contact"}
+      - {name: first_name, in: body, type: string, description: "First name of the contact"}
+      - {name: last_name, in: body, type: string, description: "Last name of the contact"}
+      - {name: responsible_user_id, in: body, type: integer, description: "ID of the user responsible for this contact"}
+
+  - name: create_task
+    description: Create one or more new tasks in the Kommo CRM account
+    method: POST
+    path: /api/v4/tasks
+    params:
+      - {name: text, in: body, type: string, description: "Text description of the task"}
+      - {name: complete_till, in: body, type: integer, description: "Task deadline as a Unix timestamp"}
+      - {name: task_type_id, in: body, type: integer, description: "ID of the task type"}
+      - {name: responsible_user_id, in: body, type: integer, description: "ID of the user responsible for completing this task"}
+      - {name: entity_id, in: body, type: integer, description: "ID of the entity (lead, contact, or company) to link this task to"}
+      - {name: entity_type, in: body, type: string, description: "Type of entity to link the task to: leads, contacts, or companies"}

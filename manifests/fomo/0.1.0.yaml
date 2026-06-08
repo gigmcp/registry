@@ -2,13 +2,14 @@ schemaVersion: 1
 name: fomo
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/fomo-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/fomo-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:987848505fca75d38f8fa43e3456df91f0033468020448c3efbc96abb0d6788f
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

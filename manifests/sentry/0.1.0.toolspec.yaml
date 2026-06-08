@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: sentry
+version: 0.1.0
+baseUrl: https://sentry.io
+tools:
+  - name: list_organization_issues
+    description: List issues (error groups) for an organization, optionally filtered by project, environment, query, or time range
+    method: GET
+    path: /api/0/organizations/{organization_id_or_slug}/issues/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: query, in: query, type: string, description: "Sentry structured search query; defaults to is:unresolved"}
+      - {name: project, in: query, type: array, description: "Project IDs to filter by; use -1 for all projects"}
+      - {name: environment, in: query, type: string, description: Name of the environment to filter by}
+      - {name: statsPeriod, in: query, type: string, description: "Time period for stats (e.g. 24h, 7d)"}
+      - {name: start, in: query, type: string, description: "ISO-8601 formatted start of query time range"}
+      - {name: end, in: query, type: string, description: "ISO-8601 formatted end of query time range"}
+      - {name: sort, in: query, type: string, description: "Sort order: date, freq, inbox, new, recommended, trends, or user"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of issues to return (max 100)"}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for retrieving next or previous results}
+
+  - name: list_projects
+    description: List all projects belonging to an organization
+    method: GET
+    path: /api/0/organizations/{organization_id_or_slug}/projects/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: query, in: query, type: string, description: Filter projects by name or slug}
+      - {name: per_page, in: query, type: integer, description: "Number of results per page (default and max 100)"}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for retrieving next or previous results}
+
+  - name: list_organization_members
+    description: List all members of an organization
+    method: GET
+    path: /api/0/organizations/{organization_id_or_slug}/members/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for retrieving next or previous results}
+
+  - name: list_releases
+    description: List releases for an organization, optionally filtered by version prefix
+    method: GET
+    path: /api/0/organizations/{organization_id_or_slug}/releases/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: query, in: query, type: string, description: Filter releases by version prefix}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for retrieving next or previous results}
+
+  - name: get_issue_events
+    description: List events associated with a specific issue
+    method: GET
+    path: /api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/events/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: issue_id, in: path, type: string, required: true, description: The ID of the issue}
+      - {name: query, in: query, type: string, description: Search query for filtering events}
+      - {name: statsPeriod, in: query, type: string, description: "Time period overriding start/end (e.g. 24h, 7d)"}
+      - {name: start, in: query, type: string, description: "ISO-8601 formatted start of time range"}
+      - {name: end, in: query, type: string, description: "ISO-8601 formatted end of time range"}
+      - {name: environment, in: query, type: string, description: Name of the environment to filter by}
+      - {name: full, in: query, type: boolean, description: Include full event body with stacktrace when true}
+      - {name: sample, in: query, type: boolean, description: Return events in pseudo-random deterministic order}
+      - {name: cursor, in: query, type: string, description: Pagination cursor for retrieving next or previous results}
+
+  - name: update_issue
+    description: Update attributes of an issue such as status, assignment, priority, or subscription
+    method: PUT
+    path: /api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: issue_id, in: path, type: string, required: true, description: The ID of the issue to update}
+      - {name: status, in: body, type: string, description: "New status: resolved, unresolved, ignored, resolvedInNextRelease, or muted"}
+      - {name: substatus, in: body, type: string, description: "New substatus: archived_until_escalating, archived_until_condition_met, archived_forever, escalating, ongoing, regressed, or new"}
+      - {name: assignedTo, in: body, type: string, description: "Assign to a user or team (formats: user_id, username, email, team:team_id)"}
+      - {name: priority, in: body, type: string, description: "Priority level: low, medium, or high"}
+      - {name: hasSeen, in: body, type: boolean, description: Mark the issue as seen by the requestor}
+      - {name: isBookmarked, in: body, type: boolean, description: Bookmark the issue for the requestor}
+      - {name: isSubscribed, in: body, type: boolean, description: Subscribe the requestor to the issue}
+      - {name: isPublic, in: body, type: boolean, description: Publish the issue}
+      - {name: inbox, in: body, type: boolean, description: Mark the issue as reviewed by the requestor}
+
+  - name: create_alert_rule
+    description: Create an issue alert rule for a project that fires when specified conditions and filters match
+    method: POST
+    path: /api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/rules/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: project_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the project}
+      - {name: name, in: body, type: string, required: true, description: Name of the alert rule}
+      - {name: actionMatch, in: body, type: string, required: true, description: "Determines which conditions must be true before filters are evaluated: all or any"}
+      - {name: conditions, in: body, type: array, required: true, description: List of trigger conditions that determine when the rule fires}
+      - {name: actions, in: body, type: array, required: true, description: List of actions to take when all conditions and filters are met}
+      - {name: filters, in: body, type: array, description: List of filters that further constrain when the rule fires}
+      - {name: frequency, in: body, type: integer, description: "How often to perform the actions in minutes (5 to 43200)"}
+
+  - name: delete_issue
+    description: Permanently delete a single issue by ID
+    method: DELETE
+    path: /api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/
+    params:
+      - {name: organization_id_or_slug, in: path, type: string, required: true, description: The ID or slug of the organization}
+      - {name: issue_id, in: path, type: string, required: true, description: The ID of the issue to delete}

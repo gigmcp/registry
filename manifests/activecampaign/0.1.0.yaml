@@ -2,13 +2,14 @@ schemaVersion: 1
 name: activecampaign
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/activecampaign-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/activecampaign-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:f7d6a7bafddfacd5ede57a6738394673de491a1b893008c4b58fcad0ede27c96
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

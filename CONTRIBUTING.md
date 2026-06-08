@@ -1,9 +1,27 @@
 # Contributing a server
 
 **Aggregator policy:** your server's source code lives in YOUR repo. This
-registry holds only your manifest (and, rarely, a custom Dockerfile). Do not
-add source code, `examples/` directories, or any `.go` files outside `schema/`
-and `cmd/` — CI will reject them.
+registry holds only your manifest, an optional toolspec (declarative data),
+and, rarely, a custom Dockerfile. Do not add source code, `examples/`
+directories, or any `.go` files outside `schema/` and `cmd/` — CI will
+reject them.
+
+## Two ways to contribute
+
+**Toolspec-driven (no code at all):** if your service's tools are plain REST
+calls, you don't need a server repo. Add two files:
+`manifests/<name>/<version>.yaml` (with `source.repo:
+github.com/gigmcp/toolpack`, `builder: toolpack`) and
+`manifests/<name>/<version>.toolspec.yaml` mapping each manifest tool to an
+HTTP endpoint (see any existing `*.toolspec.yaml`; `ably` is the canonical
+example). `registryctl lint-toolspecs` enforces: tool set matches the
+manifest 1:1, every base URL host is within the manifest's egress allowlist,
+entrusted tier carries an `auth` block (sealed must not). The generic
+[toolpack engine](https://github.com/gigmcp/toolpack) serves the spec; no
+server code is written or reviewed.
+
+**Own server (the steps below):** for anything beyond declarative HTTP —
+local computation, multi-step flows, non-REST protocols.
 
 1. Tag a release of your MCP server's source repo.
 2. Open a PR adding **one file**: `manifests/<name>/<version>.yaml`:

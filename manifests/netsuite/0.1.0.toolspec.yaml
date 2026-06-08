@@ -1,0 +1,98 @@
+schemaVersion: 1
+name: netsuite
+version: 0.1.0
+# NetSuite is a per-account SaaS: each account lives at <accountId>.suitetalk.api.netsuite.com.
+# The baseUrl below uses a representative subdomain that satisfies the *.suitetalk.api.netsuite.com
+# egress allowlist; the runtime engine substitutes the actual account hostname.
+baseUrl: https://account.suitetalk.api.netsuite.com
+tools:
+  - name: run_suiteql_query
+    description: Execute a SuiteQL query against NetSuite data and return paginated results
+    method: POST
+    path: /services/rest/query/v1/suiteql
+    params:
+      - {name: Prefer, in: header, type: string, required: true, description: "Must be set to 'transient' — required header parameter for all SuiteQL requests"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of rows to return per page (max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Zero-based row offset for pagination"}
+      - {name: q, in: body, type: string, required: true, description: "SuiteQL query string (SQL-like syntax against NetSuite record tables)"}
+
+  - name: list_records
+    description: List all instances of a given NetSuite record type with optional pagination
+    method: GET
+    path: /services/rest/record/v1/{recordType}
+    params:
+      - {name: recordType, in: path, type: string, required: true, description: "NetSuite record type (e.g. customer, invoice, salesorder, vendor)"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of records to return per page (max 1000, default 100)"}
+      - {name: offset, in: query, type: integer, description: "Number of records to skip for pagination (default 0)"}
+
+  - name: get_customer
+    description: Retrieve a single customer record by its internal ID
+    method: GET
+    path: /services/rest/record/v1/customer/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Internal ID of the customer record"}
+
+  - name: get_invoice
+    description: Retrieve a single invoice record by its internal ID
+    method: GET
+    path: /services/rest/record/v1/invoice/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Internal ID of the invoice record"}
+
+  - name: get_sales_order
+    description: Retrieve a single sales order record by its internal ID
+    method: GET
+    path: /services/rest/record/v1/salesorder/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Internal ID of the sales order record"}
+
+  - name: get_record_metadata
+    description: Retrieve OpenAPI metadata schema for one or more NetSuite record types
+    method: GET
+    path: /services/rest/record/v1/metadata-catalog
+    params:
+      - {name: select, in: query, type: string, description: "Comma-separated list of record type names to retrieve metadata for (e.g. customer,invoice,salesorder)"}
+
+  - name: create_customer
+    description: Create a new customer record in NetSuite
+    method: POST
+    path: /services/rest/record/v1/customer
+    params:
+      - {name: companyName, in: body, type: string, description: "Company name for the customer"}
+      - {name: entityId, in: body, type: string, description: "Unique entity identifier for the customer"}
+      - {name: email, in: body, type: string, description: "Primary email address of the customer"}
+      - {name: phone, in: body, type: string, description: "Primary phone number of the customer"}
+      - {name: subsidiary, in: body, type: object, description: "Subsidiary reference object with id field (e.g. {\"id\": \"1\"})"}
+
+  - name: create_invoice
+    description: Create a new invoice record in NetSuite
+    method: POST
+    path: /services/rest/record/v1/invoice
+    params:
+      - {name: entity, in: body, type: object, required: true, description: "Customer reference object with id field (e.g. {\"id\": \"220\"})"}
+      - {name: item, in: body, type: object, required: true, description: "Line items object with items array (each item needs item.id and amount)"}
+      - {name: tranDate, in: body, type: string, description: "Transaction date in YYYY-MM-DD format (defaults to current date)"}
+      - {name: subsidiary, in: body, type: object, description: "Subsidiary reference object with id field (e.g. {\"id\": \"1\"})"}
+      - {name: memo, in: body, type: string, description: "Memo or notes for the invoice"}
+
+  - name: create_sales_order
+    description: Create a new sales order record in NetSuite
+    method: POST
+    path: /services/rest/record/v1/salesorder
+    params:
+      - {name: entity, in: body, type: object, required: true, description: "Customer reference object with id field (e.g. {\"id\": \"110\"})"}
+      - {name: item, in: body, type: object, required: true, description: "Line items object with items array (each item needs item.id and quantity)"}
+      - {name: tranDate, in: body, type: string, description: "Transaction date in YYYY-MM-DD format (defaults to current date)"}
+      - {name: memo, in: body, type: string, description: "Memo or notes for the sales order"}
+      - {name: otherRefNum, in: body, type: string, description: "Purchase order number or other reference number"}
+
+  - name: update_customer
+    description: Update an existing customer record in NetSuite
+    method: PATCH
+    path: /services/rest/record/v1/customer/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Internal ID of the customer record to update"}
+      - {name: companyName, in: body, type: string, description: "Updated company name"}
+      - {name: email, in: body, type: string, description: "Updated primary email address"}
+      - {name: phone, in: body, type: string, description: "Updated primary phone number"}
+      - {name: subsidiary, in: body, type: object, description: "Updated subsidiary reference object with id field"}

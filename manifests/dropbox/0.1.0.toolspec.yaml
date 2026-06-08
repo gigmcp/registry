@@ -1,0 +1,76 @@
+schemaVersion: 1
+name: dropbox
+version: 0.1.0
+baseUrl: https://api.dropboxapi.com
+tools:
+  - name: list_folder
+    description: List the contents of a folder in Dropbox
+    method: POST
+    path: /2/files/list_folder
+    params:
+      - {name: path, in: body, type: string, required: true, description: "The path to the folder to list. Use empty string \"\" for root (not \"/\")."}
+      - {name: recursive, in: body, type: boolean, description: "If true, list contents of subfolders recursively (default false)"}
+      - {name: limit, in: body, type: integer, description: "Max number of results to return per request (1-2000)"}
+  - name: get_metadata
+    description: Get metadata for a file or folder in Dropbox
+    method: POST
+    path: /2/files/get_metadata
+    params:
+      - {name: path, in: body, type: string, required: true, description: "The path or ID of the file or folder"}
+      - {name: include_media_info, in: body, type: boolean, description: "If true, include media metadata for photos and videos"}
+      - {name: include_deleted, in: body, type: boolean, description: "If true, include metadata for deleted files"}
+  - name: search_files
+    description: Search for files and folders in Dropbox by name or content
+    method: POST
+    path: /2/files/search_v2
+    params:
+      - {name: query, in: body, type: string, required: true, description: "The string to search for"}
+      - {name: options, in: body, type: object, description: "Search options such as path, max_results, file_status, filename_only"}
+  - name: download_file
+    description: Download a file from Dropbox; the path is passed as a JSON header argument
+    method: POST
+    path: /2/files/download
+    baseUrl: https://content.dropboxapi.com
+    params:
+      - {name: Dropbox-API-Arg, in: header, type: string, required: true, description: "JSON-encoded object with 'path' key specifying the file path or ID to download"}
+  - name: get_current_account
+    description: Get information about the currently authenticated Dropbox account
+    method: POST
+    path: /2/users/get_current_account
+  - name: upload_file
+    description: Upload a file to Dropbox; arguments are passed via the Dropbox-API-Arg header
+    method: POST
+    path: /2/files/upload
+    baseUrl: https://content.dropboxapi.com
+    params:
+      - {name: Dropbox-API-Arg, in: header, type: string, required: true, description: "JSON-encoded object with 'path' (required), 'mode' (add/overwrite/update), 'autorename', and 'mute' fields"}
+  - name: move_file
+    description: Move a file or folder from one location to another in Dropbox
+    method: POST
+    path: /2/files/move_v2
+    params:
+      - {name: from_path, in: body, type: string, required: true, description: "Path of the file or folder to move"}
+      - {name: to_path, in: body, type: string, required: true, description: "Destination path for the file or folder"}
+      - {name: autorename, in: body, type: boolean, description: "If true, automatically rename the destination if a conflict exists"}
+      - {name: allow_ownership_transfer, in: body, type: boolean, description: "If true, allow ownership transfer when moving to a different owner's folder"}
+  - name: copy_file
+    description: Copy a file or folder from one location to another in Dropbox
+    method: POST
+    path: /2/files/copy_v2
+    params:
+      - {name: from_path, in: body, type: string, required: true, description: "Path of the file or folder to copy"}
+      - {name: to_path, in: body, type: string, required: true, description: "Destination path for the copy"}
+      - {name: autorename, in: body, type: boolean, description: "If true, automatically rename the destination if a conflict exists"}
+  - name: delete_file
+    description: Delete a file or folder at the given path in Dropbox
+    method: POST
+    path: /2/files/delete_v2
+    params:
+      - {name: path, in: body, type: string, required: true, description: "Path of the file or folder to delete"}
+  - name: create_shared_link
+    description: Create a shared link for a file or folder in Dropbox with optional settings
+    method: POST
+    path: /2/sharing/create_shared_link_with_settings
+    params:
+      - {name: path, in: body, type: string, required: true, description: "Path of the file or folder to share"}
+      - {name: settings, in: body, type: object, description: "Shared link settings such as requested_visibility, link_password, and expires"}

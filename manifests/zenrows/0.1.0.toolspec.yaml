@@ -1,0 +1,110 @@
+schemaVersion: 1
+name: zenrows
+version: 0.1.0
+baseUrl: https://api.zenrows.com
+# ZenRows authenticates via the apikey query parameter on the Universal Scraper
+# API — there is no auth header for scraping calls. The auth block below is
+# required by the entrusted-tier validator; the toolpack engine injects the
+# credential from the ZENROWS_API_KEY env var rather than via header at runtime.
+# The /v1/subscriptions/self/details endpoint accepts X-API-Key header auth.
+auth:
+  header: X-API-Key
+  format: "{token}"
+tools:
+  - name: scrape_url_html
+    description: Scrape a URL and return the raw HTML content of the page, with optional JavaScript rendering and proxy settings
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to scrape (must be URL-encoded)"}
+      - {name: js_render, in: query, type: boolean, description: "Enable JavaScript rendering via a headless browser (default: false)"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+      - {name: wait, in: query, type: integer, description: "Milliseconds to wait after page load before returning content (max 30000; requires js_render=true)"}
+      - {name: wait_for, in: query, type: string, description: "CSS selector to wait for before returning content (requires js_render=true)"}
+      - {name: session_id, in: query, type: integer, description: "Session identifier (1-99999) to maintain the same proxy IP across requests for up to 10 minutes"}
+      - {name: custom_headers, in: query, type: boolean, description: "Enable forwarding of custom HTTP headers to the target site (default: false)"}
+      - {name: original_status, in: query, type: boolean, description: "Return the target site's original HTTP status code instead of ZenRows status codes (default: false)"}
+      - {name: allowed_status_codes, in: query, type: string, description: "Comma-separated HTTP status codes for which to return body content even on errors (e.g. 404,500)"}
+      - {name: block_resources, in: query, type: string, description: "Comma-separated resource types to block (e.g. image,media,font; requires js_render=true)"}
+
+  - name: scrape_url_autoparse
+    description: Scrape a URL and return auto-parsed structured data extracted from the page content
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to scrape and auto-parse"}
+      - {name: autoparse, in: query, type: boolean, required: true, description: "Enable automatic structured data extraction (must be true)"}
+      - {name: js_render, in: query, type: boolean, description: "Enable JavaScript rendering via a headless browser (default: false)"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+      - {name: session_id, in: query, type: integer, description: "Session identifier (1-99999) to maintain the same proxy IP across requests for up to 10 minutes"}
+
+  - name: scrape_with_css_selectors
+    description: Scrape a URL and extract specific elements using CSS selectors, returning structured JSON with the matched content
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to scrape"}
+      - {name: css_extractor, in: query, type: string, required: true, description: "JSON-encoded CSS selector map where keys are output field names and values are CSS selectors (e.g. {\"title\":\"h1\",\"links\":\"a @href\"})"}
+      - {name: js_render, in: query, type: boolean, description: "Enable JavaScript rendering via a headless browser (default: false)"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+      - {name: wait, in: query, type: integer, description: "Milliseconds to wait after page load before extracting content (max 30000; requires js_render=true)"}
+      - {name: wait_for, in: query, type: string, description: "CSS selector to wait for before extracting content (requires js_render=true)"}
+      - {name: session_id, in: query, type: integer, description: "Session identifier (1-99999) to maintain the same proxy IP across requests for up to 10 minutes"}
+
+  - name: get_plaintext
+    description: Scrape a URL and return the page content as plain text, stripping all HTML markup
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to scrape"}
+      - {name: response_type, in: query, type: string, required: true, description: "Response format; must be 'plaintext' to return stripped plain text content"}
+      - {name: js_render, in: query, type: boolean, description: "Enable JavaScript rendering via a headless browser (default: false)"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+      - {name: wait, in: query, type: integer, description: "Milliseconds to wait after page load before returning content (max 30000; requires js_render=true)"}
+      - {name: session_id, in: query, type: integer, description: "Session identifier (1-99999) to maintain the same proxy IP across requests for up to 10 minutes"}
+
+  - name: screenshot_url
+    description: Capture a screenshot of a URL as rendered by a headless browser and return the image data
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to screenshot"}
+      - {name: screenshot, in: query, type: boolean, required: true, description: "Enable screenshot capture of the above-the-fold viewport (must be true)"}
+      - {name: js_render, in: query, type: boolean, required: true, description: "Enable JavaScript rendering via a headless browser; required for screenshot generation"}
+      - {name: screenshot_fullpage, in: query, type: boolean, description: "Capture the entire scrollable page instead of just the viewport (default: false)"}
+      - {name: screenshot_selector, in: query, type: string, description: "CSS selector of a specific element to capture in the screenshot"}
+      - {name: screenshot_format, in: query, type: string, description: "Image format for the screenshot: png or jpeg (default: png)"}
+      - {name: screenshot_quality, in: query, type: integer, description: "JPEG compression quality 1-100 (only applies when screenshot_format=jpeg)"}
+      - {name: wait, in: query, type: integer, description: "Milliseconds to wait after page load before capturing the screenshot (max 30000)"}
+      - {name: wait_for, in: query, type: string, description: "CSS selector to wait for before capturing the screenshot"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+
+  - name: get_pdf_from_url
+    description: Generate a PDF of a URL as rendered by a headless browser and return the PDF binary content
+    method: GET
+    path: /v1/
+    params:
+      - {name: url, in: query, type: string, required: true, description: "The target URL to convert to PDF"}
+      - {name: response_type, in: query, type: string, required: true, description: "Response format; must be 'pdf' to return the page as a PDF document"}
+      - {name: js_render, in: query, type: boolean, required: true, description: "Enable JavaScript rendering via a headless browser; required for PDF generation"}
+      - {name: wait, in: query, type: integer, description: "Milliseconds to wait after page load before generating the PDF (max 30000)"}
+      - {name: wait_for, in: query, type: string, description: "CSS selector to wait for before generating the PDF"}
+      - {name: premium_proxy, in: query, type: boolean, description: "Route request through residential proxy IPs (default: false)"}
+      - {name: proxy_country, in: query, type: string, description: "Two-letter country code to geolocate the outbound proxy IP (e.g. us, de, gb)"}
+
+  - name: get_api_usage
+    description: Retrieve real-time subscription usage details including consumed credits, remaining quota, and plan limits
+    method: GET
+    path: /v1/subscriptions/self/details
+    params: []
+
+  - name: get_concurrency_status
+    description: Retrieve current concurrency limits and remaining concurrent request slots for the subscription plan
+    method: GET
+    path: /v1/subscriptions/self/details
+    params: []

@@ -1,0 +1,103 @@
+schemaVersion: 1
+name: brevo
+version: 0.1.0
+baseUrl: https://api.brevo.com
+tools:
+  - name: get_account_information
+    description: Retrieve details of the authenticated Brevo account including plan, credits, and address
+    method: GET
+    path: /v3/account
+
+  - name: get_all_contacts
+    description: Retrieve all contacts from the Brevo account with optional pagination and filtering
+    method: GET
+    path: /v3/contacts
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of contacts per page (default 50, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Index of the first contact to return (default 0)"}
+      - {name: modifiedSince, in: query, type: string, description: "Filter contacts modified after this UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+      - {name: createdSince, in: query, type: string, description: "Filter contacts created after this UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+      - {name: sort, in: query, type: string, description: "Sort order by creation date: asc or desc (default desc)"}
+      - {name: segmentId, in: query, type: integer, description: "Filter contacts by segment ID (mutually exclusive with listIds)"}
+      - {name: listIds, in: query, type: array, description: "Filter contacts by list IDs (mutually exclusive with segmentId)"}
+
+  - name: get_contact_details
+    description: Retrieve details of a specific contact by email, contact ID, or other identifier
+    method: GET
+    path: /v3/contacts/{identifier}
+    params:
+      - {name: identifier, in: path, type: string, required: true, description: "Email address, contact ID, or EXT_ID value identifying the contact"}
+      - {name: identifierType, in: query, type: string, description: "Type of identifier: email_id, phone_id, contact_id, ext_id, whatsapp_id, or landline_number_id"}
+
+  - name: get_contact_lists
+    description: Retrieve all contact lists in the Brevo account
+    method: GET
+    path: /v3/contacts/lists
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of lists per page (default 10)"}
+      - {name: offset, in: query, type: integer, description: "Index of the first list to return (default 0)"}
+      - {name: sort, in: query, type: string, description: "Sort order by creation date: asc or desc (default desc)"}
+
+  - name: create_contact_list
+    description: Create a new contact list in a specified folder
+    method: POST
+    path: /v3/contacts/lists
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the new contact list}
+      - {name: folderId, in: body, type: integer, required: true, description: "ID of the parent folder in which this list is to be created"}
+
+  - name: delete_contact
+    description: Delete a contact from the Brevo account by identifier
+    method: DELETE
+    path: /v3/contacts/{identifier}
+    params:
+      - {name: identifier, in: path, type: string, required: true, description: "Email address, contact ID, or EXT_ID value identifying the contact to delete"}
+      - {name: identifierType, in: query, type: string, description: "Type of identifier: email_id, phone_id, contact_id, ext_id, whatsapp_id, or landline_number_id"}
+
+  - name: list_email_campaigns
+    description: Retrieve all email campaigns created in the Brevo account
+    method: GET
+    path: /v3/emailCampaigns
+    params:
+      - {name: type, in: query, type: string, description: "Filter by campaign type: classic or trigger"}
+      - {name: status, in: query, type: string, description: "Filter by status: draft, sent, queued, or suspended"}
+      - {name: startDate, in: query, type: string, description: "Filter campaigns sent after this UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+      - {name: endDate, in: query, type: string, description: "Filter campaigns sent before this UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+      - {name: limit, in: query, type: integer, description: "Number of campaigns per page (default 50)"}
+      - {name: offset, in: query, type: integer, description: "Index of the first campaign to return (default 0)"}
+      - {name: sort, in: query, type: string, description: "Sort order by creation date: asc or desc (default desc)"}
+      - {name: excludeHtmlContent, in: query, type: boolean, description: "Exclude HTML content from the response"}
+
+  - name: update_email_campaign
+    description: Update properties of an existing email campaign
+    method: PUT
+    path: /v3/emailCampaigns/{campaignId}
+    params:
+      - {name: campaignId, in: path, type: integer, required: true, description: ID of the email campaign to update}
+      - {name: name, in: body, type: string, description: Updated name of the campaign}
+      - {name: subject, in: body, type: string, description: Updated subject line of the campaign email}
+      - {name: htmlContent, in: body, type: string, description: Updated HTML content of the campaign email}
+      - {name: scheduledAt, in: body, type: string, description: "UTC date-time to schedule the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+      - {name: tag, in: body, type: string, description: Tag to categorize the campaign}
+      - {name: replyTo, in: body, type: string, description: Reply-to email address for the campaign}
+
+  - name: create_sms_campaign
+    description: Create a new SMS campaign with specified content, sender, and optional recipients
+    method: POST
+    path: /v3/smsCampaigns
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name identifier for the SMS campaign}
+      - {name: sender, in: body, type: string, required: true, description: "Sender name (up to 11 alphanumeric or 15 numeric characters)"}
+      - {name: content, in: body, type: string, required: true, description: "Text content of the SMS message (max 160 characters per segment)"}
+      - {name: recipients, in: body, type: object, description: "Recipients object with listIds array specifying which lists to target"}
+      - {name: scheduledAt, in: body, type: string, description: "UTC date-time to schedule the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)"}
+
+  - name: get_all_email_templates
+    description: Retrieve all transactional email templates created in the Brevo account
+    method: GET
+    path: /v3/smtp/templates
+    params:
+      - {name: templateStatus, in: query, type: boolean, description: "Filter by template status: true for active, false for inactive"}
+      - {name: limit, in: query, type: integer, description: "Number of templates per page (default 50, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Index of the first template to return (default 0)"}
+      - {name: sort, in: query, type: string, description: "Sort order by creation date: asc or desc (default desc)"}

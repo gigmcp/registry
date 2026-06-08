@@ -1,0 +1,133 @@
+schemaVersion: 1
+name: canvas
+version: 0.1.0
+baseUrl: https://canvas.instructure.com
+tools:
+  - name: list_courses
+    description: Return the paginated list of active courses for the current user
+    method: GET
+    path: /api/v1/courses
+    params:
+      - {name: enrollment_type, in: query, type: string, description: "Filter by enrollment type: teacher, student, ta, observer, or designer"}
+      - {name: enrollment_state, in: query, type: string, description: "Filter by enrollment state: active, invited_or_pending, or completed"}
+      - {name: "state[]", in: query, type: string, description: "Filter by course state: unpublished, available, completed, or deleted"}
+      - {name: "include[]", in: query, type: string, description: "Additional data to include: needs_grading_count, syllabus_body, total_scores, term, course_progress, etc."}
+      - {name: exclude_blueprint_courses, in: query, type: boolean, description: Exclude blueprint courses from results}
+
+  - name: get_course
+    description: Return information on a single course
+    method: GET
+    path: /api/v1/courses/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "include[]", in: query, type: string, description: "Optional data to include: permissions, course_image, banner_image, concluded, lti_context_id, post_manually"}
+      - {name: teacher_limit, in: query, type: integer, description: Maximum number of teacher enrollments to display}
+
+  - name: list_assignments
+    description: Return the paginated list of assignments for the given course
+    method: GET
+    path: /api/v1/courses/{course_id}/assignments
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "include[]", in: query, type: string, description: "Optional data to include: submission, assignment_visibility, all_dates, overrides, observed_users, can_edit, score_statistics"}
+      - {name: search_term, in: query, type: string, description: Partial title of the assignments to match and return}
+      - {name: bucket, in: query, type: string, description: "Filter by due-date/submission status: past, overdue, undated, ungraded, unsubmitted, upcoming, or future"}
+      - {name: order_by, in: query, type: string, description: "Sort assignments by: position (default), name, or due_at"}
+      - {name: override_assignment_dates, in: query, type: boolean, description: "Apply assignment overrides; defaults to true"}
+
+  - name: list_enrollments
+    description: Return a paginated list of enrollments for the given course
+    method: GET
+    path: /api/v1/courses/{course_id}/enrollments
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "type[]", in: query, type: string, description: "Enrollment types to return: StudentEnrollment, TeacherEnrollment, TaEnrollment, DesignerEnrollment, ObserverEnrollment"}
+      - {name: "state[]", in: query, type: string, description: "Filter by enrollment state; defaults to active and invited"}
+      - {name: "include[]", in: query, type: string, description: "Additional data to include: avatar_url, group_ids, locked, observed_users, can_be_removed, uuid, current_points"}
+      - {name: user_id, in: query, type: string, description: Filter to a specific user ID}
+      - {name: enrollment_term_id, in: query, type: integer, description: Filter by enrollment term ID}
+
+  - name: list_discussion_topics
+    description: Return the paginated list of discussion topics for the given course
+    method: GET
+    path: /api/v1/courses/{course_id}/discussion_topics
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "include[]", in: query, type: string, description: "Additional data to include: all_dates, sections, sections_user_count, overrides"}
+      - {name: order_by, in: query, type: string, description: "Sort order: position (default), recent_activity, or title"}
+      - {name: scope, in: query, type: string, description: "Filter by state: locked, unlocked, pinned, or unpinned"}
+      - {name: only_announcements, in: query, type: boolean, description: "Return announcements instead of discussion topics; defaults to false"}
+      - {name: search_term, in: query, type: string, description: Partial title match for filtering}
+
+  - name: create_assignment
+    description: Create a new assignment in the given course
+    method: POST
+    path: /api/v1/courses/{course_id}/assignments
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "assignment[name]", in: body, type: string, required: true, description: The assignment name}
+      - {name: "assignment[description]", in: body, type: string, description: Assignment description (supports HTML)}
+      - {name: "assignment[due_at]", in: body, type: string, description: "Due date in ISO 8601 format"}
+      - {name: "assignment[points_possible]", in: body, type: number, description: Maximum points possible}
+      - {name: "assignment[grading_type]", in: body, type: string, description: "Grading strategy: points, percent, letter_grade, gpa_scale, pass_fail, or not_graded"}
+      - {name: "assignment[submission_types][]", in: body, type: string, description: "Supported submission types: online_text_entry, online_upload, online_url, media_recording, none, on_paper, discussion_topic"}
+      - {name: "assignment[published]", in: body, type: boolean, description: Publish the assignment}
+      - {name: "assignment[unlock_at]", in: body, type: string, description: "Unlock date in ISO 8601 format"}
+      - {name: "assignment[lock_at]", in: body, type: string, description: "Lock date in ISO 8601 format"}
+      - {name: "assignment[assignment_group_id]", in: body, type: integer, description: Assignment group ID; defaults to top group}
+      - {name: "assignment[allowed_attempts]", in: body, type: integer, description: "Number of submission attempts allowed (-1 for unlimited)"}
+
+  - name: create_discussion_topic
+    description: Create a new discussion topic in the given course
+    method: POST
+    path: /api/v1/courses/{course_id}/discussion_topics
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: title, in: body, type: string, required: true, description: Discussion topic title}
+      - {name: message, in: body, type: string, required: true, description: HTML content body of the discussion topic}
+      - {name: discussion_type, in: body, type: string, description: "Discussion type: side_comment, threaded, or not_threaded"}
+      - {name: published, in: body, type: boolean, description: "Published (true) or draft (false) state"}
+      - {name: delayed_post_at, in: body, type: string, description: "Scheduled publication timestamp in ISO 8601 format"}
+      - {name: lock_at, in: body, type: string, description: "Lock timestamp in ISO 8601 format"}
+      - {name: require_initial_post, in: body, type: boolean, description: "Require an initial reply before viewing others' posts"}
+      - {name: is_announcement, in: body, type: boolean, description: Create as an announcement rather than a discussion}
+      - {name: pinned, in: body, type: boolean, description: Pin the discussion topic}
+
+  - name: create_calendar_event
+    description: Create a new calendar event
+    method: POST
+    path: /api/v1/calendar_events
+    params:
+      - {name: "calendar_event[context_code]", in: body, type: string, required: true, description: "Context code of the course, group, user, or account whose calendar this event should be added to (e.g. course_123)"}
+      - {name: "calendar_event[title]", in: body, type: string, description: Short title for the calendar event}
+      - {name: "calendar_event[description]", in: body, type: string, description: Longer HTML description of the event}
+      - {name: "calendar_event[start_at]", in: body, type: string, description: "Start date/time of the event in ISO 8601 format"}
+      - {name: "calendar_event[end_at]", in: body, type: string, description: "End date/time of the event in ISO 8601 format"}
+      - {name: "calendar_event[location_name]", in: body, type: string, description: Location name of the event}
+      - {name: "calendar_event[location_address]", in: body, type: string, description: Location address of the event}
+      - {name: "calendar_event[all_day]", in: body, type: boolean, description: "When true, the event spans the whole day and times are ignored"}
+
+  - name: create_conversation
+    description: Create a new conversation (inbox message) with one or more recipients
+    method: POST
+    path: /api/v1/conversations
+    params:
+      - {name: "recipients[]", in: body, type: string, required: true, description: "Array of recipient IDs (user IDs or course_/group_ prefixed IDs, e.g. course_123)"}
+      - {name: body, in: body, type: string, required: true, description: The message content to send}
+      - {name: subject, in: body, type: string, description: "Subject of the conversation; max 255 characters"}
+      - {name: group_conversation, in: body, type: boolean, description: "When true, all recipients see all messages; defaults to false"}
+      - {name: context_code, in: body, type: string, description: Course or group context code for the conversation}
+      - {name: force_new, in: body, type: boolean, description: Create a new conversation even if a private one already exists with the recipient}
+
+  - name: create_module
+    description: Create a new module in the given course
+    method: POST
+    path: /api/v1/courses/{course_id}/modules
+    params:
+      - {name: course_id, in: path, type: string, required: true, description: Canvas course ID}
+      - {name: "module[name]", in: body, type: string, required: true, description: The name of the module}
+      - {name: "module[unlock_at]", in: body, type: string, description: "Date the module will unlock in ISO 8601 format"}
+      - {name: "module[position]", in: body, type: integer, description: "Position of this module in the course (1-based)"}
+      - {name: "module[require_sequential_progress]", in: body, type: boolean, description: "Whether module items must be unlocked in order"}
+      - {name: "module[prerequisite_module_ids][]", in: body, type: string, description: IDs of modules that must be completed before this one}
+      - {name: "module[publish_final_grade]", in: body, type: boolean, description: "Whether to publish the student's final grade for the course upon module completion"}

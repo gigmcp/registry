@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: lmnt
+version: 0.1.0
+baseUrl: https://api.lmnt.com
+tools:
+  - name: get_voices_list
+    description: List voices available to the authenticated account, including system and user-created voices
+    method: GET
+    path: /v1/ai/voice/list
+    params:
+      - {name: starred, in: query, type: string, description: "Filter to only starred voices when set to true"}
+      - {name: owner, in: query, type: string, description: "Which voices to return: system, me, or all"}
+  - name: get_voice_info
+    description: Retrieve details of a specific voice by its ID
+    method: GET
+    path: /v1/ai/voice/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID of the voice to retrieve"}
+  - name: get_account
+    description: Retrieve account plan and usage information
+    method: GET
+    path: /v1/account
+  - name: synthesize_speech
+    description: Generate speech audio from text using a specified voice and return binary audio data
+    method: POST
+    path: /v1/ai/speech/bytes
+    encoding: json
+    params:
+      - {name: text, in: body, type: string, required: true, description: "The text to generate speech from; max 5000 characters per request"}
+      - {name: voice, in: body, type: string, required: true, description: "The voice ID to use; retrieve available IDs via get_voices_list"}
+      - {name: format, in: body, type: string, description: "Desired audio output format"}
+      - {name: language, in: body, type: string, description: "Two-letter ISO 639-1 language code; defaults to auto-detection"}
+      - {name: model, in: body, type: string, description: "Speech generation model to use"}
+      - {name: sample_rate, in: body, type: integer, description: "Output sample rate in Hz; defaults to 24000 (8000 for mulaw)"}
+      - {name: temperature, in: body, type: number, description: "Controls expressiveness; lower is more neutral, higher is more dynamic"}
+      - {name: top_p, in: body, type: number, description: "Controls speech stability; lower is more consistent, higher is more flexible"}
+      - {name: debug, in: body, type: boolean, description: "When true, saves generated speech to clip library"}
+  - name: generate_speech_with_metadata
+    description: Generate speech audio from text and return both binary audio data and word-level duration metadata
+    method: POST
+    path: /v1/ai/speech/bytes
+    encoding: json
+    params:
+      - {name: text, in: body, type: string, required: true, description: "The text to generate speech from; max 5000 characters per request"}
+      - {name: voice, in: body, type: string, required: true, description: "The voice ID to use; retrieve available IDs via get_voices_list"}
+      - {name: return_durations, in: body, type: boolean, description: "When true, returns word-level duration metadata alongside the audio"}
+      - {name: format, in: body, type: string, description: "Desired audio output format"}
+      - {name: language, in: body, type: string, description: "Two-letter ISO 639-1 language code; defaults to auto-detection"}
+      - {name: model, in: body, type: string, description: "Speech generation model to use"}
+      - {name: sample_rate, in: body, type: integer, description: "Output sample rate in Hz; defaults to 24000 (8000 for mulaw)"}
+      - {name: temperature, in: body, type: number, description: "Controls expressiveness; lower is more neutral, higher is more dynamic"}
+      - {name: top_p, in: body, type: number, description: "Controls speech stability; lower is more consistent, higher is more flexible"}
+  - name: create_voice
+    description: Create a new custom voice by uploading an audio file for voice cloning
+    method: POST
+    path: /v1/ai/voice
+    encoding: form
+    params:
+      - {name: file, in: body, type: string, required: true, description: "The input audio file to train the voice with; supported formats: wav, mp3, mp4, m4a, webm"}
+      - {name: name, in: body, type: string, required: true, description: "Display name for the new voice"}
+      - {name: description, in: body, type: string, description: "A text description of this voice"}
+      - {name: gender, in: body, type: string, description: "Gender tag for this voice, e.g. male, female, nonbinary"}
+  - name: update_voice_info
+    description: Update the metadata (name, description, gender, tags, starred status) of an existing voice
+    method: PUT
+    path: /v1/ai/voice/{id}
+    encoding: json
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID of the voice to update"}
+      - {name: name, in: body, type: string, description: "New display name for this voice"}
+      - {name: description, in: body, type: string, description: "New description for this voice"}
+      - {name: gender, in: body, type: string, description: "Gender tag, e.g. male, female, nonbinary"}
+      - {name: starred, in: body, type: boolean, description: "When true, adds this voice to your starred list"}
+  - name: delete_voice
+    description: Permanently delete a voice and cancel any pending operations on it
+    method: DELETE
+    path: /v1/ai/voice/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID of the voice to delete"}

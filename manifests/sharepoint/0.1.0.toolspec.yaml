@@ -1,0 +1,98 @@
+schemaVersion: 1
+name: sharepoint
+version: 0.1.0
+baseUrl: https://graph.microsoft.com
+tools:
+  - name: list_sites
+    description: List all available SharePoint sites in the organization
+    method: GET
+    path: /v1.0/sites
+    params:
+      - {name: "$filter", in: query, type: string, description: "OData filter expression (e.g. siteCollection/root ne null to list root-level site collections)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+      - {name: "$top", in: query, type: integer, description: "Maximum number of sites to return per page"}
+
+  - name: search_query
+    description: Search across the SharePoint tenant for sites matching the provided keywords
+    method: GET
+    path: /v1.0/sites
+    params:
+      - {name: search, in: query, type: string, required: true, description: "Keyword(s) to search for across SharePoint sites"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+
+  - name: list_sharepoint_lists
+    description: Get the collection of lists for a SharePoint site
+    method: GET
+    path: /v1.0/sites/{site-id}/lists
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier (e.g. contoso.sharepoint.com,siteCollectionId,webId)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+      - {name: "$expand", in: query, type: string, description: "Comma-separated list of relationships to expand (e.g. columns,items)"}
+
+  - name: get_sharepoint_list_items
+    description: Get the collection of items in a SharePoint list
+    method: GET
+    path: /v1.0/sites/{site-id}/lists/{list-id}/items
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: list-id, in: path, type: string, required: true, description: "The list identifier (GUID or list name)"}
+      - {name: "$expand", in: query, type: string, description: "Expand related resources (e.g. fields, fields(select=Column1,Column2))"}
+      - {name: "$filter", in: query, type: string, description: "OData filter expression to filter list items"}
+      - {name: "$top", in: query, type: integer, description: "Maximum number of items to return per page"}
+
+  - name: list_files_in_folder
+    description: List the files and folders (DriveItems) inside a folder in a SharePoint site drive
+    method: GET
+    path: /v1.0/sites/{site-id}/drive/items/{item-id}/children
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: item-id, in: path, type: string, required: true, description: "The DriveItem identifier of the folder; use 'root' for the root of the drive"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of DriveItem properties to return"}
+      - {name: "$top", in: query, type: integer, description: "Maximum number of items to return per page"}
+      - {name: "$orderby", in: query, type: string, description: "Order results by specified property (e.g. name asc)"}
+
+  - name: get_sharepoint_web_info
+    description: Retrieve properties and relationships for a SharePoint site resource
+    method: GET
+    path: /v1.0/sites/{site-id}
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier or server-relative path (e.g. contoso.sharepoint.com:/teams/hr)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of site properties to return"}
+      - {name: "$expand", in: query, type: string, description: "Comma-separated list of relationships to expand"}
+
+  - name: create_sharepoint_list_item
+    description: Create a new item in a SharePoint list
+    method: POST
+    path: /v1.0/sites/{site-id}/lists/{list-id}/items
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: list-id, in: path, type: string, required: true, description: "The list identifier (GUID or list name)"}
+      - {name: fields, in: body, type: object, required: true, description: "Key-value pairs representing the column names and values for the new list item"}
+
+  - name: update_sharepoint_list_item
+    description: Update the column field values on an existing SharePoint list item
+    method: PATCH
+    path: /v1.0/sites/{site-id}/lists/{list-id}/items/{item-id}
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: list-id, in: path, type: string, required: true, description: "The list identifier (GUID or list name)"}
+      - {name: item-id, in: path, type: string, required: true, description: "The list item identifier"}
+      - {name: fields, in: body, type: object, required: true, description: "Key-value pairs of column names and their new values to update on the list item"}
+
+  - name: delete_sharepoint_list_item
+    description: Remove an item from a SharePoint list
+    method: DELETE
+    path: /v1.0/sites/{site-id}/lists/{list-id}/items/{item-id}
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: list-id, in: path, type: string, required: true, description: "The list identifier (GUID or list name)"}
+      - {name: item-id, in: path, type: string, required: true, description: "The list item identifier"}
+
+  - name: upload_file_to_sharepoint
+    description: Upload a new file or replace an existing file in a SharePoint site drive folder (up to 250 MB)
+    method: PUT
+    path: /v1.0/sites/{site-id}/drive/items/{parent-id}:/{filename}:/content
+    params:
+      - {name: site-id, in: path, type: string, required: true, description: "The site identifier"}
+      - {name: parent-id, in: path, type: string, required: true, description: "The DriveItem identifier of the parent folder; use 'root' to upload to the drive root"}
+      - {name: filename, in: path, type: string, required: true, description: "The name of the file to create or replace (e.g. document.docx)"}

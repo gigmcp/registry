@@ -2,13 +2,14 @@ schemaVersion: 1
 name: shortcut
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/shortcut-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/shortcut-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:c8494683a0cb53b83a341236eeee3f6cc5c495313130e63d75a651d64a10ba81
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

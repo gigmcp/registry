@@ -1,0 +1,58 @@
+schemaVersion: 1
+name: weathermap
+version: 0.1.0
+baseUrl: https://api.openweathermap.org
+# OpenWeatherMap authenticates via the appid query parameter only — there is
+# no auth header. The engine injects WEATHERMAP_API_KEY as appid=... on every
+# request; the auth block satisfies schema validation for the entrusted tier.
+auth:
+  header: X-OWM-Api-Key
+  format: "{token}"
+tools:
+  - name: get_current_weather
+    description: Get current weather conditions for a location by geographic coordinates
+    method: GET
+    path: /data/2.5/weather
+    params:
+      - {name: lat, in: query, type: number, required: true, description: "Latitude of the location (-90 to 90)"}
+      - {name: lon, in: query, type: number, required: true, description: "Longitude of the location (-180 to 180)"}
+      - {name: units, in: query, type: string, description: "Unit system: standard (Kelvin), metric (Celsius), or imperial (Fahrenheit); default standard"}
+      - {name: lang, in: query, type: string, description: "Language code for weather description text (e.g. en, de, fr, es)"}
+      - {name: mode, in: query, type: string, description: "Response format: json (default), xml, or html"}
+
+  - name: geocode_location
+    description: Convert a city name or zip code to geographic coordinates (forward geocoding)
+    method: GET
+    path: /geo/1.0/direct
+    params:
+      - {name: q, in: query, type: string, required: true, description: "City name, optionally with state code and country code separated by commas (e.g. London, or Paris,FR, or Houston,TX,US)"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return (up to 5; default 5)"}
+
+  - name: reverse_geocode
+    description: Convert geographic coordinates to a location name (reverse geocoding)
+    method: GET
+    path: /geo/1.0/reverse
+    params:
+      - {name: lat, in: query, type: number, required: true, description: "Latitude of the location (-90 to 90)"}
+      - {name: lon, in: query, type: number, required: true, description: "Longitude of the location (-180 to 180)"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of location names to return (up to 5; default 5)"}
+
+  - name: get_forecast
+    description: Get a 5-day weather forecast in 3-hour steps for a location by geographic coordinates
+    method: GET
+    path: /data/2.5/forecast
+    params:
+      - {name: lat, in: query, type: number, required: true, description: "Latitude of the location (-90 to 90)"}
+      - {name: lon, in: query, type: number, required: true, description: "Longitude of the location (-180 to 180)"}
+      - {name: cnt, in: query, type: integer, description: "Number of forecast timestamps to return (max 40 for the full 5-day range)"}
+      - {name: units, in: query, type: string, description: "Unit system: standard (Kelvin), metric (Celsius), or imperial (Fahrenheit); default standard"}
+      - {name: lang, in: query, type: string, description: "Language code for weather description text (e.g. en, de, fr, es)"}
+      - {name: mode, in: query, type: string, description: "Response format: json (default) or xml"}
+
+  - name: get_air_pollution
+    description: Get current air quality index and pollutant concentrations (CO, NO, NO2, O3, SO2, PM2.5, PM10, NH3) for a location
+    method: GET
+    path: /data/2.5/air_pollution
+    params:
+      - {name: lat, in: query, type: number, required: true, description: "Latitude of the location (-90 to 90)"}
+      - {name: lon, in: query, type: number, required: true, description: "Longitude of the location (-180 to 180)"}

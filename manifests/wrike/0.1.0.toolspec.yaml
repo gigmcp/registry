@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: wrike
+version: 0.1.0
+baseUrl: https://www.wrike.com
+tools:
+  - name: get_tasks
+    description: Search among all tasks in the current Wrike account
+    method: GET
+    path: /api/v4/tasks
+    params:
+      - {name: title, in: query, type: string, description: Filter tasks by title (contains match)}
+      - {name: status, in: query, type: array, description: "Filter by task status: Active, Deferred, Completed, Cancelled"}
+      - {name: importance, in: query, type: string, description: "Filter by importance: High, Normal, Low"}
+      - {name: limit, in: query, type: integer, description: Maximum number of tasks to return}
+      - {name: pageSize, in: query, type: integer, description: "Number of tasks per page (max 1000)"}
+      - {name: nextPageToken, in: query, type: string, description: Pagination token for next page of results}
+      - {name: sortField, in: query, type: string, description: "Field to sort by: Status, Importance, DueDate, CreatedDate, Title"}
+      - {name: sortOrder, in: query, type: string, description: "Sort order: Asc or Desc"}
+      - {name: responsibles, in: query, type: array, description: Filter by responsible user IDs}
+
+  - name: get_folders
+    description: Returns a list of folders for the current Wrike account
+    method: GET
+    path: /api/v4/folders
+    params:
+      - {name: title, in: query, type: string, description: Filter folders by title (contains match)}
+      - {name: project, in: query, type: boolean, description: Filter to projects only (true) or folders only (false)}
+      - {name: deleted, in: query, type: boolean, description: Access root folders (false) or Recycle Bin (true)}
+      - {name: descendants, in: query, type: boolean, description: Adds all descendant folders to search scope (default true)}
+      - {name: pageSize, in: query, type: integer, description: "Number of folders per page (max 1000)"}
+      - {name: nextPageToken, in: query, type: string, description: Pagination token for next page of results}
+
+  - name: get_contacts
+    description: List contacts of all users and user groups in the current Wrike account
+    method: GET
+    path: /api/v4/contacts
+    params:
+      - {name: me, in: query, type: boolean, description: Return only the requesting user's contact when true}
+      - {name: name, in: query, type: string, description: Filter contacts by name}
+      - {name: emails, in: query, type: array, description: "Filter by email addresses (limit: 100)"}
+      - {name: active, in: query, type: boolean, description: Filter by active status}
+      - {name: deleted, in: query, type: boolean, description: Filter by deletion status}
+      - {name: types, in: query, type: array, description: "Filter by contact type: Group, Asset, Person, Robot"}
+
+  - name: get_timelogs
+    description: Get all timelog records in the current Wrike account
+    method: GET
+    path: /api/v4/timelogs
+    params:
+      - {name: me, in: query, type: boolean, description: Return only timelogs created by the current user when true}
+      - {name: descendants, in: query, type: boolean, description: Include descendant tasks in search scope (default true)}
+      - {name: limit, in: query, type: integer, description: Maximum number of timelog records to return}
+      - {name: pageSize, in: query, type: integer, description: "Number of timelogs per page (max 1000)"}
+      - {name: nextPageToken, in: query, type: string, description: Pagination token for next page of results}
+      - {name: billingTypes, in: query, type: array, description: "Filter by billing type: Billable, NonBillable"}
+
+  - name: create_task
+    description: Create a task in a specific Wrike folder
+    method: POST
+    path: /api/v4/folders/{folderId}/tasks
+    params:
+      - {name: folderId, in: path, type: string, required: true, description: ID of the folder in which to create the task}
+      - {name: title, in: body, type: string, required: true, description: Title of the task}
+      - {name: description, in: body, type: string, description: Task description (HTML or plain text)}
+      - {name: status, in: body, type: string, description: "Task status: Active, Deferred, Completed, Cancelled"}
+      - {name: importance, in: body, type: string, description: "Task importance: High, Normal, Low"}
+      - {name: responsibles, in: body, type: array, description: Array of user IDs to assign as responsible for the task}
+
+  - name: create_folder
+    description: Create a folder within a Wrike folder; use the virtual rootFolderId to create at the account root
+    method: POST
+    path: /api/v4/folders/{folderId}/folders
+    params:
+      - {name: folderId, in: path, type: string, required: true, description: "ID of the parent folder; use virtual rootFolderId to create at account root"}
+      - {name: title, in: body, type: string, required: true, description: "Title of the new folder, cannot be empty"}
+      - {name: description, in: body, type: string, description: Folder description}
+      - {name: shareds, in: body, type: array, description: User IDs to share the new folder with}
+
+  - name: create_comment
+    description: Create a comment on a Wrike task
+    method: POST
+    path: /api/v4/tasks/{taskId}/comments
+    params:
+      - {name: taskId, in: path, type: string, required: true, description: ID of the task to comment on}
+      - {name: text, in: body, type: string, required: true, description: "Comment text; cannot be empty. Supports HTML tags unless plainText is true"}
+      - {name: plainText, in: body, type: boolean, description: "Treat comment text as plain text (default false, HTML otherwise)"}
+
+  - name: delete_task
+    description: Delete a Wrike task by its ID (moves to Recycle Bin)
+    method: DELETE
+    path: /api/v4/tasks/{taskId}
+    params:
+      - {name: taskId, in: path, type: string, required: true, description: ID of the task to delete}

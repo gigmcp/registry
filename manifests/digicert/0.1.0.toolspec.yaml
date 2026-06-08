@@ -1,0 +1,241 @@
+schemaVersion: 1
+name: digicert
+version: 0.1.0
+baseUrl: https://www.digicert.com
+tools:
+  - name: list_certificate_orders
+    description: List all certificate orders in the CertCentral account with optional filtering and pagination
+    method: GET
+    path: /services/v2/order/certificate
+    params:
+      - name: "filters[status]"
+        in: query
+        type: string
+        description: "Filter by order status: pending, issued, rejected, revoked, waiting_pickup, reissue_pending, canceled, or active_issued"
+      - name: "filters[common_name]"
+        in: query
+        type: string
+        description: Limit results to orders with this common name
+      - name: "filters[organization_id]"
+        in: query
+        type: string
+        description: Filter by organization ID
+      - name: "filters[date_created]"
+        in: query
+        type: string
+        description: Filter by order creation date
+      - name: sort
+        in: query
+        type: string
+        description: "Sort by property; prefix with hyphen for descending order"
+      - name: offset
+        in: query
+        type: integer
+        description: "Starting index for results (default: 0)"
+      - name: limit
+        in: query
+        type: integer
+        description: "Number of orders per response (default: 1000, max: 5000)"
+  - name: list_certificates
+    description: List certificate orders in the CertCentral account filtered to issued certificates
+    method: GET
+    path: /services/v2/order/certificate
+    params:
+      - name: "filters[status]"
+        in: query
+        type: string
+        description: "Filter by order status; use 'issued' to retrieve only issued certificates"
+      - name: "filters[common_name]"
+        in: query
+        type: string
+        description: Limit results to certificates with this common name
+      - name: "filters[organization_id]"
+        in: query
+        type: string
+        description: Filter by organization ID
+      - name: "filters[valid_till]"
+        in: query
+        type: string
+        description: Filter by certificate expiration date
+      - name: "filters[serial_number]"
+        in: query
+        type: string
+        description: Limit results to certificate with this serial number
+      - name: sort
+        in: query
+        type: string
+        description: "Sort by property; prefix with hyphen for descending order"
+      - name: offset
+        in: query
+        type: integer
+        description: "Starting index for results (default: 0)"
+      - name: limit
+        in: query
+        type: integer
+        description: "Number of results per response (default: 1000, max: 5000)"
+  - name: list_domains
+    description: List all domains in the CertCentral account with optional filtering and pagination
+    method: GET
+    path: /services/v2/domain
+    params:
+      - name: "filters[status]"
+        in: query
+        type: string
+        description: "Filter by domain status: active or inactive"
+      - name: "filters[validation]"
+        in: query
+        type: string
+        description: "Filter by validation status (e.g., completed, ov_expired, ev_expired)"
+      - name: "filters[dcv_method]"
+        in: query
+        type: string
+        description: "Filter by DCV method: email, dns-cname-token, dns-txt-token, http-token, or http-token-dynamic"
+      - name: "filters[search]"
+        in: query
+        type: string
+        description: Limit results to domains whose name matches or contains this string
+      - name: include_dcv_expiration_time
+        in: query
+        type: boolean
+        description: Return DCV expiration values in UTC ISO-8601 format when true
+      - name: sort
+        in: query
+        type: string
+        description: "Sort by property (e.g., name, date_created); prefix with - for descending"
+      - name: offset
+        in: query
+        type: integer
+        description: "Starting index for results (default: 0)"
+      - name: limit
+        in: query
+        type: integer
+        description: "Results per page (max 1000, default: 1000)"
+  - name: get_domain_dcv_info
+    description: Retrieve DCV validation details for a specific domain
+    method: GET
+    path: /services/v2/domain/{domain_id}/validation
+    params:
+      - name: domain_id
+        in: path
+        type: integer
+        required: true
+        description: ID of the domain to retrieve DCV validation details for
+  - name: submit_domain_for_validation
+    description: Submit a domain for DCV validation
+    method: POST
+    path: /services/v2/domain/{domain_id}/validation
+    params:
+      - name: domain_id
+        in: path
+        type: integer
+        required: true
+        description: ID of the domain to submit for validation
+      - name: validations
+        in: body
+        type: array
+        required: true
+        description: "List of validation type objects to submit the domain for (e.g., [{type: ov}])"
+      - name: dcv_method
+        in: body
+        type: string
+        description: "DCV method to use: email, dns-txt-token, dns-cname-token, or http-token"
+  - name: list_organizations
+    description: List all organizations in the CertCentral account with optional filtering and pagination
+    method: GET
+    path: /services/v2/organization
+    params:
+      - name: include_validation
+        in: query
+        type: boolean
+        description: Include validation details for each organization when true
+      - name: "filters[status]"
+        in: query
+        type: string
+        description: "Filter by organization status: active or inactive"
+      - name: "filters[validation]"
+        in: query
+        type: string
+        description: "Filter by validation state: pending or not_pending"
+      - name: "filters[search]"
+        in: query
+        type: string
+        description: Search by organization ID (exact match) or name (substring match)
+      - name: sort
+        in: query
+        type: string
+        description: "Sort by property (e.g., name, id); prefix with - for descending"
+      - name: offset
+        in: query
+        type: integer
+        description: "Starting index for results (default: 0)"
+      - name: limit
+        in: query
+        type: integer
+        description: "Results per response (max 1000, default: 1000)"
+  - name: get_organization_details
+    description: Retrieve detailed information about a specific organization
+    method: GET
+    path: /services/v2/organization/{organization_id}
+    params:
+      - name: organization_id
+        in: path
+        type: integer
+        required: true
+        description: ID of the organization to retrieve details for
+  - name: create_organization
+    description: Create a new organization in the CertCentral account
+    method: POST
+    path: /services/v2/organization
+    params:
+      - name: name
+        in: body
+        type: string
+        required: true
+        description: "Legal name of the organization (max 64 characters)"
+      - name: country
+        in: body
+        type: string
+        required: true
+        description: Two-letter ISO 3166-1 alpha-2 country code where the organization is located
+      - name: address
+        in: body
+        type: string
+        required: true
+        description: "Street address of the organization (max 64 characters)"
+      - name: city
+        in: body
+        type: string
+        required: true
+        description: "City where the organization is located (max 64 characters)"
+      - name: state
+        in: body
+        type: string
+        required: true
+        description: "State or province where the organization is located (max 64 characters)"
+      - name: zip
+        in: body
+        type: string
+        required: true
+        description: "Postal code of the organization (max 40 characters)"
+      - name: telephone
+        in: body
+        type: string
+        required: true
+        description: "Organization phone number (max 32 characters)"
+      - name: organization_contact
+        in: body
+        type: object
+        required: true
+        description: Contact information object for the organization
+      - name: assumed_name
+        in: body
+        type: string
+        description: "Public business name (DBA) of the organization (max 64 characters)"
+  - name: get_finance_balance
+    description: Retrieve the current account balance and available funds
+    method: GET
+    path: /services/v2/finance/balance
+  - name: list_products
+    description: List all certificate products available for the CertCentral account
+    method: GET
+    path: /services/v2/product

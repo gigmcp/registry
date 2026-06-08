@@ -2,13 +2,14 @@ schemaVersion: 1
 name: exist
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/exist-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/exist-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:48f45707be706277030fc6ad6e741d55cecec06c031ddfc1ef5b99da9a03af89
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

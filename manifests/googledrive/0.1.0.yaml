@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googledrive
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googledrive-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googledrive-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:9c7875d521af522e944be18a8f39552334df294abba9b267a987d1d3936033d9
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

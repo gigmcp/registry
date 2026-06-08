@@ -1,0 +1,90 @@
+schemaVersion: 1
+name: zoom
+version: 0.1.0
+baseUrl: https://api.zoom.us
+tools:
+  - name: get_a_meeting
+    description: Retrieve details of a specific meeting by its meeting ID
+    method: GET
+    path: /v2/meetings/{meetingId}
+    params:
+      - {name: meetingId, in: path, type: string, required: true, description: The meeting ID}
+
+  - name: create_a_meeting
+    description: Create a new meeting for a user
+    method: POST
+    path: /v2/users/{userId}/meetings
+    params:
+      - {name: userId, in: path, type: string, required: true, description: "The user ID or email address. Use 'me' for the current user."}
+      - {name: topic, in: body, type: string, description: Meeting topic}
+      - {name: type, in: body, type: integer, description: "Meeting type: 1=Instant, 2=Scheduled, 3=Recurring no fixed time, 8=Recurring fixed time"}
+      - {name: start_time, in: body, type: string, description: "Meeting start time in ISO 8601 format (yyyy-MM-ddTHH:mm:ssZ)"}
+      - {name: duration, in: body, type: integer, description: Meeting duration in minutes (for scheduled meetings)}
+      - {name: timezone, in: body, type: string, description: "Timezone for start_time (e.g. America/Los_Angeles)"}
+      - {name: agenda, in: body, type: string, description: Meeting description or agenda}
+      - {name: password, in: body, type: string, description: "Meeting passcode (alphanumeric, max 10 chars)"}
+
+  - name: delete_a_meeting
+    description: Delete a meeting by its meeting ID
+    method: DELETE
+    path: /v2/meetings/{meetingId}
+    params:
+      - {name: meetingId, in: path, type: string, required: true, description: The meeting ID}
+      - {name: occurrence_id, in: query, type: string, description: The meeting occurrence ID to delete a specific occurrence of a recurring meeting}
+
+  - name: get_a_meeting_summary
+    description: Retrieve the AI Companion meeting summary for a specific meeting
+    method: GET
+    path: /v2/meetings/{meetingId}/meeting_summary
+    params:
+      - {name: meetingId, in: path, type: string, required: true, description: The meeting UUID or meeting ID}
+
+  - name: add_a_meeting_registrant
+    description: Register a participant for a meeting
+    method: POST
+    path: /v2/meetings/{meetingId}/registrants
+    params:
+      - {name: meetingId, in: path, type: string, required: true, description: The meeting ID}
+      - {name: occurrence_ids, in: query, type: string, description: Occurrence IDs separated by comma for registering to specific occurrences of a recurring meeting}
+      - {name: email, in: body, type: string, required: true, description: A valid email address for the registrant}
+      - {name: first_name, in: body, type: string, required: true, description: Registrant's first name}
+      - {name: last_name, in: body, type: string, description: Registrant's last name}
+      - {name: address, in: body, type: string, description: Registrant's address}
+      - {name: city, in: body, type: string, description: Registrant's city}
+      - {name: country, in: body, type: string, description: Registrant's country}
+      - {name: zip, in: body, type: string, description: Registrant's zip or postal code}
+      - {name: state, in: body, type: string, description: Registrant's state or province}
+      - {name: phone, in: body, type: string, description: Registrant's phone number}
+      - {name: org, in: body, type: string, description: Registrant's organization}
+      - {name: job_title, in: body, type: string, description: Registrant's job title}
+
+  - name: get_meeting_recordings
+    description: Retrieve all cloud recordings for a specific meeting
+    method: GET
+    path: /v2/meetings/{meetingId}/recordings
+    params:
+      - {name: meetingId, in: path, type: string, required: true, description: The meeting ID or UUID}
+
+  - name: get_past_meeting_participants
+    description: Retrieve the list of participants from an ended meeting
+    method: GET
+    path: /v2/past_meetings/{meetingUUID}/participants
+    params:
+      - {name: meetingUUID, in: path, type: string, required: true, description: The meeting UUID}
+      - {name: page_size, in: query, type: integer, description: "Number of records per page (30 to 300)"}
+      - {name: next_page_token, in: query, type: string, description: Token for paginating through large result sets (expires after 15 minutes)}
+
+  - name: get_a_webinar
+    description: Retrieve details of a specific webinar by its webinar ID
+    method: GET
+    path: /v2/webinars/{webinarId}
+    params:
+      - {name: webinarId, in: path, type: string, required: true, description: The webinar ID}
+
+  - name: get_user
+    description: Retrieve information about a specific user
+    method: GET
+    path: /v2/users/{userId}
+    params:
+      - {name: userId, in: path, type: string, required: true, description: The user ID or email address}
+      - {name: login_type, in: query, type: integer, description: "Login type: 0=Facebook, 1=Google, 99=API, 100=Zoom, 101=SSO"}

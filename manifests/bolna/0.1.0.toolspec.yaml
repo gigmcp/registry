@@ -1,0 +1,75 @@
+schemaVersion: 1
+name: bolna
+version: 0.1.0
+baseUrl: https://api.bolna.ai
+tools:
+  - name: get_all_agents
+    description: Retrieve all Voice AI agents associated with the account
+    method: GET
+    path: /v2/agent/all
+
+  - name: retrieve_agent_by_id
+    description: Fetch detailed configuration and status for a specific Voice AI agent
+    method: GET
+    path: /v2/agent/{agent_id}
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: UUID of the agent to retrieve}
+
+  - name: create_agent
+    description: Create a new Voice AI agent with tasks, prompts, and configuration
+    method: POST
+    path: /v2/agent
+    params:
+      - {name: agent_config, in: body, type: object, required: true, description: "Agent configuration including name, tasks, welcome message, and settings"}
+      - {name: agent_prompts, in: body, type: object, required: true, description: "Prompts for agent tasks structured as task_<task_id> with system_prompt fields"}
+
+  - name: update_agent
+    description: Update an existing Voice AI agent's configuration, tasks, and prompts
+    method: PUT
+    path: /v2/agent/{agent_id}
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: UUID of the agent to update}
+      - {name: agent_config, in: body, type: object, required: true, description: "Updated agent configuration including name, tasks, and settings"}
+      - {name: agent_prompts, in: body, type: object, required: true, description: "Updated prompts for agent tasks structured as task_<task_id> with system_prompt fields"}
+
+  - name: delete_agent
+    description: Delete a Voice AI agent and all its associated data including batches and executions
+    method: DELETE
+    path: /v2/agent/{agent_id}
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: UUID of the agent to delete}
+
+  - name: make_phone_call
+    description: Initiate an outbound phone call using a Voice AI agent to a recipient phone number
+    method: POST
+    path: /call
+    params:
+      - {name: agent_id, in: body, type: string, required: true, description: UUID of the agent that will initiate the outbound call}
+      - {name: recipient_phone_number, in: body, type: string, required: true, description: "Recipient phone number in E.164 format with country code"}
+      - {name: from_phone_number, in: body, type: string, description: "Sender phone number in E.164 format"}
+      - {name: scheduled_at, in: body, type: string, description: "ISO 8601 timestamp with timezone for scheduling a delayed call"}
+      - {name: user_data, in: body, type: object, description: "Additional user dynamic variables as defined in the agent prompt"}
+
+  - name: get_execution_by_id
+    description: Retrieve details of a specific call execution including transcript, status, and telephony data
+    method: GET
+    path: /executions/{execution_id}
+    params:
+      - {name: execution_id, in: path, type: string, required: true, description: UUID of the execution to retrieve}
+
+  - name: list_voices
+    description: List all voices available for use with Voice AI agents
+    method: GET
+    path: /me/voices
+
+  - name: list_phone_numbers
+    description: Retrieve all phone numbers associated with the account
+    method: GET
+    path: /phone-numbers/all
+
+  - name: stop_agent_calls
+    description: Cancel all pending and queued calls for a specific Voice AI agent
+    method: POST
+    path: /v2/agent/{agent_id}/stop
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: UUID of the agent whose queued calls should be cancelled}

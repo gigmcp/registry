@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: clickup
+version: 0.1.0
+baseUrl: https://api.clickup.com
+tools:
+  - name: get_authorized_workspaces
+    description: View the Workspaces available to the authenticated user
+    method: GET
+    path: /api/v2/team
+
+  - name: get_tasks
+    description: Get tasks in a list
+    method: GET
+    path: /api/v2/list/{list_id}/task
+    params:
+      - {name: list_id, in: path, type: integer, required: true, description: The ID of the list}
+      - {name: page, in: query, type: integer, description: "Page to fetch (starts at 0)"}
+      - {name: order_by, in: query, type: string, description: "Sort by field: id, created, updated, or due_date"}
+      - {name: reverse, in: query, type: boolean, description: Display tasks in reverse order}
+      - {name: include_closed, in: query, type: boolean, description: Include or exclude closed tasks (excluded by default)}
+      - {name: archived, in: query, type: boolean, description: Include archived tasks}
+      - {name: subtasks, in: query, type: boolean, description: Include or exclude subtasks (excluded by default)}
+
+  - name: get_task
+    description: View information about a single task
+    method: GET
+    path: /api/v2/task/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The ID of the task}
+      - {name: include_subtasks, in: query, type: boolean, description: Include subtasks in the response}
+      - {name: include_markdown_description, in: query, type: boolean, description: Return task description in Markdown format}
+
+  - name: create_task
+    description: Create a new task in a list
+    method: POST
+    path: /api/v2/list/{list_id}/task
+    params:
+      - {name: list_id, in: path, type: integer, required: true, description: The ID of the list to create the task in}
+      - {name: name, in: body, type: string, required: true, description: Task title}
+      - {name: description, in: body, type: string, description: Task description}
+      - {name: status, in: body, type: string, description: Task status}
+      - {name: priority, in: body, type: integer, description: "Priority level (1=urgent, 2=high, 3=normal, 4=low)"}
+      - {name: due_date, in: body, type: integer, description: Due date as Unix timestamp in milliseconds}
+      - {name: start_date, in: body, type: integer, description: Start date as Unix timestamp in milliseconds}
+      - {name: assignees, in: body, type: array, description: Array of user IDs to assign to the task}
+      - {name: tags, in: body, type: array, description: Array of tag names}
+      - {name: notify_all, in: body, type: boolean, description: Notify creator and assignees}
+      - {name: parent, in: body, type: string, description: Parent task ID to create as a subtask}
+
+  - name: update_task
+    description: Update an existing task
+    method: PUT
+    path: /api/v2/task/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The ID of the task to update}
+      - {name: name, in: body, type: string, description: New task title}
+      - {name: description, in: body, type: string, description: New task description}
+      - {name: status, in: body, type: string, description: New task status}
+      - {name: priority, in: body, type: integer, description: "Priority level (1=urgent, 2=high, 3=normal, 4=low)"}
+      - {name: due_date, in: body, type: integer, description: Due date as Unix timestamp in milliseconds}
+      - {name: start_date, in: body, type: integer, description: Start date as Unix timestamp in milliseconds}
+      - {name: archived, in: body, type: boolean, description: Archive or unarchive the task}
+
+  - name: delete_task
+    description: Delete a task by ID
+    method: DELETE
+    path: /api/v2/task/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The ID of the task to delete}
+
+  - name: create_task_comment
+    description: Create a comment on a task
+    method: POST
+    path: /api/v2/task/{task_id}/comment
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The ID of the task to comment on}
+      - {name: comment_text, in: body, type: string, required: true, description: The text content of the comment}
+      - {name: assignee, in: body, type: integer, description: User ID to assign the comment to}
+      - {name: notify_all, in: body, type: boolean, required: true, description: Notify the comment creator as well as all assignees and watchers}
+
+  - name: get_lists
+    description: Get lists in a folder
+    method: GET
+    path: /api/v2/folder/{folder_id}/list
+    params:
+      - {name: folder_id, in: path, type: integer, required: true, description: The ID of the folder}
+      - {name: archived, in: query, type: boolean, description: Include archived lists (default false)}
+
+  - name: create_list
+    description: Create a new list in a folder
+    method: POST
+    path: /api/v2/folder/{folder_id}/list
+    params:
+      - {name: folder_id, in: path, type: integer, required: true, description: The ID of the folder to create the list in}
+      - {name: name, in: body, type: string, required: true, description: The list name}
+      - {name: content, in: body, type: string, description: List description}
+      - {name: due_date, in: body, type: integer, description: Due date as Unix timestamp in milliseconds}
+      - {name: priority, in: body, type: integer, description: Priority level}
+      - {name: assignee, in: body, type: integer, description: User ID to assign this list to}
+      - {name: status, in: body, type: string, description: List color status}
+
+  - name: get_spaces
+    description: Get Spaces available in a Workspace
+    method: GET
+    path: /api/v2/team/{team_id}/space
+    params:
+      - {name: team_id, in: path, type: integer, required: true, description: Workspace ID}
+      - {name: archived, in: query, type: boolean, description: Include archived spaces (default false)}

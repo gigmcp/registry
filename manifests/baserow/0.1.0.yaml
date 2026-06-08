@@ -2,13 +2,14 @@ schemaVersion: 1
 name: baserow
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/baserow-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/baserow-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:7a975618cb8cd0e0f1b680ae13eb5deb3d282cdb5daaea90a2cbdd93fcd4dc1c
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

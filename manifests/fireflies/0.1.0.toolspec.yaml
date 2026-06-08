@@ -1,0 +1,83 @@
+schemaVersion: 1
+name: fireflies
+version: 0.1.0
+baseUrl: https://api.fireflies.ai
+tools:
+  - name: get_transcripts
+    description: List meeting transcripts with optional filters for title, keyword, date range, host, organizer, participants, and pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the transcripts query (e.g. '{ transcripts { id title date } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: title (String), keyword (String), scope (String), fromDate (DateTime), toDate (DateTime), limit (Int, max 50), skip (Int), host_email (String), organizer_email (String), participant_email (String), user_id (String), mine (Boolean), organizers ([String]), participants ([String]), channel_id (String)"}
+
+  - name: get_transcript_by_id
+    description: Retrieve a single meeting transcript by its ID including full details such as audio URL, sentences, speakers, and summaries
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the transcript query (e.g. 'query($id:String!){ transcript(id:$id){ id title } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object containing id (String, required) — the transcript ID to fetch"}
+
+  - name: get_bites
+    description: List soundbite clips with optional filters for transcript, ownership, and team scope, with pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the bites query (e.g. '{ bites { id name } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: mine (Boolean), my_team (Boolean), transcript_id (ID), skip (Int, 0–5000), limit (Int, max 50)"}
+
+  - name: get_users
+    description: Retrieve all users within the team including their email, name, admin status, and linked user groups
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the users query (e.g. '{ users { user_id email name is_admin } }')"}
+
+  - name: get_user_groups
+    description: List user groups in the team; optionally filter to only groups the requesting user belongs to
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the user_groups query (e.g. '{ user_groups { id name handle } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: mine (Boolean) — when true, returns only groups the current user belongs to"}
+
+  - name: create_bite
+    description: Create a soundbite clip from a transcript by specifying start and end timestamps in seconds
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for createBite (e.g. 'mutation($transcriptId:ID!,$startTime:Float!,$endTime:Float!){ createBite(transcript_id:$transcriptId,start_time:$startTime,end_time:$endTime){ id name } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: transcriptId (ID, required), startTime (Float seconds, required), endTime (Float seconds, required), name (String, max 256 chars), summary (String, max 500 chars), media_type (String: 'video' or 'audio'), privacies ([String]: 'public', 'team', 'participants')"}
+
+  - name: update_meeting_title
+    description: Update the title of an existing meeting transcript (requires admin privileges)
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for updateMeetingTitle (e.g. 'mutation($input:UpdateMeetingTitleInput!){ updateMeetingTitle(input:$input){ title } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: input (object, required) with fields id (String, required — transcript ID) and title (String, required — new meeting title)"}
+
+  - name: add_to_live_meeting
+    description: Send the Fireflies AI notetaker bot to join and transcribe a live meeting via its URL
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for addToLiveMeeting (e.g. 'mutation($meetingLink:String!){ addToLiveMeeting(meeting_link:$meetingLink){ success } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: meetingLink (String, required — valid https meeting URL), title (String, max 256 chars), meeting_password (String, max 32 chars), duration (Int, 15–120 minutes, default 60), language (String, max 5 chars BCP-47 code), attendees ([Attendee])"}
+
+  - name: upload_audio
+    description: Submit an audio or video file URL for transcription by Fireflies
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for uploadAudio (e.g. 'mutation($input:AudioUploadInput){ uploadAudio(input:$input){ success title message } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: input (object) with fields url (String, required — https URL of mp3/mp4/wav/m4a/ogg file), title (String), webhook (String), custom_language (String), save_video (Boolean), attendees ([Attendees]), client_reference_id (String), bypass_size_check (Boolean), download_auth (DownloadAuthInput)"}
+
+  - name: delete_transcript
+    description: Delete a meeting transcript by ID (owner or team admin required; rate-limited to 10 requests per minute)
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for deleteTranscript (e.g. 'mutation($id:String!){ deleteTranscript(id:$id){ id title } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: id (String, required) — ID of the transcript to delete"}

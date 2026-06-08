@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: todoist
+version: 0.1.0
+baseUrl: https://api.todoist.com
+tools:
+  - name: get_all_tasks
+    description: Retrieve all active tasks, optionally filtered by project, section, label, or filter expression
+    method: GET
+    path: /api/v1/tasks
+    params:
+      - {name: project_id, in: query, type: string, description: Filter tasks by project ID}
+      - {name: section_id, in: query, type: string, description: Filter tasks by section ID}
+      - {name: label, in: query, type: string, description: Filter tasks by label name}
+      - {name: filter, in: query, type: string, description: "Filter expression using Todoist filter syntax (e.g. 'today', 'overdue')"}
+      - {name: lang, in: query, type: string, description: Language code for natural language due date parsing}
+      - {name: limit, in: query, type: integer, description: Maximum number of tasks to return}
+      - {name: cursor, in: query, type: string, description: Cursor for pagination}
+
+  - name: get_all_projects
+    description: Retrieve all projects in the user's Todoist account
+    method: GET
+    path: /api/v1/projects
+    params:
+      - {name: limit, in: query, type: integer, description: Maximum number of projects to return}
+      - {name: cursor, in: query, type: string, description: Cursor for pagination}
+
+  - name: get_task
+    description: Retrieve a single task by its ID
+    method: GET
+    path: /api/v1/tasks/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The unique task ID}
+
+  - name: list_sections
+    description: Retrieve all sections, optionally filtered by project
+    method: GET
+    path: /api/v1/sections
+    params:
+      - {name: project_id, in: query, type: string, description: Filter sections by project ID}
+      - {name: limit, in: query, type: integer, description: Maximum number of sections to return}
+      - {name: cursor, in: query, type: string, description: Cursor for pagination}
+
+  - name: list_labels
+    description: Retrieve all personal labels in the user's Todoist account
+    method: GET
+    path: /api/v1/labels
+    params:
+      - {name: limit, in: query, type: integer, description: Maximum number of labels to return}
+      - {name: cursor, in: query, type: string, description: Cursor for pagination}
+
+  - name: get_productivity_stats
+    description: Retrieve the user's productivity statistics including task completion counts for today and this week
+    method: GET
+    path: /api/v1/user/productivity_stats
+    params: []
+
+  - name: create_task
+    description: Create a new task in Todoist
+    method: POST
+    path: /api/v1/tasks
+    params:
+      - {name: content, in: body, type: string, required: true, description: The task content or title}
+      - {name: description, in: body, type: string, description: Extended task description in markdown}
+      - {name: project_id, in: body, type: string, description: Project ID to add the task to}
+      - {name: section_id, in: body, type: string, description: Section ID within the project}
+      - {name: parent_id, in: body, type: string, description: Parent task ID for creating a subtask}
+      - {name: order, in: body, type: integer, description: Position of the task among siblings}
+      - {name: labels, in: body, type: array, description: Array of label names to assign to the task}
+      - {name: priority, in: body, type: integer, description: "Task priority: 1 (normal) to 4 (urgent)"}
+      - {name: due_string, in: body, type: string, description: "Natural language due date string (e.g. 'tomorrow', 'every Monday')"}
+      - {name: due_date, in: body, type: string, description: Due date in YYYY-MM-DD format}
+      - {name: due_datetime, in: body, type: string, description: Due date and time in RFC3339 format}
+      - {name: due_lang, in: body, type: string, description: Language for natural language due date parsing}
+      - {name: assignee_id, in: body, type: string, description: User ID to assign the task to}
+      - {name: duration, in: body, type: integer, description: Estimated task duration amount}
+      - {name: duration_unit, in: body, type: string, description: "Unit for duration: minute or day"}
+
+  - name: update_task
+    description: Update an existing task's content, due date, priority, or other properties
+    method: POST
+    path: /api/v1/tasks/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The unique task ID to update}
+      - {name: content, in: body, type: string, description: New task content or title}
+      - {name: description, in: body, type: string, description: New extended task description in markdown}
+      - {name: labels, in: body, type: array, description: Replacement array of label names}
+      - {name: priority, in: body, type: integer, description: "Task priority: 1 (normal) to 4 (urgent)"}
+      - {name: due_string, in: body, type: string, description: "Natural language due date string (e.g. 'tomorrow', 'every Monday')"}
+      - {name: due_date, in: body, type: string, description: Due date in YYYY-MM-DD format}
+      - {name: due_datetime, in: body, type: string, description: Due date and time in RFC3339 format}
+      - {name: due_lang, in: body, type: string, description: Language for natural language due date parsing}
+      - {name: assignee_id, in: body, type: string, description: User ID to assign the task to}
+      - {name: duration, in: body, type: integer, description: Estimated task duration amount}
+      - {name: duration_unit, in: body, type: string, description: "Unit for duration: minute or day"}
+
+  - name: close_task
+    description: Mark a task as completed
+    method: POST
+    path: /api/v1/tasks/{task_id}/close
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The unique task ID to close}
+
+  - name: delete_task
+    description: Permanently delete a task by its ID
+    method: DELETE
+    path: /api/v1/tasks/{task_id}
+    params:
+      - {name: task_id, in: path, type: string, required: true, description: The unique task ID to delete}

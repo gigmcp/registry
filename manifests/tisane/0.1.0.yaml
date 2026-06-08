@@ -2,13 +2,14 @@ schemaVersion: 1
 name: tisane
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/tisane-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/tisane-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:24f82c8eee8e552374f63a2ae58971de24e2af2cb641e167eb46cca6c2d63c75
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,56 @@
+schemaVersion: 1
+name: yousearch
+version: 0.1.0
+baseUrl: https://ydc-index.io
+tools:
+  - name: web_search
+    description: Search the web and return LLM-ready structured results including snippets from web and news sources
+    method: GET
+    path: /v1/search
+    params:
+      - {name: query, in: query, type: string, required: true, description: The search query used to retrieve relevant results from the web}
+      - {name: count, in: query, type: integer, description: "Maximum number of results per section (web and news), 1-100, default 10"}
+      - {name: offset, in: query, type: integer, description: "Pagination offset in multiples of count, range 0-9"}
+      - {name: freshness, in: query, type: string, description: "Time filter: day, week, month, year, or date range YYYY-MM-DDtoYYYY-MM-DD"}
+      - {name: country, in: query, type: string, description: "ISO 3166-1 alpha-2 country code to focus results geographically (e.g. US, GB)"}
+      - {name: language, in: query, type: string, description: "BCP 47 language code for result language, default EN"}
+      - {name: safesearch, in: query, type: string, description: "Content filter level: off, moderate (default), or strict"}
+  - name: news_search
+    description: Search for recent news articles and return structured news results
+    method: GET
+    path: /news
+    baseUrl: https://api.ydc-index.io
+    params:
+      - {name: q, in: query, type: string, required: true, description: The query used to retrieve relevant news results}
+      - {name: count, in: query, type: integer, description: "Maximum number of news results to return, default 5"}
+      - {name: page_num, in: query, type: integer, description: "Pagination page number, calculated in multiples of count"}
+      - {name: recency, in: query, type: string, description: "Filter by publication date: day, week, month, or date range YYYY-MM-DDtoYYYY-MM-DD"}
+  - name: get_search_snippets
+    description: Retrieve query-relevant text snippets from web search results optimized for LLM consumption
+    method: GET
+    path: /v1/search
+    params:
+      - {name: query, in: query, type: string, required: true, description: The search query used to retrieve relevant snippets from web results}
+      - {name: count, in: query, type: integer, description: "Maximum number of results per section, 1-100, default 10"}
+      - {name: freshness, in: query, type: string, description: "Time filter: day, week, month, year, or date range YYYY-MM-DDtoYYYY-MM-DD"}
+      - {name: country, in: query, type: string, description: "ISO 3166-1 alpha-2 country code to focus results geographically"}
+      - {name: safesearch, in: query, type: string, description: "Content filter level: off, moderate (default), or strict"}
+  - name: smart_answer
+    description: Get an LLM-generated answer grounded in live web search results with inline citations
+    method: POST
+    path: /smart
+    baseUrl: https://chat-api.you.com
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: The question or statement to answer using live web search results}
+      - {name: chat_id, in: body, type: string, description: Hexadecimal UUID to maintain conversation continuity across requests}
+      - {name: instructions, in: body, type: string, description: "Custom instructions to tailor response tone, style, or format (up to 2500 characters)"}
+  - name: research_answer
+    description: Perform deep multi-step research that runs multiple searches and synthesizes a comprehensive cited answer
+    method: POST
+    path: /v1/research
+    baseUrl: https://api.you.com
+    encoding: json
+    params:
+      - {name: input, in: body, type: string, required: true, description: "The research question or complex query requiring in-depth investigation (max 40000 characters)"}
+      - {name: research_effort, in: body, type: string, description: "Research depth: lite (fast), standard (default), deep (thorough), or exhaustive (most comprehensive)"}

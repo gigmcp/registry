@@ -1,0 +1,88 @@
+schemaVersion: 1
+name: productboard
+version: 0.1.0
+baseUrl: https://api.productboard.com
+tools:
+  - name: list_features
+    description: Retrieve a paginated list of all features and subfeatures in the workspace
+    method: GET
+    path: /features
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from the previous response to retrieve the next page}
+
+  - name: get_feature
+    description: Retrieve details of a single feature by its ID
+    method: GET
+    path: /features/{featureId}
+    params:
+      - {name: featureId, in: path, type: string, required: true, description: Unique identifier of the feature}
+
+  - name: create_feature
+    description: Create a new feature or subfeature in the workspace
+    method: POST
+    path: /features
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the feature}
+      - {name: description, in: body, type: string, description: Description of the feature}
+      - {name: status, in: body, type: object, description: "Status object with an id field referencing a workspace status"}
+      - {name: parent, in: body, type: object, description: "Parent entity object with a id and type field (feature, component, or product)"}
+
+  - name: update_feature
+    description: Update one or more fields of an existing feature
+    method: PATCH
+    path: /features/{featureId}
+    params:
+      - {name: featureId, in: path, type: string, required: true, description: Unique identifier of the feature to update}
+      - {name: name, in: body, type: string, description: Updated name of the feature}
+      - {name: description, in: body, type: string, description: Updated description of the feature}
+      - {name: status, in: body, type: object, description: "Updated status object with an id field referencing a workspace status"}
+
+  - name: list_notes
+    description: Retrieve a paginated list of all notes (insights) in the workspace
+    method: GET
+    path: /notes
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from the previous response to retrieve the next page}
+
+  - name: create_note
+    description: Create a new note (insight) in the workspace
+    method: POST
+    path: /notes
+    params:
+      - {name: title, in: body, type: string, description: Title of the note}
+      - {name: content, in: body, type: string, description: "HTML or plain text content of the note"}
+      - {name: customer_email, in: body, type: string, description: Email address of the customer associated with this note}
+      - {name: display_url, in: body, type: string, description: URL linking back to the original source of the note}
+      - {name: user, in: body, type: object, description: "User attribution object with an email field"}
+      - {name: source, in: body, type: object, description: "Source identification object with origin (system name) and record_id fields"}
+      - {name: tags, in: body, type: array, description: List of tag strings to categorize the note}
+
+  - name: list_companies
+    description: Retrieve a paginated list of all companies in the workspace
+    method: GET
+    path: /companies
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from the previous response to retrieve the next page}
+
+  - name: list_users
+    description: Retrieve a paginated list of all users (members) in the workspace
+    method: GET
+    path: /users
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from the previous response to retrieve the next page}
+
+  - name: list_objectives
+    description: Retrieve a paginated list of all objectives in the workspace
+    method: GET
+    path: /objectives
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from the previous response to retrieve the next page}
+
+  - name: create_release
+    description: Create a new release in the workspace
+    method: POST
+    path: /releases
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the release}
+      - {name: releaseDate, in: body, type: string, description: "Planned release date in ISO 8601 format (YYYY-MM-DD)"}
+      - {name: releaseGroup, in: body, type: object, description: "Release group object with an id field to associate this release with a group"}

@@ -1,0 +1,55 @@
+schemaVersion: 1
+name: baserow
+version: 0.1.0
+baseUrl: https://api.baserow.io
+tools:
+  - name: list_databases
+    description: List all applications (databases) in a workspace
+    method: GET
+    path: /api/applications/workspace/{workspace_id}/
+    params:
+      - {name: workspace_id, in: path, type: integer, required: true, description: ID of the workspace whose applications to list}
+  - name: list_tables
+    description: List all tables in a database application
+    method: GET
+    path: /api/database/tables/database/{database_id}/
+    params:
+      - {name: database_id, in: path, type: integer, required: true, description: ID of the database whose tables to list}
+  - name: list_templates
+    description: List all available Baserow templates
+    method: GET
+    path: /api/templates/
+  - name: get_form_view_metadata
+    description: Get public metadata for a shared form view by its slug
+    method: GET
+    path: /api/database/views/{slug}/public/info/
+    params:
+      - {name: slug, in: path, type: string, required: true, description: The unique slug of the shared form view}
+  - name: get_settings
+    description: Get the global Baserow instance settings
+    method: GET
+    path: /api/settings/
+  - name: list_application_user_sources
+    description: List all user sources configured for an application
+    method: GET
+    path: /api/application/{application_id}/user-sources/
+    params:
+      - {name: application_id, in: path, type: integer, required: true, description: ID of the application whose user sources to list}
+  - name: create_user
+    description: Create a new Baserow user account
+    method: POST
+    path: /api/user/
+    params:
+      - {name: name, in: body, type: string, required: true, description: Full name of the new user}
+      - {name: email, in: body, type: string, required: true, description: Email address for the new user account}
+      - {name: password, in: body, type: string, required: true, description: Password for the new user account}
+      - {name: language, in: body, type: string, required: false, description: "Preferred language code (e.g. en-GB); defaults to instance language if omitted"}
+      - {name: authenticate, in: body, type: boolean, description: Whether to return authentication tokens for the new user}
+      - {name: workspace_invitation_token, in: body, type: string, description: Optional workspace invitation token to accept on registration}
+  - name: send_password_reset_email
+    description: Send a password reset email to a Baserow user
+    method: POST
+    path: /api/user/send-reset-password-email/
+    params:
+      - {name: email, in: body, type: string, required: true, description: Email address of the user requesting a password reset}
+      - {name: base_url, in: body, type: string, required: true, description: "Base URL used to construct the reset link sent in the email (e.g. https://app.baserow.io)"}

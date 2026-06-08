@@ -2,12 +2,13 @@ schemaVersion: 1
 name: facebook
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/facebook-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/facebook-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:764522af9d14c17a517e2489186f1ad89b824a3cd2ce0ed461096a20f9ee9890
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  builder: toolpack
   entrypoint: /app/server
 tier: sealed
 entitlements:

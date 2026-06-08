@@ -1,0 +1,76 @@
+schemaVersion: 1
+name: linear
+version: 0.1.0
+baseUrl: https://api.linear.app
+tools:
+  - name: list_issues
+    description: List issues in the workspace with optional filters (team, state, assignee, labels, priority) and pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the issues query (e.g. '{ issues(first:50) { nodes { id title state { name } } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: first (Int, default 50), after (String cursor), filter (IssueFilter — teamId, assigneeId, stateId, labelIds, priority), orderBy (createdAt|updatedAt), includeArchived (Boolean)"}
+
+  - name: get_issue
+    description: Retrieve a single issue by its ID or identifier (e.g. LIN-123)
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the issue query (e.g. 'query($id:String!){ issue(id:$id){ id title description state { name } assignee { name } priority } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: id (String, required) — UUID or issue identifier such as LIN-123"}
+
+  - name: search_issues
+    description: "Search issues by text query using full-text search; results ranked by relevance"
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the searchIssues query (e.g. 'query($term:String!){ searchIssues(term:$term,first:25){ nodes { id title state { name } } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: term (String, required — search string), first (Int), after (String cursor), filter (IssueFilter), teamId (String — UUID of team to boost in results), includeArchived (Boolean), includeComments (Boolean — also search comment bodies, default false), orderBy (createdAt|updatedAt)"}
+
+  - name: create_issue
+    description: Create a new issue in a Linear team
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for issueCreate (e.g. 'mutation($input:IssueCreateInput!){ issueCreate(input:$input){ success issue { id title } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: input (object, required) with fields teamId (String, required), title (String), description (String markdown), stateId (String), assigneeId (String), priority (Int: 0=none,1=urgent,2=high,3=medium,4=low), labelIds ([String]), projectId (String), parentId (String), dueDate (String TimelessDate)"}
+
+  - name: update_issue
+    description: Update fields of an existing Linear issue
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for issueUpdate (e.g. 'mutation($id:String!,$input:IssueUpdateInput!){ issueUpdate(id:$id,input:$input){ success issue { id title state { name } } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: id (String, required — issue UUID or identifier), input (object, required) with fields title (String), description (String markdown), stateId (String), assigneeId (String), priority (Int: 0=none,1=urgent,2=high,3=medium,4=low), labelIds ([String]), projectId (String), dueDate (String TimelessDate)"}
+
+  - name: create_comment
+    description: Create a comment on a Linear issue
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation string for commentCreate (e.g. 'mutation($input:CommentCreateInput!){ commentCreate(input:$input){ success comment { id body } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: input (object, required) with fields issueId (String — issue UUID or identifier), body (String markdown — comment content), parentId (String — UUID of parent comment to nest under)"}
+
+  - name: list_projects
+    description: List projects in the workspace with optional filters and pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the projects query (e.g. '{ projects(first:50) { nodes { id name description state } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: first (Int, default 50), after (String cursor), filter (ProjectFilter), orderBy (createdAt|updatedAt), includeArchived (Boolean)"}
+
+  - name: list_teams
+    description: List teams in the workspace with optional filters and pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the teams query (e.g. '{ teams(first:50) { nodes { id name key } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: first (Int, default 50), after (String cursor), filter (TeamFilter), orderBy (createdAt|updatedAt), includeArchived (Boolean)"}
+
+  - name: list_users
+    description: List members of the workspace with optional pagination
+    method: POST
+    path: /graphql
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string for the users query (e.g. '{ users(first:50) { nodes { id name email } } }')"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables: first (Int, default 50), after (String cursor), orderBy (createdAt|updatedAt), includeArchived (Boolean), includeDisabled (Boolean — include suspended users, default false)"}

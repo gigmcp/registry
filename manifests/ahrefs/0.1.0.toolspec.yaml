@@ -1,0 +1,135 @@
+schemaVersion: 1
+name: ahrefs
+version: 0.1.0
+baseUrl: https://api.ahrefs.com
+tools:
+  - name: get_backlinks_stats
+    description: Get backlinks stats (total backlinks, referring domains) for a target domain or URL
+    method: GET
+    path: /v3/site-explorer/backlinks-stats
+    params:
+      - {name: target, in: query, type: string, required: true, description: "Domain or URL to analyze"}
+      - {name: date, in: query, type: string, required: true, description: "Reporting date in YYYY-MM-DD format"}
+      - {name: protocol, in: query, type: string, description: "Protocol filter: both (default), http, or https"}
+      - {name: mode, in: query, type: string, description: "Scope: exact, prefix, domain, or subdomains (default)"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: list_backlinks
+    description: List all backlinks pointing to a target domain or URL
+    method: GET
+    path: /v3/site-explorer/all-backlinks
+    params:
+      - {name: target, in: query, type: string, required: true, description: "Domain or URL to query"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 1000)"}
+      - {name: protocol, in: query, type: string, description: "Protocol filter: both (default), http, or https"}
+      - {name: mode, in: query, type: string, description: "Scope: exact, prefix, domain, or subdomains (default)"}
+      - {name: aggregation, in: query, type: string, description: "Grouping: similar_links (default), 1_per_domain, or all"}
+      - {name: history, in: query, type: string, description: "History filter: live, since:YYYY-MM-DD, or all_time (default)"}
+      - {name: where, in: query, type: string, description: "Filter expression using column identifiers"}
+      - {name: order_by, in: query, type: string, description: "Column to sort results by"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: get_domain_rating
+    description: Get the Domain Rating (DR) score for a target domain
+    method: GET
+    path: /v3/site-explorer/domain-rating
+    params:
+      - {name: target, in: query, type: string, required: true, description: "Domain or URL to analyze"}
+      - {name: date, in: query, type: string, required: true, description: "Reporting date in YYYY-MM-DD format"}
+      - {name: protocol, in: query, type: string, description: "Protocol filter: both (default), http, or https"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: list_referring_domains
+    description: List unique root domains that have at least one backlink to the target
+    method: GET
+    path: /v3/site-explorer/refdomains
+    params:
+      - {name: target, in: query, type: string, required: true, description: "Domain or URL to analyze"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 1000)"}
+      - {name: protocol, in: query, type: string, description: "Protocol filter: both (default), http, or https"}
+      - {name: mode, in: query, type: string, description: "Scope: exact, prefix, domain, or subdomains (default)"}
+      - {name: history, in: query, type: string, description: "History filter: live, since:YYYY-MM-DD, or all_time (default)"}
+      - {name: where, in: query, type: string, description: "Filter expression using column identifiers"}
+      - {name: order_by, in: query, type: string, description: "Column to sort results by"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: get_keywords_overview
+    description: Get an overview of keyword metrics for a set of keywords in a given country
+    method: GET
+    path: /v3/keywords-explorer/overview
+    params:
+      - {name: country, in: query, type: string, required: true, description: "Two-letter country code (ISO 3166-1 alpha-2)"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: keywords, in: query, type: string, description: "Comma-separated list of keywords to analyze"}
+      - {name: keyword_list_id, in: query, type: integer, description: "ID of an existing keyword list to analyze"}
+      - {name: target, in: query, type: string, description: "Domain or URL to target"}
+      - {name: target_mode, in: query, type: string, description: "Scope: exact, prefix, domain, or subdomains"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 1000)"}
+      - {name: where, in: query, type: string, description: "Filter expression using column identifiers"}
+      - {name: order_by, in: query, type: string, description: "Column to sort results by"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: get_keyword_volume_by_country
+    description: Get estimated average monthly search volume for a keyword broken down by country
+    method: GET
+    path: /v3/keywords-explorer/volume-by-country
+    params:
+      - {name: keyword, in: query, type: string, required: true, description: "The search term to analyze"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: get_serp_overview
+    description: Get an overview of the top organic search results for a keyword in a given country
+    method: GET
+    path: /v3/serp-overview/serp-overview
+    params:
+      - {name: keyword, in: query, type: string, required: true, description: "The search term to analyze"}
+      - {name: country, in: query, type: string, required: true, description: "Two-letter ISO country code"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: top_positions, in: query, type: integer, description: "Number of top organic SERP positions to return"}
+      - {name: date, in: query, type: string, description: "Timestamp in YYYY-MM-DDThh:mm:ss format for historical data"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: list_broken_backlinks
+    description: List backlinks pointing to broken (404/gone) pages on the target domain or URL
+    method: GET
+    path: /v3/site-explorer/broken-backlinks
+    params:
+      - {name: target, in: query, type: string, required: true, description: "Domain or URL to search"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 1000)"}
+      - {name: protocol, in: query, type: string, description: "Protocol filter: both (default), http, or https"}
+      - {name: mode, in: query, type: string, description: "Scope: exact, prefix, domain, or subdomains (default)"}
+      - {name: aggregation, in: query, type: string, description: "Grouping: similar_links (default), 1_per_domain, or all"}
+      - {name: where, in: query, type: string, description: "Filter expression using column identifiers"}
+      - {name: order_by, in: query, type: string, description: "Column to sort results by"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: get_rank_tracker_overview
+    description: Get an overview of keyword rankings for a Rank Tracker project on a given date
+    method: GET
+    path: /v3/rank-tracker/overview
+    params:
+      - {name: project_id, in: query, type: integer, required: true, description: "Unique identifier of the Rank Tracker project"}
+      - {name: date, in: query, type: string, required: true, description: "Reporting date in YYYY-MM-DD format"}
+      - {name: device, in: query, type: string, required: true, description: "Device type: desktop or mobile"}
+      - {name: select, in: query, type: string, required: true, description: "Comma-separated list of columns to return"}
+      - {name: date_compared, in: query, type: string, description: "Comparison date for metrics in YYYY-MM-DD format"}
+      - {name: volume_mode, in: query, type: string, description: "Volume aggregation: monthly (default) or average"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (default 1000)"}
+      - {name: where, in: query, type: string, description: "Filter expression using column identifiers"}
+      - {name: order_by, in: query, type: string, description: "Column to sort results by"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}
+
+  - name: list_site_audit_projects
+    description: List Site Audit projects, optionally filtered by URL, name, date, or project ID
+    method: GET
+    path: /v3/site-audit/projects
+    params:
+      - {name: project_url, in: query, type: string, description: "Filter by target URL"}
+      - {name: project_name, in: query, type: string, description: "Filter by project name"}
+      - {name: date, in: query, type: string, description: "Crawl date in YYYY-MM-DDThh:mm:ss format"}
+      - {name: project_id, in: query, type: integer, description: "Unique project identifier"}
+      - {name: output, in: query, type: string, description: "Response format: json (default), csv, xml, or php"}

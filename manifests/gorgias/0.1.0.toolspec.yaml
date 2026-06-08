@@ -1,0 +1,120 @@
+schemaVersion: 1
+name: gorgias
+version: 0.1.0
+# Gorgias is a per-tenant SaaS: each account lives at <account>.gorgias.com/api.
+# The baseUrl below uses a representative subdomain that satisfies the *.gorgias.com
+# egress allowlist; the runtime engine substitutes the actual tenant domain.
+baseUrl: https://yourcompany.gorgias.com
+tools:
+  - name: list_tickets
+    description: List tickets in the Gorgias account, paginated and optionally filtered
+    method: GET
+    path: /api/tickets
+    params:
+      - {name: limit, in: query, type: integer, description: "Max tickets to return (1-100, default 30)"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor; omit to start from the beginning"}
+      - {name: order_by, in: query, type: string, description: "Sort field and direction, e.g. created_datetime:desc (default) or updated_datetime:asc"}
+      - {name: customer_id, in: query, type: integer, description: "Filter tickets belonging to this customer ID"}
+      - {name: view_id, in: query, type: integer, description: "Apply filters from a predefined view"}
+      - {name: external_id, in: query, type: string, description: "Filter by ticket identifier from an external system"}
+
+  - name: get_ticket
+    description: Retrieve a single Gorgias ticket by its ID
+    method: GET
+    path: /api/tickets/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The ID of the ticket to retrieve"}
+
+  - name: create_ticket
+    description: Create a new ticket in Gorgias
+    method: POST
+    path: /api/tickets
+    params:
+      - {name: messages, in: body, type: array, required: true, description: "Array of message objects for the ticket (at least one required)"}
+      - {name: channel, in: body, type: string, description: "Channel used to initiate the conversation (e.g. api, email, phone, sms)"}
+      - {name: customer, in: body, type: object, description: "Customer object associated with the ticket"}
+      - {name: subject, in: body, type: string, description: "Ticket subject line (max 998 chars)"}
+      - {name: status, in: body, type: string, description: "Ticket status: open (default) or closed"}
+      - {name: priority, in: body, type: string, description: "Ticket priority: critical, high, normal (default), or low"}
+      - {name: from_agent, in: body, type: boolean, description: "Whether the first message originated from your company"}
+      - {name: tags, in: body, type: array, description: "Array of tag objects to attach to the ticket"}
+      - {name: assignee_team, in: body, type: object, description: "Team to assign to the ticket"}
+      - {name: assignee_user, in: body, type: object, description: "User to assign to the ticket"}
+      - {name: external_id, in: body, type: string, description: "ID in a foreign system for reference purposes (max 255 chars)"}
+
+  - name: update_ticket
+    description: Update fields of an existing Gorgias ticket
+    method: PUT
+    path: /api/tickets/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The ID of the ticket to update"}
+      - {name: subject, in: body, type: string, description: "Updated ticket subject line"}
+      - {name: status, in: body, type: string, description: "Ticket status: open or closed"}
+      - {name: priority, in: body, type: string, description: "Ticket priority: critical, high, normal, or low"}
+      - {name: channel, in: body, type: string, description: "Communication channel used"}
+      - {name: assignee_team, in: body, type: object, description: "Team assignment object"}
+      - {name: assignee_user, in: body, type: object, description: "User assignment object"}
+      - {name: tags, in: body, type: array, description: "Array of tag objects to attach to the ticket"}
+      - {name: is_unread, in: body, type: boolean, description: "Mark the ticket as read or unread"}
+      - {name: spam, in: body, type: boolean, description: "Mark the ticket as spam"}
+      - {name: snooze_datetime, in: body, type: string, description: "ISO 8601 datetime when the ticket should automatically reopen"}
+      - {name: external_id, in: body, type: string, description: "ID in a foreign system (max 255 chars)"}
+
+  - name: add_ticket_tags
+    description: Add one or more tags to a Gorgias ticket
+    method: POST
+    path: /api/tickets/{ticket_id}/tags
+    params:
+      - {name: ticket_id, in: path, type: integer, required: true, description: "The ID of the ticket"}
+      - {name: names, in: body, type: array, description: "Array of tag name strings to add to the ticket"}
+      - {name: ids, in: body, type: array, description: "Array of tag ID integers to add to the ticket"}
+
+  - name: list_customers
+    description: List customers in the Gorgias account, paginated and optionally filtered
+    method: GET
+    path: /api/customers
+    params:
+      - {name: limit, in: query, type: integer, description: "Max customers to return (1-100, default 30)"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor; omit to start from the beginning"}
+      - {name: order_by, in: query, type: string, description: "Sort field and direction (default created_datetime:desc)"}
+      - {name: email, in: query, type: string, description: "Filter by primary email address"}
+      - {name: name, in: query, type: string, description: "Filter by full customer name"}
+      - {name: external_id, in: query, type: string, description: "Filter by customer ID from an external system"}
+      - {name: channel_type, in: query, type: string, description: "Filter by customer channel type"}
+      - {name: channel_address, in: query, type: string, description: "Filter by customer channel address"}
+
+  - name: get_customer
+    description: Retrieve a single Gorgias customer by their ID
+    method: GET
+    path: /api/customers/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The ID of the customer to retrieve"}
+
+  - name: create_customer
+    description: Create a new customer in Gorgias
+    method: POST
+    path: /api/customers
+    params:
+      - {name: channels, in: body, type: array, required: true, description: "Array of contact channel objects for the customer"}
+      - {name: name, in: body, type: string, description: "Full name of the customer"}
+      - {name: email, in: body, type: string, description: "Primary email address of the customer"}
+      - {name: external_id, in: body, type: string, description: "ID in a foreign system (e.g. Stripe, Aircall)"}
+      - {name: language, in: body, type: string, description: "Preferred language in ISO 639-1 format"}
+      - {name: timezone, in: body, type: string, description: "Preferred timezone as IANA timezone name (default UTC)"}
+
+  - name: merge_customers
+    description: "Merge two customers: the source customer is merged into the target and then deleted"
+    method: PUT
+    path: /api/customers/merge
+    params:
+      - {name: source_id, in: query, type: integer, required: true, description: "The ID of the customer to merge (will be deleted after merge)"}
+      - {name: target_id, in: query, type: integer, required: true, description: "The ID of the target customer (will remain after merge)"}
+
+  - name: list_teams
+    description: List teams in the Gorgias account
+    method: GET
+    path: /api/teams
+    params:
+      - {name: limit, in: query, type: integer, description: "Max teams to return (1-100, default 30)"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor; omit to start from the beginning"}
+      - {name: order_by, in: query, type: string, description: "Sort field and direction: created_datetime:asc/desc or name:asc/desc (default created_datetime:desc)"}

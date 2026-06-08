@@ -1,0 +1,54 @@
+schemaVersion: 1
+name: process-street
+version: 0.1.0
+baseUrl: https://public-api.process.st
+tools:
+  - name: list_workflows
+    description: List all workflows in the organization
+    method: GET
+    path: /api/v1.1/workflows
+    params:
+      - {name: name, in: query, type: string, description: Partial workflow name for case-insensitive filtering}
+
+  - name: list_workflow_runs
+    description: Search and list workflow runs, optionally filtered by workflow, name, status, or form field values
+    method: GET
+    path: /api/v1.1/workflow-runs
+    params:
+      - {name: workflowId, in: query, type: string, description: Filter runs by workflow ID}
+      - {name: name, in: query, type: string, description: Partial workflow run name for case-insensitive filtering}
+      - {name: status, in: query, type: string, description: "Filter by status: Active, Completed, or Archived (comma-separated for multiple)"}
+
+  - name: find_data_set_rows
+    description: List records from a data set, optionally filtered by column values
+    method: GET
+    path: /api/v1.1/data-sets/{dataSetId}/records
+    params:
+      - {name: dataSetId, in: path, type: string, required: true, description: The ID of the data set}
+
+  - name: create_workflow_run
+    description: Start a new workflow run from a workflow template
+    method: POST
+    path: /api/v1.1/workflow-runs
+    params:
+      - {name: workflowId, in: body, type: string, required: true, description: The ID of the workflow template to run}
+      - {name: name, in: body, type: string, required: true, description: Custom name for the workflow run}
+      - {name: dueDate, in: body, type: string, description: Due date for the workflow run as an ISO-8601 timestamp}
+      - {name: shared, in: body, type: boolean, description: Whether the workflow run can be viewed without logging in}
+
+  - name: complete_workflow_run
+    description: Mark a workflow run as completed by updating its status
+    method: PUT
+    path: /api/v1.1/workflow-runs/{workflowRunId}
+    params:
+      - {name: workflowRunId, in: path, type: string, required: true, description: The ID of the workflow run to complete}
+      - {name: status, in: body, type: string, required: true, description: "The new status for the workflow run; use Completed to complete it"}
+      - {name: name, in: body, type: string, required: true, description: The name for the workflow run (PUT replaces all fields; supply current value to preserve it)}
+      - {name: shared, in: body, type: boolean, required: true, description: Whether the workflow run can be viewed without logging in (PUT replaces all fields; supply current value to preserve it)}
+
+  - name: undelete_workflow_run
+    description: Restore a previously deleted workflow run
+    method: POST
+    path: /api/v1.1/workflow-runs/{workflowRunId}/undelete
+    params:
+      - {name: workflowRunId, in: path, type: string, required: true, description: The ID of the deleted workflow run to restore}

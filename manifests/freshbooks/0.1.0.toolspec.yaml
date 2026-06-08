@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: freshbooks
+version: 0.1.0
+baseUrl: https://api.freshbooks.com
+tools:
+  - name: list_businesses
+    description: Retrieve the authenticated user's identity and their business memberships (businesses list)
+    method: GET
+    path: /auth/api/v1/users/me
+
+  - name: get_business_users
+    description: List all team members (users) belonging to a specific business
+    method: GET
+    path: /auth/api/v1/businesses/{business_id}/team_members
+    params:
+      - {name: business_id, in: path, type: string, required: true, description: The numeric business ID}
+      - {name: page, in: query, type: integer, description: "Page number to retrieve (1-indexed)"}
+      - {name: per_page, in: query, type: integer, description: "Results per page"}
+
+  - name: list_clients
+    description: List all clients for a FreshBooks account
+    method: GET
+    path: /accounting/account/{account_id}/users/clients
+    params:
+      - {name: account_id, in: path, type: string, required: true, description: The account identifier}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Results per page (max 100)"}
+
+  - name: list_projects
+    description: List all projects for a FreshBooks business
+    method: GET
+    path: /projects/business/{business_id}/projects
+    params:
+      - {name: business_id, in: path, type: string, required: true, description: The numeric business ID}
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Results per page (max 100)"}
+
+  - name: list_journal_entries
+    description: List adjustment journal entries for a FreshBooks business
+    method: GET
+    path: /accounting/businesses/{business_uuid}/journal_entries
+    params:
+      - {name: business_uuid, in: path, type: string, required: true, description: The business UUID}
+      - {name: page_number, in: query, type: integer, description: "Starting page number"}
+      - {name: page_size, in: query, type: integer, description: "Number of entries per page"}
+
+  - name: list_webhooks
+    description: List all registered webhook callbacks for a FreshBooks account
+    method: GET
+    path: /events/account/{account_id}/events/callbacks
+    params:
+      - {name: account_id, in: path, type: string, required: true, description: The account identifier}
+
+  - name: create_webhook
+    description: Register a new webhook callback to receive notifications for FreshBooks events
+    method: POST
+    path: /events/account/{account_id}/events/callbacks
+    params:
+      - {name: account_id, in: path, type: string, required: true, description: The account identifier}
+      - {name: event, in: body, type: string, required: true, description: "The event type to subscribe to (e.g. invoice.create)"}
+      - {name: uri, in: body, type: string, required: true, description: "The URL that FreshBooks will POST event notifications to"}
+
+  - name: update_webhook
+    description: Update a webhook callback (e.g. verify it using the verifier code, or request a new verification code)
+    method: PUT
+    path: /events/account/{account_id}/events/callbacks/{callback_id}
+    params:
+      - {name: account_id, in: path, type: string, required: true, description: The account identifier}
+      - {name: callback_id, in: path, type: string, required: true, description: The callback ID to update}
+      - {name: verifier, in: body, type: string, description: "Verification code received in the initial webhook POST to verify the callback"}
+      - {name: resend, in: body, type: boolean, description: "Set to true to request a new verification code be sent"}
+
+  - name: delete_webhook
+    description: Delete a registered webhook callback from a FreshBooks account
+    method: DELETE
+    path: /events/account/{account_id}/events/callbacks/{callback_id}
+    params:
+      - {name: account_id, in: path, type: string, required: true, description: The account identifier}
+      - {name: callback_id, in: path, type: string, required: true, description: The callback ID to delete}

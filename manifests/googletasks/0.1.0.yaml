@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googletasks
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googletasks-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googletasks-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:1d720d288a20b19583ec4104a3965f8b64333d9bfeb81dabae6b1d876cd75e0e
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

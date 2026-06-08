@@ -1,0 +1,91 @@
+schemaVersion: 1
+name: hubspot
+version: 0.1.0
+baseUrl: https://api.hubapi.com
+tools:
+  - name: list_contacts
+    description: Retrieve a paginated list of all contacts in the HubSpot CRM
+    method: GET
+    path: /crm/v3/objects/contacts
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return per page (default 10, max 100)"}
+      - {name: after, in: query, type: string, description: "Pagination cursor token from the previous response to retrieve the next page"}
+      - {name: properties, in: query, type: string, description: "Comma-separated list of property names to include in the response"}
+      - {name: archived, in: query, type: boolean, description: "Whether to return only archived contacts (default false)"}
+
+  - name: search_contacts
+    description: Search for contacts in the HubSpot CRM using filters or a text query
+    method: POST
+    path: /crm/v3/objects/contacts/search
+    params:
+      - {name: query, in: body, type: string, description: "Full-text search query string (up to 3000 characters)"}
+      - {name: filterGroups, in: body, type: array, description: "Array of filter groups; each group contains an array of filters with propertyName, operator, and value"}
+      - {name: properties, in: body, type: array, description: "List of property names to include in the response"}
+      - {name: sorts, in: body, type: array, description: "Array of sort definitions specifying property and direction"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return (max 200)"}
+      - {name: after, in: body, type: string, description: "Pagination cursor token for retrieving subsequent pages"}
+
+  - name: get_contact
+    description: Retrieve a single contact record by its ID
+    method: GET
+    path: /crm/v3/objects/contacts/{contactId}
+    params:
+      - {name: contactId, in: path, type: string, required: true, description: "The unique identifier of the contact"}
+      - {name: properties, in: query, type: string, description: "Comma-separated list of property names to include in the response"}
+      - {name: propertiesWithHistory, in: query, type: string, description: "Comma-separated list of properties to return along with their value history"}
+      - {name: associations, in: query, type: string, description: "Comma-separated list of object types to retrieve associated IDs for"}
+      - {name: archived, in: query, type: boolean, description: "Whether to return archived contacts (default false)"}
+
+  - name: list_deals
+    description: Retrieve a paginated list of all deals in the HubSpot CRM
+    method: GET
+    path: /crm/v3/objects/deals
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return per page (default 10, max 100)"}
+      - {name: after, in: query, type: string, description: "Pagination cursor token from the previous response to retrieve the next page"}
+      - {name: properties, in: query, type: string, description: "Comma-separated list of property names to include in the response"}
+      - {name: archived, in: query, type: boolean, description: "Whether to return only archived deals (default false)"}
+
+  - name: search_companies
+    description: Search for companies in the HubSpot CRM using filters or a text query
+    method: POST
+    path: /crm/v3/objects/companies/search
+    params:
+      - {name: query, in: body, type: string, description: "Full-text search query string (up to 3000 characters)"}
+      - {name: filterGroups, in: body, type: array, description: "Array of filter groups; each group contains an array of filters with propertyName, operator, and value"}
+      - {name: properties, in: body, type: array, description: "List of property names to include in the response"}
+      - {name: sorts, in: body, type: array, description: "Array of sort definitions specifying property and direction"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return (max 200)"}
+      - {name: after, in: body, type: string, description: "Pagination cursor token for retrieving subsequent pages"}
+
+  - name: create_contact
+    description: Create a new contact record in the HubSpot CRM
+    method: POST
+    path: /crm/v3/objects/contacts
+    params:
+      - {name: properties, in: body, type: object, required: true, description: "Key-value pairs of contact properties (e.g. email, firstname, lastname, phone, company)"}
+      - {name: associations, in: body, type: array, description: "Array of associations to link the new contact with existing CRM records"}
+
+  - name: update_contact
+    description: Update properties of an existing contact record by its ID
+    method: PATCH
+    path: /crm/v3/objects/contacts/{contactId}
+    params:
+      - {name: contactId, in: path, type: string, required: true, description: "The unique identifier of the contact to update"}
+      - {name: properties, in: body, type: object, required: true, description: "Key-value pairs of contact properties to update (e.g. firstname, lastname, email, phone)"}
+
+  - name: create_deal
+    description: Create a new deal record in the HubSpot CRM
+    method: POST
+    path: /crm/v3/objects/deals
+    params:
+      - {name: properties, in: body, type: object, required: true, description: "Key-value pairs of deal properties; dealname and dealstage are recommended (e.g. dealname, dealstage, pipeline, amount, closedate)"}
+      - {name: associations, in: body, type: array, description: "Array of associations to link the new deal with existing CRM records such as contacts or companies"}
+
+  - name: create_note
+    description: Create a new note engagement and optionally associate it with CRM records
+    method: POST
+    path: /crm/v3/objects/notes
+    params:
+      - {name: properties, in: body, type: object, required: true, description: "Key-value pairs of note properties; hs_note_body contains the note text; hs_timestamp is the ISO 8601 date; hubspot_owner_id assigns an owner"}
+      - {name: associations, in: body, type: array, description: "Array of associations to link the note with existing CRM records (e.g. contacts, companies, deals)"}

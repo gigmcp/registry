@@ -1,0 +1,89 @@
+schemaVersion: 1
+name: ynab
+version: 0.1.0
+baseUrl: https://api.ynab.com
+tools:
+  - name: list_budgets
+    description: List all budgets (plans) for the authenticated user
+    method: GET
+    path: /v1/plans
+    params:
+      - {name: include_accounts, in: query, type: boolean, description: "If true, includes account details for each budget"}
+
+  - name: list_accounts
+    description: List all accounts for a budget
+    method: GET
+    path: /v1/plans/{plan_id}/accounts
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: last_knowledge_of_server, in: query, type: integer, description: "The starting server knowledge. If provided, only entities changed since this value will be included."}
+
+  - name: list_transactions
+    description: List transactions for a budget, with optional filters by date range or type
+    method: GET
+    path: /v1/plans/{plan_id}/transactions
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: since_date, in: query, type: string, description: "Only return transactions on or after this date (ISO format, e.g. 2016-12-01)"}
+      - {name: until_date, in: query, type: string, description: "Only return transactions on or before this date (ISO format, e.g. 2016-12-31)"}
+      - {name: type, in: query, type: string, description: "Filter by transaction type. Allowed values: uncategorized, unapproved"}
+      - {name: last_knowledge_of_server, in: query, type: integer, description: "The starting server knowledge. If provided, only entities changed since this value will be included."}
+
+  - name: list_categories
+    description: List all categories grouped by category group for a budget
+    method: GET
+    path: /v1/plans/{plan_id}/categories
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: last_knowledge_of_server, in: query, type: integer, description: "The starting server knowledge. If provided, only entities changed since this value will be included."}
+
+  - name: get_budget_month
+    description: Get details for a specific month in a budget, including category budgeted amounts and activity
+    method: GET
+    path: /v1/plans/{plan_id}/months/{month}
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: month, in: path, type: string, required: true, description: "The month in ISO format (e.g. 2016-12-01). Use 'current' for the current month."}
+
+  - name: list_scheduled_transactions
+    description: List all scheduled transactions for a budget
+    method: GET
+    path: /v1/plans/{plan_id}/scheduled_transactions
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: last_knowledge_of_server, in: query, type: integer, description: "The starting server knowledge. If provided, only entities changed since this value will be included."}
+
+  - name: create_account
+    description: Create a new account in a budget
+    method: POST
+    path: /v1/plans/{plan_id}/accounts
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: name, in: body, type: string, required: true, description: "The name of the account"}
+      - {name: type, in: body, type: string, required: true, description: "The type of account. Allowed values: checking, savings, cash, creditCard, otherAsset, otherLiability"}
+      - {name: balance, in: body, type: integer, required: true, description: "The current balance of the account in milliunits format (e.g. $10.00 = 10000)"}
+
+  - name: create_scheduled_transaction
+    description: Create a new scheduled transaction in a budget
+    method: POST
+    path: /v1/plans/{plan_id}/scheduled_transactions
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: account_id, in: body, type: string, required: true, description: "The ID of the account for the scheduled transaction"}
+      - {name: date, in: body, type: string, required: true, description: "The scheduled transaction date in ISO format (e.g. 2016-12-01). Must be a future date no more than 5 years away."}
+      - {name: amount, in: body, type: integer, description: "The scheduled transaction amount in milliunits format (e.g. -$10.00 = -10000)"}
+      - {name: payee_id, in: body, type: string, description: "The ID of the payee. For a transfer, use the account's transfer payee ID."}
+      - {name: payee_name, in: body, type: string, description: "The payee name. Used to resolve or create a payee when payee_id is not provided."}
+      - {name: category_id, in: body, type: string, description: "The ID of the category for the scheduled transaction"}
+      - {name: memo, in: body, type: string, description: "A memo or note for the scheduled transaction"}
+      - {name: flag_color, in: body, type: string, description: "A flag color for the transaction. Allowed values: red, orange, yellow, green, blue, purple"}
+      - {name: frequency, in: body, type: string, description: "The recurrence frequency. Allowed values: never, daily, weekly, everyOtherWeek, twiceAMonth, every4Weeks, monthly, everyOtherMonth, every3Months, every4Months, twiceAYear, yearly, everyOtherYear"}
+
+  - name: update_payee
+    description: Update a payee's name in a budget
+    method: PATCH
+    path: /v1/plans/{plan_id}/payees/{payee_id}
+    params:
+      - {name: plan_id, in: path, type: string, required: true, description: "The budget/plan ID. Use 'last-used' for the most recently used budget or 'default' for the default budget."}
+      - {name: payee_id, in: path, type: string, required: true, description: "The ID of the payee to update"}
+      - {name: name, in: body, type: string, description: "The new name for the payee"}

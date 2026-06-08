@@ -1,0 +1,87 @@
+schemaVersion: 1
+name: datagma
+version: 0.1.0
+baseUrl: https://gateway.datagma.net
+auth:
+  header: X-Api-Key
+  format: "{token}"
+tools:
+  - name: enrich_person_or_company
+    description: Enrich a person or company using a LinkedIn URL, email address, full name with company, company website, or SIREN number
+    method: GET
+    path: /api/ingress/v2/full
+    params:
+      - {name: data, in: query, type: string, description: "Professional email, LinkedIn URL, company name, website, or SIREN number to enrich"}
+      - {name: firstName, in: query, type: string, description: "First name of the person (use with lastName and company as alternative to data)"}
+      - {name: lastName, in: query, type: string, description: "Last name of the person (use with firstName and company as alternative to data)"}
+      - {name: fullName, in: query, type: string, description: "Full name of the person (alternative to firstName/lastName)"}
+      - {name: companyKeyword, in: query, type: string, description: "Keyword to disambiguate when multiple companies share the same name"}
+      - {name: countryCode, in: query, type: string, description: "Country code for accurate, location-specific results"}
+      - {name: companyPremium, in: query, type: boolean, description: "Retrieve LinkedIn info about the person's company (default: false)"}
+      - {name: companyFull, in: query, type: boolean, description: "Retrieve financial information about the company (default: false)"}
+      - {name: companyFrench, in: query, type: boolean, description: "Retrieve SIREN directory data for French companies (default: false)"}
+      - {name: personFull, in: query, type: boolean, description: "Retrieve complete person profile including education and experience"}
+      - {name: phoneFull, in: query, type: boolean, description: "Retrieve cell phone number"}
+      - {name: deepTraffic, in: query, type: boolean, description: "Retrieve website traffic analytics and related data"}
+
+  - name: find_work_email
+    description: Find a verified work email address for a person by name and company
+    method: GET
+    path: /api/ingress/v6/findEmail
+    params:
+      - {name: fullName, in: query, type: string, required: true, description: "Full name of the target person"}
+      - {name: company, in: query, type: string, required: true, description: "Company name or domain"}
+      - {name: findEmailV2Step, in: query, type: integer, description: "Set to 3 to return email address or 2 to return domain only"}
+      - {name: findEmailV2Country, in: query, type: string, description: "User location to improve accuracy (e.g. General, Japan, France)"}
+      - {name: linkedInSlug, in: query, type: string, description: "LinkedIn company URL slug to improve match rate"}
+
+  - name: detect_job_change
+    description: Detect in real time if a contact has changed company or still works at the same company
+    method: GET
+    path: /api/ingress/v4/update
+    params:
+      - {name: firstName, in: query, type: string, description: "First name of the person"}
+      - {name: lastName, in: query, type: string, description: "Last name of the person"}
+      - {name: fullName, in: query, type: string, description: "Full name of the person (alternative to firstName/lastName)"}
+      - {name: companyName, in: query, type: string, description: "Most recent known employer for the contact"}
+      - {name: jobTitle, in: query, type: string, description: "Previous position held, useful for disambiguating people with the same name"}
+
+  - name: search_phone_numbers
+    description: Search for mobile phone numbers using an email address or LinkedIn profile URL
+    method: GET
+    path: /api/ingress/v1/search
+    params:
+      - {name: email, in: query, type: string, description: "Email address to search phone numbers for"}
+      - {name: username, in: query, type: string, description: "Social media URL (cannot be a Sales Navigator URL)"}
+      - {name: minimumMatch, in: query, type: number, description: "Minimum match score threshold (defaults to 1)"}
+      - {name: whatsapp_check, in: query, type: boolean, description: "Verify if the mobile number is linked to a WhatsApp account"}
+
+  - name: reverse_phone_lookup
+    description: Reverse-lookup information associated with a phone number
+    method: GET
+    path: /api/ingress/v1/reverse_phone_lookup
+    params:
+      - {name: number, in: query, type: string, required: true, description: "The phone number to look up"}
+      - {name: code, in: query, type: string, description: "Country code with plus sign (e.g. +33)"}
+
+  - name: get_twitter_by_email
+    description: Retrieve a Twitter profile linked to an email address
+    method: GET
+    path: /api/ingress/v1/twitter/by_email
+    params:
+      - {name: email, in: query, type: string, required: true, description: "The email address to look up a Twitter profile for"}
+
+  - name: get_twitter_by_username
+    description: Retrieve a Twitter profile by Twitter username
+    method: GET
+    path: /api/ingress/v1/twitter/by_username
+    params:
+      - {name: username, in: query, type: string, description: "Twitter username (case sensitive)"}
+      - {name: linkedin, in: query, type: string, description: "LinkedIn profile URL without https (e.g. linkedin.com/in/username)"}
+
+  - name: get_credits
+    description: Retrieve the current credit balance for the authenticated Datagma account
+    method: GET
+    path: /api/ingress/v1/mine
+    params:
+      - {name: email, in: query, type: string, description: "Email address associated with the Datagma account"}

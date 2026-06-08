@@ -2,13 +2,14 @@ schemaVersion: 1
 name: confluence
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/confluence-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/confluence-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:a4c22e2db931966b6bc83ffa954b92f5efe28212b4c2993fed44992d606195da
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,100 @@
+schemaVersion: 1
+name: appdrag
+version: 0.1.0
+baseUrl: https://api.appdrag.com
+tools:
+  - name: execute_function_get
+    description: Execute an AppDrag Cloud Backend function that uses the GET method, passing query string parameters
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the function resides (use empty string if root)"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the cloud function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: visual_sql_select
+    description: Execute an AppDrag Visual SQL SELECT function to retrieve rows from the Cloud Database
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the Visual SQL SELECT function resides"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the Visual SQL SELECT function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: execute_function_post
+    description: Execute an AppDrag Cloud Backend function that uses the POST method, sending body parameters
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the function resides (use empty string if root)"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the cloud function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: execute_function_put
+    description: Execute an AppDrag Cloud Backend function that uses the PUT method, sending body parameters
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the function resides (use empty string if root)"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the cloud function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: execute_function_patch
+    description: Execute an AppDrag Cloud Backend function that uses the PATCH method, sending body parameters
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the function resides (use empty string if root)"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the cloud function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: execute_function_delete
+    description: Execute an AppDrag Cloud Backend function that uses the DELETE method, sending body parameters
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the function resides (use empty string if root)"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the cloud function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: visual_sql_update
+    description: Execute an AppDrag Visual SQL UPDATE function to update rows in the Cloud Database
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the Visual SQL UPDATE function resides"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the Visual SQL UPDATE function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}
+
+  - name: visual_sql_delete
+    description: Execute an AppDrag Visual SQL DELETE function to remove rows from the Cloud Database
+    method: POST
+    path: /CloudBackend.aspx
+    encoding: form
+    params:
+      - {name: APPDRAG_FUNCTION_COMMAND, in: body, type: string, required: true, description: "Must be CloudAPIExecuteFunction"}
+      - {name: APPDRAG_FUNCTION_APPID, in: body, type: string, required: true, description: AppDrag application ID}
+      - {name: APPDRAG_FUNCTION_FOLDER, in: body, type: string, required: true, description: "Folder name where the Visual SQL DELETE function resides"}
+      - {name: APPDRAG_FUNCTION_NAME, in: body, type: string, required: true, description: Name of the Visual SQL DELETE function to execute}
+      - {name: APIKey, in: body, type: string, description: API key for functions with Require APIKey enabled}

@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: asana
+version: 0.1.0
+baseUrl: https://app.asana.com
+tools:
+  - name: get_workspaces
+    description: Return compact records for all workspaces visible to the authorized user
+    method: GET
+    path: /api/1.0/workspaces
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results per page (1-100)"}
+      - {name: offset, in: query, type: string, description: Pagination token for accessing subsequent pages}
+
+  - name: get_multiple_projects
+    description: Return compact records for all projects matching the given filters
+    method: GET
+    path: /api/1.0/projects
+    params:
+      - {name: workspace, in: query, type: string, description: Filter projects by workspace or organization GID}
+      - {name: archived, in: query, type: boolean, description: Return only archived or only non-archived projects}
+      - {name: limit, in: query, type: integer, description: "Number of results per page (1-100)"}
+      - {name: offset, in: query, type: string, description: Pagination token for accessing subsequent pages}
+
+  - name: get_multiple_tasks
+    description: Return compact task records for tasks matching the given filters; at least one of project, section, or assignee+workspace must be provided
+    method: GET
+    path: /api/1.0/tasks
+    params:
+      - {name: project, in: query, type: string, description: Filter tasks by project GID}
+      - {name: section, in: query, type: string, description: Filter tasks by section GID}
+      - {name: assignee, in: query, type: string, description: "Filter tasks by assignee (user GID or 'me')"}
+      - {name: workspace, in: query, type: string, description: "Filter tasks by workspace GID (required when using assignee)"}
+      - {name: completed_since, in: query, type: string, description: Return incomplete tasks or tasks completed since this ISO-8601 date-time}
+      - {name: modified_since, in: query, type: string, description: Return tasks modified since this ISO-8601 date-time}
+      - {name: limit, in: query, type: integer, description: "Number of results per page (1-100)"}
+      - {name: offset, in: query, type: string, description: Pagination token for accessing subsequent pages}
+
+  - name: get_task
+    description: Return the complete task record for a single task
+    method: GET
+    path: /api/1.0/tasks/{task_gid}
+    params:
+      - {name: task_gid, in: path, type: string, required: true, description: GID of the task to retrieve}
+
+  - name: get_current_user
+    description: Return the full user record for the currently authenticated user
+    method: GET
+    path: /api/1.0/users/me
+    params: []
+
+  - name: create_task
+    description: Create a new task in the specified workspace or project
+    method: POST
+    path: /api/1.0/tasks
+    encoding: json
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the task}
+      - {name: workspace, in: body, type: string, description: GID of the workspace to create the task in (required if projects not specified)}
+      - {name: projects, in: body, type: array, description: Array of project GIDs to add the task to}
+      - {name: assignee, in: body, type: string, description: "GID of the user to assign the task to, or 'me'"}
+      - {name: notes, in: body, type: string, description: Free-form textual notes associated with the task}
+      - {name: due_on, in: body, type: string, description: "ISO-8601 date string (YYYY-MM-DD) for the task due date"}
+
+  - name: create_subtask
+    description: Create a new subtask and add it to the parent task
+    method: POST
+    path: /api/1.0/tasks/{task_gid}/subtasks
+    encoding: json
+    params:
+      - {name: task_gid, in: path, type: string, required: true, description: GID of the parent task}
+      - {name: name, in: body, type: string, required: true, description: Name of the subtask}
+      - {name: assignee, in: body, type: string, description: "GID of the user to assign the subtask to, or 'me'"}
+      - {name: notes, in: body, type: string, description: Free-form textual notes for the subtask}
+      - {name: due_on, in: body, type: string, description: "ISO-8601 date string (YYYY-MM-DD) for the subtask due date"}
+
+  - name: create_project
+    description: Create a new project in the specified workspace or organization
+    method: POST
+    path: /api/1.0/projects
+    encoding: json
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the project}
+      - {name: workspace, in: body, type: string, required: true, description: GID of the workspace or organization to create the project in}
+      - {name: team, in: body, type: string, description: GID of the team that owns the project (required for organization workspaces)}
+      - {name: notes, in: body, type: string, description: Free-form textual notes associated with the project}
+      - {name: archived, in: body, type: boolean, description: Whether the project is archived}
+
+  - name: create_task_comment
+    description: Create a comment story on a task
+    method: POST
+    path: /api/1.0/tasks/{task_gid}/stories
+    encoding: json
+    params:
+      - {name: task_gid, in: path, type: string, required: true, description: GID of the task to comment on}
+      - {name: text, in: body, type: string, required: true, description: The plain text content of the comment}
+
+  - name: delete_task
+    description: Delete a task; the task is moved to the user's trash for 30 days before permanent removal
+    method: DELETE
+    path: /api/1.0/tasks/{task_gid}
+    params:
+      - {name: task_gid, in: path, type: string, required: true, description: GID of the task to delete}

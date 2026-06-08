@@ -1,0 +1,71 @@
+schemaVersion: 1
+name: bannerbear
+version: 0.1.0
+baseUrl: https://api.bannerbear.com
+tools:
+  - name: get_account_info
+    description: Retrieve account status, quota usage, and project information
+    method: GET
+    path: /v2/account
+
+  - name: list_templates
+    description: List all templates in the project with optional filtering and pagination
+    method: GET
+    path: /v2/templates
+    params:
+      - {name: page, in: query, type: integer, description: "Page of results to retrieve (25 items per page by default)"}
+      - {name: limit, in: query, type: integer, description: "Number of items per page (default 25, max 100)"}
+      - {name: tag, in: query, type: string, description: "Filter templates by this tag"}
+      - {name: name, in: query, type: string, description: "Filter templates that partially match this name"}
+
+  - name: get_template
+    description: Retrieve details of a single template including its available modifications
+    method: GET
+    path: /v2/templates/{uid}
+    params:
+      - {name: uid, in: path, type: string, required: true, description: "Unique identifier of the template"}
+
+  - name: list_images
+    description: List all generated images in the project with pagination
+    method: GET
+    path: /v2/images
+    params:
+      - {name: page, in: query, type: integer, description: "Page of results to retrieve"}
+      - {name: limit, in: query, type: integer, description: "Number of items per page (default 25, max 100)"}
+
+  - name: get_image
+    description: Retrieve a single generated image by its unique identifier
+    method: GET
+    path: /v2/images/{uid}
+    params:
+      - {name: uid, in: path, type: string, required: true, description: "Unique identifier of the image"}
+
+  - name: list_videos
+    description: List all generated videos in the project with pagination
+    method: GET
+    path: /v2/videos
+    params:
+      - {name: page, in: query, type: integer, description: "Page of results to retrieve"}
+
+  - name: list_screenshots
+    description: List all captured webpage screenshots in the project with pagination
+    method: GET
+    path: /v2/screenshots
+    params:
+      - {name: page, in: query, type: integer, description: "Page of results to retrieve"}
+
+  - name: create_template
+    description: Create a new blank template with specified dimensions
+    method: POST
+    path: /v2/templates
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name for the new template"}
+      - {name: width, in: body, type: integer, required: true, description: "Width of the template in pixels"}
+      - {name: height, in: body, type: integer, required: true, description: "Height of the template in pixels"}
+
+  - name: delete_template
+    description: Permanently delete a template from the project
+    method: DELETE
+    path: /v2/templates/{uid}
+    params:
+      - {name: uid, in: path, type: string, required: true, description: "Unique identifier of the template to delete"}

@@ -38,9 +38,10 @@ type Image struct {
 	Digest     string `json:"digest"`
 	Entrypoint string `json:"entrypoint"` // absolute path of the static binary inside the image
 	// Builder selects the registry build recipe (images/<builder>/Dockerfile).
-	// Empty = "go-static" (static Go binary, FROM scratch). "node" and
-	// "python" produce runtime-rootfs images — installable only once the
-	// gateway's rootfs sandbox extension ships.
+	// Empty = "go-static" (static Go binary, FROM scratch). "toolpack" builds
+	// the generic engine and bakes in the paired manifests/<name>/<version>.toolspec.yaml.
+	// "node" and "python" produce runtime-rootfs images — installable only
+	// once the gateway's rootfs sandbox extension ships.
 	Builder string `json:"builder,omitempty"`
 }
 

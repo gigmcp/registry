@@ -2,13 +2,14 @@ schemaVersion: 1
 name: brevo
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/brevo-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brevo-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:d716c26f78ea1c3f9acfc9240ca65a2397845ca3357f04ca9bbefb7e6301d2ec
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

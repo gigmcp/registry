@@ -1,0 +1,101 @@
+schemaVersion: 1
+name: alchemy
+version: 0.1.0
+baseUrl: https://eth-mainnet.g.alchemy.com
+auth:
+  header: Authorization
+  format: "Bearer {token}"
+tools:
+  - name: get_nfts_for_owner
+    description: Retrieve all NFTs currently owned by a given wallet address
+    method: GET
+    path: /nft/v3/getNFTsForOwner
+    params:
+      - {name: owner, in: query, type: string, required: true, description: "Wallet address of the NFT owner (hex or ENS format)"}
+      - {name: contractAddresses, in: query, type: array, description: "Filter by up to 45 NFT contract addresses"}
+      - {name: withMetadata, in: query, type: boolean, description: "Include NFT metadata in the response (default true)"}
+      - {name: orderBy, in: query, type: string, description: "Ordering scheme for NFTs; accepted value: transferTime"}
+      - {name: pageKey, in: query, type: string, description: "Pagination key to retrieve the next page of results"}
+      - {name: pageSize, in: query, type: integer, description: "Number of NFTs returned per page (default and max 100)"}
+
+  - name: get_nft_metadata
+    description: Retrieve the metadata associated with a given NFT by contract address and token ID
+    method: GET
+    path: /nft/v3/getNFTMetadata
+    params:
+      - {name: contractAddress, in: query, type: string, required: true, description: "Contract address of the NFT (ERC721 or ERC1155)"}
+      - {name: tokenId, in: query, type: string, required: true, description: "Token ID of the NFT in hex or decimal format"}
+      - {name: tokenType, in: query, type: string, description: "Token standard: ERC721 or ERC1155 (speeds up response when specified)"}
+      - {name: refreshCache, in: query, type: boolean, description: "If true, refreshes cached metadata for the token (default false)"}
+
+  - name: get_owners_for_contract
+    description: Retrieve all owner addresses for a given NFT contract
+    method: GET
+    path: /nft/v3/getOwnersForContract
+    params:
+      - {name: contractAddress, in: query, type: string, required: true, description: "Contract address of the NFT (ERC721 or ERC1155)"}
+      - {name: withTokenBalances, in: query, type: boolean, description: "If true, includes token balances per token ID for each owner (default false)"}
+      - {name: pageKey, in: query, type: string, description: "Pagination key for contracts with more than 50,000 owners"}
+
+  - name: get_nft_sales
+    description: Retrieve NFT sales data across marketplaces filtered by block range, contract, token, or address
+    method: GET
+    path: /nft/v3/getNFTSales
+    params:
+      - {name: fromBlock, in: query, type: string, description: "Starting block number (decimal, hex, or 'latest'; default '0')"}
+      - {name: toBlock, in: query, type: string, description: "Ending block number (decimal, hex, or 'latest'; default 'latest')"}
+      - {name: order, in: query, type: string, description: "Sort direction from fromBlock: asc or desc (default desc)"}
+      - {name: marketplace, in: query, type: string, description: "Filter by marketplace: seaport, wyvern, looksrare, x2y2, blur, or cryptopunks"}
+      - {name: contractAddress, in: query, type: string, description: "Filter by NFT collection contract address"}
+      - {name: tokenId, in: query, type: string, description: "Filter by token ID within the collection"}
+      - {name: buyerAddress, in: query, type: string, description: "Filter by buyer wallet address"}
+      - {name: sellerAddress, in: query, type: string, description: "Filter by seller wallet address"}
+      - {name: taker, in: query, type: string, description: "Filter by trade role: BUYER or SELLER"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of sales to return (default and max 1000)"}
+      - {name: pageKey, in: query, type: string, description: "Pagination key for fetching subsequent result pages"}
+
+  - name: get_nft_floor_price
+    description: Retrieve the floor price of an NFT collection by marketplace
+    method: GET
+    path: /nft/v3/getFloorPrice
+    params:
+      - {name: contractAddress, in: query, type: string, required: true, description: "Contract address of the NFT collection (ERC721 or ERC1155)"}
+      - {name: collectionSlug, in: query, type: string, description: "OpenSea slug for the NFT collection"}
+
+  - name: get_token_balances
+    description: Retrieve ERC-20 token balances for a wallet address via JSON-RPC
+    method: POST
+    path: /v2
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be '2.0'"}
+      - {name: id, in: body, type: integer, required: true, description: "JSON-RPC request ID"}
+      - {name: method, in: body, type: string, required: true, description: "JSON-RPC method name; must be 'alchemy_getTokenBalances'"}
+      - {name: params, in: body, type: array, required: true, description: "JSON-RPC params array: [address, tokenSpec?, options?] — address is the 20-byte wallet address; tokenSpec is 'erc20', 'DEFAULT_TOKENS', 'NATIVE_TOKEN', or an array of contract addresses; options is an object with optional pageKey (string) and maxCount (integer, max 100)"}
+
+  - name: get_token_metadata
+    description: Retrieve metadata (name, symbol, decimals, logo) for an ERC-20 token contract via JSON-RPC
+    method: POST
+    path: /v2
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be '2.0'"}
+      - {name: id, in: body, type: integer, required: true, description: "JSON-RPC request ID"}
+      - {name: method, in: body, type: string, required: true, description: "JSON-RPC method name; must be 'alchemy_getTokenMetadata'"}
+      - {name: params, in: body, type: array, required: true, description: "JSON-RPC params array: [contractAddress] — contractAddress is the 20-byte ERC-20 token contract address"}
+
+  - name: get_token_prices_by_symbol
+    description: Retrieve current prices for up to 25 tokens by their symbols
+    method: GET
+    path: /prices/v1/tokens/by-symbol
+    baseUrl: https://api.g.alchemy.com
+    params:
+      - {name: symbols, in: query, type: array, required: true, description: "Array of token symbols to fetch prices for (limit 25); e.g. ETH,BTC"}
+
+  - name: get_transactions_history_by_address
+    description: Retrieve asset transfer history for an address via the alchemy_getAssetTransfers JSON-RPC method
+    method: POST
+    path: /v2
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be '2.0'"}
+      - {name: id, in: body, type: integer, required: true, description: "JSON-RPC request ID"}
+      - {name: method, in: body, type: string, required: true, description: "JSON-RPC method name; must be 'alchemy_getAssetTransfers'"}
+      - {name: params, in: body, type: array, required: true, description: "JSON-RPC params array: [filterObject] — filterObject may include: fromAddress (string), toAddress (string), fromBlock (hex string or 'latest'; default '0x0'), toBlock (hex string or 'latest'; default latest), category (array of 'external'|'internal'|'erc20'|'erc721'|'erc1155'|'specialnft'), order ('asc'|'desc'), withMetadata (boolean; default false), excludeZeroValue (boolean; default true), maxCount (hex string; default '0x3e8'), pageKey (string)"}

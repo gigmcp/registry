@@ -1,0 +1,85 @@
+schemaVersion: 1
+name: finage
+version: 0.1.0
+baseUrl: https://api.finage.co.uk
+auth:
+  header: Authorization
+  format: "Bearer {token}"
+tools:
+  - name: get_stock_last_quote
+    description: Get the last bid/ask quote for a US stock symbol
+    method: GET
+    path: /last/stock/{symbol}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Stock ticker symbol (e.g. AAPL)"}
+
+  - name: get_stock_previous_close
+    description: Get the previous trading day OHLCV bar for a US stock symbol
+    method: GET
+    path: /agg/stock/prev-close/{symbol}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Stock ticker symbol (e.g. AAPL)"}
+      - {name: unadjusted, in: query, type: boolean, description: "Return unadjusted prices (default false)"}
+
+  - name: get_stock_market_aggregates
+    description: Get aggregated OHLCV bars for a US stock over a date range
+    method: GET
+    path: /agg/stock/{symbol}/{multiplier}/{timespan}/{from}/{to}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Stock ticker symbol (e.g. AAPL)"}
+      - {name: multiplier, in: path, type: integer, required: true, description: "Size of each aggregate time window (e.g. 1)"}
+      - {name: timespan, in: path, type: string, required: true, description: "Time unit for each bar: minute, hour, day, week, month"}
+      - {name: from, in: path, type: string, required: true, description: "Start date in YYYY-MM-DD format"}
+      - {name: to, in: path, type: string, required: true, description: "End date in YYYY-MM-DD format"}
+      - {name: limit, in: query, type: integer, description: "Max number of results (default 100, max 50000)"}
+      - {name: sort, in: query, type: string, description: "Sort order by timestamp: asc (default) or desc"}
+
+  - name: get_stock_market_news
+    description: Get recent market news articles for a stock symbol
+    method: GET
+    path: /news/market/{symbol}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Stock ticker symbol (e.g. AAPL)"}
+      - {name: limit, in: query, type: integer, description: "Max number of news items to return (default 10, max 30)"}
+
+  - name: get_technical_indicators
+    description: Calculate a technical indicator (SMA, EMA, RSI, ADX, etc.) for a stock symbol
+    method: GET
+    path: /fnd/technical-indicator/{type}/{time}/{symbol}
+    params:
+      - {name: type, in: path, type: string, required: true, description: "Indicator type: SMA, EMA, DEMA, WMA, TEMA, RSI, Williams, ADX"}
+      - {name: time, in: path, type: string, required: true, description: "Time interval: daily, 1min, 5min, 15min, 30min, 1hour, 4hour"}
+      - {name: symbol, in: path, type: string, required: true, description: "Stock ticker symbol (e.g. AAPL)"}
+      - {name: period, in: query, type: integer, description: "Lookback period for the indicator calculation"}
+
+  - name: get_crypto_last_trade
+    description: Get the latest trade price and timestamp for a cryptocurrency pair
+    method: GET
+    path: /last/crypto/{symbol}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Crypto pair symbol (e.g. BTCUSD)"}
+
+  - name: get_forex_last_quote
+    description: Get the last bid/ask quote for a forex currency pair
+    method: GET
+    path: /last/forex/{symbol}
+    params:
+      - {name: symbol, in: path, type: string, required: true, description: "Forex pair symbol (e.g. GBPUSD)"}
+
+  - name: convert_currency
+    description: Convert an amount between two currencies using real-time forex rates
+    method: GET
+    path: /convert/forex/{from}/{to}/{amount}
+    params:
+      - {name: from, in: path, type: string, required: true, description: "Source currency code (e.g. GBP)"}
+      - {name: to, in: path, type: string, required: true, description: "Target currency code (e.g. USD)"}
+      - {name: amount, in: path, type: number, required: true, description: "Amount to convert"}
+
+  - name: search_market
+    description: Search for stocks by ticker or company name within a market
+    method: GET
+    path: /fnd/search/market/{market}/{key}
+    params:
+      - {name: market, in: path, type: string, required: true, description: "Market identifier (e.g. us for US stocks)"}
+      - {name: key, in: path, type: string, required: true, description: "Search term (ticker symbol or partial company name)"}
+      - {name: limit, in: query, type: integer, description: "Max number of results to return"}

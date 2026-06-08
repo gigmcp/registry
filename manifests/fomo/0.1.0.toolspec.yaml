@@ -1,0 +1,91 @@
+schemaVersion: 1
+name: fomo
+version: 0.1.0
+baseUrl: https://api.fomo.com
+tools:
+  - name: list_events
+    description: Retrieve a paginated list of events for the application
+    method: GET
+    path: /api/v1/applications/me/events
+    params:
+      - {name: page, in: query, type: integer, description: "Page number (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of events per page (default 30)"}
+  - name: get_fomo_event
+    description: Retrieve a single event by its ID
+    method: GET
+    path: /api/v1/applications/me/events/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique ID of the event}
+  - name: search_event
+    description: Search for an event by external_id or email_address
+    method: GET
+    path: /api/v1/applications/me/events/find
+    params:
+      - {name: field, in: query, type: string, required: true, description: "Attribute to search by: email_address or external_id"}
+      - {name: q, in: query, type: string, required: true, description: "Value to match, e.g. an email address or external identifier"}
+  - name: get_statistics
+    description: Retrieve notification impression, click, and conversion statistics for the application
+    method: GET
+    path: /api/v1/applications/me/dashboard
+    params:
+      - {name: "date_range[from]", in: query, type: string, description: "Start date for statistics range (YYYY-MM-DD)"}
+      - {name: "date_range[to]", in: query, type: string, description: "End date for statistics range (YYYY-MM-DD)"}
+  - name: create_fomo_event
+    description: Create a new event and push it to the live notification feed
+    method: POST
+    path: /api/v1/applications/me/events
+    params:
+      - {name: event_type_id, in: body, type: integer, required: true, description: "ID of the event type (template) to use"}
+      - {name: url, in: body, type: string, description: Redirect URL when the notification is clicked}
+      - {name: first_name, in: body, type: string, description: First name of the person associated with the event}
+      - {name: email_address, in: body, type: string, description: "Email address used to fetch avatar via Gravatar"}
+      - {name: ip_address, in: body, type: string, description: IP address used to resolve city and country location}
+      - {name: city, in: body, type: string, description: City location for the event}
+      - {name: province, in: body, type: string, description: State or province for the event}
+      - {name: country, in: body, type: string, description: "ISO-2 country code for the event"}
+      - {name: title, in: body, type: string, description: Title or product name for the event}
+      - {name: image_url, in: body, type: string, description: URL of an image to display in the notification}
+      - {name: external_id, in: body, type: string, description: External identifier to prevent duplicate events}
+      - {name: custom_event_fields_attributes, in: body, type: array, description: Array of custom field key-value pairs}
+  - name: update_event
+    description: Update key-value pairs on an existing event
+    method: PATCH
+    path: /api/v1/applications/me/events/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique ID of the event to update}
+      - {name: url, in: body, type: string, description: Redirect URL when the notification is clicked}
+      - {name: first_name, in: body, type: string, description: First name of the person associated with the event}
+      - {name: email_address, in: body, type: string, description: Email address for the event}
+      - {name: city, in: body, type: string, description: City location for the event}
+      - {name: province, in: body, type: string, description: State or province for the event}
+      - {name: country, in: body, type: string, description: "ISO-2 country code for the event"}
+      - {name: title, in: body, type: string, description: Title or product name for the event}
+      - {name: image_url, in: body, type: string, description: URL of an image to display in the notification}
+      - {name: custom_event_fields_attributes, in: body, type: array, description: Array of custom field key-value pairs to update}
+  - name: delete_fomo_event
+    description: Delete an event from the application by its ID
+    method: DELETE
+    path: /api/v1/applications/me/events/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique ID of the event to delete}
+  - name: create_fomo_template
+    description: Create a new notification template (event type) for the application
+    method: POST
+    path: /api/v1/applications/me/event_types
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the template}
+      - {name: title, in: body, type: string, description: Title text for the notification template}
+      - {name: message, in: body, type: string, description: Message body for the notification template}
+  - name: update_application
+    description: Update settings for the Fomo application
+    method: PATCH
+    path: /api/v1/applications/me/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique ID of the application to update}
+      - {name: name, in: body, type: string, description: Display name for the application}
+      - {name: url, in: body, type: string, description: URL of the application}
+      - {name: language, in: body, type: string, description: "ISO-2 language code for the application"}
+      - {name: page_load, in: body, type: integer, description: Delay in milliseconds before first notification appears}
+      - {name: display_for, in: body, type: integer, description: Duration in milliseconds to display each notification}
+      - {name: display_interval, in: body, type: integer, description: Interval in milliseconds between notifications}
+      - {name: display_period, in: body, type: integer, description: Period in milliseconds for the notification cycle}

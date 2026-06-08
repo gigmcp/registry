@@ -1,0 +1,68 @@
+schemaVersion: 1
+name: microsoft-clarity
+version: 0.1.0
+baseUrl: https://www.clarity.ms
+tools:
+  - name: data_export
+    description: Export Clarity dashboard data over a specified date range, optionally broken down by up to three dimensions
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, description: "First dimension to break down insights by (Browser, Device, Country/Region, OS, Source, Medium, Campaign, Channel, URL)"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to break down insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to break down insights by"}
+  - name: export_traffic_insights
+    description: Export traffic metrics (sessions, users, pages per session) from Clarity for a given date range
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, description: "First dimension to break down traffic insights by (Browser, Device, Country/Region, OS, Source, Medium, Campaign, Channel, URL)"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to break down traffic insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to break down traffic insights by"}
+  - name: export_engagement_insights
+    description: Export engagement time metrics from Clarity showing how long users actively interact with pages
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, description: "First dimension to break down engagement insights by (Browser, Device, Country/Region, OS, Source, Medium, Campaign, Channel, URL)"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to break down engagement insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to break down engagement insights by"}
+  - name: export_scroll_depth_insights
+    description: Export scroll depth metrics from Clarity showing how far users scroll down pages
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, description: "First dimension to break down scroll depth insights by (Browser, Device, Country/Region, OS, Source, Medium, Campaign, Channel, URL)"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to break down scroll depth insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to break down scroll depth insights by"}
+  - name: export_browser_breakdown
+    description: Export Clarity analytics data broken down by browser type
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, required: true, description: "Primary dimension set to Browser to break down insights by browser"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to further break down browser insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to further break down browser insights by"}
+  - name: export_device_breakdown
+    description: Export Clarity analytics data broken down by device type (mobile, tablet, desktop)
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, required: true, description: "Primary dimension set to Device to break down insights by device type"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to further break down device insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to further break down device insights by"}
+  - name: export_country_breakdown
+    description: Export Clarity analytics data broken down by country or region
+    method: GET
+    path: /export-data/api/v1/project-live-insights
+    params:
+      - {name: numOfDays, in: query, type: integer, required: true, description: "Number of days of data to export (1, 2, or 3) counting back from now"}
+      - {name: dimension1, in: query, type: string, required: true, description: "Primary dimension set to Country/Region to break down insights by geography"}
+      - {name: dimension2, in: query, type: string, description: "Second dimension to further break down country insights by"}
+      - {name: dimension3, in: query, type: string, description: "Third dimension to further break down country insights by"}

@@ -1,0 +1,117 @@
+schemaVersion: 1
+name: pagerduty
+version: 0.1.0
+baseUrl: https://api.pagerduty.com
+tools:
+  - name: list_incidents
+    description: List existing incidents filtered by status, urgency, service, team, or date range
+    method: GET
+    path: /incidents
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: offset, in: query, type: integer, description: Offset for pagination}
+      - {name: "statuses[]", in: query, type: string, description: "Filter by status: triggered, acknowledged, or resolved"}
+      - {name: "urgencies[]", in: query, type: string, description: "Filter by urgency: high or low"}
+      - {name: "service_ids[]", in: query, type: array, description: Return only incidents associated with these service IDs}
+      - {name: "team_ids[]", in: query, type: array, description: Return only incidents associated with these team IDs}
+      - {name: since, in: query, type: string, description: "Start of date range (ISO 8601). Maximum range is 6 months."}
+      - {name: until, in: query, type: string, description: "End of date range (ISO 8601). Maximum range is 6 months."}
+      - {name: sort_by, in: query, type: array, description: "Sort field and direction, e.g. incident_number:asc"}
+      - {name: time_zone, in: query, type: string, description: Time zone for rendering results}
+
+  - name: get_incident
+    description: Get details of a single incident by its ID
+    method: GET
+    path: /incidents/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the incident}
+      - {name: "include[]", in: query, type: string, description: "Additional details to include: acknowledgers, agents, assignees, escalation_policies, etc."}
+
+  - name: create_incident
+    description: Create a new incident on a given service
+    method: POST
+    path: /incidents
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Must be \"incident\""}
+      - {name: title, in: body, type: string, required: true, description: "A succinct description of the nature, symptoms, cause, or effect of the incident"}
+      - {name: service, in: body, type: object, required: true, description: "Service reference object: {\"id\": \"<SERVICE_ID>\", \"type\": \"service_reference\"}"}
+      - {name: urgency, in: body, type: string, description: "Urgency of the incident: high or low"}
+      - {name: incident_key, in: body, type: string, description: Deduplication key; subsequent requests with the same key update the open incident}
+      - {name: body, in: body, type: object, description: "Incident body with additional details: {\"type\": \"incident_body\", \"details\": \"<free text>\"}"}
+      - {name: escalation_policy, in: body, type: object, description: "Escalation policy reference: {\"id\": \"<POLICY_ID>\", \"type\": \"escalation_policy_reference\"}"}
+
+  - name: list_services
+    description: List existing services, optionally filtered by name, team, or query string
+    method: GET
+    path: /services
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: offset, in: query, type: integer, description: Offset for pagination}
+      - {name: query, in: query, type: string, description: Filters the result by a text query}
+      - {name: name, in: query, type: string, description: Filters the result by exact service name}
+      - {name: "team_ids[]", in: query, type: array, description: Return only services associated with these team IDs}
+      - {name: sort_by, in: query, type: string, description: "Sort field: name, name:asc, or name:desc"}
+
+  - name: list_oncalls
+    description: List on-call entries for users and schedules, optionally filtered by escalation policy, schedule, or user
+    method: GET
+    path: /oncalls
+    params:
+      - {name: limit, in: query, type: integer, description: Number of results per page}
+      - {name: offset, in: query, type: integer, description: Offset for pagination}
+      - {name: "user_ids[]", in: query, type: array, description: Filter results to on-calls for these user IDs}
+      - {name: "escalation_policy_ids[]", in: query, type: array, description: Filter results to on-calls for these escalation policy IDs}
+      - {name: "schedule_ids[]", in: query, type: array, description: Filter results to on-calls for these schedule IDs}
+      - {name: since, in: query, type: string, description: "Start of time range (ISO 8601)"}
+      - {name: until, in: query, type: string, description: "End of time range (ISO 8601)"}
+      - {name: earliest, in: query, type: boolean, description: "Return only the earliest on-call for each combination of escalation policy, escalation level, and user"}
+      - {name: time_zone, in: query, type: string, description: Time zone for rendering results}
+
+  - name: list_schedules
+    description: List existing on-call schedules, optionally filtered by query string or team
+    method: GET
+    path: /schedules
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: offset, in: query, type: integer, description: Offset for pagination}
+      - {name: query, in: query, type: string, description: Filters the result by a text query}
+      - {name: "team_ids[]", in: query, type: array, description: Return only schedules associated with these team IDs}
+      - {name: time_zone, in: query, type: string, description: Time zone for rendering results}
+      - {name: since, in: query, type: string, description: "Start of date range (ISO 8601)"}
+      - {name: until, in: query, type: string, description: "End of date range (ISO 8601)"}
+
+  - name: list_users
+    description: List users in the account, optionally filtered by query string or team
+    method: GET
+    path: /users
+    params:
+      - {name: limit, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: offset, in: query, type: integer, description: Offset for pagination}
+      - {name: query, in: query, type: string, description: Filters the result by a text query}
+      - {name: "team_ids[]", in: query, type: array, description: Return only users belonging to these team IDs}
+      - {name: "include[]", in: query, type: string, description: "Additional details to include: contact_methods, notification_rules, teams"}
+
+  - name: create_escalation_policy
+    description: Create a new escalation policy with escalation rules and targets
+    method: POST
+    path: /escalation_policies
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Must be \"escalation_policy\""}
+      - {name: name, in: body, type: string, required: true, description: The name of the escalation policy}
+      - {name: escalation_rules, in: body, type: array, required: true, description: "Array of rule objects; each has escalation_delay_in_minutes (integer) and targets (array of {id, type} objects)"}
+      - {name: description, in: body, type: string, description: Description of the escalation policy}
+      - {name: num_loops, in: body, type: integer, description: Number of times the policy repeats after reaching the end before the incident is resolved}
+      - {name: on_call_handoff_notifications, in: body, type: string, description: "How handoff notifications are sent: if_has_services or always"}
+
+  - name: create_status_page_post
+    description: Create a new post (incident or maintenance) on a status page
+    method: POST
+    path: /status_pages/{id}/posts
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the status page}
+      - {name: type, in: body, type: string, required: true, description: "Must be \"status_page_post\""}
+      - {name: title, in: body, type: string, required: true, description: The title of the post}
+      - {name: post_type, in: body, type: string, required: true, description: "Type of post: incident or maintenance"}
+      - {name: starts_at, in: body, type: string, required: true, description: "ISO 8601 datetime when the post becomes effective (required for maintenance posts)"}
+      - {name: ends_at, in: body, type: string, required: true, description: "ISO 8601 datetime when the post concludes (required for maintenance posts)"}
+      - {name: updates, in: body, type: array, required: true, description: "Initial post update objects; each must include message, status, severity, impacted_services, update_frequency_ms, notify_subscribers, and type"}

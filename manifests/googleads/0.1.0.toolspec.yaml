@@ -1,0 +1,88 @@
+schemaVersion: 1
+name: googleads
+version: 0.1.0
+baseUrl: https://googleads.googleapis.com
+tools:
+  - name: list_accessible_customers
+    description: Return the resource names of all Google Ads accounts directly accessible by the authenticated user
+    method: GET
+    path: /v20/customers:listAccessibleCustomers
+    params:
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+
+  - name: search_stream_gaql
+    description: Execute a Google Ads Query Language (GAQL) statement via streaming search and return all matching rows in a single response
+    method: POST
+    path: /v20/customers/{customer_id}/googleAds:searchStream
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: query, in: body, type: string, required: true, description: "A GAQL SELECT statement to execute (e.g. SELECT campaign.id, campaign.name FROM campaign)"}
+
+  - name: get_campaign_by_id
+    description: Retrieve a single campaign by its numeric ID within a customer account using a GAQL query
+    method: POST
+    path: /v20/customers/{customer_id}/googleAds:search
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: query, in: body, type: string, required: true, description: "A GAQL SELECT statement filtering by campaign.id (e.g. SELECT campaign.id, campaign.name, campaign.status FROM campaign WHERE campaign.id = 12345678)"}
+
+  - name: get_campaign_by_name
+    description: Search for campaigns matching a given name within a customer account using a GAQL query
+    method: POST
+    path: /v20/customers/{customer_id}/googleAds:search
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: query, in: body, type: string, required: true, description: "A GAQL SELECT statement filtering campaigns by name (e.g. SELECT campaign.id, campaign.name FROM campaign WHERE campaign.name = 'My Campaign')"}
+      - {name: pageToken, in: body, type: string, description: "Token for fetching the next page of results"}
+
+  - name: get_customer_lists
+    description: Retrieve user lists (customer match lists / remarketing lists) for a customer account using a GAQL query
+    method: POST
+    path: /v20/customers/{customer_id}/googleAds:search
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: query, in: body, type: string, required: true, description: "A GAQL SELECT statement querying the user_list resource (e.g. SELECT user_list.id, user_list.name, user_list.size_for_display FROM user_list)"}
+      - {name: pageToken, in: body, type: string, description: "Token for fetching the next page of results"}
+
+  - name: create_customer_list
+    description: Create a new user list (customer match audience) for a customer account
+    method: POST
+    path: /v20/customers/{customer_id}/userLists:mutate
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: operations, in: body, type: array, required: true, description: "Array of UserListOperation objects; each create operation contains a userList resource with name, description, and matchRatePercentage fields"}
+
+  - name: add_or_remove_to_customer_list
+    description: Upload user data to add or remove members from a customer match user list
+    method: POST
+    path: /v20/customers/{customer_id}:uploadUserData
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: operations, in: body, type: array, required: true, description: "Array of UserDataOperation objects; each operation contains create (add) or remove user data with userIdentifiers (email, phone, address hashes)"}
+      - {name: customerMatchUserListMetadata, in: body, type: object, required: true, description: "Metadata identifying the target user list; must include userList resource name (customers/{id}/userLists/{list_id})"}
+
+  - name: mutate_campaigns
+    description: Create, update, or remove campaigns for a customer account
+    method: POST
+    path: /v20/customers/{customer_id}/campaigns:mutate
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: operations, in: body, type: array, required: true, description: "Array of CampaignOperation objects; each operation is one of create (Campaign resource), update (Campaign with updateMask), or remove (resource name string)"}
+      - {name: partialFailure, in: body, type: boolean, description: "If true, successful operations proceed even if others fail; defaults to false"}
+
+  - name: mutate_ad_groups
+    description: Create, update, or remove ad groups for a customer account
+    method: POST
+    path: /v20/customers/{customer_id}/adGroups:mutate
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: "The Google Ads customer account ID (without dashes)"}
+      - {name: developer-token, in: header, type: string, required: true, description: "Google Ads API developer token (obtain from your manager account's API Center)"}
+      - {name: operations, in: body, type: array, required: true, description: "Array of AdGroupOperation objects; each operation is one of create (AdGroup resource), update (AdGroup with updateMask), or remove (resource name string)"}
+      - {name: partialFailure, in: body, type: boolean, description: "If true, successful operations proceed even if others fail; defaults to false"}

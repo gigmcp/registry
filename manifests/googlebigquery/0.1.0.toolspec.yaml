@@ -1,0 +1,124 @@
+schemaVersion: 1
+name: googlebigquery
+version: 0.1.0
+baseUrl: https://bigquery.googleapis.com
+tools:
+  - name: query
+    description: Run a synchronous SQL query against BigQuery and return results
+    method: POST
+    path: /bigquery/v2/projects/{projectId}/queries
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID to bill and run the query against"}
+      - {name: query, in: body, type: string, required: true, description: "SQL query string to execute"}
+      - {name: useLegacySql, in: body, type: boolean, description: "Whether to use BigQuery legacy SQL syntax (default false — standard SQL)"}
+      - {name: maxResults, in: body, type: integer, description: "Maximum number of rows to return in the query results"}
+      - {name: timeoutMs, in: body, type: integer, description: "Timeout in milliseconds to wait for the query to complete; if not complete, partial results may be returned"}
+      - {name: location, in: body, type: string, description: "Geographic location where the query should run (e.g. US, EU)"}
+      - {name: defaultDataset, in: body, type: object, description: "Default dataset to use for unqualified table names in the query (object with projectId and datasetId)"}
+      - {name: parameterMode, in: body, type: string, description: "Parameter mode for parameterized queries: NAMED or POSITIONAL"}
+      - {name: queryParameters, in: body, type: array, description: "Array of query parameters for parameterized queries"}
+      - {name: dryRun, in: body, type: boolean, description: "If true, validate and estimate cost without executing the query"}
+      - {name: useQueryCache, in: body, type: boolean, description: "Whether to look for a cached result (default true)"}
+
+  - name: get_query_results
+    description: Read results from a completed or running BigQuery query job
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/queries/{jobId}
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the query job"}
+      - {name: jobId, in: path, type: string, required: true, description: "ID of the query job whose results to retrieve"}
+      - {name: location, in: query, type: string, description: "Geographic location where the job runs (e.g. US, EU)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of result rows to return per page"}
+      - {name: pageToken, in: query, type: string, description: "Page token from a previous response to retrieve the next page of results"}
+      - {name: startIndex, in: query, type: integer, description: "Zero-based index of the first row of results to return"}
+      - {name: timeoutMs, in: query, type: integer, description: "Milliseconds to wait for the query to complete before returning partial results"}
+
+  - name: list_datasets
+    description: List all datasets in a Google Cloud project
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/datasets
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID whose datasets to list"}
+      - {name: all, in: query, type: boolean, description: "Whether to list all datasets including hidden ones"}
+      - {name: filter, in: query, type: string, description: "Filter expression to restrict datasets returned (e.g. labels.env:production)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of datasets to return"}
+      - {name: pageToken, in: query, type: string, description: "Page token from a previous response to retrieve the next page"}
+
+  - name: list_tables
+    description: List all tables in a BigQuery dataset
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/datasets/{datasetId}/tables
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the dataset"}
+      - {name: datasetId, in: path, type: string, required: true, description: "ID of the dataset whose tables to list"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of tables to return"}
+      - {name: pageToken, in: query, type: string, description: "Page token from a previous response to retrieve the next page"}
+
+  - name: get_table_schema
+    description: Get the metadata and schema of a BigQuery table
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/datasets/{datasetId}/tables/{tableId}
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the table"}
+      - {name: datasetId, in: path, type: string, required: true, description: "ID of the dataset containing the table"}
+      - {name: tableId, in: path, type: string, required: true, description: "ID of the table to retrieve schema and metadata for"}
+      - {name: selectedFields, in: query, type: string, description: "Comma-separated list of schema fields to return (all fields returned if omitted)"}
+
+  - name: list_table_data
+    description: List rows stored in a BigQuery table
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/datasets/{datasetId}/tables/{tableId}/data
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the table"}
+      - {name: datasetId, in: path, type: string, required: true, description: "ID of the dataset containing the table"}
+      - {name: tableId, in: path, type: string, required: true, description: "ID of the table whose rows to list"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of rows to return per page"}
+      - {name: pageToken, in: query, type: string, description: "Page token from a previous response to retrieve the next page"}
+      - {name: startIndex, in: query, type: integer, description: "Zero-based index of the first row to return"}
+      - {name: selectedFields, in: query, type: string, description: "Comma-separated list of schema fields to include in each returned row"}
+
+  - name: list_jobs
+    description: List BigQuery jobs in a project
+    method: GET
+    path: /bigquery/v2/projects/{projectId}/jobs
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID whose jobs to list"}
+      - {name: allUsers, in: query, type: boolean, description: "Whether to list jobs from all users in the project (default false — own jobs only)"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of jobs to return"}
+      - {name: pageToken, in: query, type: string, description: "Page token from a previous response to retrieve the next page"}
+      - {name: projection, in: query, type: string, description: "Restrict information returned to a set of selected fields: full or minimal"}
+      - {name: stateFilter, in: query, type: string, description: "Filter jobs by state: done, pending, or running"}
+
+  - name: insert_table_data
+    description: Stream one or more rows into a BigQuery table using the streaming insert API
+    method: POST
+    path: /bigquery/v2/projects/{projectId}/datasets/{datasetId}/tables/{tableId}/insertAll
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the table"}
+      - {name: datasetId, in: path, type: string, required: true, description: "ID of the dataset containing the target table"}
+      - {name: tableId, in: path, type: string, required: true, description: "ID of the table to insert rows into"}
+      - {name: rows, in: body, type: array, required: true, description: "Array of row objects to insert; each object may include an insertId for deduplication and a json field with the row data"}
+      - {name: skipInvalidRows, in: body, type: boolean, description: "If true, insert valid rows and skip rows with validation errors"}
+      - {name: ignoreUnknownValues, in: body, type: boolean, description: "If true, ignore values in rows for columns not present in the table schema"}
+      - {name: templateSuffix, in: body, type: string, description: "Suffix used to generate a template table name from the destination table ID"}
+
+  - name: create_dataset
+    description: Create a new dataset in a Google Cloud project
+    method: POST
+    path: /bigquery/v2/projects/{projectId}/datasets
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID in which to create the dataset"}
+      - {name: datasetReference, in: body, type: object, required: true, description: "Dataset reference object containing datasetId (required) and optionally projectId"}
+      - {name: location, in: body, type: string, description: "Geographic location where the dataset should reside (e.g. US, EU, us-central1)"}
+      - {name: description, in: body, type: string, description: "Human-readable description of the dataset"}
+      - {name: friendlyName, in: body, type: string, description: "Friendly display name for the dataset"}
+      - {name: defaultTableExpirationMs, in: body, type: integer, description: "Default lifetime in milliseconds for tables in the dataset; tables are deleted after this period"}
+
+  - name: delete_table
+    description: Delete a BigQuery table
+    method: DELETE
+    path: /bigquery/v2/projects/{projectId}/datasets/{datasetId}/tables/{tableId}
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: "Google Cloud project ID that owns the table"}
+      - {name: datasetId, in: path, type: string, required: true, description: "ID of the dataset containing the table to delete"}
+      - {name: tableId, in: path, type: string, required: true, description: "ID of the table to delete"}

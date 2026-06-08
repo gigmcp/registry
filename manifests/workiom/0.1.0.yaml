@@ -2,13 +2,14 @@ schemaVersion: 1
 name: workiom
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/workiom-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/workiom-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:24c92129a7ca8835ceb8023deb2502da285752b3decf94e785eb66fe87505446
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

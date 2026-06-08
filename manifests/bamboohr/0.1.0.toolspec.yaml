@@ -1,0 +1,100 @@
+schemaVersion: 1
+name: bamboohr
+version: 0.1.0
+baseUrl: https://api.bamboohr.com
+tools:
+  - name: get_all_employees
+    description: Retrieve the company employee directory with basic employee information
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/employees/directory
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: onlyCurrent, in: query, type: boolean, description: "When true (default), only returns employees with hire dates on or before today"}
+
+  - name: get_employee
+    description: Retrieve a single employee record with requested fields
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/employees/{id}
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: id, in: path, type: string, required: true, description: "Employee ID; use '0' to retrieve the authenticated user's own record"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of field names to return (e.g. firstName,lastName,workEmail)"}
+      - {name: onlyCurrent, in: query, type: boolean, description: "When false, includes future-dated historical field values; defaults to true"}
+
+  - name: get_time_off_requests
+    description: List time off requests within a date window, optionally filtered by employee or status
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/time_off/requests
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: start, in: query, type: string, required: true, description: "Left boundary of the search window in YYYY-MM-DD format"}
+      - {name: end, in: query, type: string, required: true, description: "Right boundary of the search window in YYYY-MM-DD format"}
+      - {name: employeeId, in: query, type: integer, description: Filter results to a specific employee by ID}
+      - {name: status, in: query, type: string, description: "Comma-separated status values to filter by (approved, denied, superceded, requested, canceled)"}
+      - {name: type, in: query, type: string, description: Comma-separated time off type IDs to filter by}
+      - {name: action, in: query, type: string, description: "Limits results by the caller's access level; valid values: view, approve, myRequests (defaults to view)"}
+
+  - name: get_time_off_balances
+    description: Estimate future time off balances for an employee as of a given date
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/employees/{employeeId}/time_off/calculator
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: employeeId, in: path, type: integer, required: true, description: The numeric employee ID to calculate balances for}
+      - {name: end, in: query, type: string, description: "Date (YYYY-MM-DD) to project balances through; defaults to today"}
+
+  - name: get_departments_metadata
+    description: Retrieve details for all list fields including department and other configurable list values
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/meta/lists
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+
+  - name: list_company_reports
+    description: Retrieve a paginated list of saved custom reports available in the account
+    method: GET
+    path: /api/gateway.php/{companyDomain}/v1/custom-reports
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: page, in: query, type: integer, description: "Page number to retrieve (1-based, default 1)"}
+      - {name: page_size, in: query, type: integer, description: "Number of records per page (1-1000, default 500)"}
+
+  - name: create_employee
+    description: Create a new employee record in BambooHR
+    method: POST
+    path: /api/gateway.php/{companyDomain}/v1/employees
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: firstName, in: body, type: string, required: true, description: "Employee's legal first name"}
+      - {name: lastName, in: body, type: string, required: true, description: "Employee's legal last name"}
+      - {name: workEmail, in: body, type: string, description: Work email address}
+      - {name: jobTitle, in: body, type: string, description: Job title}
+      - {name: department, in: body, type: string, description: Department name}
+      - {name: hireDate, in: body, type: string, description: "Hire date in YYYY-MM-DD format"}
+
+  - name: update_employee
+    description: Update fields on an existing employee record
+    method: POST
+    path: /api/gateway.php/{companyDomain}/v1/employees/{id}
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: id, in: path, type: string, required: true, description: The employee ID to update}
+      - {name: firstName, in: body, type: string, description: "Employee's legal first name"}
+      - {name: lastName, in: body, type: string, description: "Employee's legal last name"}
+      - {name: workEmail, in: body, type: string, description: Work email address}
+      - {name: jobTitle, in: body, type: string, description: Job title}
+      - {name: department, in: body, type: string, description: Department name}
+
+  - name: create_time_off_request
+    description: Submit a new time off request for an employee
+    method: PUT
+    path: /api/gateway.php/{companyDomain}/v1/employees/{employeeId}/time_off/request
+    params:
+      - {name: companyDomain, in: path, type: string, required: true, description: "The company's BambooHR subdomain (e.g. 'acme' for acme.bamboohr.com)"}
+      - {name: employeeId, in: path, type: integer, required: true, description: The numeric employee ID for whom to create the time off request}
+      - {name: status, in: body, type: string, required: true, description: "Request status (e.g. requested, approved)"}
+      - {name: start, in: body, type: string, required: true, description: "Start date of the time off in YYYY-MM-DD format"}
+      - {name: end, in: body, type: string, required: true, description: "End date of the time off in YYYY-MM-DD format"}
+      - {name: timeOffTypeId, in: body, type: integer, required: true, description: ID of the time off type}
+      - {name: amount, in: body, type: number, description: Amount of time off (in hours or days depending on type configuration)}
+      - {name: notes, in: body, type: array, description: "Array of note objects with 'from' and 'note' fields"}

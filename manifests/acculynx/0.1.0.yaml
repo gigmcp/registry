@@ -2,13 +2,14 @@ schemaVersion: 1
 name: acculynx
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/acculynx-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/acculynx-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:4cefafd81a3c5151805af35e07e21a0f5377dad66482e9fe560e2c534f08881b
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

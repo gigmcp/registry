@@ -1,0 +1,106 @@
+schemaVersion: 1
+name: servicenow
+version: 0.1.0
+baseUrl: https://instance.service-now.com
+tools:
+  - name: get_table_records
+    description: Retrieve multiple records from a ServiceNow table with optional filtering and pagination
+    method: GET
+    path: /api/now/table/{tableName}
+    params:
+      - {name: tableName, in: path, type: string, required: true, description: "Name of the ServiceNow table (e.g. incident, change_request, sys_user)"}
+      - {name: sysparm_query, in: query, type: string, description: "Encoded query string to filter records (e.g. active=true^priority=1)"}
+      - {name: sysparm_fields, in: query, type: string, description: "Comma-separated list of field names to return in the response"}
+      - {name: sysparm_limit, in: query, type: integer, description: "Maximum number of records to return (default 10, max 10000)"}
+      - {name: sysparm_offset, in: query, type: integer, description: "Starting record index for pagination"}
+      - {name: sysparm_display_value, in: query, type: string, description: "Return display values (true), actual values (false), or both (all)"}
+
+  - name: get_record_by_sys_id
+    description: Retrieve a single record from a ServiceNow table by its sys_id
+    method: GET
+    path: /api/now/table/{tableName}/{sys_id}
+    params:
+      - {name: tableName, in: path, type: string, required: true, description: "Name of the ServiceNow table (e.g. incident, change_request, sys_user)"}
+      - {name: sys_id, in: path, type: string, required: true, description: "Unique identifier (sys_id) of the record to retrieve"}
+      - {name: sysparm_fields, in: query, type: string, description: "Comma-separated list of field names to return in the response"}
+      - {name: sysparm_display_value, in: query, type: string, description: "Return display values (true), actual values (false), or both (all)"}
+
+  - name: create_a_record
+    description: Create a new record in a ServiceNow table
+    method: POST
+    path: /api/now/table/{tableName}
+    params:
+      - {name: tableName, in: path, type: string, required: true, description: "Name of the ServiceNow table to insert the record into"}
+      - {name: sysparm_fields, in: query, type: string, description: "Comma-separated list of field names to return in the response"}
+      - {name: sysparm_display_value, in: query, type: string, description: "Return display values (true), actual values (false), or both (all)"}
+      - {name: record_fields, in: body, type: object, description: "Key-value pairs of field names and values for the new record"}
+
+  - name: update_a_record
+    description: Update specific fields of an existing record in a ServiceNow table by sys_id
+    method: PATCH
+    path: /api/now/table/{tableName}/{sys_id}
+    params:
+      - {name: tableName, in: path, type: string, required: true, description: "Name of the ServiceNow table containing the record to update"}
+      - {name: sys_id, in: path, type: string, required: true, description: "Unique identifier (sys_id) of the record to update"}
+      - {name: sysparm_fields, in: query, type: string, description: "Comma-separated list of field names to return in the response"}
+      - {name: record_fields, in: body, type: object, description: "Key-value pairs of field names and updated values"}
+
+  - name: delete_a_record
+    description: Delete a record from a ServiceNow table by its sys_id
+    method: DELETE
+    path: /api/now/table/{tableName}/{sys_id}
+    params:
+      - {name: tableName, in: path, type: string, required: true, description: "Name of the ServiceNow table containing the record to delete"}
+      - {name: sys_id, in: path, type: string, required: true, description: "Unique identifier (sys_id) of the record to delete"}
+
+  - name: create_incident
+    description: Create a new incident record in the ServiceNow incident table
+    method: POST
+    path: /api/now/table/incident
+    params:
+      - {name: short_description, in: body, type: string, required: true, description: "Brief description of the incident"}
+      - {name: description, in: body, type: string, description: "Detailed description of the incident"}
+      - {name: caller_id, in: body, type: string, description: "sys_id or user name of the person reporting the incident"}
+      - {name: category, in: body, type: string, description: "Incident category (e.g. software, hardware, network)"}
+      - {name: impact, in: body, type: string, description: "Impact level of the incident (1=High, 2=Medium, 3=Low)"}
+      - {name: urgency, in: body, type: string, description: "Urgency level of the incident (1=High, 2=Medium, 3=Low)"}
+      - {name: priority, in: body, type: string, description: "Priority of the incident (1=Critical, 2=High, 3=Moderate, 4=Low)"}
+      - {name: assignment_group, in: body, type: string, description: "sys_id or name of the group assigned to the incident"}
+      - {name: assigned_to, in: body, type: string, description: "sys_id or user name of the person assigned to the incident"}
+
+  - name: create_sn_chg_rest_change
+    description: Create a normal change request using the ServiceNow Change Management API
+    method: POST
+    path: /api/sn_chg_rest/change/normal
+    params:
+      - {name: short_description, in: body, type: string, required: true, description: "Brief description of the change request"}
+      - {name: description, in: body, type: string, description: "Detailed description of the change and its purpose"}
+      - {name: requested_by, in: body, type: string, description: "sys_id or user name of the person requesting the change"}
+      - {name: assignment_group, in: body, type: string, description: "sys_id or name of the group assigned to implement the change"}
+      - {name: assigned_to, in: body, type: string, description: "sys_id or user name of the person assigned to implement the change"}
+      - {name: start_date, in: body, type: string, description: "Planned start date and time (e.g. 2025-01-15 08:00:00)"}
+      - {name: end_date, in: body, type: string, description: "Planned end date and time (e.g. 2025-01-15 10:00:00)"}
+      - {name: justification, in: body, type: string, description: "Business justification for the change"}
+      - {name: risk, in: body, type: string, description: "Risk level of the change (1=High, 2=Medium, 3=Low, 4=No risk)"}
+
+  - name: attach_file_to_record
+    description: Attach a file to a ServiceNow record using the Attachment API
+    method: POST
+    path: /api/now/attachment/file
+    params:
+      - {name: table_name, in: query, type: string, required: true, description: "Name of the ServiceNow table that contains the target record (e.g. incident)"}
+      - {name: table_sys_id, in: query, type: string, required: true, description: "sys_id of the record to attach the file to"}
+      - {name: file_name, in: query, type: string, required: true, description: "Name of the file being attached (including extension, e.g. report.pdf)"}
+
+  - name: create_interaction
+    description: Create a new interaction record in ServiceNow via the Interaction Management API
+    method: POST
+    path: /api/now/interaction
+    params:
+      - {name: channel, in: body, type: string, required: true, description: "Communication channel for the interaction (e.g. chat, email, phone)"}
+      - {name: short_description, in: body, type: string, description: "Brief description of the interaction"}
+      - {name: opened_for, in: body, type: string, description: "sys_id or user name of the person the interaction is opened for"}
+      - {name: assignment_group, in: body, type: string, description: "sys_id or name of the group assigned to handle the interaction"}
+      - {name: assigned_to, in: body, type: string, description: "sys_id or user name of the person assigned to handle the interaction"}
+      - {name: subtype, in: body, type: string, description: "Interaction subtype"}
+      - {name: work_notes, in: body, type: string, description: "Additional notes about the interaction"}

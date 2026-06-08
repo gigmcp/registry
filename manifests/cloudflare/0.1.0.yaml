@@ -2,13 +2,14 @@ schemaVersion: 1
 name: cloudflare
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/cloudflare-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/cloudflare-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:a8cb6f706e34348d0a6176a05735794755b370b1a3ba633424945bec1c7e7fea
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
