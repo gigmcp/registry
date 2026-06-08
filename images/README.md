@@ -54,6 +54,36 @@ the gateway uses when it mounts or runs the server.
   tool→HTTP mappings; `registryctl lint-toolspecs` enforces their coherence
   in CI.
 
+#### Runtime bundle contract
+
+Unlike single-file (`go-static`) servers, a `toolpack` image is a small
+**bundle** the gateway must extract and mount as a unit — the engine
+`log.Fatal`s at startup if either sidecar is missing. The contract the
+gateway relies on (discriminated by `image.builder == "toolpack"` in the
+signed index):
+
+- **Location** — the bundle is exactly `dirname(image.entrypoint)` = `/app`,
+  a flat directory. No subdirectories, no files outside it.
+- **Contents** — exactly three regular files: the entrypoint binary
+  (`/app/server`, mode 0755) plus two inert sidecars `/app/manifest.yaml` and
+  `/app/toolspec.yaml` (mode 0644). No symlinks, no nested dirs, no second
+  executable. The engine's `GIG_TOOLPACK_MANIFEST` / `GIG_TOOLPACK_SPEC` env
+  overrides exist but are stripped by the sandbox's `--clearenv`; the fixed
+  `/app` paths are authoritative.
+- **Entrypoint** — always `/app/server`; the gateway derives the bundle dir
+  from `dirname(image.entrypoint)`.
+- **Bounds** — the gateway caps the bundle (≤ 8 files, ≤ 64 MiB total, each
+  non-entrypoint file ≤ 1 MiB) and mounts it read-only.
+- **Integrity** — `/app/manifest.yaml` is the registry manifest copied
+  verbatim, so it is byte-identical to the manifest compiled into the signed
+  index; the gateway cross-checks the two (parsed equality) as
+  defense-in-depth. `toolspec.yaml` is not in the index — its integrity comes
+  from the signed, digest-pinned image.
+
+If this set ever needs to grow (new sidecar, non-flat layout), it is a
+breaking change to the bundle contract and must be coordinated with the
+gateway before shipping.
+
 ### node
 
 - `source.repo` / `source.tag` — a git repo whose checkout contains a
