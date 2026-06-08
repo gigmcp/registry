@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/activecampaign-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:e04bfda3b1899c347f5e2a8c213bbde24712a5516de36bab227c6a074c5bd7ba
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

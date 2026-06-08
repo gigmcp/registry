@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coda-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:b84305e3a3069839420b1ff15d20c6fb5fc56ae52cb3d28cae7a408c3c62857c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

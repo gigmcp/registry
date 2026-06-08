@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-bigin-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:516cfab059b22a910d06243387583ae0912bb268eba78977eaa9ad7d5a89a236
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

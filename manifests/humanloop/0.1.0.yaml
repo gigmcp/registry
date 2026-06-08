@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/humanloop-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:03fb3cee1ca0a42869897aaddf261f6fd2b41ac44835177168089a0b212e46b8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

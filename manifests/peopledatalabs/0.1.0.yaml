@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/peopledatalabs-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:9715879793aea9c96f4852ebdad7932d9a4092e98408106c9147a7452e82eb5b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/crustdata-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:6602b2636b7dd396dfbddf6116adc1d6452eff2302e14c4dade7484c872abd3e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

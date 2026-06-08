@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/sharepoint-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:d152e57108df8917ccb8365b46bf61aede989a0f5b5d8a34c1550a97e8cd8738
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

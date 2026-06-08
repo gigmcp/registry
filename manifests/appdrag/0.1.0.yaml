@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/appdrag-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:1e7e3754e379ced09b9b1746b8ab0c9a619e2e383236cf8ba526c425276de5e7
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

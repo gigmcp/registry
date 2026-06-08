@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/miro-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:5924d3633990caf9ed1a0fedd854a1bc61fb95ceacd79e5ae5834da0d3dc5702
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

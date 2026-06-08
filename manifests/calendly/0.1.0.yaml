@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/calendly-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:df041c9b17c353923491c8350985929dbba1157a2f261a75ece0ea142a2191e4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

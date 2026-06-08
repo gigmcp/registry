@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/docusign-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:506a7192543f8b0491bdd60fcdcb623b6f61df18b5483c3bf30978600537410d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

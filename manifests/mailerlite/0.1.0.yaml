@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mailerlite-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:b2896bf31e21ea932352441275ed08b2ec2412f0c3873f31ad09db9d3b5063e6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

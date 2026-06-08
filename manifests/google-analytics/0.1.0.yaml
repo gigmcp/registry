@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/google-analytics-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:04f8bc7baa70afbfcdf06da49a6db686c27b97aa19847cfb0eb1e4659dab3a4d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

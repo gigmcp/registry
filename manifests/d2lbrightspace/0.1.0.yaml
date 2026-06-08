@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/d2lbrightspace-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:c63c4fcbfd332c4b51d2a03097fb1da259d57831113be5b33ae35b599c34738e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

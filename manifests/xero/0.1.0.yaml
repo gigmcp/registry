@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/xero-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:8583a446bc5177a8bf1fc6698153d323e7b9aa0feb870884d93b39e441c8aa86
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

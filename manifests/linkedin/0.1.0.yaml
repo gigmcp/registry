@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/linkedin-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:f0359930e119e81394a4f7700912947add542e71b66bf3e038bf04bddc6853a2
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

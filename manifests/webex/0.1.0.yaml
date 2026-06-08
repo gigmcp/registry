@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/webex-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:2f96e242352974d3f5585917135c50cc55b3cb3fcae52a0783e725a34152b2dd
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

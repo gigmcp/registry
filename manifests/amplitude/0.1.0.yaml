@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/amplitude-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:3c971b9cd62f979cd686afa8a54ed99fa62604624366abe40c3874feacb59fb2
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

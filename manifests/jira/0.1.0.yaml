@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/jira-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:4f8623fdbd426298427de3ce7681271e1129310cb45029e109a6f13068490086
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

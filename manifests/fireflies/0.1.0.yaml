@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/fireflies-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:7664032e9c1b0e4a97004f20b4db026e222304ba6e83dd1637ce80ea6991d06b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

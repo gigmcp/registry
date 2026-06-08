@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/salesforce-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:725b83a9e651041e85541a582608777f9dce36f9b23a0ae038eb975472f1357d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

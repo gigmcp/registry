@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/alchemy-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:ed7108324e5147f983343c25b6fc638ea4b6df577e41aa774ec75570e3fb71cc
   entrypoint: /app/server
   builder: toolpack
 # Alchemy authenticates via the API key embedded in the request URL path

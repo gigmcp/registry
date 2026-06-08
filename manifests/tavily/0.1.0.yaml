@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/tavily-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:f5283f8c8e4bdafb95910b0060f37710d85573e72f5616101d004c7798311c60
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

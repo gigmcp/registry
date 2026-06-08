@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gumroad-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:57eb75ead754870b56415d3e400788b1add721ca53c82610ef886afd44d0ab9b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bubble-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:e18a1df07d59c848da300ec4e7ff2df46b1a15fd5237dda720de22ad5ddf3f56
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

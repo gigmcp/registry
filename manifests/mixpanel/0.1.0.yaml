@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mixpanel-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:cfb7ce797ef4169f07bdeb18fddcfa5c9349aebd3f897ab5b64a8f7a1eb5dbe5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

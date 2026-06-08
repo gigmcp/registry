@@ -6,8 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coinbase-mcp
-  # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  digest: sha256:b547e1c540a2c530c489cb0f6ded89ef00f06ec9b4d537583082a7925e4ebea3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
