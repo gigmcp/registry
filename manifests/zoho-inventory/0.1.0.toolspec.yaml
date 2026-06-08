@@ -1,0 +1,133 @@
+schemaVersion: 1
+name: zoho-inventory
+version: 0.1.0
+baseUrl: https://www.zohoapis.com
+tools:
+  - name: list_items
+    description: List all items in the Zoho Inventory organization
+    method: GET
+    path: /inventory/v1/items
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: search_text, in: query, type: string, description: Search items by name or SKU}
+      - {name: filter_by, in: query, type: string, description: "Filter items by status (e.g. Status.Active, Status.Inactive)"}
+      - {name: sort_column, in: query, type: string, description: "Column to sort by (e.g. name, rate, created_time)"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: A (ascending) or D (descending)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination (default 1)}
+      - {name: per_page, in: query, type: integer, description: Number of items per page (default 200)}
+
+  - name: list_contacts
+    description: List all contacts (customers and vendors) in the Zoho Inventory organization
+    method: GET
+    path: /inventory/v1/contacts
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: contact_name, in: query, type: string, description: Filter contacts by name}
+      - {name: company_name, in: query, type: string, description: Filter contacts by company name}
+      - {name: email, in: query, type: string, description: Filter contacts by email address}
+      - {name: phone, in: query, type: string, description: Filter contacts by phone number}
+      - {name: filter_by, in: query, type: string, description: "Filter by contact status (e.g. Status.Active, Status.Inactive)"}
+      - {name: sort_column, in: query, type: string, description: Column to sort by}
+      - {name: page, in: query, type: integer, description: Page number for pagination (default 1)}
+      - {name: per_page, in: query, type: integer, description: Number of contacts per page (default 200)}
+
+  - name: list_sales_orders
+    description: List all sales orders in the Zoho Inventory organization
+    method: GET
+    path: /inventory/v1/salesorders
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: filter_by, in: query, type: string, description: "Filter by status (e.g. SalesOrderStatus.Draft, SalesOrderStatus.Confirmed, SalesOrderStatus.Void)"}
+      - {name: sort_column, in: query, type: string, description: Column to sort by}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: A (ascending) or D (descending)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination (default 1)}
+      - {name: per_page, in: query, type: integer, description: Number of sales orders per page (default 200)}
+
+  - name: get_sales_order
+    description: Retrieve details of a specific sales order by its ID
+    method: GET
+    path: /inventory/v1/salesorders/{salesorder_id}
+    params:
+      - {name: salesorder_id, in: path, type: string, required: true, description: The ID of the sales order to retrieve}
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+
+  - name: list_invoices
+    description: List all invoices in the Zoho Inventory organization
+    method: GET
+    path: /inventory/v1/invoices
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: filter_by, in: query, type: string, description: "Filter by status (e.g. InvoiceStatus.Draft, InvoiceStatus.Sent, InvoiceStatus.Paid, InvoiceStatus.Overdue)"}
+      - {name: sort_column, in: query, type: string, description: Column to sort by}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: A (ascending) or D (descending)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination (default 1)}
+      - {name: per_page, in: query, type: integer, description: Number of invoices per page (default 200)}
+
+  - name: list_purchase_orders
+    description: List all purchase orders in the Zoho Inventory organization
+    method: GET
+    path: /inventory/v1/purchaseorders
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: filter_by, in: query, type: string, description: "Filter by status (e.g. PurchaseOrderStatus.Draft, PurchaseOrderStatus.Issued, PurchaseOrderStatus.Cancelled)"}
+      - {name: sort_column, in: query, type: string, description: Column to sort by}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: A (ascending) or D (descending)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination (default 1)}
+      - {name: per_page, in: query, type: integer, description: Number of purchase orders per page (default 200)}
+
+  - name: create_item
+    description: Create a new item in the Zoho Inventory organization
+    method: POST
+    path: /inventory/v1/items
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: name, in: body, type: string, required: true, description: Name of the item}
+      - {name: unit, in: body, type: string, description: Unit of measurement for the item}
+      - {name: rate, in: body, type: number, description: Selling price of the item}
+      - {name: purchase_rate, in: body, type: number, description: Purchase price of the item}
+      - {name: sku, in: body, type: string, description: Stock Keeping Unit identifier for the item}
+      - {name: description, in: body, type: string, description: Description of the item}
+
+  - name: create_sales_order
+    description: Create a new sales order in the Zoho Inventory organization
+    method: POST
+    path: /inventory/v1/salesorders
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: customer_id, in: body, type: string, required: true, description: ID of the customer for the sales order}
+      - {name: salesorder_number, in: body, type: string, required: true, description: Unique number for the sales order}
+      - {name: line_items, in: body, type: array, required: true, description: "Array of line items, each with item_id and quantity"}
+      - {name: date, in: body, type: string, description: "Date of the sales order (YYYY-MM-DD)"}
+      - {name: shipment_date, in: body, type: string, description: "Expected shipment date (YYYY-MM-DD)"}
+      - {name: discount, in: body, type: string, description: Discount applied to the sales order}
+      - {name: notes, in: body, type: string, description: Notes or remarks for the sales order}
+      - {name: terms, in: body, type: string, description: Terms and conditions for the sales order}
+
+  - name: create_invoice
+    description: Create a new invoice in the Zoho Inventory organization
+    method: POST
+    path: /inventory/v1/invoices
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: customer_id, in: body, type: string, required: true, description: ID of the customer for the invoice}
+      - {name: line_items, in: body, type: array, required: true, description: "Array of line items, each with item_id and quantity"}
+      - {name: invoice_number, in: body, type: string, description: Unique number for the invoice}
+      - {name: date, in: body, type: string, description: "Date of the invoice (YYYY-MM-DD)"}
+      - {name: payment_terms, in: body, type: integer, description: Payment terms in days}
+      - {name: discount, in: body, type: string, description: Discount applied to the invoice}
+      - {name: notes, in: body, type: string, description: Notes or remarks for the invoice}
+
+  - name: create_purchase_order
+    description: Create a new purchase order in the Zoho Inventory organization
+    method: POST
+    path: /inventory/v1/purchaseorders
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: The ID of the organization}
+      - {name: vendor_id, in: body, type: string, required: true, description: ID of the vendor for the purchase order}
+      - {name: purchaseorder_number, in: body, type: string, required: true, description: Unique number for the purchase order}
+      - {name: line_items, in: body, type: array, required: true, description: "Array of line items, each with item_id and quantity"}
+      - {name: date, in: body, type: string, description: "Date of the purchase order (YYYY-MM-DD)"}
+      - {name: delivery_date, in: body, type: string, description: "Expected delivery date (YYYY-MM-DD)"}
+      - {name: reference_number, in: body, type: string, description: Reference number for the purchase order}
+      - {name: notes, in: body, type: string, description: Notes or remarks for the purchase order}
+      - {name: terms, in: body, type: string, description: Terms and conditions for the purchase order}

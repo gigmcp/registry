@@ -2,13 +2,14 @@ schemaVersion: 1
 name: freshdesk
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/freshdesk-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/freshdesk-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:e60a7abeb459114e5aeeff53741ec45eeaca74d3bf612f5623bb298f90502673
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

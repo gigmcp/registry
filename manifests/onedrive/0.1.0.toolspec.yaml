@@ -1,0 +1,90 @@
+schemaVersion: 1
+name: onedrive
+version: 0.1.0
+baseUrl: https://graph.microsoft.com
+tools:
+  - name: list_folder_children
+    description: List the children of a folder in the signed-in user's OneDrive by item ID
+    method: GET
+    path: /v1.0/me/drive/items/{item_id}/children
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: "ID of the folder whose children to list; use 'root' for the drive root"}
+      - {name: $top, in: query, type: integer, description: Maximum number of items to return per page}
+      - {name: $select, in: query, type: string, description: Comma-separated list of properties to include in the response}
+      - {name: $orderby, in: query, type: string, description: Property and direction to order results by}
+
+  - name: search_items
+    description: Search the signed-in user's OneDrive for items matching a query string
+    method: GET
+    path: /v1.0/me/drive/root/search(q='{q}')
+    params:
+      - {name: q, in: path, type: string, required: true, description: "Query text to search for; matched against filename, metadata, and file content"}
+      - {name: $top, in: query, type: integer, description: Maximum number of items to return per page}
+      - {name: $select, in: query, type: string, description: Comma-separated list of properties to include in the response}
+
+  - name: get_item
+    description: Retrieve metadata for a driveItem in the signed-in user's OneDrive by item ID
+    method: GET
+    path: /v1.0/me/drive/items/{item_id}
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: "ID of the drive item to retrieve"}
+      - {name: $select, in: query, type: string, description: Comma-separated list of properties to include in the response}
+      - {name: $expand, in: query, type: string, description: "Relationships to expand (e.g. children)"}
+
+  - name: download_file
+    description: Download the binary content of a file in the signed-in user's OneDrive by item ID
+    method: GET
+    path: /v1.0/me/drive/items/{item_id}/content
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: ID of the file to download}
+
+  - name: get_recent_items
+    description: "List items recently accessed by the signed-in user (deprecated: returns data until November 2026)"
+    method: GET
+    path: /v1.0/me/drive/recent
+    params: []
+
+  - name: upload_file
+    description: Upload or replace the content of a file in the signed-in user's OneDrive (files up to 250 MB)
+    method: PUT
+    path: /v1.0/me/drive/items/{parent_id}:/{filename}:/content
+    params:
+      - {name: parent_id, in: path, type: string, required: true, description: ID of the parent folder where the file will be created}
+      - {name: filename, in: path, type: string, required: true, description: Name of the file to create or replace}
+
+  - name: create_folder
+    description: Create a new folder inside a parent folder in the signed-in user's OneDrive
+    method: POST
+    path: /v1.0/me/drive/items/{parent_id}/children
+    params:
+      - {name: parent_id, in: path, type: string, required: true, description: "ID of the parent folder; use 'root' to create in the drive root"}
+      - {name: name, in: body, type: string, required: true, description: Display name of the new folder}
+      - {name: folder, in: body, type: object, required: true, description: "Empty object that signals this item is a folder, e.g. {}"}
+      - {name: "@microsoft.graph.conflictBehavior", in: body, type: string, description: "Conflict behaviour: fail (default), rename, or replace"}
+
+  - name: move_item
+    description: Move a driveItem to a new parent folder in the signed-in user's OneDrive
+    method: PATCH
+    path: /v1.0/me/drive/items/{item_id}
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: ID of the item to move}
+      - {name: parentReference, in: body, type: object, required: true, description: "Object with an 'id' field set to the destination folder ID, e.g. {\"id\": \"<folder-id>\"}"}
+      - {name: name, in: body, type: string, description: Optional new name for the item after moving}
+
+  - name: delete_item
+    description: Delete a driveItem by ID in the signed-in user's OneDrive (moves it to the recycle bin)
+    method: DELETE
+    path: /v1.0/me/drive/items/{item_id}
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: ID of the item to delete}
+
+  - name: create_link
+    description: Create a sharing link for a driveItem in the signed-in user's OneDrive
+    method: POST
+    path: /v1.0/me/drive/items/{item_id}/createLink
+    params:
+      - {name: item_id, in: path, type: string, required: true, description: ID of the item to share}
+      - {name: type, in: body, type: string, required: true, description: "Type of sharing link: view, edit, or embed"}
+      - {name: scope, in: body, type: string, description: "Scope of the link: anonymous, organization, or users"}
+      - {name: expirationDateTime, in: body, type: string, description: "Expiration date/time of the link in yyyy-MM-ddTHH:mm:ssZ format"}
+      - {name: password, in: body, type: string, description: Password to protect the sharing link (OneDrive Personal only)}

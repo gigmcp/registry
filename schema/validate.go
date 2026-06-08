@@ -56,10 +56,10 @@ func (m *Manifest) Validate() error {
 		add("image.entrypoint %q must be an absolute path inside the image", m.Image.Entrypoint)
 	}
 	switch m.Image.Builder {
-	case "", "go-static", "node", "python":
+	case "", "go-static", "node", "python", "toolpack":
 		// valid
 	default:
-		add("image.builder %q invalid: must be one of \"go-static\", \"node\", \"python\" (or omitted for go-static default)", m.Image.Builder)
+		add("image.builder %q invalid: must be one of \"go-static\", \"node\", \"python\", \"toolpack\" (or omitted for go-static default)", m.Image.Builder)
 	}
 	if m.Tier != TierSealed && m.Tier != TierEntrusted {
 		add("tier %q invalid: must be %q or %q", m.Tier, TierSealed, TierEntrusted)

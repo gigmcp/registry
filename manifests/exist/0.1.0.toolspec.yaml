@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: exist
+version: 0.1.0
+baseUrl: https://exist.io
+tools:
+  - name: get_user_profile
+    description: Retrieve the authenticated user's profile including name, avatar, timezone, and unit preferences
+    method: GET
+    path: /api/2/accounts/profile/
+
+  - name: get_user_attributes
+    description: List all attributes belonging to the authenticated user within their read scopes
+    method: GET
+    path: /api/2/attributes/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page"}
+      - {name: groups, in: query, type: string, description: "Comma-separated list of group names to filter by"}
+      - {name: attributes, in: query, type: string, description: "Comma-separated list of attribute names to filter by"}
+      - {name: exclude_custom, in: query, type: boolean, description: "Set true to show only templated attributes"}
+      - {name: manual, in: query, type: boolean, description: "Filter by manual-update status"}
+      - {name: include_inactive, in: query, type: boolean, description: "Set true to include inactive attributes"}
+      - {name: include_low_priority, in: query, type: boolean, description: "Set true to include low-priority attributes"}
+      - {name: owned, in: query, type: boolean, description: "Set true to omit non-owned attributes"}
+
+  - name: get_attributes_with_values
+    description: List the authenticated user's attributes along with recent tracked values
+    method: GET
+    path: /api/2/attributes/with-values/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page"}
+      - {name: days, in: query, type: integer, description: "Number of day values to return per attribute (max 31, default 1)"}
+      - {name: date_max, in: query, type: string, description: "Most recent date to return values for, in yyyy-mm-dd format"}
+      - {name: groups, in: query, type: string, description: "Comma-separated list of group names to filter by"}
+      - {name: attributes, in: query, type: string, description: "Comma-separated list of attribute names to filter by"}
+      - {name: templates, in: query, type: string, description: "Comma-separated list of template names to filter by"}
+      - {name: manual, in: query, type: boolean, description: "Filter by manual-update status"}
+
+  - name: get_attribute_templates
+    description: List the attribute templates that Exist supports, optionally filtered by group
+    method: GET
+    path: /api/2/attributes/templates/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page"}
+      - {name: groups, in: query, type: string, description: "Comma-separated list of group names to filter by"}
+      - {name: include_low_priority, in: query, type: boolean, description: "Set true to include low-priority attribute templates"}
+
+  - name: get_averages
+    description: Retrieve weekly average values for the authenticated user's tracked attributes
+    method: GET
+    path: /api/2/averages/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page"}
+      - {name: date_min, in: query, type: string, description: "Oldest date (inclusive) in yyyy-mm-dd format"}
+      - {name: date_max, in: query, type: string, description: "Most recent date (inclusive) in yyyy-mm-dd format"}
+      - {name: groups, in: query, type: string, description: "Comma-separated list of groups to filter by"}
+      - {name: attributes, in: query, type: string, description: "Comma-separated list of attributes to filter by"}
+      - {name: include_historical, in: query, type: boolean, description: "Set true to also receive historical average records"}
+
+  - name: get_correlations
+    description: Retrieve correlations between the authenticated user's attributes, with optional filtering
+    method: GET
+    path: /api/2/correlations/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of values to return per page (max 100)"}
+      - {name: strong, in: query, type: boolean, description: "Set 1 to return only correlations above a certain relationship strength"}
+      - {name: confident, in: query, type: boolean, description: "Set 1 to return only correlations with five-star confidence"}
+      - {name: attribute, in: query, type: string, description: "Attribute name to filter correlations to this attribute only"}
+
+  - name: get_insights
+    description: Retrieve a paged list of automatically generated insights from the authenticated user's data
+    method: GET
+    path: /api/2/insights/
+    params:
+      - {name: page, in: query, type: integer, description: "Page index (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of values to return per page (max 100)"}
+      - {name: date_min, in: query, type: string, description: "Oldest date (inclusive) in YYYY-mm-dd format"}
+      - {name: date_max, in: query, type: string, description: "Most recent date (inclusive) in YYYY-mm-dd format"}
+      - {name: priority, in: query, type: integer, description: "Filter by insight priority (1=today, 4=last month)"}
+
+  - name: acquire_attribute_ownership
+    description: Acquire ownership of attributes so the client can write values for them; creates templated attributes if they do not exist yet
+    method: POST
+    path: /api/2/attributes/acquire/
+    encoding: json
+    params:
+      - {name: attributes, in: body, type: array, required: true, description: "JSON array of objects; each object may contain: template (string), name (string), manual (boolean)"}
+      - {name: success_objects, in: query, type: boolean, description: "Set true to return full attribute objects on success"}
+
+  - name: increment_attribute_values
+    description: Increment (apply a delta to) attribute values for the authenticated user, up to 35 updates per request
+    method: POST
+    path: /api/2/attributes/increment/
+    encoding: json
+    params:
+      - {name: updates, in: body, type: array, required: true, description: "JSON array of objects each containing name (string, required), value (integer or float, required), and optional date (YYYY-mm-dd)"}
+
+  - name: release_attribute_ownership
+    description: Release ownership of attributes so the client no longer writes values for them
+    method: POST
+    path: /api/2/attributes/release/
+    encoding: json
+    params:
+      - {name: attributes, in: body, type: array, required: true, description: "JSON array of objects each containing name (string, required) of the attribute to release"}

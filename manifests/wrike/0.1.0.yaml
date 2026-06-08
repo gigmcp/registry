@@ -2,13 +2,14 @@ schemaVersion: 1
 name: wrike
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/wrike-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/wrike-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:de36bdeba9dfba86a054e1868b0a94d64b000e5048e72f6cedb08c2fc3b8e10f
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

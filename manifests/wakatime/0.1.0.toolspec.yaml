@@ -1,0 +1,62 @@
+schemaVersion: 1
+name: wakatime
+version: 0.1.0
+baseUrl: https://api.wakatime.com
+tools:
+  - name: get_user_details
+    description: Retrieve the authenticated user's WakaTime profile information
+    method: GET
+    path: /api/v1/users/current
+
+  - name: get_user_stats
+    description: Retrieve the authenticated user's coding stats for a given time range
+    method: GET
+    path: /api/v1/users/current/stats/{range}
+    params:
+      - {name: range, in: path, type: string, required: true, description: "Time range for stats: last_7_days, last_30_days, last_6_months, last_year, or all_time"}
+      - {name: timeout, in: query, type: integer, description: "Keystroke timeout in minutes used to calculate stats; defaults to user's preference"}
+      - {name: writes_only, in: query, type: boolean, description: "Only calculate stats from write events; defaults to user's preference"}
+      - {name: project, in: query, type: string, description: "Filter stats to a specific project"}
+
+  - name: get_user_summaries
+    description: Retrieve the authenticated user's coding activity as daily summaries for a date range
+    method: GET
+    path: /api/v1/users/current/summaries
+    params:
+      - {name: start, in: query, type: string, required: true, description: "Start date of the range (YYYY-MM-DD)"}
+      - {name: end, in: query, type: string, required: true, description: "End date of the range (YYYY-MM-DD)"}
+      - {name: project, in: query, type: string, description: "Filter summaries to a specific project"}
+      - {name: branches, in: query, type: string, description: "Filter to specific branches (comma-separated)"}
+      - {name: range, in: query, type: string, description: "Named range alternative to start/end (e.g. Today, Last 7 Days, This Month)"}
+
+  - name: get_all_time_since_today
+    description: Retrieve the authenticated user's total coding time since their WakaTime account was created
+    method: GET
+    path: /api/v1/users/current/all_time_since_today
+    params:
+      - {name: project, in: query, type: string, description: "Show total time for a specific project since it was created"}
+
+  - name: list_goals
+    description: List the authenticated user's coding goals with status and progress
+    method: GET
+    path: /api/v1/users/current/goals
+
+  - name: list_user_projects
+    description: List all coding projects tracked for the authenticated user
+    method: GET
+    path: /api/v1/users/current/projects
+
+  - name: list_machine_names
+    description: List the machines (devices) from which the authenticated user has logged coding activity
+    method: GET
+    path: /api/v1/users/current/machine_names
+
+  - name: list_leaders
+    description: Retrieve the public WakaTime leaderboard of users ranked by coding activity
+    method: GET
+    path: /api/v1/leaders
+    params:
+      - {name: language, in: query, type: string, description: "Filter leaderboard to a specific programming language"}
+      - {name: is_hireable, in: query, type: boolean, description: "Filter to users with the hireable badge"}
+      - {name: country_code, in: query, type: string, description: "Filter by two-character country code"}
+      - {name: page, in: query, type: integer, description: "Page number; defaults to the page containing the authenticated user"}

@@ -1,0 +1,117 @@
+schemaVersion: 1
+name: semrush
+version: 0.1.0
+baseUrl: https://api.semrush.com
+auth:
+  header: X-Semrush-Key
+  format: "{token}"
+tools:
+  - name: get_domain_organic_search_keywords
+    description: Retrieve organic search keywords and their rankings for a specified domain from Semrush (type=domain_organic)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be domain_organic"}
+      - {name: domain, in: query, type: string, required: true, description: "Domain to analyze (e.g. example.com)"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return (default 10000, max 100000)"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include in the response"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results (e.g. tr_desc, po_asc)"}
+
+  - name: get_domain_paid_search_keywords
+    description: Retrieve paid search (AdWords) keywords for a specified domain from Semrush (type=domain_adwords)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be domain_adwords"}
+      - {name: domain, in: query, type: string, required: true, description: "Domain to analyze (e.g. example.com)"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return (default 10000, max 100000)"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include in the response"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results"}
+
+  - name: get_backlinks
+    description: Retrieve individual backlinks for a specified domain, subdomain, or URL from Semrush (type=backlinks)
+    method: GET
+    path: /analytics/v1/
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be backlinks"}
+      - {name: target, in: query, type: string, required: true, description: "Domain, subdomain, or URL to analyze for backlinks"}
+      - {name: target_type, in: query, type: string, required: true, description: "Type of target: root_domain, domain, or url"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include (e.g. page_ascore,source_url,target_url)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results"}
+      - {name: display_filter, in: query, type: string, description: "Filter expression for results"}
+
+  - name: get_referring_domains
+    description: Retrieve domains that link to a specified domain, subdomain, or URL from Semrush (type=backlinks_refdomains)
+    method: GET
+    path: /analytics/v1/
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be backlinks_refdomains"}
+      - {name: target, in: query, type: string, required: true, description: "Domain, subdomain, or URL to analyze for referring domains"}
+      - {name: target_type, in: query, type: string, required: true, description: "Type of target: root_domain, domain, or url"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include (e.g. domain_ascore,domain,backlinks_num)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results"}
+      - {name: display_filter, in: query, type: string, description: "Filter expression for results"}
+
+  - name: get_keyword_overview
+    description: Retrieve search volume, CPC, competition, and other metrics for a keyword in a specific regional database from Semrush (type=phrase_this)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be phrase_this"}
+      - {name: phrase, in: query, type: string, required: true, description: "Keyword to analyze"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include"}
+      - {name: display_date, in: query, type: string, description: "Historical date in YYYYMM15 format"}
+
+  - name: get_keyword_difficulty
+    description: Retrieve keyword difficulty score (0-100 scale) for one or more keywords from Semrush (type=phrase_kdi)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be phrase_kdi"}
+      - {name: phrase, in: query, type: string, required: true, description: "Keyword or semicolon-separated list of up to 100 keywords to analyze"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include (e.g. Ph,Kd)"}
+
+  - name: get_competitors_in_organic_search
+    description: Retrieve competing domains for a specified domain in organic search from Semrush (type=domain_organic_organic)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be domain_organic_organic"}
+      - {name: domain, in: query, type: string, required: true, description: "Domain to find organic search competitors for (e.g. example.com)"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return (default 10000, max 4000000)"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include (default: Dn,Cr,Np,Or,Ot,Oc,Ad)"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results (e.g. np_desc, cr_desc)"}
+      - {name: display_date, in: query, type: string, description: "Historical date in YYYYMM15 format"}
+
+  - name: get_related_keywords
+    description: Retrieve related keywords, synonyms, and variations for a given keyword from Semrush (type=phrase_related)
+    method: GET
+    path: /
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Report type; must be phrase_related"}
+      - {name: phrase, in: query, type: string, required: true, description: "Seed keyword to find related keywords for"}
+      - {name: database, in: query, type: string, required: true, description: "Regional database (e.g. us, uk, de)"}
+      - {name: display_limit, in: query, type: integer, description: "Max results to return"}
+      - {name: display_offset, in: query, type: integer, description: "Number of results to skip for pagination"}
+      - {name: display_sort, in: query, type: string, description: "Sort order for results"}
+      - {name: display_filter, in: query, type: string, description: "Filter expression for results"}
+      - {name: export_columns, in: query, type: string, description: "Comma-separated list of columns to include"}
+
+  - name: check_account_units_balance
+    description: Retrieve the monthly API unit usage and limits for the current Semrush account (Trends API limits endpoint)
+    method: GET
+    path: /analytics/ta/limits/key/{key}
+    params:
+      - {name: key, in: path, type: string, required: true, description: "Semrush API key to check units balance for"}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: semrush
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/semrush-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/semrush-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:7628485ab18df42253770a555539b6a08fc4bc4f18c58b302eafe95435bd0d18
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 # Semrush Analytics API accepts the API key only as a query parameter
 # (?key=...); header injection cannot work, so entrusted tier.
 tier: entrusted

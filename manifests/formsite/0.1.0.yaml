@@ -2,13 +2,14 @@ schemaVersion: 1
 name: formsite
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/formsite-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/formsite-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:4ec05d34a18cf8387c83ae88380266bf25d1f83d8296a21a8b4f9c149effd633
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

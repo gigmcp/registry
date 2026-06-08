@@ -2,13 +2,14 @@ schemaVersion: 1
 name: bubble
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/bubble-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bubble-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2c0245d0b292f6fb6ec7702e450904077e307e87aa867abd2d59cfb68ad6ece7
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

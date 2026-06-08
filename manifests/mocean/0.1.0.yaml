@@ -2,13 +2,14 @@ schemaVersion: 1
 name: mocean
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/mocean-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mocean-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2fb279b772f7b1366443fbe9f9c063ffa5470942ddcd367e17b5f31f322e18f1
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 # Mocean's REST API authenticates with mocean-api-key / mocean-api-secret
 # request parameters (query string or form body) — there is no auth header,
 # so the credential must come in via env.

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: datadog
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/datadog-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datadog-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:5416f4bca87b5d1bda2bb2be3186c762e42f021b4eea480f0af6348e5b49b27e
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

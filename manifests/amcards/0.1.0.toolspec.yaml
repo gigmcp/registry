@@ -1,0 +1,65 @@
+schemaVersion: 1
+name: amcards
+version: 0.1.0
+baseUrl: https://amcards.com
+tools:
+  - name: list_public_templates
+    description: Retrieve a paginated list of public card templates available to all users
+    method: GET
+    path: /.api/v1/publictemplate/
+    params:
+      - {name: category__id, in: query, type: integer, description: Filter templates by category ID}
+      - {name: name__icontains, in: query, type: string, description: "Filter by template name (case-insensitive partial match)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of results to return per page}
+      - {name: offset, in: query, type: integer, description: Number of results to skip before returning results}
+  - name: get_public_template
+    description: Retrieve details of a specific public card template by ID
+    method: GET
+    path: /.api/v1/publictemplate/{id}/
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Unique identifier of the public template to retrieve}
+  - name: get_cards
+    description: Retrieve a paginated list of all cards associated with the authenticated account
+    method: GET
+    path: /.api/v1/card/
+    params:
+      - {name: limit, in: query, type: integer, description: Maximum number of cards to retrieve per page}
+      - {name: offset, in: query, type: integer, description: Number of cards to skip before returning results}
+  - name: list_categories
+    description: Retrieve a paginated list of card template categories
+    method: GET
+    path: /.api/v1/category/
+    params:
+      - {name: parent__id, in: query, type: integer, description: Filter sub-categories by parent category ID}
+      - {name: title__icontains, in: query, type: string, description: "Filter by category title (case-insensitive partial match)"}
+      - {name: limit, in: query, type: integer, description: Maximum number of results to return per page}
+      - {name: offset, in: query, type: integer, description: Number of results to skip before returning results}
+  - name: get_category
+    description: Retrieve details of a specific card template category by ID
+    method: GET
+    path: /.api/v1/category/{category_id}/
+    params:
+      - {name: category_id, in: path, type: integer, required: true, description: Unique identifier of the category to retrieve}
+  - name: get_contacts
+    description: Retrieve a paginated list of contacts from the authenticated AMCards account
+    method: GET
+    path: /.api/v1/contact/
+    params:
+      - {name: email, in: query, type: string, description: Filter contacts by email address}
+      - {name: first_name, in: query, type: string, description: Filter contacts by first name}
+      - {name: last_name, in: query, type: string, description: Filter contacts by last name}
+      - {name: limit, in: query, type: integer, description: Maximum number of contacts to retrieve per page}
+      - {name: offset, in: query, type: integer, description: Number of contacts to skip before returning results}
+  - name: list_gifts
+    description: Retrieve a paginated list of gift items available in AMCards
+    method: GET
+    path: /.api/v1/gift/
+    params:
+      - {name: limit, in: query, type: integer, description: Maximum number of gifts to return per page}
+      - {name: offset, in: query, type: integer, description: Number of gifts to skip before returning results}
+  - name: get_gift
+    description: Retrieve details of a specific gift item by ID including name, description, price, and shipping
+    method: GET
+    path: /.api/v1/gift/{id}/
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Unique identifier of the gift to retrieve}

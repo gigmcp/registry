@@ -1,0 +1,85 @@
+schemaVersion: 1
+name: monday
+version: 0.1.0
+baseUrl: https://api.monday.com
+tools:
+  - name: get_boards
+    description: Retrieve a list of boards accessible to the authenticated user
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query — use: query { boards(limit: $limit, page: $page) { id name description state } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; supports limit (integer, default 25) and page (integer, default 1) for pagination"}
+
+  - name: get_board_items
+    description: Retrieve items (rows) from a specific board using cursor-based pagination
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query — use: query { boards(ids: [$board_id]) { items_page(limit: $limit, cursor: $cursor) { cursor items { id name column_values { id text } } } } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires board_id (integer); supports limit (integer, default 25) and cursor (string) for pagination"}
+
+  - name: get_workspaces
+    description: Retrieve a list of workspaces in the account
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query — use: query { workspaces(limit: $limit, page: $page) { id name kind description } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; supports limit (integer, default 25) and page (integer, default 1)"}
+
+  - name: get_users
+    description: Retrieve a list of users in the account
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query — use: query { users(limit: $limit, page: $page) { id name email } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; supports limit (integer, default 25), page (integer, default 1), and ids (array of integers) to filter specific users"}
+
+  - name: create_item
+    description: Create a new item (row) on a board
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation — use: mutation { create_item(board_id: $board_id, item_name: $item_name, group_id: $group_id, column_values: $column_values) { id name } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires board_id (integer) and item_name (string); supports group_id (string) and column_values (JSON string of column ID to value mappings)"}
+
+  - name: create_board
+    description: Create a new board in monday.com
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation — use: mutation { create_board(board_name: $board_name, board_kind: $board_kind, workspace_id: $workspace_id) { id name } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires board_name (string) and board_kind (public/private/share); supports workspace_id (integer) and folder_id (integer)"}
+
+  - name: create_update
+    description: Post an update (comment) on an item
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation — use: mutation { create_update(item_id: $item_id, body: $body) { id body created_at } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires item_id (integer) and body (string, supports HTML formatting)"}
+
+  - name: change_column_value
+    description: Change the value of a column for a specific item on a board
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation — use: mutation { change_column_value(board_id: $board_id, item_id: $item_id, column_id: $column_id, value: $value) { id } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires board_id (integer), item_id (integer), column_id (string), and value (JSON-encoded string representing the new column value)"}
+
+  - name: delete_item
+    description: Delete an item (row) from a board
+    method: POST
+    path: /v2
+    encoding: json
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL mutation — use: mutation { delete_item(item_id: $item_id) { id } }"}
+      - {name: variables, in: body, type: object, description: "GraphQL variables object; requires item_id (integer) — deletion cannot be undone"}

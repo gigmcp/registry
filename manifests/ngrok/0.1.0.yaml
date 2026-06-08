@@ -2,13 +2,14 @@ schemaVersion: 1
 name: ngrok
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/ngrok-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ngrok-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:759c7f8983091a453e14625f23082d7c0b096ed3a4da5e46007fe13eb450e011
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

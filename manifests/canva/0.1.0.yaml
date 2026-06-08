@@ -2,13 +2,14 @@ schemaVersion: 1
 name: canva
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/canva-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/canva-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:993bb8da2a056b59d48011a14378e331e1ee24e16a39fc2ccc003f290b8c1ed9
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

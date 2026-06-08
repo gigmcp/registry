@@ -2,13 +2,14 @@ schemaVersion: 1
 name: servicenow
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/servicenow-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/servicenow-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:eeb6a767b4f399d34e5a45d0a42eee03187963c07ecfe3623890134076843e55
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,89 @@
+schemaVersion: 1
+name: acculynx
+version: 0.1.0
+baseUrl: https://api.acculynx.com
+tools:
+  - name: list_calendars
+    description: Retrieve a paginated list of calendars for the location
+    method: GET
+    path: /api/v2/calendars
+    params:
+      - {name: pageSize, in: query, type: integer, description: "How many items to be returned at a time"}
+      - {name: recordStartIndex, in: query, type: integer, description: "The index of the first element to return (default 0)"}
+
+  - name: get_job_appointment_summary
+    description: Retrieve the initial appointment information for a specific job
+    method: GET
+    path: /api/v2/jobs/{jobId}/initial-appointment
+    params:
+      - {name: jobId, in: path, type: string, required: true, description: "The job's unique identifier (UUID)"}
+
+  - name: list_contact_types
+    description: Retrieve the list of contact types available within the company account
+    method: GET
+    path: /api/v2/contacts/contact-types
+    params:
+      - {name: pageSize, in: query, type: integer, description: "How many items to be returned at a time"}
+      - {name: pageStartIndex, in: query, type: integer, description: "The index of the page to return (default 0)"}
+
+  - name: create_lead
+    description: Create a new lead in AccuLynx using the v1 leads endpoint
+    method: POST
+    path: /api/v1/leads
+    params:
+      - {name: firstName, in: body, type: string, description: "First name of the lead contact"}
+      - {name: lastName, in: body, type: string, description: "Last name of the lead contact"}
+      - {name: emailAddress, in: body, type: string, description: "Email address of the lead contact"}
+      - {name: phoneNumber1, in: body, type: string, description: "Primary phone number of the lead contact"}
+      - {name: street, in: body, type: string, description: "Street address of the job location"}
+      - {name: jobCategory, in: body, type: string, description: "Job category (e.g. Residential, Commercial)"}
+      - {name: notes, in: body, type: string, description: "Additional notes for the lead"}
+
+  - name: create_contact
+    description: Create a new contact in AccuLynx
+    method: POST
+    path: /api/v2/contacts
+    params:
+      - {name: contactTypeIds, in: body, type: array, required: true, description: "Array of contact type unique identifiers (minimum 1)"}
+      - {name: firstName, in: body, type: string, description: "First name of the contact"}
+      - {name: lastName, in: body, type: string, description: "Last name of the contact"}
+      - {name: companyName, in: body, type: string, description: "Company name of the contact"}
+      - {name: companyJobTitle, in: body, type: string, description: "Job title of the contact"}
+      - {name: note, in: body, type: string, description: "A note for the contact"}
+      - {name: phoneNumbers, in: body, type: array, description: "Array of phone number objects"}
+      - {name: emailAddresses, in: body, type: array, description: "Array of email address objects"}
+      - {name: mailingAddress, in: body, type: object, description: "Mailing address details"}
+      - {name: billingAddress, in: body, type: object, description: "Billing address details"}
+      - {name: billingAddressSameAsMailingAddress, in: body, type: boolean, description: "Whether billing address is the same as mailing address (default false)"}
+
+  - name: create_job
+    description: Create a new job in the Lead (Unassigned) milestone in AccuLynx
+    method: POST
+    path: /api/v2/jobs
+    params:
+      - {name: contact, in: body, type: object, required: true, description: "Contact object identifying the associated contact (must include id of an existing contact)"}
+      - {name: locationAddress, in: body, type: object, description: "Location address object for the job site"}
+      - {name: priority, in: body, type: string, description: "Priority of the lead: Urgent, High, or Normal (default Normal)"}
+      - {name: jobCategory, in: body, type: object, description: "Job category object"}
+      - {name: workType, in: body, type: object, description: "Work type object"}
+      - {name: tradeTypes, in: body, type: array, description: "Array of trade type objects"}
+      - {name: leadSource, in: body, type: object, description: "Lead source object"}
+      - {name: notes, in: body, type: string, description: "Remark for the job (max 1000 characters)"}
+
+  - name: add_job_appointment
+    description: Add or update the initial appointment for a job
+    method: PUT
+    path: /api/v2/jobs/{jobId}/initial-appointment
+    params:
+      - {name: jobId, in: path, type: string, required: true, description: "The job's unique identifier (UUID)"}
+      - {name: startDate, in: body, type: string, description: "Appointment start datetime in ISO 8601 UTC format (suffix with Z)"}
+      - {name: endDate, in: body, type: string, description: "Appointment end datetime in ISO 8601 UTC format (suffix with Z)"}
+      - {name: notes, in: body, type: string, description: "Additional notes for the appointment"}
+
+  - name: update_company_representative
+    description: Assign or update the company representative for a job
+    method: POST
+    path: /api/v2/jobs/{jobId}/representatives/company
+    params:
+      - {name: jobId, in: path, type: string, required: true, description: "The job's unique identifier (UUID)"}
+      - {name: id, in: body, type: string, description: "The unique identifier of the representative to assign"}

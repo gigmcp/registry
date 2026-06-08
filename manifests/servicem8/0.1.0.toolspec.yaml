@@ -1,0 +1,66 @@
+schemaVersion: 1
+name: servicem8
+version: 0.1.0
+baseUrl: https://api.servicem8.com
+tools:
+  - name: list_all_jobs
+    description: Retrieve a list of all jobs in the ServiceM8 account
+    method: GET
+    path: /api_1.0/job.json
+  - name: retrieve_job
+    description: Retrieve a single job by its UUID
+    method: GET
+    path: /api_1.0/job/{uuid}.json
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: UUID of the job to retrieve}
+  - name: create_jobs
+    description: Create a new job in ServiceM8
+    method: POST
+    path: /api_1.0/job.json
+    params:
+      - {name: status, in: body, type: string, required: true, description: "Job status: Quote, Work Order, Unsuccessful, or Completed"}
+      - {name: company_uuid, in: body, type: string, description: UUID of the client company to link this job to}
+      - {name: job_address, in: body, type: string, description: Physical address where the work is to be performed}
+      - {name: job_description, in: body, type: string, description: Description of the work to be done}
+      - {name: date, in: body, type: string, description: "Job creation or scheduled date (YYYY-MM-DD)"}
+  - name: list_all_clients
+    description: Retrieve a list of all clients (companies) in the ServiceM8 account
+    method: GET
+    path: /api_1.0/company.json
+  - name: retrieve_client
+    description: Retrieve a single client (company) by its UUID
+    method: GET
+    path: /api_1.0/company/{uuid}.json
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: UUID of the client to retrieve}
+  - name: list_all_job_notes
+    description: Retrieve a list of all job notes in the ServiceM8 account
+    method: GET
+    path: /api_1.0/note.json
+  - name: create_job_note
+    description: Create a new note associated with a job or other object
+    method: POST
+    path: /api_1.0/note.json
+    params:
+      - {name: related_object_uuid, in: body, type: string, required: true, description: UUID of the object (e.g. job) this note relates to}
+      - {name: related_object, in: body, type: string, required: true, description: "Type of object the note relates to (e.g. job)"}
+      - {name: note, in: body, type: string, required: true, description: The text content of the note}
+  - name: create_job_payment
+    description: Record a payment against a job
+    method: POST
+    path: /api_1.0/jobpayment.json
+    params:
+      - {name: job_uuid, in: body, type: string, required: true, description: UUID of the job this payment is associated with}
+      - {name: actioned_by_uuid, in: body, type: string, required: true, description: UUID of the staff member who recorded or processed this payment}
+      - {name: timestamp, in: body, type: string, required: true, description: "Date and time the payment was recorded (YYYY-MM-DD HH:MM:SS)"}
+      - {name: amount, in: body, type: string, required: true, description: Payment amount in the account currency}
+      - {name: method, in: body, type: string, required: true, description: "Payment method (e.g. Cash, Credit Card, Bank Transfer, Stripe)"}
+      - {name: note, in: body, type: string, description: Optional additional information about the payment}
+  - name: list_all_materials
+    description: Retrieve a list of all job materials (line items) in the ServiceM8 account
+    method: GET
+    path: /api_1.0/jobmaterial.json
+  - name: list_all_tasks
+    description: Retrieve a list of all tasks in the ServiceM8 account
+    method: GET
+    path: /api_1.0/task.json

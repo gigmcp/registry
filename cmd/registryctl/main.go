@@ -32,7 +32,7 @@ func main() {
 
 func run(args []string) error {
 	if len(args) < 1 {
-		return fmt.Errorf("usage: registryctl lint|build-index|sign|verify|keygen|build-args ...")
+		return fmt.Errorf("usage: registryctl lint|lint-toolspecs|build-index|sign|verify|keygen|build-args ...")
 	}
 	switch args[0] {
 	case "lint":
@@ -59,6 +59,12 @@ func run(args []string) error {
 		}
 		fmt.Fprintf(stdout, "lint OK: %d manifest(s)\n", len(manifests))
 		return nil
+
+	case "lint-toolspecs":
+		if len(args) < 2 {
+			return fmt.Errorf("usage: registryctl lint-toolspecs <manifests-dir | manifests/<name>/<version>.toolspec.yaml>")
+		}
+		return lintToolspecs(args[1])
 
 	case "build-index":
 		if len(args) < 2 {
@@ -205,6 +211,103 @@ func run(args []string) error {
 	}
 }
 
+// lintToolspecs validates toolspecs against their paired manifests. Toolspecs
+// live NEXT TO their manifest: manifests/<name>/<version>.toolspec.yaml beside
+// manifests/<name>/<version>.yaml. target is either the manifests dir
+// (validates every spec, and requires a spec for every manifest selecting
+// builder "toolpack") or a single *.toolspec.yaml (validates just that
+// pairing — used by authoring agents to lint their own output without seeing
+// siblings' work-in-progress).
+func lintToolspecs(target string) error {
+	lintOne := func(path string) (*schema.ToolSpec, error) {
+		raw, err := os.ReadFile(path)
+		if err != nil {
+			return nil, err
+		}
+		s, err := schema.ParseToolSpec(raw)
+		if err != nil {
+			return nil, fmt.Errorf("%s: %w", path, err)
+		}
+		if err := s.Validate(); err != nil {
+			return nil, fmt.Errorf("%s: %w", path, err)
+		}
+		wantDir, wantFile := s.Name, s.Version+".toolspec.yaml"
+		if filepath.Base(filepath.Dir(path)) != wantDir || filepath.Base(path) != wantFile {
+			return nil, fmt.Errorf("%s: path must be manifests/%s/%s", path, wantDir, wantFile)
+		}
+		// The paired manifest sits beside the spec; loading just it keeps
+		// single-file mode free of sibling-directory parse interference.
+		mPath := filepath.Join(filepath.Dir(path), s.Version+".yaml")
+		rawM, err := os.ReadFile(mPath)
+		if err != nil {
+			return nil, fmt.Errorf("%s: no paired manifest: %w", path, err)
+		}
+		m, err := schema.Parse(rawM)
+		if err != nil {
+			return nil, fmt.Errorf("%s: %w", mPath, err)
+		}
+		if err := m.Validate(); err != nil {
+			return nil, fmt.Errorf("%s: %w", mPath, err)
+		}
+		if err := s.CheckAgainstManifest(m); err != nil {
+			return nil, fmt.Errorf("%s: %w", path, err)
+		}
+		return s, nil
+	}
+
+	info, err := os.Stat(target)
+	if err != nil {
+		return err
+	}
+	if !info.IsDir() {
+		if _, err := lintOne(target); err != nil {
+			return err
+		}
+		fmt.Fprintln(stdout, "lint-toolspecs OK: 1 toolspec")
+		return nil
+	}
+
+	specs := map[string]bool{}
+	count := 0
+	err = filepath.WalkDir(target, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() || d.Type()&os.ModeSymlink != 0 || !strings.HasSuffix(path, ".toolspec.yaml") {
+			return nil
+		}
+		s, err := lintOne(path)
+		if err != nil {
+			return err
+		}
+		specs[s.Name+"@"+s.Version] = true
+		count++
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	// Every manifest that selects the toolpack builder must have a spec —
+	// without one the built image would have no /app/toolspec.yaml. (Dir mode
+	// only; loadAll here is safe because dir mode runs in CI, not from
+	// concurrent authoring agents.)
+	manifests, err := loadAll(target, nil)
+	if err != nil {
+		return err
+	}
+	var missing []string
+	for _, m := range manifests {
+		if m.Image.Builder == "toolpack" && !specs[m.Name+"@"+m.Version] {
+			missing = append(missing, m.Name+"@"+m.Version)
+		}
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("manifests with builder \"toolpack\" but no toolspec: %s", strings.Join(missing, ", "))
+	}
+	fmt.Fprintf(stdout, "lint-toolspecs OK: %d toolspec(s)\n", count)
+	return nil
+}
+
 // loadAll parses every manifests/<name>/<version>.yaml, enforces that the
 // path matches the manifest's name/version (prevents PR sleight-of-hand),
 // and lints when a denylist is given (Validate-only otherwise).
@@ -214,7 +317,9 @@ func loadAll(dir string, deny []string) ([]*schema.Manifest, error) {
 		if err != nil {
 			return err
 		}
-		if d.IsDir() || d.Type()&os.ModeSymlink != 0 || !strings.HasSuffix(path, ".yaml") {
+		// *.toolspec.yaml files sit beside manifests but are linted by
+		// lint-toolspecs, not parsed as manifests.
+		if d.IsDir() || d.Type()&os.ModeSymlink != 0 || !strings.HasSuffix(path, ".yaml") || strings.HasSuffix(path, ".toolspec.yaml") {
 			return nil
 		}
 		raw, err := os.ReadFile(path)

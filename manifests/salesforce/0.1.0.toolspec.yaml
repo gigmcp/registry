@@ -1,0 +1,101 @@
+schemaVersion: 1
+name: salesforce
+version: 0.1.0
+baseUrl: https://myorg.my.salesforce.com
+tools:
+  - name: execute_soql_query
+    description: Execute a SOQL query against the Salesforce org and return matching records
+    method: GET
+    path: /services/data/v62.0/query
+    params:
+      - {name: q, in: query, type: string, required: true, description: "SOQL query string (e.g. SELECT Id, Name FROM Account LIMIT 10)"}
+
+  - name: get_account
+    description: Retrieve a single Account record by its Salesforce record ID
+    method: GET
+    path: /services/data/v62.0/sobjects/Account/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Salesforce record ID of the Account to retrieve"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return (e.g. Id,Name,Industry,Phone)"}
+
+  - name: get_contact
+    description: Retrieve a single Contact record by its Salesforce record ID
+    method: GET
+    path: /services/data/v62.0/sobjects/Contact/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Salesforce record ID of the Contact to retrieve"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return (e.g. Id,FirstName,LastName,Email)"}
+
+  - name: create_account
+    description: Create a new Account record in Salesforce
+    method: POST
+    path: /services/data/v62.0/sobjects/Account
+    params:
+      - {name: Name, in: body, type: string, required: true, description: "Name of the account (required)"}
+      - {name: Phone, in: body, type: string, description: "Main phone number of the account"}
+      - {name: Website, in: body, type: string, description: "Website URL of the account"}
+      - {name: Industry, in: body, type: string, description: "Industry classification of the account"}
+      - {name: BillingCity, in: body, type: string, description: "Billing city of the account"}
+      - {name: BillingState, in: body, type: string, description: "Billing state or province of the account"}
+      - {name: BillingCountry, in: body, type: string, description: "Billing country of the account"}
+      - {name: Description, in: body, type: string, description: "Description or notes about the account"}
+
+  - name: create_contact
+    description: Create a new Contact record in Salesforce
+    method: POST
+    path: /services/data/v62.0/sobjects/Contact
+    params:
+      - {name: LastName, in: body, type: string, required: true, description: "Last name of the contact (required)"}
+      - {name: FirstName, in: body, type: string, description: "First name of the contact"}
+      - {name: AccountId, in: body, type: string, description: "Salesforce record ID of the Account to associate this contact with"}
+      - {name: Email, in: body, type: string, description: "Email address of the contact"}
+      - {name: Phone, in: body, type: string, description: "Phone number of the contact"}
+      - {name: Title, in: body, type: string, description: "Job title of the contact"}
+      - {name: Department, in: body, type: string, description: "Department of the contact"}
+
+  - name: create_lead
+    description: Create a new Lead record in Salesforce
+    method: POST
+    path: /services/data/v62.0/sobjects/Lead
+    params:
+      - {name: LastName, in: body, type: string, required: true, description: "Last name of the lead (required)"}
+      - {name: Company, in: body, type: string, required: true, description: "Company name of the lead (required)"}
+      - {name: FirstName, in: body, type: string, description: "First name of the lead"}
+      - {name: Email, in: body, type: string, description: "Email address of the lead"}
+      - {name: Phone, in: body, type: string, description: "Phone number of the lead"}
+      - {name: Title, in: body, type: string, description: "Job title of the lead"}
+      - {name: LeadSource, in: body, type: string, description: "Source of the lead (e.g. Web, Phone Inquiry, Partner Referral)"}
+      - {name: Status, in: body, type: string, description: "Status of the lead (e.g. Open - Not Contacted, Working, Closed - Converted)"}
+
+  - name: create_opportunity
+    description: Create a new Opportunity record in Salesforce
+    method: POST
+    path: /services/data/v62.0/sobjects/Opportunity
+    params:
+      - {name: Name, in: body, type: string, required: true, description: "Name of the opportunity (required; max 120 characters)"}
+      - {name: StageName, in: body, type: string, required: true, description: "Sales stage of the opportunity (required; e.g. Prospecting, Qualification, Closed Won)"}
+      - {name: CloseDate, in: body, type: string, required: true, description: "Expected close date in ISO 8601 format (required; e.g. 2025-12-31)"}
+      - {name: AccountId, in: body, type: string, description: "Salesforce record ID of the Account associated with this opportunity"}
+      - {name: Amount, in: body, type: number, description: "Estimated revenue amount for the opportunity"}
+      - {name: Description, in: body, type: string, description: "Description or notes about the opportunity"}
+
+  - name: create_task
+    description: Create a new Task (activity) record in Salesforce
+    method: POST
+    path: /services/data/v62.0/sobjects/Task
+    params:
+      - {name: Subject, in: body, type: string, required: true, description: "Subject or title of the task (required)"}
+      - {name: Status, in: body, type: string, required: true, description: "Status of the task (required; e.g. Not Started, In Progress, Completed)"}
+      - {name: Priority, in: body, type: string, required: true, description: "Priority of the task (required; e.g. High, Normal, Low)"}
+      - {name: WhoId, in: body, type: string, description: "Salesforce record ID of the Contact or Lead related to this task"}
+      - {name: WhatId, in: body, type: string, description: "Salesforce record ID of the related Account, Opportunity, or other object"}
+      - {name: ActivityDate, in: body, type: string, description: "Due date of the task in ISO 8601 format (e.g. 2025-12-31)"}
+      - {name: Description, in: body, type: string, description: "Additional notes or comments for the task"}
+
+  - name: delete_record
+    description: Delete a Salesforce record by its object type and record ID
+    method: DELETE
+    path: /services/data/v62.0/sobjects/{sobject}/{id}
+    params:
+      - {name: sobject, in: path, type: string, required: true, description: "Salesforce object API name (e.g. Account, Contact, Lead, Opportunity, Task)"}
+      - {name: id, in: path, type: string, required: true, description: "Salesforce record ID of the record to delete"}

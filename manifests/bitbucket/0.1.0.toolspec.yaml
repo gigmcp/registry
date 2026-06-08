@@ -1,0 +1,119 @@
+schemaVersion: 1
+name: bitbucket
+version: 0.1.0
+baseUrl: https://api.bitbucket.org
+tools:
+  - name: list_repositories
+    description: List repositories in a Bitbucket workspace
+    method: GET
+    path: /2.0/repositories/{workspace}
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: role, in: query, type: string, description: "Filter by role: owner, admin, contributor, member"}
+      - {name: q, in: query, type: string, description: Query string to filter results (use with role)}
+      - {name: sort, in: query, type: string, description: Field name to sort results by}
+      - {name: pagelen, in: query, type: integer, description: Number of results per page (max 100)}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: get_repository
+    description: Get details of a single Bitbucket repository
+    method: GET
+    path: /2.0/repositories/{workspace}/{repo_slug}
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+
+  - name: list_pull_requests
+    description: List pull requests for a repository
+    method: GET
+    path: /2.0/repositories/{workspace}/{repo_slug}/pullrequests
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: state, in: query, type: string, description: "Filter by state: OPEN, MERGED, DECLINED, SUPERSEDED"}
+      - {name: q, in: query, type: string, description: Query string to filter pull requests}
+      - {name: sort, in: query, type: string, description: Field name to sort results by}
+      - {name: pagelen, in: query, type: integer, description: Number of results per page (max 100)}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: get_pull_request_diff
+    description: Get the diff for a pull request
+    method: GET
+    path: /2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/diff
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: pull_request_id, in: path, type: integer, required: true, description: The pull request ID}
+
+  - name: list_commits
+    description: List commits for a repository
+    method: GET
+    path: /2.0/repositories/{workspace}/{repo_slug}/commits
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: include, in: query, type: string, description: Branch or commit hash to include in results}
+      - {name: exclude, in: query, type: string, description: Branch or commit hash to exclude from results}
+      - {name: path, in: query, type: string, description: Filter commits that modified the given path}
+      - {name: pagelen, in: query, type: integer, description: Number of results per page (max 100)}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: list_issues
+    description: List issues for a repository
+    method: GET
+    path: /2.0/repositories/{workspace}/{repo_slug}/issues
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: q, in: query, type: string, description: Query string to filter issues}
+      - {name: sort, in: query, type: string, description: Field name to sort results by}
+      - {name: pagelen, in: query, type: integer, description: Number of results per page (max 100)}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: create_pull_request
+    description: Create a new pull request in a repository
+    method: POST
+    path: /2.0/repositories/{workspace}/{repo_slug}/pullrequests
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: title, in: body, type: string, required: true, description: The title of the pull request}
+      - {name: source, in: body, type: object, required: true, description: "Source branch object with branch.name field (e.g. {\"branch\": {\"name\": \"feature-branch\"}})"}
+      - {name: destination, in: body, type: object, description: "Destination branch object with branch.name field (e.g. {\"branch\": {\"name\": \"main\"}})"}
+      - {name: description, in: body, type: string, description: Description of the pull request (supports Markdown)}
+      - {name: close_source_branch, in: body, type: boolean, description: Whether to close the source branch after merge}
+      - {name: reviewers, in: body, type: array, description: List of reviewer objects with UUID field}
+
+  - name: merge_pull_request
+    description: Merge a pull request
+    method: POST
+    path: /2.0/repositories/{workspace}/{repo_slug}/pullrequests/{pull_request_id}/merge
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: pull_request_id, in: path, type: integer, required: true, description: The pull request ID}
+      - {name: merge_strategy, in: body, type: string, description: "Merge strategy: merge_commit, squash, or fast_forward"}
+      - {name: message, in: body, type: string, description: Custom merge commit message}
+      - {name: close_source_branch, in: body, type: boolean, description: Whether to close the source branch after merge}
+
+  - name: create_issue
+    description: Create a new issue in a repository
+    method: POST
+    path: /2.0/repositories/{workspace}/{repo_slug}/issues
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: title, in: body, type: string, required: true, description: The title of the issue}
+      - {name: content, in: body, type: object, description: "Issue body content object with raw field (e.g. {\"raw\": \"Issue description\"})"}
+      - {name: kind, in: body, type: string, description: "Issue kind: bug, enhancement, proposal, task"}
+      - {name: priority, in: body, type: string, description: "Issue priority: trivial, minor, major, critical, blocker"}
+
+  - name: create_branch
+    description: Create a new branch in a repository
+    method: POST
+    path: /2.0/repositories/{workspace}/{repo_slug}/refs/branches
+    params:
+      - {name: workspace, in: path, type: string, required: true, description: The workspace slug or UUID}
+      - {name: repo_slug, in: path, type: string, required: true, description: The repository slug}
+      - {name: name, in: body, type: string, required: true, description: The name of the new branch}
+      - {name: target, in: body, type: object, required: true, description: "Target commit object with hash field (e.g. {\"hash\": \"commit-sha\"})"}

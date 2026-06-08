@@ -1,0 +1,78 @@
+schemaVersion: 1
+name: retellai
+version: 0.1.0
+baseUrl: https://api.retellai.com
+tools:
+  - name: list_agents
+    description: List all agents in the account
+    method: GET
+    path: /list-agents
+    params:
+      - {name: limit, in: query, type: integer, description: "Max agents to return (1-1000, default 1000)"}
+      - {name: pagination_key, in: query, type: string, description: Pagination cursor for fetching subsequent pages}
+  - name: get_agent
+    description: Retrieve a single agent by its ID
+    method: GET
+    path: /get-agent/{agent_id}
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: Unique ID of the agent to retrieve}
+      - {name: version, in: query, type: string, description: "Agent version to retrieve; accepts numeric versions, tag names (e.g. prod), or special values (latest, latest_published)"}
+  - name: create_agent
+    description: Create a new voice agent
+    method: POST
+    path: /create-agent
+    params:
+      - {name: response_engine, in: body, type: object, required: true, description: "The Response Engine to attach to the agent (must include llm_id and type)"}
+      - {name: voice_id, in: body, type: string, required: true, description: Unique voice ID used for the agent}
+      - {name: agent_name, in: body, type: string, description: Name of the agent for reference purposes}
+      - {name: language, in: body, type: string, description: "Operating language of the agent (default: en-US)"}
+      - {name: webhook_url, in: body, type: string, description: URL to receive event webhooks for this agent}
+  - name: update_agent
+    description: Update an existing voice agent's configuration
+    method: PATCH
+    path: /update-agent/{agent_id}
+    params:
+      - {name: agent_id, in: path, type: string, required: true, description: Unique ID of the agent to update}
+      - {name: version, in: query, type: string, description: Optional version of the agent to update}
+      - {name: agent_name, in: body, type: string, description: Updated name for the agent}
+      - {name: voice_id, in: body, type: string, description: Updated voice ID for the agent}
+      - {name: response_engine, in: body, type: object, description: Updated Response Engine configuration}
+      - {name: language, in: body, type: string, description: Updated operating language for the agent}
+      - {name: webhook_url, in: body, type: string, description: Updated webhook URL for the agent}
+  - name: retrieve_call_details
+    description: Retrieve details of a specific call including transcript, recording, and analysis
+    method: GET
+    path: /v2/get-call/{call_id}
+    params:
+      - {name: call_id, in: path, type: string, required: true, description: The call ID to retrieve details for}
+  - name: create_outbound_phone_call
+    description: Initiate an outbound phone call from a Retell phone number to a destination number
+    method: POST
+    path: /v2/create-phone-call
+    params:
+      - {name: from_number, in: body, type: string, required: true, description: "Your Retell phone number in E.164 format to call from"}
+      - {name: to_number, in: body, type: string, required: true, description: "Destination phone number in E.164 format"}
+      - {name: override_agent_id, in: body, type: string, description: Override the default agent for this call}
+      - {name: metadata, in: body, type: object, description: Arbitrary metadata to associate with the call}
+      - {name: retell_llm_dynamic_variables, in: body, type: object, description: Key-value string pairs injected into the Response Engine prompt}
+  - name: create_web_call
+    description: Create a web call session and return an access token for browser-based calling
+    method: POST
+    path: /v2/create-web-call
+    params:
+      - {name: agent_id, in: body, type: string, required: true, description: Unique ID of the agent to use for the web call}
+      - {name: agent_version, in: body, type: string, description: "Agent version reference (numeric or tag)"}
+      - {name: metadata, in: body, type: object, description: Arbitrary metadata to associate with the call}
+      - {name: retell_llm_dynamic_variables, in: body, type: object, description: Key-value string pairs injected into the Response Engine prompt}
+  - name: list_all_phone_numbers
+    description: List all phone numbers in the account
+    method: GET
+    path: /v2/list-phone-numbers
+    params:
+      - {name: limit, in: query, type: integer, description: "Max phone numbers to return (default 50, max 1000)"}
+      - {name: sort_order, in: query, type: string, description: "Sort order for results: ascending or descending (default descending)"}
+      - {name: pagination_key, in: query, type: string, description: Pagination cursor for fetching the next page}
+  - name: list_voices
+    description: List all available voices for use with agents
+    method: GET
+    path: /list-voices

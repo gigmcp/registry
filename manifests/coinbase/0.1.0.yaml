@@ -2,13 +2,14 @@ schemaVersion: 1
 name: coinbase
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/coinbase-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coinbase-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:67683bd0d5312f9f4d0ab5eb124e5a2b86383efb17fcc11c3e9db6a03aaf63bd
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

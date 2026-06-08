@@ -2,13 +2,14 @@ schemaVersion: 1
 name: netsuite
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/netsuite-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/netsuite-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:df049a1611dc5c7ecca6ada9098fabb4aa403962a8d6b6dc69f0548a8ce746d5
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

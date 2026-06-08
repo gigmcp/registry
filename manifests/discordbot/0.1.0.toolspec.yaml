@@ -1,0 +1,86 @@
+schemaVersion: 1
+name: discordbot
+version: 0.1.0
+baseUrl: https://discord.com
+tools:
+  - name: get_guild
+    description: Get a guild (server) object by ID
+    method: GET
+    path: /api/v10/guilds/{guild_id}
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+      - {name: with_counts, in: query, type: boolean, description: "When true, includes approximate member and presence counts"}
+
+  - name: get_channel
+    description: Get a channel object by ID
+    method: GET
+    path: /api/v10/channels/{channel_id}
+    params:
+      - {name: channel_id, in: path, type: string, required: true, description: The ID of the channel}
+
+  - name: get_message
+    description: Get a specific message in a channel by ID
+    method: GET
+    path: /api/v10/channels/{channel_id}/messages/{message_id}
+    params:
+      - {name: channel_id, in: path, type: string, required: true, description: The ID of the channel}
+      - {name: message_id, in: path, type: string, required: true, description: The ID of the message}
+
+  - name: get_guild_member
+    description: Get a guild member object for a specific user in a guild
+    method: GET
+    path: /api/v10/guilds/{guild_id}/members/{user_id}
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+      - {name: user_id, in: path, type: string, required: true, description: The ID of the user}
+
+  - name: create_message
+    description: Create and send a message in a channel
+    method: POST
+    path: /api/v10/channels/{channel_id}/messages
+    params:
+      - {name: channel_id, in: path, type: string, required: true, description: The ID of the channel to send the message in}
+      - {name: content, in: body, type: string, description: The message text content (up to 2000 characters)}
+      - {name: tts, in: body, type: boolean, description: Whether this is a text-to-speech message}
+      - {name: embeds, in: body, type: array, description: Array of embed objects to include with the message}
+
+  - name: create_guild_channel
+    description: Create a new channel in a guild
+    method: POST
+    path: /api/v10/guilds/{guild_id}/channels
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+      - {name: name, in: body, type: string, required: true, description: "Channel name (1-100 characters)"}
+      - {name: type, in: body, type: integer, description: "Type of channel (0=text, 2=voice, 4=category, 5=announcement, 15=forum, etc.)"}
+      - {name: topic, in: body, type: string, description: "Channel topic (0-1024 characters, text and announcement channels only)"}
+      - {name: parent_id, in: body, type: string, description: ID of the parent category channel}
+      - {name: position, in: body, type: integer, description: Sorting position of the channel}
+
+  - name: create_thread
+    description: Create a new thread in a channel (without an existing message)
+    method: POST
+    path: /api/v10/channels/{channel_id}/threads
+    params:
+      - {name: channel_id, in: path, type: string, required: true, description: The ID of the channel to create the thread in}
+      - {name: name, in: body, type: string, required: true, description: "Thread name (1-100 characters)"}
+      - {name: auto_archive_duration, in: body, type: integer, description: "Duration in minutes to auto-archive the thread (60, 1440, 4320, or 10080)"}
+      - {name: type, in: body, type: integer, description: "Type of thread (11=public, 12=private)"}
+      - {name: invitable, in: body, type: boolean, description: "Whether non-moderators can add other non-moderators to the thread (private threads only)"}
+      - {name: rate_limit_per_user, in: body, type: integer, description: "Slowmode rate limit per user in seconds (0-21600)"}
+
+  - name: add_guild_member_role
+    description: Add a role to a guild member
+    method: PUT
+    path: /api/v10/guilds/{guild_id}/members/{user_id}/roles/{role_id}
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+      - {name: user_id, in: path, type: string, required: true, description: The ID of the user}
+      - {name: role_id, in: path, type: string, required: true, description: The ID of the role to add}
+
+  - name: delete_message
+    description: Delete a message in a channel
+    method: DELETE
+    path: /api/v10/channels/{channel_id}/messages/{message_id}
+    params:
+      - {name: channel_id, in: path, type: string, required: true, description: The ID of the channel}
+      - {name: message_id, in: path, type: string, required: true, description: The ID of the message to delete}

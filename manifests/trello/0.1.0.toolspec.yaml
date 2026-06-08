@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: trello
+version: 0.1.0
+baseUrl: https://api.trello.com
+auth:
+  header: Authorization
+  format: "{token}"
+tools:
+  - name: get_board
+    description: Get the details of a Trello board by its ID
+    method: GET
+    path: /1/boards/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the board}
+
+  - name: get_board_lists
+    description: Get the lists on a Trello board
+    method: GET
+    path: /1/boards/{id}/lists
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the board}
+      - {name: filter, in: query, type: string, description: "Filter lists by status: all, closed, none, open (default open)"}
+
+  - name: get_list_cards
+    description: Get the cards in a Trello list
+    method: GET
+    path: /1/lists/{id}/cards
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the list}
+
+  - name: get_card
+    description: Get the details of a Trello card by its ID
+    method: GET
+    path: /1/cards/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the card}
+
+  - name: add_card
+    description: Create a new card in a Trello list
+    method: POST
+    path: /1/cards
+    params:
+      - {name: idList, in: query, type: string, required: true, description: The ID of the list to create the card in}
+      - {name: name, in: query, type: string, description: The name of the card}
+      - {name: desc, in: query, type: string, description: The description of the card}
+      - {name: pos, in: query, type: string, description: "Position of the card: top, bottom, or a positive float"}
+      - {name: due, in: query, type: string, description: A due date for the card (ISO 8601 date string)}
+
+  - name: add_list_to_board
+    description: Create a new list on a Trello board
+    method: POST
+    path: /1/lists
+    params:
+      - {name: name, in: query, type: string, required: true, description: The name of the list}
+      - {name: idBoard, in: query, type: string, required: true, description: The ID of the board to add the list to}
+      - {name: pos, in: query, type: string, description: "Position of the list: top, bottom, or a positive float"}
+
+  - name: add_comment_to_card
+    description: Add a comment to a Trello card
+    method: POST
+    path: /1/cards/{id}/actions/comments
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the card}
+      - {name: text, in: query, type: string, required: true, description: The text of the comment}
+
+  - name: add_member_to_card
+    description: Add a member to a Trello card
+    method: POST
+    path: /1/cards/{id}/idMembers
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the card}
+      - {name: value, in: query, type: string, required: true, description: The ID of the member to add to the card}
+
+  - name: delete_card
+    description: Delete a Trello card by its ID
+    method: DELETE
+    path: /1/cards/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The ID of the card to delete}

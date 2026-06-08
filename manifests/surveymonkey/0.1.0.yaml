@@ -2,13 +2,14 @@ schemaVersion: 1
 name: surveymonkey
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/surveymonkey-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/surveymonkey-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:c393fec9f32c7b667799dc388f836b7ba73cde5200771f6b2a082afa5c8b7cab
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

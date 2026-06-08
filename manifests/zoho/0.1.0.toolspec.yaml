@@ -1,0 +1,112 @@
+schemaVersion: 1
+name: zoho
+version: 0.1.0
+baseUrl: https://www.zohoapis.com
+tools:
+  - name: get_records
+    description: Retrieve records from a Zoho CRM module, with optional field selection, pagination, and sorting
+    method: GET
+    path: /crm/v7/{module_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the CRM module (e.g. Leads, Contacts, Accounts, Deals)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated field API names to include (up to 50)"}
+      - {name: ids, in: query, type: string, description: "Comma-separated record IDs to fetch specific records"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default: 200, max: 200)"}
+      - {name: sort_by, in: query, type: string, description: "Field to sort by; id, Created_Time, or Modified_Time"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction; asc or desc (default: desc)"}
+      - {name: cvid, in: query, type: string, description: "Custom view ID to filter records"}
+
+  - name: search_records
+    description: Search for records in a Zoho CRM module by criteria, email, phone number, or keyword
+    method: GET
+    path: /crm/v7/{module_api_name}/search
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the CRM module to search (e.g. Leads, Contacts, Accounts, Deals)"}
+      - {name: criteria, in: query, type: string, description: "Search criteria expression (up to 10 conditions)"}
+      - {name: email, in: query, type: string, description: "Email address to search across all email fields"}
+      - {name: phone, in: query, type: string, description: "Phone number to search across all phone fields"}
+      - {name: word, in: query, type: string, description: "Keyword for global search across the module"}
+      - {name: fields, in: query, type: string, description: "Comma-separated field API names to include in the response"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default: 200, max: 200)"}
+      - {name: converted, in: query, type: string, description: "Filter converted records; true, false, or both"}
+      - {name: approved, in: query, type: string, description: "Filter approved records; true, false, or both"}
+
+  - name: get_related_records
+    description: Retrieve records related to a specific record through a related list in Zoho CRM
+    method: GET
+    path: /crm/v7/{module_api_name}/{record_id}/{related_list_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the parent module (e.g. Contacts, Accounts)"}
+      - {name: record_id, in: path, type: string, required: true, description: "Unique ID of the parent record"}
+      - {name: related_list_api_name, in: path, type: string, required: true, description: "API name of the related list (e.g. Deals, Contacts, Activities)"}
+      - {name: fields, in: query, type: string, required: true, description: "Comma-separated field API names to include (required by the API)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default: 200, max: 200)"}
+      - {name: sort_by, in: query, type: string, description: "Field to sort by; id, Created_Time, or Modified_Time"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction; asc or desc"}
+
+  - name: list_modules
+    description: List all available modules in the Zoho CRM account with their metadata and settings
+    method: GET
+    path: /crm/v7/settings/modules
+    params:
+      - {name: status, in: query, type: string, description: "Filter modules by visibility; user_hidden, system_hidden, scheduled_for_deletion, or visible"}
+
+  - name: get_module_fields_metadata
+    description: Retrieve field metadata for a specific Zoho CRM module, including field types, API names, and properties
+    method: GET
+    path: /crm/v7/settings/fields
+    params:
+      - {name: module, in: query, type: string, required: true, description: "API name of the module whose fields to retrieve (e.g. Leads, Contacts, Accounts)"}
+      - {name: type, in: query, type: string, description: "Field filter; unused (unused fields only) or all (used and unused fields)"}
+
+  - name: get_users
+    description: Retrieve users in the Zoho CRM organization, optionally filtered by type or specific user IDs
+    method: GET
+    path: /crm/v7/users
+    params:
+      - {name: type, in: query, type: string, description: "User category to retrieve; AllUsers, ActiveUsers, AdminUsers, CurrentUser, etc."}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Records per page (default: 200, max: 200)"}
+      - {name: ids, in: query, type: string, description: "Comma-separated user IDs to retrieve specific users (up to 100)"}
+
+  - name: create_record
+    description: Create one or more new records in a Zoho CRM module
+    method: POST
+    path: /crm/v7/{module_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the CRM module in which to create records (e.g. Leads, Contacts, Deals)"}
+      - {name: data, in: body, type: array, required: true, description: "Array of record objects with field API names and values (max 100 records)"}
+      - {name: trigger, in: body, type: array, description: "Automations to trigger; e.g. workflow, approval, blueprint"}
+      - {name: lar_id, in: body, type: string, description: "Assignment rule ID for auto-assigning the new record"}
+
+  - name: update_record
+    description: Update an existing record in a Zoho CRM module by its record ID
+    method: PUT
+    path: /crm/v7/{module_api_name}/{record_id}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the CRM module containing the record (e.g. Leads, Contacts, Deals)"}
+      - {name: record_id, in: path, type: string, required: true, description: "Unique ID of the record to update"}
+      - {name: data, in: body, type: array, required: true, description: "Array containing one record object with the fields to update"}
+      - {name: trigger, in: body, type: array, description: "Automations to trigger; e.g. workflow, approval, blueprint"}
+
+  - name: convert_lead
+    description: Convert a Zoho CRM lead into a contact, account, and optionally a deal
+    method: POST
+    path: /crm/v7/Leads/{record_id}/actions/convert
+    params:
+      - {name: record_id, in: path, type: string, required: true, description: "Unique ID of the lead to convert"}
+      - {name: data, in: body, type: array, required: true, description: "Array containing one conversion object with fields: overwrite (boolean), notify_lead_owner (boolean), notify_new_entity_owner (boolean), Accounts (object with id), Contacts (object with id), assign_to (object with id), Deals (object with Deal_Name, Closing_Date, Stage, and optional Pipeline)"}
+
+  - name: upload_attachment
+    description: Upload a file attachment to a specific record in a Zoho CRM module
+    method: POST
+    path: /crm/v7/{module_api_name}/{record_id}/Attachments
+    encoding: form
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the CRM module containing the record (e.g. Leads, Contacts, Deals)"}
+      - {name: record_id, in: path, type: string, required: true, description: "Unique ID of the record to attach the file to"}
+      - {name: file, in: body, type: string, required: true, description: "The file to upload as multipart form data"}
+      - {name: attachmentUrl, in: body, type: string, description: "URL of an external file to attach instead of uploading a file directly"}

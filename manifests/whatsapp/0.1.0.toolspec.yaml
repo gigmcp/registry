@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: whatsapp
+version: 0.1.0
+baseUrl: https://graph.facebook.com
+tools:
+  - name: get_business_profile
+    description: Retrieve the WhatsApp Business profile for a phone number
+    method: GET
+    path: /v20.0/{phone_number_id}/whatsapp_business_profile
+    params:
+      - {name: phone_number_id, in: path, type: string, required: true, description: "WhatsApp Business phone number ID"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. about,address,description,email,websites,vertical,profile_picture_url)"}
+
+  - name: get_phone_numbers
+    description: List all phone numbers associated with a WhatsApp Business Account
+    method: GET
+    path: /v20.0/{waba_id}/phone_numbers
+    params:
+      - {name: waba_id, in: path, type: string, required: true, description: "WhatsApp Business Account ID"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of phone number fields to return"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page (1-100)"}
+
+  - name: get_message_templates
+    description: List message templates for a WhatsApp Business Account
+    method: GET
+    path: /v20.0/{waba_id}/message_templates
+    params:
+      - {name: waba_id, in: path, type: string, required: true, description: "WhatsApp Business Account ID"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. name,status,category,language,components)"}
+      - {name: name, in: query, type: string, description: "Filter templates by name"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of templates to return per page"}
+
+  - name: get_template_status
+    description: Retrieve the status and details of a specific message template by ID
+    method: GET
+    path: /v20.0/{template_id}
+    params:
+      - {name: template_id, in: path, type: string, required: true, description: "ID of the message template to retrieve"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to return (e.g. status,name,category,language,components)"}
+
+  - name: get_media_info
+    description: Retrieve the download URL and metadata for a media object by ID
+    method: GET
+    path: /v20.0/{media_id}
+    params:
+      - {name: media_id, in: path, type: string, required: true, description: "ID of the media object to retrieve"}
+      - {name: phone_number_id, in: query, type: string, description: "Phone number ID associated with the media (required for received media)"}
+
+  - name: send_message
+    description: Send a text message to a WhatsApp recipient
+    method: POST
+    path: /v20.0/{phone_number_id}/messages
+    params:
+      - {name: phone_number_id, in: path, type: string, required: true, description: "Sender WhatsApp Business phone number ID"}
+      - {name: messaging_product, in: body, type: string, required: true, description: "Must be whatsapp"}
+      - {name: to, in: body, type: string, required: true, description: "Recipient's phone number in E.164 format"}
+      - {name: type, in: body, type: string, required: true, description: "Message type; use text for plain text messages"}
+      - {name: text, in: body, type: object, required: true, description: "Text object with a body field containing the message content"}
+      - {name: recipient_type, in: body, type: string, description: "individual (default) or group"}
+
+  - name: send_template_message
+    description: Send a pre-approved message template to a WhatsApp recipient
+    method: POST
+    path: /v20.0/{phone_number_id}/messages
+    params:
+      - {name: phone_number_id, in: path, type: string, required: true, description: "Sender WhatsApp Business phone number ID"}
+      - {name: messaging_product, in: body, type: string, required: true, description: "Must be whatsapp"}
+      - {name: to, in: body, type: string, required: true, description: "Recipient's phone number in E.164 format"}
+      - {name: type, in: body, type: string, required: true, description: "Must be template"}
+      - {name: template, in: body, type: object, required: true, description: "Template object with name, language, and optional components (variable values)"}
+      - {name: recipient_type, in: body, type: string, description: "individual (default) or group"}
+
+  - name: send_media
+    description: Send an image, audio, video, document, or sticker to a WhatsApp recipient
+    method: POST
+    path: /v20.0/{phone_number_id}/messages
+    params:
+      - {name: phone_number_id, in: path, type: string, required: true, description: "Sender WhatsApp Business phone number ID"}
+      - {name: messaging_product, in: body, type: string, required: true, description: "Must be whatsapp"}
+      - {name: to, in: body, type: string, required: true, description: "Recipient's phone number in E.164 format"}
+      - {name: type, in: body, type: string, required: true, description: "Media type: image, audio, video, document, or sticker"}
+      - {name: image, in: body, type: object, description: "Image object with id or link field (use when type is image)"}
+      - {name: audio, in: body, type: object, description: "Audio object with id or link field (use when type is audio)"}
+      - {name: video, in: body, type: object, description: "Video object with id or link field (use when type is video)"}
+      - {name: document, in: body, type: object, description: "Document object with id or link field (use when type is document)"}
+      - {name: recipient_type, in: body, type: string, description: "individual (default) or group"}
+
+  - name: upload_media
+    description: Upload a media file for use in WhatsApp messages and retrieve a media ID
+    method: POST
+    path: /v20.0/{phone_number_id}/media
+    encoding: form
+    params:
+      - {name: phone_number_id, in: path, type: string, required: true, description: "WhatsApp Business phone number ID to associate with the media"}
+      - {name: messaging_product, in: body, type: string, required: true, description: "Must be whatsapp"}
+      - {name: file, in: body, type: string, required: true, description: "The media file to upload (binary)"}
+      - {name: type, in: body, type: string, required: true, description: "MIME type of the file (e.g. image/jpeg, audio/mp4, video/mp4, application/pdf)"}
+
+  - name: create_message_template
+    description: Create a new message template for a WhatsApp Business Account
+    method: POST
+    path: /v20.0/{waba_id}/message_templates
+    params:
+      - {name: waba_id, in: path, type: string, required: true, description: "WhatsApp Business Account ID"}
+      - {name: name, in: body, type: string, required: true, description: "Template name (lowercase alphanumeric and underscores only)"}
+      - {name: category, in: body, type: string, required: true, description: "Template category: AUTHENTICATION, MARKETING, or UTILITY"}
+      - {name: language, in: body, type: string, required: true, description: "Template language and locale code (e.g. en_US)"}
+      - {name: components, in: body, type: array, required: true, description: "Array of template components defining header, body, footer, and buttons"}

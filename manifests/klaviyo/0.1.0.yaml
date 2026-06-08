@@ -2,13 +2,14 @@ schemaVersion: 1
 name: klaviyo
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/klaviyo-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/klaviyo-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:8c56b3cb22b73db145e02efd152846293c73cda66c7f5f4b5217e9927b9137a6
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
@@ -17,7 +18,7 @@ credentials:
   - id: klaviyo_token
     type: oauth2
     provider: klaviyo
-    scopes: [profiles:read, lists:read, campaigns:read, events:write, segments:read]
+    scopes: [profiles:read, profiles:write, lists:read, lists:write, campaigns:read, campaigns:write, events:read, events:write, segments:read]
     inject:
       header: Authorization
       format: "Bearer {token}"

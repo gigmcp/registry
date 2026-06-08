@@ -2,13 +2,14 @@ schemaVersion: 1
 name: attio
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/attio-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/attio-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2ad07798f81388cebab8e659aa105b4294d55245b6a78db7e8d1e71477778fef
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
@@ -17,7 +18,7 @@ credentials:
   - id: attio_token
     type: oauth2
     provider: attio
-    scopes: [record_permission:read-write, object_configuration:read, list_entry:read-write, note_permission:read-write, task_permission:read-write]
+    scopes: [record_permission:read-write, object_configuration:read, list_entry:read-write, note:read-write, task:read-write, user_management:read]
     inject:
       header: Authorization
       format: "Bearer {token}"

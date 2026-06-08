@@ -2,13 +2,14 @@ schemaVersion: 1
 name: linear
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/linear-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/linear-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:8a814195b274a038bfcb70cc1d99ff1dfba2f1125933b6ca96ba174bd6b16b95
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

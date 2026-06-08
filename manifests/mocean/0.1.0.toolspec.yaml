@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: mocean
+version: 0.1.0
+baseUrl: https://rest.moceanapi.com
+auth:
+  header: Authorization
+  format: "Bearer {token}"
+tools:
+  - name: query_sms_message_status
+    description: Query the delivery status of a sent SMS message by its message ID
+    method: GET
+    path: /rest/2/report/message
+    params:
+      - {name: mocean-msgid, in: query, type: string, required: true, description: Message ID of the SMS message to query}
+      - {name: mocean-resp-format, in: query, type: string, description: "Response format: json or xml (default xml)"}
+  - name: voice_download_recording
+    description: Download the audio recording of a voice call by its call UUID
+    method: GET
+    path: /rest/2/voice/rec
+    params:
+      - {name: mocean-call-uuid, in: query, type: string, required: true, description: Call UUID of the recorded voice call to download}
+  - name: whatsapp_send_message
+    description: Send a WhatsApp message from a registered WhatsApp Business number
+    method: POST
+    path: /rest/2/send-message/whatsapp
+    params:
+      - {name: mocean-from, in: body, type: string, required: true, description: Registered WhatsApp Business phone number with country code}
+      - {name: mocean-to, in: body, type: string, required: true, description: Recipient phone number or Business Scoped User ID}
+      - {name: mocean-content, in: body, type: object, required: true, description: "Message content object (template, text, media, interactive, location, or contacts)"}
+      - {name: mocean-event-url, in: body, type: string, description: Webhook URL to receive delivery event notifications}
+  - name: voice_dial
+    description: Initiate an outbound voice call and control the call flow with commands
+    method: POST
+    path: /rest/2/voice/dial
+    params:
+      - {name: mocean-to, in: body, type: string, required: true, description: "Destination phone number(s) with country code"}
+      - {name: mocean-command, in: body, type: string, required: true, description: "JSON array of commands controlling the call flow (play, say, collect, dial, record, sleep)"}
+      - {name: mocean-from, in: body, type: string, description: Caller ID origin number}
+      - {name: mocean-event-url, in: body, type: string, description: Webhook URL for call status notifications}
+      - {name: mocean-resp-format, in: body, type: string, description: "Response format: json or xml (default xml)"}
+  - name: voice_hangup
+    description: Terminate an active voice call by its call UUID
+    method: POST
+    path: /rest/2/voice/hangup
+    params:
+      - {name: mocean-call-uuid, in: body, type: string, required: true, description: Call UUID of the active call to terminate}
+      - {name: mocean-resp-format, in: body, type: string, description: "Response format: json or xml (default xml)"}

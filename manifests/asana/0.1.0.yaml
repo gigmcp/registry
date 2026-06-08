@@ -2,13 +2,14 @@ schemaVersion: 1
 name: asana
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/asana-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/asana-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:c17f29da95db7977f4a34117c2045e96d8f1b0507801168ba385a84df33080cf
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

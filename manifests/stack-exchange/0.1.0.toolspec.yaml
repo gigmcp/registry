@@ -1,0 +1,139 @@
+schemaVersion: 1
+name: stack-exchange
+version: 0.1.0
+baseUrl: https://api.stackexchange.com
+# Stack Exchange API v2.3 authenticates via OAuth 2.0 Bearer token in the
+# Authorization header. The engine injects STACK_EXCHANGE_API_KEY as the
+# Bearer token value on every request.
+auth:
+  header: Authorization
+  format: "Bearer {token}"
+tools:
+  - name: get_me
+    description: Get the authenticated user's profile on a Stack Exchange site
+    method: GET
+    path: /2.3/me
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow, serverfault)"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+
+  - name: get_my_questions
+    description: Get questions asked by the authenticated user on a Stack Exchange site
+    method: GET
+    path: /2.3/me/questions
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; activity, creation, votes"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_my_answers
+    description: Get answers posted by the authenticated user on a Stack Exchange site
+    method: GET
+    path: /2.3/me/answers
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; activity, creation, votes"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_my_reputation
+    description: Get reputation changes for the authenticated user on a Stack Exchange site
+    method: GET
+    path: /2.3/me/reputation
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: fromdate, in: query, type: integer, description: "Unix timestamp; return only items after this date"}
+      - {name: todate, in: query, type: integer, description: "Unix timestamp; return only items before this date"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_questions
+    description: Get questions on a Stack Exchange site, optionally filtered by tags
+    method: GET
+    path: /2.3/questions
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; activity, votes, creation, hot, week, month"}
+      - {name: tagged, in: query, type: string, description: "Semicolon-delimited list of tags questions must have"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: fromdate, in: query, type: integer, description: "Unix timestamp; return only items after this date"}
+      - {name: todate, in: query, type: integer, description: "Unix timestamp; return only items before this date"}
+      - {name: min, in: query, type: integer, description: "Minimum value for the sort field"}
+      - {name: max, in: query, type: integer, description: "Maximum value for the sort field"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_answers
+    description: Get answers on a Stack Exchange site
+    method: GET
+    path: /2.3/answers
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; activity, creation, votes"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: fromdate, in: query, type: integer, description: "Unix timestamp; return only items after this date"}
+      - {name: todate, in: query, type: integer, description: "Unix timestamp; return only items before this date"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_comments
+    description: Get comments on a Stack Exchange site
+    method: GET
+    path: /2.3/comments
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; creation or votes"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: fromdate, in: query, type: integer, description: "Unix timestamp; return only items after this date"}
+      - {name: todate, in: query, type: integer, description: "Unix timestamp; return only items before this date"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: find_similar_questions
+    description: Find questions on a Stack Exchange site similar to the given title
+    method: GET
+    path: /2.3/similar
+    params:
+      - {name: title, in: query, type: string, required: true, description: "Question title text to find similar questions for"}
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name (e.g. stackoverflow)"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; activity, creation, votes, relevance"}
+      - {name: tagged, in: query, type: string, description: "Semicolon-delimited list of tags questions must have"}
+      - {name: nottagged, in: query, type: string, description: "Semicolon-delimited list of tags questions must not have"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: get_collectives
+    description: Get all collectives on Stack Overflow
+    method: GET
+    path: /2.3/collectives
+    params:
+      - {name: site, in: query, type: string, required: true, description: "Stack Exchange site name; collectives are on stackoverflow"}
+      - {name: order, in: query, type: string, description: "Sort order; asc or desc"}
+      - {name: sort, in: query, type: string, description: "Sort field; name is the default"}
+      - {name: page, in: query, type: integer, description: "Page number of results (1-based)"}
+      - {name: pagesize, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: filter, in: query, type: string, description: "Named filter controlling which fields are returned"}
+
+  - name: create_filter
+    description: Create a custom filter to control which fields are returned by Stack Exchange API responses
+    method: POST
+    path: /2.3/filters/create
+    encoding: form
+    params:
+      - {name: include, in: body, type: string, description: "Semicolon-delimited list of fields to add to the base filter"}
+      - {name: exclude, in: body, type: string, description: "Semicolon-delimited list of fields to remove from the base filter"}
+      - {name: base, in: body, type: string, description: "Built-in base filter to extend; default, withbody, none, or total (default: default)"}
+      - {name: unsafe, in: body, type: boolean, description: "If true, allows HTML in returned fields; requires explicit opt-in"}

@@ -1,0 +1,91 @@
+schemaVersion: 1
+name: affinity
+version: 0.1.0
+baseUrl: https://api.affinity.co
+tools:
+  - name: list_companies
+    description: Search and list organizations (companies) in the team's address book
+    method: GET
+    path: /organizations
+    params:
+      - {name: term, in: query, type: string, description: "Search string to filter organizations by name or domain"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on returned organizations"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+      - {name: with_opportunities, in: query, type: boolean, description: "When true, opportunity IDs associated with each organization are included"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page (default and max is 500)"}
+      - {name: page_token, in: query, type: string, description: "Pagination token from the previous response's next_page_token"}
+  - name: get_company
+    description: Retrieve a single organization (company) by its ID
+    method: GET
+    path: /organizations/{organization_id}
+    params:
+      - {name: organization_id, in: path, type: integer, required: true, description: "Unique identifier of the organization"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on the returned organization"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+      - {name: with_opportunities, in: query, type: boolean, description: "When true, opportunity IDs associated with this organization are included"}
+  - name: list_persons
+    description: Search and list persons (contacts) in the team's address book
+    method: GET
+    path: /persons
+    params:
+      - {name: term, in: query, type: string, description: "Search string to filter persons by name or email"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on returned persons"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+      - {name: with_opportunities, in: query, type: boolean, description: "When true, opportunity IDs associated with each person are included"}
+      - {name: with_current_organizations, in: query, type: boolean, description: "When true, current organization IDs are returned for each person"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page (default and max is 500)"}
+      - {name: page_token, in: query, type: string, description: "Pagination token from the previous response's next_page_token"}
+  - name: get_person
+    description: Retrieve a single person (contact) by their ID
+    method: GET
+    path: /persons/{person_id}
+    params:
+      - {name: person_id, in: path, type: integer, required: true, description: "Unique identifier of the person"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on the returned person"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+      - {name: with_opportunities, in: query, type: boolean, description: "When true, opportunity IDs associated with this person are included"}
+      - {name: with_current_organizations, in: query, type: boolean, description: "When true, current organization IDs for this person are included"}
+  - name: list_opportunities
+    description: Search and list opportunities in the workspace
+    method: GET
+    path: /opportunities
+    params:
+      - {name: term, in: query, type: string, description: "Search string to filter opportunities by name"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on returned opportunities"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page (default and max is 500)"}
+      - {name: page_token, in: query, type: string, description: "Pagination token from the previous response's next_page_token"}
+  - name: get_opportunity
+    description: Retrieve a single opportunity by its ID
+    method: GET
+    path: /opportunities/{opportunity_id}
+    params:
+      - {name: opportunity_id, in: path, type: integer, required: true, description: "Unique identifier of the opportunity"}
+      - {name: with_interaction_dates, in: query, type: boolean, description: "When true, interaction dates are included on the returned opportunity"}
+      - {name: with_interaction_persons, in: query, type: boolean, description: "When true, persons for each interaction are included"}
+  - name: list_lists
+    description: Retrieve all lists accessible to the authenticated user
+    method: GET
+    path: /lists
+  - name: list_list_entries
+    description: Retrieve all entries (rows) in a specific list
+    method: GET
+    path: /lists/{list_id}/list-entries
+    params:
+      - {name: list_id, in: path, type: integer, required: true, description: "Unique identifier of the list"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page"}
+      - {name: page_token, in: query, type: string, description: "Pagination token from the previous response's next_page_token"}
+  - name: get_list_fields
+    description: Retrieve field definitions for a specific list
+    method: GET
+    path: /fields
+    params:
+      - {name: list_id, in: query, type: integer, description: "Unique identifier of the list whose fields are to be retrieved"}
+      - {name: value_type, in: query, type: integer, description: "Filter fields by their data type"}
+      - {name: entity_type, in: query, type: integer, description: "Filter fields by entity type (person, organization, or opportunity)"}
+      - {name: with_modified_names, in: query, type: boolean, description: "When true, field names include the list name as a prefix"}
+      - {name: exclude_dropdown_options, in: query, type: boolean, description: "When true, dropdown option details are excluded from results"}
+  - name: get_current_user
+    description: Retrieve information about the currently authenticated user
+    method: GET
+    path: /whoami

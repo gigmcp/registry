@@ -1,0 +1,57 @@
+schemaVersion: 1
+name: dailybot
+version: 0.1.0
+baseUrl: https://api.dailybot.com
+tools:
+  - name: get_all_users
+    description: Retrieve all users in the organization
+    method: GET
+    path: /v1/users/
+    params:
+      - {name: is_active, in: query, type: boolean, description: Filter by active status}
+      - {name: role, in: query, type: string, description: "Filter by role: admin or member"}
+      - {name: limit, in: query, type: integer, description: "Results per page (default 250, max 250)"}
+      - {name: offset, in: query, type: integer, description: Pagination offset}
+  - name: find_user_by_uuid
+    description: Retrieve a specific user by their UUID
+    method: GET
+    path: /v1/users/{uuid}/
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: The user's unique identifier}
+  - name: find_workflow_by_name
+    description: List workflows in the organization, optionally filtered by active status
+    method: GET
+    path: /v1/workflows/
+    params:
+      - {name: is_active, in: query, type: boolean, description: Filter by active status}
+      - {name: limit, in: query, type: integer, description: "Results per page (default 250)"}
+      - {name: offset, in: query, type: integer, description: Pagination offset}
+  - name: create_check_in
+    description: Create a new check-in for users or teams
+    method: POST
+    path: /v1/check-ins/
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name of the check-in}
+      - {name: template, in: body, type: string, required: true, description: UUID of the template to use}
+      - {name: members_uuids, in: body, type: array, description: UUIDs of individual users to include}
+      - {name: teams_uuids, in: body, type: array, description: UUIDs of teams to include}
+      - {name: frequency_type, in: body, type: string, description: "Recurrence pattern (e.g. daily, weekly)"}
+      - {name: frequency, in: body, type: string, description: "Interval specification (e.g. every_day)"}
+      - {name: frequency_on_days, in: body, type: array, description: "Week days as integers (0=Monday through 6=Sunday)"}
+  - name: give_kudos_to_users
+    description: Send kudos recognition to a user
+    method: POST
+    path: /v1/kudos/
+    params:
+      - {name: to_user_uuid, in: body, type: string, required: true, description: UUID of the recipient user}
+      - {name: message, in: body, type: string, required: true, description: Recognition message text}
+      - {name: points, in: body, type: integer, description: Award value (defaults to 1)}
+  - name: send_message
+    description: Send a chat message to a user, team, or channel
+    method: POST
+    path: /v1/messaging/send-message/
+    params:
+      - {name: target_type, in: body, type: string, required: true, description: "Recipient category: user, team, or channel"}
+      - {name: target_uuid, in: body, type: string, required: true, description: UUID of the intended recipient}
+      - {name: message, in: body, type: string, required: true, description: Text content to deliver}
+      - {name: platform, in: body, type: string, description: "Chat platform: slack, msteams, discord, or google_chat"}

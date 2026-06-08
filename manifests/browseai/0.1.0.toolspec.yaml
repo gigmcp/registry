@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: browseai
+version: 0.1.0
+baseUrl: https://api.browse.ai
+tools:
+  - name: get_robots
+    description: Retrieve all robots in the account
+    method: GET
+    path: /v2/robots
+  - name: get_robot_tasks
+    description: List all tasks associated with a specific robot
+    method: GET
+    path: /v2/robots/{robotId}/tasks
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+      - {name: pageSize, in: query, type: integer, description: "Number of tasks per page (max 10)"}
+      - {name: status, in: query, type: string, description: "Filter by task status: failed, successful, or in-progress"}
+      - {name: sort, in: query, type: string, description: "Sort order (e.g. -createdAt for descending)"}
+      - {name: fromDate, in: query, type: integer, description: "Start of date range as Unix timestamp"}
+      - {name: toDate, in: query, type: integer, description: "End of date range as Unix timestamp"}
+      - {name: robotBulkRunId, in: query, type: string, description: Filter tasks by bulk run ID}
+  - name: get_task_details
+    description: Retrieve details and captured data for a specific task
+    method: GET
+    path: /v2/robots/{robotId}/tasks/{taskId}
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: taskId, in: path, type: string, required: true, description: Unique identifier of the task}
+  - name: list_robot_webhooks
+    description: Retrieve all webhooks configured for a specific robot
+    method: GET
+    path: /v2/robots/{robotId}/webhooks
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+  - name: get_system_status
+    description: Check the current operational status of the Browse AI infrastructure
+    method: GET
+    path: /v2/status
+  - name: run_robot
+    description: Run a robot on-demand with optional input parameters
+    method: POST
+    path: /v2/robots/{robotId}/tasks
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot to run}
+      - {name: inputParameters, in: body, type: object, description: "Key-value pairs of input parameters for the robot (e.g. originUrl)"}
+  - name: bulk_run_tasks
+    description: Submit a bulk run to execute a robot against multiple sets of input parameters
+    method: POST
+    path: /v2/robots/{robotId}/bulk-runs
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: title, in: body, type: string, description: Name for this bulk run operation}
+      - {name: inputParameters, in: body, type: array, required: true, description: "Array of input parameter objects, each containing originUrl and optional custom fields"}
+  - name: create_monitor
+    description: Create a new scheduled monitor on a robot to track data changes
+    method: POST
+    path: /v2/robots/{robotId}/monitors
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: name, in: body, type: string, required: true, description: Display name for the monitor}
+      - {name: inputParameters, in: body, type: object, description: Input parameters for the robot when the monitor runs}
+      - {name: schedule, in: body, type: string, required: true, description: "Recurrence rule in RRULE format (e.g. RRULE:FREQ=DAILY)"}
+      - {name: notifyOnCapturedTextChange, in: body, type: boolean, description: Send notification when captured text changes}
+      - {name: notifyOnCapturedScreenshotChange, in: body, type: boolean, description: Send notification when captured screenshot changes}
+  - name: delete_monitor
+    description: Delete a scheduled monitor from a robot
+    method: DELETE
+    path: /v2/robots/{robotId}/monitors/{monitorId}
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: monitorId, in: path, type: string, required: true, description: Unique identifier of the monitor to delete}
+  - name: delete_task
+    description: Delete a specific task associated with a robot
+    method: DELETE
+    path: /v2/robots/{robotId}/tasks/{taskId}
+    params:
+      - {name: robotId, in: path, type: string, required: true, description: Unique identifier of the robot}
+      - {name: taskId, in: path, type: string, required: true, description: Unique identifier of the task to delete}

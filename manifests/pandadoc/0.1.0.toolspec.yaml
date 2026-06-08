@@ -1,0 +1,96 @@
+schemaVersion: 1
+name: pandadoc
+version: 0.1.0
+baseUrl: https://api.pandadoc.com
+tools:
+  - name: list_templates
+    description: Retrieve a list of templates in the workspace, with optional filtering by name, tags, or folder
+    method: GET
+    path: /public/v1/templates
+    params:
+      - {name: q, in: query, type: string, description: "Search query to filter templates by name"}
+      - {name: shared, in: query, type: boolean, description: "Return only shared templates when true"}
+      - {name: deleted, in: query, type: boolean, description: "Return only deleted templates when true"}
+      - {name: count, in: query, type: integer, description: "Number of templates to return (1-100, default 50)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (minimum 1)"}
+      - {name: folder_uuid, in: query, type: string, description: "UUID of the folder to filter templates by"}
+      - {name: tag, in: query, type: array, description: "Filter templates by tag"}
+
+  - name: get_template_details
+    description: Retrieve detailed information about a specific template including roles, fields, tokens, and pricing
+    method: GET
+    path: /public/v1/templates/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Template ID"}
+
+  - name: get_document_details
+    description: Return detailed data about a specific document including recipients, fields, tokens, and metadata
+    method: GET
+    path: /public/v1/documents/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Document ID"}
+
+  - name: list_contacts
+    description: Return a list of contacts associated with the workspace, optionally filtered by email
+    method: GET
+    path: /public/v1/contacts
+    params:
+      - {name: email, in: query, type: string, description: "Filter contacts by exact email address match"}
+
+  - name: list_document_folders
+    description: Retrieve the list of folders used to organize documents
+    method: GET
+    path: /public/v1/documents/folders
+    params:
+      - {name: parent_uuid, in: query, type: string, description: "UUID of the parent folder; omit to list root-level folders"}
+      - {name: count, in: query, type: integer, description: "Number of folders to return (1-100, default 50)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination (minimum 1)"}
+
+  - name: create_document_from_file
+    description: Create a new document by uploading a PDF, DOCX, or RTF file (multipart/form-data)
+    method: POST
+    path: /public/v1/documents
+    encoding: form
+    params:
+      - {name: file, in: body, type: string, required: true, description: "Binary file to upload (PDF, DOCX, or RTF, max 50 MB)"}
+
+  - name: create_template
+    description: Create a new template from a publicly accessible PDF URL
+    method: POST
+    path: /public/v1/templates
+    params:
+      - {name: url, in: body, type: string, required: true, description: "Publicly accessible HTTPS URL to the PDF document"}
+      - {name: name, in: body, type: string, required: true, description: "Name for the new template"}
+      - {name: folder_uuid, in: body, type: string, description: "UUID of the folder to store the template in"}
+
+  - name: create_or_update_contact
+    description: Add a new contact to the workspace contacts list
+    method: POST
+    path: /public/v1/contacts
+    params:
+      - {name: email, in: body, type: string, description: "Contact email address"}
+      - {name: firstName, in: body, type: string, description: "Contact first name"}
+      - {name: lastName, in: body, type: string, description: "Contact last name"}
+      - {name: company, in: body, type: string, description: "Contact company name"}
+      - {name: jobTitle, in: body, type: string, description: "Contact job title"}
+      - {name: phone, in: body, type: string, description: "Contact phone number"}
+      - {name: state, in: body, type: string, description: "Contact state or region"}
+      - {name: streetAddress, in: body, type: string, description: "Contact street address"}
+      - {name: city, in: body, type: string, description: "Contact city"}
+      - {name: postalCode, in: body, type: string, description: "Contact postal code"}
+
+  - name: create_folder
+    description: Create a new folder to organize documents
+    method: POST
+    path: /public/v1/documents/folders
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name for the new folder"}
+      - {name: parent_uuid, in: body, type: string, description: "UUID of the parent folder; omit to create in the root folder"}
+
+  - name: move_document_to_folder
+    description: Move a document to a specified folder
+    method: POST
+    path: /public/v1/documents/{id}/move-to-folder/{folder_id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Document ID to move"}
+      - {name: folder_id, in: path, type: string, required: true, description: "ID of the destination folder"}

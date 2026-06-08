@@ -1,0 +1,61 @@
+schemaVersion: 1
+name: placekey
+version: 0.1.0
+baseUrl: https://api.placekey.io
+tools:
+  - name: get_placekey
+    description: Look up a Placekey for a point of interest using latitude and longitude coordinates
+    method: POST
+    path: /v1/placekey
+    params:
+      - {name: latitude, in: body, type: number, required: true, description: "WGS-84 latitude of the location"}
+      - {name: longitude, in: body, type: number, required: true, description: "WGS-84 longitude of the location"}
+      - {name: location_name, in: body, type: string, description: "Name of the place or point of interest"}
+      - {name: iso_country_code, in: body, type: string, description: "ISO 3166-1 alpha-2 country code (e.g. US)"}
+      - {name: query_id, in: body, type: string, description: "Optional custom identifier echoed back in the response"}
+  - name: get_placekey_from_address
+    description: Look up a Placekey for a location using a street address
+    method: POST
+    path: /v1/placekey
+    params:
+      - {name: street_address, in: body, type: string, required: true, description: "Street address of the location"}
+      - {name: city, in: body, type: string, description: "City of the location"}
+      - {name: region, in: body, type: string, description: "State or province abbreviation (e.g. CA)"}
+      - {name: postal_code, in: body, type: string, description: "ZIP or postal code"}
+      - {name: iso_country_code, in: body, type: string, required: true, description: "ISO 3166-1 alpha-2 country code (e.g. US)"}
+      - {name: location_name, in: body, type: string, description: "Name of the place or point of interest"}
+      - {name: query_id, in: body, type: string, description: "Optional custom identifier echoed back in the response"}
+  - name: get_placekeys_bulk
+    description: Look up Placekeys for up to 100 locations in a single batch request
+    method: POST
+    path: /v1/placekeys
+    params:
+      - {name: queries, in: body, type: array, required: true, description: "Array of query objects (up to 100); each may contain street_address, city, region, postal_code, iso_country_code, location_name, latitude, longitude, query_id, and place_metadata"}
+      - {name: options, in: body, type: object, description: "Options applied to all queries; supports fields array for additional response fields such as address_placekey, building_placekey, geocode, confidence_score"}
+  - name: get_geocode_from_address
+    description: Look up geocode coordinates (latitude, longitude, and precision) for a street address by requesting the geocode optional response field
+    method: POST
+    path: /v1/placekey
+    params:
+      - {name: street_address, in: body, type: string, required: true, description: "Street address of the location"}
+      - {name: city, in: body, type: string, description: "City of the location"}
+      - {name: region, in: body, type: string, description: "State or province abbreviation (e.g. CA)"}
+      - {name: postal_code, in: body, type: string, description: "ZIP or postal code"}
+      - {name: iso_country_code, in: body, type: string, required: true, description: "ISO 3166-1 alpha-2 country code (e.g. US)"}
+      - {name: location_name, in: body, type: string, description: "Name of the place or point of interest"}
+      - {name: options, in: body, type: object, description: "Options object; set fields to [\"geocode\"] to receive lat/lon and location_type in the response"}
+      - {name: query_id, in: body, type: string, description: "Optional custom identifier echoed back in the response"}
+  - name: lineage_placekey
+    description: Resolve a Placekey by submitting location attributes to retrieve the current canonical Placekey, useful when an existing Placekey may have been superseded
+    method: POST
+    path: /v1/placekey
+    params:
+      - {name: street_address, in: body, type: string, description: "Street address of the location"}
+      - {name: city, in: body, type: string, description: "City of the location"}
+      - {name: region, in: body, type: string, description: "State or province abbreviation (e.g. CA)"}
+      - {name: postal_code, in: body, type: string, description: "ZIP or postal code"}
+      - {name: iso_country_code, in: body, type: string, description: "ISO 3166-1 alpha-2 country code (e.g. US)"}
+      - {name: location_name, in: body, type: string, description: "Name of the place or point of interest"}
+      - {name: latitude, in: body, type: number, description: "WGS-84 latitude of the location"}
+      - {name: longitude, in: body, type: number, description: "WGS-84 longitude of the location"}
+      - {name: query_id, in: body, type: string, description: "Optional custom identifier echoed back in the response"}

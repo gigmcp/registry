@@ -2,13 +2,14 @@ schemaVersion: 1
 name: yandex
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/yandex-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/yandex-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:06bacece124f179a111b0d34f6b92be1f03c37973d2de36ab85fc5f36f2f56ca
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

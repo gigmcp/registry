@@ -1,0 +1,83 @@
+schemaVersion: 1
+name: twitter
+version: 0.1.0
+baseUrl: https://api.x.com
+tools:
+  - name: search_recent_tweets
+    description: Search for tweets published in the last 7 days matching a query string
+    method: GET
+    path: /2/tweets/search/recent
+    params:
+      - {name: query, in: query, type: string, required: true, description: "Search query string (up to 4096 characters)"}
+      - {name: max_results, in: query, type: integer, description: "Maximum number of results to return (10–100, default 10)"}
+      - {name: start_time, in: query, type: string, description: "Oldest UTC timestamp for results in YYYY-MM-DDTHH:mm:ssZ format"}
+      - {name: end_time, in: query, type: string, description: "Newest UTC timestamp for results in YYYY-MM-DDTHH:mm:ssZ format"}
+      - {name: since_id, in: query, type: string, description: "Return results with tweet IDs greater than this ID"}
+      - {name: until_id, in: query, type: string, description: "Return results with tweet IDs less than this ID"}
+      - {name: next_token, in: query, type: string, description: "Pagination token from a previous response"}
+
+  - name: get_tweet_by_id
+    description: Retrieve a single tweet by its ID
+    method: GET
+    path: /2/tweets/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID of the tweet to retrieve"}
+
+  - name: get_user_by_username
+    description: Retrieve a user's profile information by their X/Twitter username (handle)
+    method: GET
+    path: /2/users/by/username/{username}
+    params:
+      - {name: username, in: path, type: string, required: true, description: "The X/Twitter username (handle) without the @ symbol"}
+
+  - name: get_authenticated_user
+    description: Retrieve the profile information of the currently authenticated user
+    method: GET
+    path: /2/users/me
+
+  - name: get_user_followers
+    description: Retrieve the list of users who follow a given user ID
+    method: GET
+    path: /2/users/{id}/followers
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The user ID whose followers to retrieve"}
+      - {name: max_results, in: query, type: integer, description: "Maximum number of results to return (1–1000, default 100)"}
+      - {name: pagination_token, in: query, type: string, description: "Pagination token from a previous response"}
+
+  - name: create_tweet
+    description: Create and publish a new tweet on behalf of the authenticated user
+    method: POST
+    path: /2/tweets
+    params:
+      - {name: text, in: body, type: string, required: true, description: "The text content of the tweet (up to 280 characters)"}
+
+  - name: delete_tweet
+    description: Delete a tweet by its ID on behalf of the authenticated user
+    method: DELETE
+    path: /2/tweets/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The ID of the tweet to delete"}
+
+  - name: like_tweet
+    description: Like a tweet on behalf of the authenticated user
+    method: POST
+    path: /2/users/{id}/likes
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The user ID of the authenticated user performing the like"}
+      - {name: tweet_id, in: body, type: string, required: true, description: "The ID of the tweet to like"}
+
+  - name: retweet_post
+    description: Retweet a post on behalf of the authenticated user
+    method: POST
+    path: /2/users/{id}/retweets
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The user ID of the authenticated user performing the retweet"}
+      - {name: tweet_id, in: body, type: string, required: true, description: "The ID of the tweet to retweet"}
+
+  - name: send_direct_message
+    description: Send a direct message to a user in a one-to-one DM conversation
+    method: POST
+    path: /2/dm_conversations/with/{participant_id}/messages
+    params:
+      - {name: participant_id, in: path, type: string, required: true, description: "The user ID of the recipient of the direct message"}
+      - {name: text, in: body, type: string, required: true, description: "The text content of the direct message"}

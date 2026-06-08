@@ -1,0 +1,94 @@
+schemaVersion: 1
+name: microsoft-teams
+version: 0.1.0
+baseUrl: https://graph.microsoft.com
+tools:
+  - name: get_all_chats
+    description: Retrieve the list of chats that the signed-in user is part of
+    method: GET
+    path: /v1.0/me/chats
+    params:
+      - {name: "$top", in: query, type: integer, description: "Maximum number of chats to return (max 50)"}
+      - {name: "$filter", in: query, type: string, description: "OData filter expression to filter results"}
+      - {name: "$expand", in: query, type: string, description: "Expand related entities (members, lastMessagePreview)"}
+      - {name: "$orderby", in: query, type: string, description: "Order results, e.g. lastMessagePreview/createdDateTime desc"}
+
+  - name: get_chat_message
+    description: Retrieve a single message in a chat by chat ID and message ID
+    method: GET
+    path: /v1.0/chats/{chat_id}/messages/{message_id}
+    params:
+      - {name: chat_id, in: path, type: string, required: true, description: The unique identifier of the chat}
+      - {name: message_id, in: path, type: string, required: true, description: The unique identifier of the chat message}
+
+  - name: get_team
+    description: Retrieve the properties and relationships of the specified team
+    method: GET
+    path: /v1.0/teams/{team_id}
+    params:
+      - {name: team_id, in: path, type: string, required: true, description: The unique identifier of the team}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+      - {name: "$expand", in: query, type: string, description: "Expand related entities"}
+
+  - name: get_team_channel
+    description: Retrieve the properties and relationships of a channel within a team
+    method: GET
+    path: /v1.0/teams/{team_id}/channels/{channel_id}
+    params:
+      - {name: team_id, in: path, type: string, required: true, description: The unique identifier of the team}
+      - {name: channel_id, in: path, type: string, required: true, description: The unique identifier of the channel}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+
+  - name: get_user_profile
+    description: Retrieve the profile properties and relationships of a user by their ID or user principal name
+    method: GET
+    path: /v1.0/users/{user_id}
+    params:
+      - {name: user_id, in: path, type: string, required: true, description: "The user's ID or user principal name (email address)"}
+      - {name: "$select", in: query, type: string, description: "Comma-separated list of properties to return"}
+
+  - name: get_user_presence
+    description: Get a user's presence information including availability and activity status
+    method: GET
+    path: /v1.0/users/{user_id}/presence
+    params:
+      - {name: user_id, in: path, type: string, required: true, description: The unique identifier (GUID) of the user}
+
+  - name: create_channel
+    description: Create a new channel in a team
+    method: POST
+    path: /v1.0/teams/{team_id}/channels
+    params:
+      - {name: team_id, in: path, type: string, required: true, description: The unique identifier of the team}
+      - {name: displayName, in: body, type: string, required: true, description: The display name of the channel}
+      - {name: description, in: body, type: string, description: The description of the channel}
+      - {name: membershipType, in: body, type: string, description: "The type of the channel: standard, private, or shared (default: standard)"}
+
+  - name: create_team
+    description: Create a new team
+    method: POST
+    path: /v1.0/teams
+    params:
+      - {name: "template@odata.bind", in: body, type: string, required: true, description: "Reference to the team template, e.g. https://graph.microsoft.com/v1.0/teamsTemplates('standard')"}
+      - {name: displayName, in: body, type: string, required: true, description: The display name of the team}
+      - {name: description, in: body, type: string, description: The description of the team}
+      - {name: visibility, in: body, type: string, description: "Team visibility: Private or Public"}
+
+  - name: add_member_to_team
+    description: Add a new member to a team
+    method: POST
+    path: /v1.0/teams/{team_id}/members
+    params:
+      - {name: team_id, in: path, type: string, required: true, description: The unique identifier of the team}
+      - {name: "@odata.type", in: body, type: string, required: true, description: "Must be #microsoft.graph.aadUserConversationMember"}
+      - {name: "user@odata.bind", in: body, type: string, required: true, description: "OData binding to the user, e.g. https://graph.microsoft.com/v1.0/users('{user-id}')"}
+      - {name: roles, in: body, type: array, description: "Member roles, e.g. [\"owner\"] for owner or empty array for regular member"}
+
+  - name: create_online_meeting
+    description: Create an online meeting on behalf of the signed-in user
+    method: POST
+    path: /v1.0/me/onlineMeetings
+    params:
+      - {name: subject, in: body, type: string, description: The subject of the online meeting}
+      - {name: startDateTime, in: body, type: string, description: "Meeting start time in ISO 8601 format, e.g. 2024-01-15T14:30:00Z"}
+      - {name: endDateTime, in: body, type: string, description: "Meeting end time in ISO 8601 format, e.g. 2024-01-15T15:00:00Z"}

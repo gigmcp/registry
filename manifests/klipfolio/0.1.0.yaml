@@ -2,13 +2,14 @@ schemaVersion: 1
 name: klipfolio
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/klipfolio-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/klipfolio-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:9e895e0862a0da2896e555d48bb96878d25599b0477e5d6237e17e59f7fb5855
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

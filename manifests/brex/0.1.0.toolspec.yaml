@@ -1,0 +1,98 @@
+schemaVersion: 1
+name: brex
+version: 0.1.0
+baseUrl: https://api.brex.com
+tools:
+  - name: list_cards
+    description: List all cards, optionally filtered by user
+    method: GET
+    path: /v2/cards
+    params:
+      - {name: user_id, in: query, type: string, description: Filter cards by user ID}
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Maximum number of cards to return (default 100, max 1000)"}
+
+  - name: get_card_transactions
+    description: List primary card transactions with optional date and user filters
+    method: GET
+    path: /v2/transactions/card/primary
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Maximum number of transactions to return (default 100, max 1000)"}
+      - {name: user_ids, in: query, type: array, description: Filter transactions by user IDs}
+      - {name: posted_at_start, in: query, type: string, description: "Show only transactions posted on or after this date-time (RFC 3339 format)"}
+
+  - name: get_company_cash_accounts
+    description: List all cash accounts for the company
+    method: GET
+    path: /v2/accounts/cash
+
+  - name: list_expenses
+    description: List card expenses with optional filters for user, status, dates, and budget
+    method: GET
+    path: /v1/expenses
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Maximum number of expenses to return (max 100)"}
+      - {name: user_id, in: query, type: array, description: Filter expenses by user ID(s)}
+      - {name: budget_id, in: query, type: array, description: Filter expenses by budget ID(s)}
+      - {name: status, in: query, type: array, description: "Filter by expense status (DRAFT, SUBMITTED, APPROVED, etc.)"}
+      - {name: payment_status, in: query, type: array, description: "Filter by payment status (NOT_STARTED, PROCESSING, CLEARED, etc.)"}
+      - {name: purchased_at_start, in: query, type: string, description: "Filter expenses purchased on or after this date-time (RFC 3339)"}
+      - {name: purchased_at_end, in: query, type: string, description: "Filter expenses purchased on or before this date-time (RFC 3339)"}
+      - {name: load_custom_fields, in: query, type: boolean, description: Include custom field values in the response}
+
+  - name: get_expense
+    description: Retrieve a single expense by ID
+    method: GET
+    path: /v1/expenses/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique identifier of the expense}
+      - {name: expand, in: query, type: array, description: "Additional fields to expand (e.g. merchant, user, budget, receipts.download_uris)"}
+      - {name: load_custom_fields, in: query, type: boolean, description: Include custom field values in the response}
+
+  - name: list_budgets
+    description: List all budgets for the company
+    method: GET
+    path: /v2/budgets
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: Maximum number of budgets to return}
+
+  - name: list_users
+    description: List all users in the organization with optional email filter
+    method: GET
+    path: /v2/users
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor from previous response}
+      - {name: limit, in: query, type: integer, description: "Maximum number of users to return (default 100, max 1000)"}
+      - {name: email, in: query, type: string, description: Filter by a single email address}
+
+  - name: create_expense
+    description: Update an existing card expense memo or details
+    method: PUT
+    path: /v1/expenses/card/{expense_id}
+    params:
+      - {name: expense_id, in: path, type: string, required: true, description: Unique identifier of the expense to update}
+      - {name: memo, in: body, type: string, description: Memo text for the expense}
+
+  - name: update_card_status
+    description: Lock a card to prevent further spending
+    method: POST
+    path: /v2/cards/{id}/lock
+    params:
+      - {name: id, in: path, type: string, required: true, description: Unique identifier of the card to lock}
+      - {name: reason, in: body, type: string, required: true, description: "Reason for locking the card (CARD_DAMAGED, CARD_LOST, CARD_NOT_RECEIVED, DO_NOT_NEED_PHYSICAL_CARD, DO_NOT_NEED_VIRTUAL_CARD, FRAUD, OTHER)"}
+      - {name: description, in: body, type: string, description: Additional description or rationale for the lock}
+
+  - name: create_card
+    description: Create a new virtual or physical card for a user
+    method: POST
+    path: /v2/cards
+    params:
+      - {name: owner, in: body, type: object, required: true, description: "Card owner object specifying the user (e.g. {type: EMPLOYEE, employee_id: <id>})"}
+      - {name: card_name, in: body, type: string, required: true, description: Display name for the card}
+      - {name: card_type, in: body, type: string, required: true, description: "Card type: VIRTUAL or PHYSICAL"}
+      - {name: limit_type, in: body, type: string, required: true, description: "Limit type: CARD (requires spend_controls) or USER"}
+      - {name: spend_controls, in: body, type: object, description: "Spend controls required when limit_type is CARD (spend_limit, spend_duration)"}
+      - {name: mailing_address, in: body, type: object, description: Shipping address for physical cards}

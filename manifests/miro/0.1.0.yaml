@@ -2,13 +2,14 @@ schemaVersion: 1
 name: miro
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/miro-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/miro-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:fdae5f017db7b8c4c934f6c0991b5025888d17b3dbb59975c634c124b0ba091e
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

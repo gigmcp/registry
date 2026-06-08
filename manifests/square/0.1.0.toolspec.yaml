@@ -1,0 +1,98 @@
+schemaVersion: 1
+name: square
+version: 0.1.0
+baseUrl: https://connect.squareup.com
+tools:
+  - name: search_customers
+    description: Search customer profiles associated with a Square account using optional query filters
+    method: POST
+    path: /v2/customers/search
+    params:
+      - {name: cursor, in: body, type: string, description: Pagination cursor returned by a previous response to retrieve the next page of results}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return per page (1–100, default 100)"}
+      - {name: query, in: body, type: object, description: "Filtering and sorting criteria (CustomerQuery object); if omitted all profiles are returned alphabetically"}
+      - {name: count, in: body, type: boolean, description: "If true, include the total count of matching customers in the response (default false)"}
+
+  - name: retrieve_order
+    description: Retrieve a single order by its ID
+    method: GET
+    path: /v2/orders/{order_id}
+    params:
+      - {name: order_id, in: path, type: string, required: true, description: The ID of the order to retrieve}
+
+  - name: search_orders
+    description: Search orders for one or more locations using optional filters and sorting
+    method: POST
+    path: /v2/orders/search
+    params:
+      - {name: location_ids, in: body, type: array, required: true, description: "Location IDs to query orders from (maximum 10)"}
+      - {name: cursor, in: body, type: string, description: Pagination cursor returned by a previous response}
+      - {name: query, in: body, type: object, description: "Filtering and sorting criteria (SearchOrdersQuery object)"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results per page (default 500, max 1000)"}
+      - {name: return_entries, in: body, type: boolean, description: "If true, return OrderEntry objects instead of full Order objects (default false)"}
+
+  - name: list_invoices
+    description: Return a list of invoices for a given location
+    method: GET
+    path: /v2/invoices
+    params:
+      - {name: location_id, in: query, type: string, required: true, description: The ID of the location for which to list invoices}
+      - {name: cursor, in: query, type: string, description: Pagination cursor returned by a previous response}
+      - {name: limit, in: query, type: integer, description: "Maximum number of invoices to return (max 200, default 100)"}
+
+  - name: list_locations
+    description: List all of the seller's locations including those with an inactive status
+    method: GET
+    path: /v2/locations
+
+  - name: get_merchant
+    description: "Return details about the merchant associated with the current access token, optionally filtered by merchant ID"
+    method: GET
+    path: /v2/merchants
+    params:
+      - {name: cursor, in: query, type: integer, description: Pagination cursor from the previous response}
+
+  - name: list_disputes
+    description: List disputes associated with a Square account, with optional filtering by state or location
+    method: GET
+    path: /v2/disputes
+    params:
+      - {name: cursor, in: query, type: string, description: Pagination cursor returned by a previous response}
+      - {name: states, in: query, type: string, description: "Comma-separated dispute states to filter by; omit to return all states"}
+      - {name: location_id, in: query, type: string, description: Location ID to filter disputes; omit to return disputes from all locations}
+
+  - name: create_customer
+    description: Create a new customer profile for a Square business
+    method: POST
+    path: /v2/customers
+    params:
+      - {name: idempotency_key, in: body, type: string, description: "Unique key to ensure the request is idempotent"}
+      - {name: given_name, in: body, type: string, description: "Customer's first name (at least one of given_name, family_name, company_name, email_address, or phone_number is required)"}
+      - {name: family_name, in: body, type: string, description: Customer's last name}
+      - {name: company_name, in: body, type: string, description: Business name associated with the customer}
+      - {name: email_address, in: body, type: string, description: Customer's email address}
+      - {name: phone_number, in: body, type: string, description: Customer's phone number}
+      - {name: reference_id, in: body, type: string, description: Secondary ID for mapping to an external system}
+      - {name: note, in: body, type: string, description: Custom note for the customer profile}
+
+  - name: update_customer
+    description: Update an existing customer profile by customer ID
+    method: PUT
+    path: /v2/customers/{customer_id}
+    params:
+      - {name: customer_id, in: path, type: string, required: true, description: The ID of the customer to update}
+      - {name: given_name, in: body, type: string, description: Customer's first name}
+      - {name: family_name, in: body, type: string, description: Customer's last name}
+      - {name: company_name, in: body, type: string, description: Business name associated with the customer}
+      - {name: email_address, in: body, type: string, description: Customer's email address}
+      - {name: phone_number, in: body, type: string, description: Customer's phone number}
+      - {name: reference_id, in: body, type: string, description: Secondary ID for mapping to an external system}
+      - {name: note, in: body, type: string, description: Custom note for the customer profile}
+      - {name: version, in: body, type: integer, description: Current profile version for optimistic concurrency control}
+
+  - name: cancel_payment
+    description: Cancel a payment by its ID
+    method: POST
+    path: /v2/payments/{payment_id}/cancel
+    params:
+      - {name: payment_id, in: path, type: string, required: true, description: The ID of the payment to cancel}

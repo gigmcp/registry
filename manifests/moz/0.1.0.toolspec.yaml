@@ -1,0 +1,84 @@
+schemaVersion: 1
+name: moz
+version: 0.1.0
+baseUrl: https://api.moz.com
+tools:
+  - name: fetch_site_metrics
+    description: Fetch site-level SEO metrics (Domain Authority, Page Authority, spam score, linking domains) for a target site using the Moz Links API.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.site.metrics.fetch\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data.site_query with query (the site URL or domain) and scope (page, subdomain, or root_domain)"}
+
+  - name: check_link_status
+    description: Retrieve inbound links to a target URL or domain, including link equity, nofollow status, and source page metrics.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.links\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with target (URL or domain), scope (page/subdomain/root_domain), limit (max results), filter (e.g. external), and sort (e.g. source_page_authority)"}
+
+  - name: get_top_pages
+    description: Get the top pages on a target domain ranked by Page Authority, linking domains, or inbound links.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.top_pages\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with target (root domain or subdomain), scope (root_domain or subdomain), limit (max results), and sort (e.g. page_authority)"}
+
+  - name: get_global_top_root_domains
+    description: Retrieve the globally top-ranking root domains across the entire Moz web index, sorted by Domain Authority.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.global.top.domains.list\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with limit (max number of domains to return)"}
+
+  - name: get_global_top_pages
+    description: Retrieve the globally top-ranking pages across the entire Moz web index, sorted by Page Authority.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.global.top.pages.list\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with limit (max number of pages to return)"}
+
+  - name: fetch_metadata_index
+    description: Fetch Moz link index metadata, including the index ID and crawl date, to determine which index version is currently active.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"metadata.index.fetch\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object; pass an empty data object {}"}
+
+  - name: lookup_quota
+    description: Look up the current API quota limits and remaining row allotment for the authenticated account.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"quota.lookup\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with path (quota path to look up, e.g. api.limits.data.rows)"}
+
+  - name: get_usage_data
+    description: Retrieve API usage data including row consumption and quota utilization for a given date range.
+    method: POST
+    path: /jsonrpc
+    params:
+      - {name: jsonrpc, in: body, type: string, required: true, description: "JSON-RPC version; must be \"2.0\""}
+      - {name: id, in: body, type: string, required: true, description: Unique request identifier (at least 24 characters)}
+      - {name: method, in: body, type: string, required: true, description: "RPC method name; use \"data.usage\""}
+      - {name: params, in: body, type: object, required: true, description: "RPC params object containing data with optional start (ISO 8601 date string) and end (ISO 8601 date string) fields"}

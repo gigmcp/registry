@@ -1,0 +1,87 @@
+schemaVersion: 1
+name: chatwork
+version: 0.1.0
+baseUrl: https://api.chatwork.com
+tools:
+  - name: get_my_profile
+    description: Retrieve the current user's own account information
+    method: GET
+    path: /v2/me
+
+  - name: get_rooms
+    description: Retrieve the list of chat rooms the authenticated user belongs to
+    method: GET
+    path: /v2/rooms
+
+  - name: get_room_messages
+    description: Retrieve messages in a chat room (up to 100 at a time)
+    method: GET
+    path: /v2/rooms/{room_id}/messages
+    params:
+      - {name: room_id, in: path, type: integer, required: true, description: Room ID}
+      - {name: force, in: query, type: integer, description: "Set to 1 to forcefully retrieve the latest 100 messages; 0 (default) returns only new messages since last fetch"}
+
+  - name: get_room_members
+    description: Retrieve the list of members in a chat room
+    method: GET
+    path: /v2/rooms/{room_id}/members
+    params:
+      - {name: room_id, in: path, type: integer, required: true, description: Room ID}
+
+  - name: get_my_tasks
+    description: Retrieve the authenticated user's task list (up to 100 tasks)
+    method: GET
+    path: /v2/my/tasks
+    params:
+      - {name: assigned_by_account_id, in: query, type: integer, description: Filter tasks by the account ID of the person who assigned them}
+      - {name: status, in: query, type: string, description: "Filter by task status: open (incomplete) or done (completed)"}
+
+  - name: get_contacts
+    description: Retrieve the authenticated user's contact list
+    method: GET
+    path: /v2/contacts
+
+  - name: post_message
+    description: Post a new message to a chat room
+    method: POST
+    path: /v2/rooms/{room_id}/messages
+    encoding: form
+    params:
+      - {name: room_id, in: path, type: integer, required: true, description: Room ID}
+      - {name: body, in: body, type: string, required: true, description: "Message content (1–65535 characters)"}
+      - {name: self_unread, in: body, type: integer, description: "Set to 1 to mark the posted message as unread for the sender; 0 (default) marks it as read"}
+
+  - name: create_room
+    description: Create a new group chat room
+    method: POST
+    path: /v2/rooms
+    encoding: form
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Chat room name (1–255 characters)"}
+      - {name: members_admin_ids, in: body, type: string, required: true, description: "Comma-separated account IDs to grant admin permissions (at least one required)"}
+      - {name: description, in: body, type: string, description: Chat room description}
+      - {name: icon_preset, in: body, type: string, description: "Icon type: group, check, document, meeting, event, project, business, study, security, star, idea, heart, mag, cup, beer, music, sports, or travel"}
+      - {name: members_member_ids, in: body, type: string, description: Comma-separated account IDs to add as standard members}
+      - {name: members_readonly_ids, in: body, type: string, description: Comma-separated account IDs to add as read-only members}
+
+  - name: create_task
+    description: Add a new task to a chat room
+    method: POST
+    path: /v2/rooms/{room_id}/tasks
+    encoding: form
+    params:
+      - {name: room_id, in: path, type: integer, required: true, description: Room ID}
+      - {name: body, in: body, type: string, required: true, description: "Task content (up to 65535 characters)"}
+      - {name: to_ids, in: body, type: string, required: true, description: "Comma-separated account IDs of task assignees (must be members of the room)"}
+      - {name: limit, in: body, type: integer, description: Task deadline as a Unix timestamp (seconds)}
+      - {name: limit_type, in: body, type: string, description: "Deadline type: none, date, or time (default: time)"}
+
+  - name: upload_file
+    description: Upload a file to a chat room
+    method: POST
+    path: /v2/rooms/{room_id}/files
+    encoding: form
+    params:
+      - {name: room_id, in: path, type: integer, required: true, description: Room ID}
+      - {name: file, in: body, type: string, required: true, description: "Binary content of the file to upload (max 5 MB)"}
+      - {name: message, in: body, type: string, description: "Optional message text to accompany the file upload (1–65535 characters)"}

@@ -1,0 +1,86 @@
+schemaVersion: 1
+name: elevenlabs
+version: 0.1.0
+baseUrl: https://api.elevenlabs.io
+tools:
+  - name: text_to_speech
+    description: Convert text to speech audio using a specified voice
+    method: POST
+    path: /v1/text-to-speech/{voice_id}
+    encoding: json
+    params:
+      - {name: voice_id, in: path, type: string, required: true, description: ID of the voice to use for synthesis}
+      - {name: text, in: body, type: string, required: true, description: The text to convert to speech}
+      - {name: model_id, in: body, type: string, description: "ID of the model to use (default: eleven_multilingual_v2)"}
+      - {name: language_code, in: body, type: string, description: Language code for the generated audio}
+      - {name: output_format, in: query, type: string, description: "Output audio format (default: mp3_44100_128)"}
+      - {name: optimize_streaming_latency, in: query, type: integer, description: Latency optimization level for streaming (0-4)}
+
+  - name: speech_to_speech
+    description: Transform audio from one voice to another using voice conversion
+    method: POST
+    path: /v1/speech-to-speech/{voice_id}
+    encoding: form
+    params:
+      - {name: voice_id, in: path, type: string, required: true, description: ID of the target voice to convert audio into}
+      - {name: audio, in: body, type: string, required: true, description: "Binary audio file to convert (base64-encoded or file path)"}
+      - {name: model_id, in: body, type: string, description: "ID of the model to use (default: eleven_english_sts_v2)"}
+      - {name: output_format, in: query, type: string, description: "Output audio format (default: mp3_44100_128)"}
+      - {name: remove_background_noise, in: body, type: boolean, description: Whether to remove background noise from the input audio}
+
+  - name: get_voices
+    description: List all available voices for the authenticated user
+    method: GET
+    path: /v1/voices
+    params:
+      - {name: show_legacy, in: query, type: boolean, description: "If true, legacy premade voices will be included in the response"}
+
+  - name: get_voice_settings
+    description: Get the settings for a specific voice
+    method: GET
+    path: /v1/voices/{voice_id}/settings
+    params:
+      - {name: voice_id, in: path, type: string, required: true, description: ID of the voice whose settings to retrieve}
+
+  - name: add_voice
+    description: Add a new voice clone to the user's voice library
+    method: POST
+    path: /v1/voices/add
+    encoding: form
+    params:
+      - {name: name, in: body, type: string, required: true, description: Name that identifies this voice in the dropdown}
+      - {name: files, in: body, type: string, required: true, description: "Audio recordings for voice cloning (list of file paths or binary data)"}
+      - {name: description, in: body, type: string, description: Description of the voice}
+      - {name: remove_background_noise, in: body, type: boolean, description: "If set, removes background noise from voice samples using audio isolation (default: false)"}
+
+  - name: delete_voice
+    description: Delete a voice from the user's voice library
+    method: DELETE
+    path: /v1/voices/{voice_id}
+    params:
+      - {name: voice_id, in: path, type: string, required: true, description: ID of the voice to delete}
+
+  - name: get_models
+    description: List all available ElevenLabs text-to-speech and voice conversion models
+    method: GET
+    path: /v1/models
+
+  - name: get_history
+    description: List previously generated audio history items
+    method: GET
+    path: /v1/history
+    params:
+      - {name: page_size, in: query, type: integer, description: "Number of history items to return (max 1000, default 100)"}
+      - {name: start_after_history_item_id, in: query, type: string, description: History item ID to start pagination after}
+      - {name: voice_id, in: query, type: string, description: Filter history items by voice ID}
+      - {name: model_id, in: query, type: string, description: Filter history items by model ID}
+
+  - name: get_subscription_info
+    description: Get extended information about the authenticated user's subscription
+    method: GET
+    path: /v1/user/subscription
+
+  - name: get_user_profile
+    description: Get information about the authenticated user including subscription and account details
+    method: GET
+    path: /v1/user

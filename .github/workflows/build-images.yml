@@ -38,6 +38,8 @@ jobs:
             --build-arg SOURCE_REPO="$SOURCE_REPO" \
             --build-arg SOURCE_TAG="$SOURCE_TAG" \
             --build-arg PACKAGE="$PACKAGE" \
+            --build-arg NAME="$NAME" \
+            --build-arg VERSION="$VERSION" \
             -t "ghcr.io/gigmcp/${NAME}-mcp:${VERSION}" \
             .
       - name: Report digest to pin

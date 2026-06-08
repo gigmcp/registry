@@ -2,13 +2,14 @@ schemaVersion: 1
 name: dialpad
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/dialpad-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dialpad-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:0126deec3eaaf1934fab0e199b11e6161a1cff1e10c753d36abb844361f19085
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,100 @@
+schemaVersion: 1
+name: neon
+version: 0.1.0
+baseUrl: https://console.neon.tech
+tools:
+  - name: list_projects
+    description: List all Neon projects for the authenticated account
+    method: GET
+    path: /api/v2/projects
+    params:
+      - {name: cursor, in: query, type: string, description: Cursor from the previous response to retrieve the next batch of projects}
+      - {name: limit, in: query, type: integer, description: "Number of projects to return (1-400, default 10)"}
+      - {name: search, in: query, type: string, description: Filter by project name or ID using partial matching}
+      - {name: org_id, in: query, type: string, description: Filter projects by organization ID}
+
+  - name: get_project
+    description: Retrieve details of a specific Neon project by project ID
+    method: GET
+    path: /api/v2/projects/{project_id}
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+
+  - name: list_branches
+    description: List all branches in a Neon project
+    method: GET
+    path: /api/v2/projects/{project_id}/branches
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: search, in: query, type: string, description: Filter by branch name or ID using partial matching}
+      - {name: sort_by, in: query, type: string, description: "Sort field: name, created_at, or updated_at (default updated_at)"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: asc or desc (default desc)"}
+      - {name: cursor, in: query, type: string, description: Pagination cursor from response.pagination.next}
+      - {name: limit, in: query, type: integer, description: "Maximum records returned (1-10000)"}
+
+  - name: get_connection_uri
+    description: Retrieve a connection URI for a specific Neon branch and database
+    method: GET
+    path: /api/v2/projects/{project_id}/connection_uri
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: database_name, in: query, type: string, required: true, description: The database name}
+      - {name: role_name, in: query, type: string, required: true, description: The role name}
+      - {name: branch_id, in: query, type: string, description: Branch ID (defaults to the project default branch)}
+      - {name: endpoint_id, in: query, type: string, description: Endpoint ID (defaults to the read-write endpoint for the branch)}
+      - {name: pooled, in: query, type: boolean, description: "Adds the -pooler option to the connection URI when true"}
+
+  - name: list_databases
+    description: List all databases in a Neon project branch
+    method: GET
+    path: /api/v2/projects/{project_id}/branches/{branch_id}/databases
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: branch_id, in: path, type: string, required: true, description: The branch ID}
+
+  - name: create_branch
+    description: Create a new branch in a Neon project
+    method: POST
+    path: /api/v2/projects/{project_id}/branches
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: branch, in: body, type: object, description: "Branch configuration object (name, parent_id, parent_lsn, parent_timestamp)"}
+      - {name: endpoints, in: body, type: array, description: Optional array of compute endpoint configurations to create with the branch}
+
+  - name: create_branch_database
+    description: Create a new database in a specific branch of a Neon project
+    method: POST
+    path: /api/v2/projects/{project_id}/branches/{branch_id}/databases
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: branch_id, in: path, type: string, required: true, description: The branch ID}
+      - {name: database, in: body, type: object, required: true, description: "Database configuration object with name and owner_name properties"}
+
+  - name: delete_branch
+    description: Delete a branch from a Neon project
+    method: DELETE
+    path: /api/v2/projects/{project_id}/branches/{branch_id}
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: branch_id, in: path, type: string, required: true, description: The branch ID to delete}
+
+  - name: create_compute_endpoint
+    description: Create a compute endpoint for a Neon project branch
+    method: POST
+    path: /api/v2/projects/{project_id}/endpoints
+    params:
+      - {name: project_id, in: path, type: string, required: true, description: The Neon project ID}
+      - {name: endpoint, in: body, type: object, required: true, description: "Endpoint configuration object with branch_id, type (read_write or read_only), and optional autoscaling settings"}
+
+  - name: get_consumption_history
+    description: Retrieve consumption metrics history for projects in a Neon account
+    method: GET
+    path: /api/v2/consumption_history/projects
+    params:
+      - {name: from, in: query, type: string, required: true, description: "Start of the consumption period in ISO 8601 format"}
+      - {name: to, in: query, type: string, required: true, description: "End of the consumption period in ISO 8601 format"}
+      - {name: granularity, in: query, type: string, required: true, description: "Metrics granularity: hourly, daily, or monthly"}
+      - {name: project_ids, in: query, type: array, description: Filter by specific project IDs}
+      - {name: org_id, in: query, type: string, description: Organization ID for filtering metrics}
+      - {name: cursor, in: query, type: string, description: Cursor from previous response to retrieve next batch}
+      - {name: limit, in: query, type: integer, description: "Number of records to return (1-100, default 10)"}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: box
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/box-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/box-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:b1a6b114be160812190e9d457e36e44a73203ebfe80585303d2eaba07a8c44d8
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

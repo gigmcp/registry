@@ -1,0 +1,96 @@
+schemaVersion: 1
+name: crustdata
+version: 0.1.0
+baseUrl: https://api.crustdata.com
+tools:
+  - name: screen_companies
+    description: Screen and filter companies based on growth metrics, headcount, funding, and firmographic criteria
+    method: POST
+    path: /screener/screen/
+    params:
+      - {name: filters, in: body, type: object, required: true, description: "Filter object with op (and/or) and conditions array; each condition has column, type (>=, <=, =), and value"}
+      - {name: offset, in: body, type: integer, description: "Pagination offset (default 0)"}
+      - {name: count, in: body, type: integer, description: "Number of results to return (default 100)"}
+      - {name: sorts, in: body, type: array, description: "Array of sort objects with column and order (asc/desc)"}
+
+  - name: search_companies
+    description: Search for companies using filters such as industry, region, funding, and headcount
+    method: POST
+    path: /screener/company/search
+    params:
+      - {name: filters, in: body, type: array, required: true, description: "Array of filter objects; each filter has filter_type, type (in/not_in/between), and value"}
+      - {name: page, in: body, type: integer, description: "Page number for pagination (starts at 1)"}
+
+  - name: enrich_person
+    description: Enrich a person profile with detailed information using LinkedIn URL or email
+    method: GET
+    path: /screener/person/enrich
+    params:
+      - {name: linkedin_profile_url, in: query, type: string, description: "LinkedIn profile URL of the person to enrich"}
+      - {name: email, in: query, type: string, description: "Email address of the person to enrich"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+
+  - name: filter_decision_makers
+    description: Search and filter decision makers (e.g. C-suite, VP, Director) using title filters and company criteria
+    method: POST
+    path: /screener/person/search
+    params:
+      - {name: filters, in: body, type: array, required: true, description: "Array of filter objects to narrow results by title, company, location, etc."}
+      - {name: page, in: body, type: integer, description: "Page number for pagination (starts at 1)"}
+
+  - name: get_headcount_timeseries
+    description: Retrieve historical headcount timeseries data for companies with filtering and sorting
+    method: POST
+    path: /data_lab/headcount_timeseries/
+    params:
+      - {name: filters, in: body, type: object, required: true, description: "Filter object with op and conditions to select companies"}
+      - {name: offset, in: body, type: integer, description: "Pagination offset (default 0)"}
+      - {name: count, in: body, type: integer, description: "Number of results to return"}
+      - {name: sorts, in: body, type: array, description: "Array of sort objects with column and order"}
+
+  - name: get_funding_milestones
+    description: Retrieve funding milestone timeseries data for companies
+    method: POST
+    path: /data_lab/funding_milestone_timeseries/
+    params:
+      - {name: filters, in: body, type: object, required: true, description: "Filter object with op and conditions to select companies"}
+      - {name: offset, in: body, type: integer, description: "Pagination offset (default 0)"}
+      - {name: count, in: body, type: integer, description: "Number of results to return"}
+      - {name: sorts, in: body, type: array, description: "Array of sort objects with column and order"}
+
+  - name: get_job_listings
+    description: Retrieve job listings data for specified companies with filtering and sorting
+    method: POST
+    path: /data_lab/job_listings/
+    params:
+      - {name: filters, in: body, type: object, required: true, description: "Filter object with op and conditions to select companies"}
+      - {name: offset, in: body, type: integer, description: "Pagination offset (default 0)"}
+      - {name: count, in: body, type: integer, description: "Number of results to return"}
+      - {name: sorts, in: body, type: array, description: "Array of sort objects with column and order"}
+
+  - name: get_web_traffic
+    description: Retrieve web traffic data for companies with filtering and sorting
+    method: POST
+    path: /data_lab/web_traffic/
+    params:
+      - {name: filters, in: body, type: object, required: true, description: "Filter object with op and conditions to select companies"}
+      - {name: offset, in: body, type: integer, description: "Pagination offset (default 0)"}
+      - {name: count, in: body, type: integer, description: "Number of results to return"}
+      - {name: sorts, in: body, type: array, description: "Array of sort objects with column and order"}
+
+  - name: get_investor_portfolio
+    description: Retrieve all portfolio companies for a given venture capital or private equity investor
+    method: GET
+    path: /data_lab/investor_portfolio/
+    params:
+      - {name: investor_name, in: query, type: string, required: true, description: "Name of the VC or PE investor to retrieve portfolio for"}
+
+  - name: search_linkedin_posts
+    description: Search LinkedIn posts by keyword with optional recency and sort filters
+    method: POST
+    path: /social-post/search
+    params:
+      - {name: keyword, in: body, type: string, required: true, description: "Keyword or phrase to search for in LinkedIn posts"}
+      - {name: page, in: body, type: integer, description: "Page number for pagination (starts at 1)"}
+      - {name: sort_by, in: body, type: string, description: "Sort order for results (e.g. date, relevance)"}
+      - {name: date_posted, in: body, type: string, description: "Filter posts by recency (e.g. past-24h, past-week, past-month)"}

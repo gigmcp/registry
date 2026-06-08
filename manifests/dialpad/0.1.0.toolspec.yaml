@@ -1,0 +1,72 @@
+schemaVersion: 1
+name: dialpad
+version: 0.1.0
+baseUrl: https://dialpad.com
+tools:
+  - name: list_access_control_policies
+    description: List all access control policies for the authenticated company
+    method: GET
+    path: /api/v2/accesscontrolpolicies
+    params:
+      - {name: cursor, in: query, type: string, description: "A token used to return the next page of a previous request"}
+  - name: create_contact
+    description: Create a new contact in the Dialpad address book
+    method: POST
+    path: /api/v2/contacts
+    params:
+      - {name: first_name, in: body, type: string, required: true, description: "Contact's first name (single-line)"}
+      - {name: last_name, in: body, type: string, required: true, description: "Contact's last name (single-line)"}
+      - {name: company_name, in: body, type: string, description: "Contact's company name (single-line)"}
+      - {name: job_title, in: body, type: string, description: "Contact's job title (single-line)"}
+      - {name: extension, in: body, type: string, description: "Contact's extension number"}
+      - {name: owner_id, in: body, type: string, description: "Creates a local contact for this owner; shared contact if omitted"}
+      - {name: emails, in: body, type: array, description: "List of email addresses; first is primary"}
+      - {name: phones, in: body, type: array, description: "List of phone numbers in E.164 format; first is primary"}
+      - {name: urls, in: body, type: array, description: "List of website URLs"}
+  - name: delete_contact
+    description: Delete a contact by ID
+    method: DELETE
+    path: /api/v2/contacts/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The contact's ID"}
+  - name: create_user
+    description: Create a new Dialpad user account
+    method: POST
+    path: /api/v2/users
+    params:
+      - {name: email, in: body, type: string, required: true, description: "The user's email address"}
+      - {name: office_id, in: body, type: integer, required: true, description: "The ID of the office to assign the user to"}
+      - {name: first_name, in: body, type: string, description: "The user's first name (single-line)"}
+      - {name: last_name, in: body, type: string, description: "The user's last name (single-line)"}
+      - {name: auto_assign, in: body, type: boolean, description: "Auto-assign a phone number to the user; defaults to false"}
+      - {name: license, in: body, type: string, description: "License type for the user (e.g. talk, admin, agent, lite_lines); defaults to talk"}
+  - name: create_callback_request
+    description: Enqueue a callback request for a phone number in a call center queue
+    method: POST
+    path: /api/v2/callback
+    params:
+      - {name: call_center_id, in: body, type: integer, description: "The ID of the call center to fulfill the callback"}
+      - {name: phone_number, in: body, type: string, description: "The E.164-formatted phone number to call back"}
+  - name: add_call_participant
+    description: Add another participant to an active call by phone number or target
+    method: POST
+    path: /api/v2/call/{id}/participants/add
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The call's ID"}
+      - {name: participant, in: body, type: object, required: true, description: "New call member to add via phone number or Target (Target must have a primary phone assigned)"}
+  - name: create_webhook
+    description: Create a webhook endpoint to receive Dialpad event notifications
+    method: POST
+    path: /api/v2/webhooks
+    params:
+      - {name: hook_url, in: body, type: string, required: true, description: "The URL to which triggered events will be sent"}
+      - {name: secret, in: body, type: string, description: "Webhook signature secret used to confirm the validity of requests (single-line)"}
+  - name: assign_phone_number
+    description: Assign a specific phone number to a target such as a user, office, call center, or other entity
+    method: POST
+    path: /api/v2/numbers/{number}/assign
+    params:
+      - {name: number, in: path, type: string, required: true, description: "A specific phone number to assign (E.164 format)"}
+      - {name: target_id, in: body, type: integer, required: true, description: "The ID of the target receiving the phone number"}
+      - {name: target_type, in: body, type: string, required: true, description: "The type of the target; one of: callcenter, callrouter, channel, coachinggroup, coachingteam, department, office, room, staffgroup, unknown, user"}
+      - {name: primary, in: body, type: boolean, description: "Whether this becomes the target's primary phone number; defaults to true"}

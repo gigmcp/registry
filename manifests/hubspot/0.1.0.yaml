@@ -2,13 +2,14 @@ schemaVersion: 1
 name: hubspot
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/hubspot-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/hubspot-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:11f281e3e327b13a618906de26bff6dad44154192445c86591144267b01ab7bd
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

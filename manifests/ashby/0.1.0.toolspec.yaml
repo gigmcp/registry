@@ -1,0 +1,101 @@
+schemaVersion: 1
+name: ashby
+version: 0.1.0
+baseUrl: https://api.ashbyhq.com
+tools:
+  - name: list_candidates
+    description: List all candidates in the organization with optional pagination and incremental sync
+    method: POST
+    path: /candidate.list
+    params:
+      - {name: cursor, in: body, type: string, description: "Opaque cursor indicating which page of results to fetch"}
+      - {name: syncToken, in: body, type: string, description: "Opaque token representing the last time the data was successfully synced from the API"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of items to return (default and max: 100)"}
+      - {name: createdAfter, in: body, type: integer, description: "Return candidates created after this date (milliseconds since Unix epoch)"}
+  - name: get_candidate
+    description: Get details of a single candidate by ID
+    method: POST
+    path: /candidate.info
+    params:
+      - {name: id, in: body, type: string, required: true, description: "The ID of the candidate to fetch"}
+  - name: list_jobs
+    description: List all jobs in the organization with optional filtering and pagination
+    method: POST
+    path: /job.list
+    params:
+      - {name: cursor, in: body, type: string, description: "Opaque cursor indicating which page of results to fetch"}
+      - {name: syncToken, in: body, type: string, description: "Opaque token representing the last time the data was successfully synced from the API"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of items to return (default and max: 100)"}
+      - {name: createdAfter, in: body, type: integer, description: "Return jobs created after this date (milliseconds since Unix epoch)"}
+      - {name: status, in: body, type: array, description: "Filter jobs by status (e.g. Open, Closed, Archived, Draft)"}
+  - name: list_applications
+    description: List all applications in the organization with optional filtering and pagination
+    method: POST
+    path: /application.list
+    params:
+      - {name: cursor, in: body, type: string, description: "Opaque cursor indicating which page of results to fetch"}
+      - {name: syncToken, in: body, type: string, description: "Opaque token representing the last time the data was successfully synced from the API"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of items to return (default and max: 100)"}
+      - {name: createdAfter, in: body, type: integer, description: "Return applications created after this date (milliseconds since Unix epoch)"}
+      - {name: status, in: body, type: string, description: "Filter by application status: Hired, Archived, Active, or Lead"}
+      - {name: jobId, in: body, type: string, description: "Filter applications by job ID"}
+  - name: list_openings
+    description: List all job openings in the organization with optional pagination and incremental sync
+    method: POST
+    path: /opening.list
+    params:
+      - {name: cursor, in: body, type: string, description: "Opaque cursor indicating which page of results to fetch"}
+      - {name: syncToken, in: body, type: string, description: "Opaque token representing the last time the data was successfully synced from the API"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of items to return (default and max: 100)"}
+      - {name: createdAfter, in: body, type: integer, description: "Return openings created after this date (milliseconds since Unix epoch)"}
+  - name: list_interview_schedules
+    description: List interview schedules in the organization with optional filtering and pagination
+    method: POST
+    path: /interviewSchedule.list
+    params:
+      - {name: cursor, in: body, type: string, description: "Opaque cursor indicating which page of results to fetch"}
+      - {name: syncToken, in: body, type: string, description: "Opaque token representing the last time the data was successfully synced from the API"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of items to return (default and max: 100)"}
+      - {name: createdAfter, in: body, type: integer, description: "Return interview schedules created after this date (milliseconds since Unix epoch)"}
+      - {name: applicationId, in: body, type: string, description: "Filter interview schedules by application ID"}
+      - {name: interviewStageId, in: body, type: string, description: "Filter interview schedules by interview stage ID"}
+  - name: create_candidate
+    description: Create a new candidate in the organization
+    method: POST
+    path: /candidate.create
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Full name of the candidate"}
+      - {name: email, in: body, type: string, description: "Primary email address of the candidate"}
+      - {name: phoneNumber, in: body, type: string, description: "Phone number of the candidate"}
+      - {name: linkedInUrl, in: body, type: string, description: "LinkedIn profile URL of the candidate"}
+      - {name: githubUrl, in: body, type: string, description: "GitHub profile URL of the candidate"}
+      - {name: website, in: body, type: string, description: "Personal website URL of the candidate"}
+      - {name: sourceId, in: body, type: string, description: "ID of the source to attribute the candidate to"}
+      - {name: creditedToUserId, in: body, type: string, description: "ID of the user to credit for adding the candidate"}
+  - name: create_application
+    description: Create a new application linking a candidate to a job
+    method: POST
+    path: /application.create
+    params:
+      - {name: candidateId, in: body, type: string, required: true, description: "ID of the candidate to apply"}
+      - {name: jobId, in: body, type: string, required: true, description: "ID of the job to apply to"}
+      - {name: interviewPlanId, in: body, type: string, description: "ID of the interview plan to use"}
+      - {name: interviewStageId, in: body, type: string, description: "ID of the interview stage to start the application at"}
+      - {name: sourceId, in: body, type: string, description: "ID of the source to attribute the application to"}
+      - {name: creditedToUserId, in: body, type: string, description: "ID of the user to credit for the application"}
+  - name: change_application_stage
+    description: Move an application to a different interview stage
+    method: POST
+    path: /application.changeStage
+    params:
+      - {name: applicationId, in: body, type: string, required: true, description: "ID of the application to update"}
+      - {name: interviewStageId, in: body, type: string, required: true, description: "ID of the interview stage to move the application to"}
+      - {name: archiveReasonId, in: body, type: string, description: "ID of the archive reason (required when moving to an archived stage)"}
+  - name: create_candidate_note
+    description: Add a note to a candidate's profile
+    method: POST
+    path: /candidate.createNote
+    params:
+      - {name: candidateId, in: body, type: string, required: true, description: "ID of the candidate to add the note to"}
+      - {name: note, in: body, type: string, required: true, description: "The note content to add to the candidate (supports limited HTML formatting)"}
+      - {name: sendNotifications, in: body, type: boolean, description: "Whether to send notifications about the note (default: false)"}

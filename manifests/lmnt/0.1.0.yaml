@@ -2,13 +2,14 @@ schemaVersion: 1
 name: lmnt
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/lmnt-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/lmnt-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:c14e2e6f82ed3e53f28be24eb5ee2eccd4640071ff55cccd007914e4d2d34b1c
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

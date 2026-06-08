@@ -1,0 +1,105 @@
+schemaVersion: 1
+name: activecampaign
+version: 0.1.0
+# ActiveCampaign is per-tenant: each account has its own subdomain
+# (<accountname>.api-us1.com). The host below is a representative placeholder
+# that matches the *.api-us1.com egress allowlist; the runtime substitutes the
+# real tenant host from the credential configuration.
+baseUrl: https://youraccountname.api-us1.com
+tools:
+  - name: list_contacts
+    description: List, search, and filter contacts in the ActiveCampaign account
+    method: GET
+    path: /api/3/contacts
+    params:
+      - {name: email, in: query, type: string, description: Filter contacts by email address (exact match)}
+      - {name: search, in: query, type: string, description: "Filter contacts by full name, email, or phone number (contains match)"}
+      - {name: listid, in: query, type: string, description: Filter contacts by list ID}
+      - {name: tagid, in: query, type: integer, description: Filter contacts by tag ID}
+      - {name: status, in: query, type: integer, description: "Filter by list status: 1=active, 2=unsubscribed"}
+      - {name: limit, in: query, type: integer, description: "Number of records to return (default 20, max 100)"}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+
+  - name: list_deals
+    description: Retrieve all existing deals in the ActiveCampaign CRM
+    method: GET
+    path: /api/3/deals
+    params:
+      - {name: "filters[search]", in: query, type: string, description: Filter deals by title or description}
+      - {name: "filters[stage]", in: query, type: integer, description: Filter deals by pipeline stage ID}
+      - {name: "filters[group]", in: query, type: integer, description: Filter deals by pipeline (group) ID}
+      - {name: "filters[status]", in: query, type: integer, description: "Filter deals by status: 0=open, 1=won, 2=lost"}
+      - {name: "filters[owner]", in: query, type: integer, description: Filter deals by owner user ID}
+      - {name: limit, in: query, type: integer, description: "Number of records to return (default 20, max 100)"}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+
+  - name: list_campaigns
+    description: Retrieve all campaigns in the ActiveCampaign account
+    method: GET
+    path: /api/3/campaigns
+    params:
+      - {name: "orders[sdate]", in: query, type: string, description: "Sort by send date; use ASC or DESC"}
+      - {name: "orders[ldate]", in: query, type: string, description: "Sort by last send date; use ASC or DESC"}
+      - {name: "filters[seriesid]", in: query, type: integer, description: Filter campaigns by automation (series) ID}
+      - {name: limit, in: query, type: integer, description: "Number of records to return (default 20, max 100)"}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+
+  - name: list_tags
+    description: Retrieve all tags defined in the ActiveCampaign account
+    method: GET
+    path: /api/3/tags
+    params:
+      - {name: search, in: query, type: string, description: Filter tags by name (contains match)}
+      - {name: limit, in: query, type: integer, description: "Number of records to return (default 20, max 100)"}
+      - {name: offset, in: query, type: integer, description: Number of records to skip for pagination}
+
+  - name: create_or_update_contact
+    description: "Create a contact or update an existing one if a contact with the given email already exists (upsert by email)"
+    method: POST
+    path: /api/3/contact/sync
+    params:
+      - name: contact
+        in: body
+        type: object
+        required: true
+        description: "Contact object with fields: email (required), firstName, lastName, phone, and fieldValues for custom fields"
+
+  - name: add_contact_to_list
+    description: Subscribe or unsubscribe a contact to/from a list by updating their list status
+    method: POST
+    path: /api/3/contactLists
+    params:
+      - name: contactList
+        in: body
+        type: object
+        required: true
+        description: "ContactList object with fields: list (list ID, required), contact (contact ID, required), status (1=subscribed, 2=unsubscribed, required)"
+
+  - name: add_tag_to_contact
+    description: Add a tag to a contact by creating a contact-tag association
+    method: POST
+    path: /api/3/contactTags
+    params:
+      - name: contactTag
+        in: body
+        type: object
+        required: true
+        description: "ContactTag object with fields: contact (contact ID, required) and tag (tag ID, required)"
+
+  - name: create_campaign
+    description: Create a new email campaign in the ActiveCampaign account
+    method: POST
+    path: /api/3/campaigns
+    params:
+      - name: campaign
+        in: body
+        type: object
+        required: true
+        description: "Campaign object with fields: name (required), type (required; e.g. single), sdate (scheduled send date), fromname, fromemail, replyto, and subject"
+
+  - name: delete_contact
+    description: Delete an existing contact by ID
+    method: DELETE
+    path: /api/3/contacts/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: The numeric ID of the contact to delete}

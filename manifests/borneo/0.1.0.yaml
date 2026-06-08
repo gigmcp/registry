@@ -7,7 +7,7 @@ source:
 image:
   ref: ghcr.io/gigmcp/borneo-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:abfebc0570f8834a3ca4596c5b8f1c78bdecb7b8d3629c77f48ce82a75acb4ae
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
 entitlements:

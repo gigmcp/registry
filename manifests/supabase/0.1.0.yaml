@@ -2,13 +2,14 @@ schemaVersion: 1
 name: supabase
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/supabase-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/supabase-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:57d3e68c4db9654fef222f987f9128e0bc474c53642c697f32acd057bdca3816
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

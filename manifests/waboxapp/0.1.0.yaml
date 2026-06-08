@@ -7,7 +7,7 @@ source:
 image:
   ref: ghcr.io/gigmcp/waboxapp-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:348c3c72227872f98744cc40d5088f350fe6dd445ff06c2ac8fa71b1ea297c7a
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 # Waboxapp authenticates exclusively via the `token` request parameter
 # (form/query) on every API call — header injection cannot work, so this

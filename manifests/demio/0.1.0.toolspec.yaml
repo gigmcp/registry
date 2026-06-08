@@ -1,0 +1,47 @@
+schemaVersion: 1
+name: demio
+version: 0.1.0
+baseUrl: https://my.demio.com
+tools:
+  - name: ping
+    description: Health-check the Demio API to verify credentials and connectivity
+    method: GET
+    path: /api/v1/ping
+  - name: list_events
+    description: Retrieve the list of events in the Demio account
+    method: GET
+    path: /api/v1/events
+    params:
+      - {name: type, in: query, type: string, description: "Filter events by type: upcoming, past, or automated"}
+  - name: get_event
+    description: Retrieve details of a single Demio event by its ID
+    method: GET
+    path: /api/v1/event/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Demio event ID}
+      - {name: active, in: query, type: boolean, description: "When true, return only active/upcoming sessions"}
+  - name: list_event_dates
+    description: Retrieve the scheduled session dates for a specific Demio event
+    method: GET
+    path: /api/v1/event/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Demio event ID}
+      - {name: active, in: query, type: boolean, description: "When true, return only active/upcoming sessions"}
+  - name: list_event_date_participants
+    description: Retrieve participants for a specific event session (date)
+    method: GET
+    path: /api/v1/report/{date_id}/participants
+    params:
+      - {name: date_id, in: path, type: string, required: true, description: Session date ID (unique identifier for a specific event session)}
+      - {name: status, in: query, type: string, description: "Filter by attendance status: attended, did not attend, completed, left early, or banned"}
+  - name: create_join_link
+    description: Register an attendee for a Demio event and return their unique join link
+    method: PUT
+    path: /api/v1/event/register
+    params:
+      - {name: id, in: body, type: string, required: true, description: Demio event ID to register the attendee for}
+      - {name: date_id, in: body, type: string, description: Specific session date ID to register for (for series or recurring events)}
+      - {name: name, in: body, type: string, required: true, description: Attendee first name}
+      - {name: last_name, in: body, type: string, description: Attendee last name}
+      - {name: email, in: body, type: string, required: true, description: Attendee email address}
+      - {name: ref_url, in: body, type: string, description: Referral URL to associate with the registration}

@@ -1,0 +1,72 @@
+schemaVersion: 1
+name: ngrok
+version: 0.1.0
+baseUrl: https://api.ngrok.com
+tools:
+  - name: list_all_endpoints
+    description: List all endpoints currently active on the account
+    method: GET
+    path: /endpoints
+    params:
+      - {name: before_id, in: query, type: string, description: "Returns earlier entries in the result set, sorted by ID"}
+      - {name: limit, in: query, type: string, description: "Maximum number of results to return"}
+  - name: get_endpoint
+    description: Get the status and details of a single endpoint by its ID
+    method: GET
+    path: /endpoints/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "A resource identifier"}
+  - name: list_active_tunnels
+    description: List all online tunnels currently running on the account
+    method: GET
+    path: /tunnels
+    params:
+      - {name: before_id, in: query, type: string, description: "Returns earlier entries in the result set, sorted by ID"}
+      - {name: limit, in: query, type: string, description: "Maximum number of results to return"}
+  - name: list_tunnel_sessions
+    description: List all tunnel sessions representing connected ngrok agent instances
+    method: GET
+    path: /tunnel_sessions
+    params:
+      - {name: before_id, in: query, type: string, description: "Returns earlier entries in the result set, sorted by ID"}
+      - {name: limit, in: query, type: string, description: "Maximum number of results to return"}
+  - name: list_reserved_domains
+    description: List all reserved domains on the account
+    method: GET
+    path: /reserved_domains
+    params:
+      - {name: before_id, in: query, type: string, description: "Returns earlier entries in the result set, sorted by ID"}
+      - {name: limit, in: query, type: string, description: "Maximum number of results to return"}
+  - name: list_event_subscriptions
+    description: List all event subscriptions on the account
+    method: GET
+    path: /event_subscriptions
+    params:
+      - {name: before_id, in: query, type: string, description: "Returns earlier entries in the result set, sorted by ID"}
+      - {name: limit, in: query, type: string, description: "Maximum number of results to return"}
+  - name: create_endpoint
+    description: Create a new cloud endpoint
+    method: POST
+    path: /endpoints
+    params:
+      - {name: url, in: body, type: string, required: true, description: "The URL of the endpoint"}
+      - {name: type, in: body, type: string, required: true, description: "Endpoint category; only 'cloud' is currently supported"}
+      - {name: traffic_policy, in: body, type: string, required: true, description: "The traffic policy JSON attached to this endpoint"}
+      - {name: description, in: body, type: string, description: "User-supplied description of the endpoint"}
+      - {name: metadata, in: body, type: string, description: "User-supplied metadata of the endpoint"}
+      - {name: bindings, in: body, type: array, description: "The bindings associated with this endpoint"}
+  - name: delete_endpoint
+    description: Delete an endpoint by its ID
+    method: DELETE
+    path: /endpoints/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: "A resource identifier"}
+  - name: create_event_subscription
+    description: Create a new event subscription to receive ngrok events
+    method: POST
+    path: /event_subscriptions
+    params:
+      - {name: metadata, in: body, type: string, description: "Arbitrary machine-readable data for this event subscription (max 4096 chars)"}
+      - {name: description, in: body, type: string, description: "Human-readable description of this event subscription (max 255 chars)"}
+      - {name: sources, in: body, type: array, description: "List of event source objects specifying event types to subscribe to"}
+      - {name: destination_ids, in: body, type: array, description: "IDs of event destinations where events should be sent"}

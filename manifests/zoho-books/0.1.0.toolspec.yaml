@@ -1,0 +1,136 @@
+schemaVersion: 1
+name: zoho-books
+version: 0.1.0
+baseUrl: https://www.zohoapis.com
+tools:
+  - name: list_invoices
+    description: List invoices in the Zoho Books organization with optional filtering and pagination
+    method: GET
+    path: /books/v3/invoices
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: status, in: query, type: string, description: "Filter by invoice status (sent, draft, overdue, paid, void, unpaid, partially_paid, viewed)"}
+      - {name: invoice_number, in: query, type: string, description: "Search invoices by invoice number"}
+      - {name: date_start, in: query, type: string, description: "Filter invoices with date on or after this date (yyyy-mm-dd)"}
+      - {name: date_end, in: query, type: string, description: "Filter invoices with date on or before this date (yyyy-mm-dd)"}
+      - {name: sort_column, in: query, type: string, description: "Sort invoices by field (customer_name, invoice_number, date, due_date, total, balance, created_time)"}
+      - {name: page, in: query, type: integer, description: "Page number to fetch (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default 200)"}
+
+  - name: get_invoice
+    description: Retrieve details of a specific invoice by its ID
+    method: GET
+    path: /books/v3/invoices/{invoice_id}
+    params:
+      - {name: invoice_id, in: path, type: string, required: true, description: "Unique identifier of the invoice"}
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+
+  - name: list_contacts
+    description: List contacts (customers and vendors) in the Zoho Books organization
+    method: GET
+    path: /books/v3/contacts
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: contact_type, in: query, type: string, description: "Filter by contact type (customer or vendor)"}
+      - {name: status, in: query, type: string, description: "Filter by status (active or inactive)"}
+      - {name: search_text, in: query, type: string, description: "Search contacts by name"}
+      - {name: sort_column, in: query, type: string, description: "Field to sort by"}
+      - {name: page, in: query, type: integer, description: "Page number to fetch (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default 200)"}
+
+  - name: list_expenses
+    description: List expenses recorded in the Zoho Books organization
+    method: GET
+    path: /books/v3/expenses
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: status, in: query, type: string, description: "Filter by expense status (unbilled, invoiced, reimbursed, non-billable)"}
+      - {name: search_text, in: query, type: string, description: "Search expenses by description or reference number"}
+      - {name: sort_column, in: query, type: string, description: "Field to sort by"}
+      - {name: page, in: query, type: integer, description: "Page number to fetch (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default 200)"}
+
+  - name: list_bills
+    description: List vendor bills in the Zoho Books organization
+    method: GET
+    path: /books/v3/bills
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: status, in: query, type: string, description: "Filter by bill status (open, overdue, paid, void, draft, partially_paid)"}
+      - {name: search_text, in: query, type: string, description: "Search bills by bill number or reference"}
+      - {name: sort_column, in: query, type: string, description: "Field to sort by"}
+      - {name: page, in: query, type: integer, description: "Page number to fetch (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default 200)"}
+
+  - name: list_chart_of_accounts
+    description: List chart of accounts in the Zoho Books organization
+    method: GET
+    path: /books/v3/chartofaccounts
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: filter_by, in: query, type: string, description: "Filter accounts by type/status (All, Active, Inactive, Asset, Liability, Equity, Income, Expense)"}
+      - {name: showbalance, in: query, type: boolean, description: "Include current balance information for accounts"}
+      - {name: sort_column, in: query, type: string, description: "Sort accounts by field (account_name, account_type, account_code)"}
+      - {name: search_text, in: query, type: string, description: "Search accounts by name or code"}
+      - {name: page, in: query, type: integer, description: "Page number to fetch (default 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default 200)"}
+
+  - name: create_invoice
+    description: Create a new invoice in the Zoho Books organization
+    method: POST
+    path: /books/v3/invoices
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: customer_id, in: body, type: string, required: true, description: "Unique identifier of the customer for this invoice"}
+      - {name: invoice_number, in: body, type: string, description: "Custom invoice number; omit for auto-generation"}
+      - {name: date, in: body, type: string, description: "Invoice creation date in yyyy-mm-dd format"}
+      - {name: due_date, in: body, type: string, description: "Payment due date in yyyy-mm-dd format"}
+      - {name: line_items, in: body, type: array, description: "Line items for the invoice (each with item_id or name, quantity, rate)"}
+      - {name: notes, in: body, type: string, description: "Notes to appear on the invoice"}
+      - {name: terms, in: body, type: string, description: "Terms and conditions on the invoice"}
+
+  - name: create_contact
+    description: Create a new contact (customer or vendor) in the Zoho Books organization
+    method: POST
+    path: /books/v3/contacts
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: contact_name, in: body, type: string, required: true, description: "Display name for the contact, used for searching and display"}
+      - {name: company_name, in: body, type: string, description: "Legal company name (max 200 characters)"}
+      - {name: contact_type, in: body, type: string, description: "Type of contact: customer or vendor"}
+      - {name: currency_id, in: body, type: string, description: "Currency identifier assigned to the contact"}
+      - {name: payment_terms, in: body, type: integer, description: "Number of days allowed for payment"}
+      - {name: billing_address, in: body, type: object, description: "Billing address with street, city, state, zip, country fields"}
+      - {name: contact_persons, in: body, type: array, description: "Associated person records with name, email, and phone"}
+
+  - name: create_expense
+    description: Create a new expense record in the Zoho Books organization
+    method: POST
+    path: /books/v3/expenses
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: account_id, in: body, type: string, required: true, description: "ID of the expense account"}
+      - {name: date, in: body, type: string, required: true, description: "Date of the expense in yyyy-mm-dd format"}
+      - {name: amount, in: body, type: number, required: true, description: "Total amount of the expense"}
+      - {name: paid_through_account_id, in: body, type: string, required: true, description: "ID of the account through which the expense was paid"}
+      - {name: vendor_id, in: body, type: string, description: "Identifier of the vendor associated with the expense"}
+      - {name: customer_id, in: body, type: string, description: "Identifier of the customer if the expense is billable"}
+      - {name: is_billable, in: body, type: boolean, description: "Whether the expense is billable to a customer"}
+      - {name: reference_number, in: body, type: string, description: "Reference number for the expense (max 100 characters)"}
+      - {name: description, in: body, type: string, description: "Description of the expense (max 100 characters)"}
+
+  - name: create_customer_payment
+    description: Record a payment received from a customer against one or more invoices
+    method: POST
+    path: /books/v3/customerpayments
+    params:
+      - {name: organization_id, in: query, type: string, required: true, description: "ID of the organization"}
+      - {name: customer_id, in: body, type: string, required: true, description: "Unique identifier of the customer making the payment"}
+      - {name: payment_mode, in: body, type: string, required: true, description: "Payment method (check, cash, creditcard, banktransfer, bankremittance, autotransaction, others)"}
+      - {name: amount, in: body, type: number, required: true, description: "Total payment amount"}
+      - {name: date, in: body, type: string, required: true, description: "Payment date in yyyy-mm-dd format"}
+      - {name: invoices, in: body, type: array, required: true, description: "List of invoices being paid, each with invoice_id and amount_applied"}
+      - {name: reference_number, in: body, type: string, description: "Reference number for the payment (max 100 characters)"}
+      - {name: description, in: body, type: string, description: "Description or notes for the payment"}
+      - {name: account_id, in: body, type: string, description: "ID of the account to which payment is deposited"}
+      - {name: exchange_rate, in: body, type: number, description: "Exchange rate for foreign currency payments (default 1)"}

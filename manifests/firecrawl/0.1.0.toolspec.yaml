@@ -1,0 +1,106 @@
+schemaVersion: 1
+name: firecrawl
+version: 0.1.0
+baseUrl: https://api.firecrawl.dev
+tools:
+  - name: scrape
+    description: Scrape a URL and return its content in the requested format (markdown, HTML, screenshot, or structured JSON)
+    method: POST
+    path: /v1/scrape
+    params:
+      - {name: url, in: body, type: string, required: true, description: The URL to scrape}
+      - {name: formats, in: body, type: array, description: "Output formats to return (markdown, html, links, screenshot, json, etc.)"}
+      - {name: onlyMainContent, in: body, type: boolean, description: "Exclude headers, navs, and footers; defaults to true"}
+      - {name: includeTags, in: body, type: array, description: HTML tags to include in output}
+      - {name: excludeTags, in: body, type: array, description: HTML tags to exclude from output}
+      - {name: waitFor, in: body, type: integer, description: "Delay in milliseconds before fetching the page; defaults to 0"}
+      - {name: timeout, in: body, type: integer, description: "Request timeout in milliseconds; defaults to 30000"}
+      - {name: mobile, in: body, type: boolean, description: "Emulate a mobile device; defaults to false"}
+      - {name: parsePDF, in: body, type: boolean, description: "Extract PDF content to markdown; defaults to true"}
+      - {name: jsonOptions, in: body, type: object, description: "Schema, systemPrompt, or prompt for structured JSON extraction"}
+      - {name: proxy, in: body, type: string, description: "Proxy type to use (basic, enhanced, auto)"}
+
+  - name: batch_scrape
+    description: Asynchronously scrape multiple URLs in a single request and return their content
+    method: POST
+    path: /v1/batch/scrape
+    params:
+      - {name: urls, in: body, type: array, required: true, description: List of URLs to scrape}
+      - {name: formats, in: body, type: array, description: "Output formats to return (markdown, html, links, screenshot, json, etc.)"}
+      - {name: onlyMainContent, in: body, type: boolean, description: "Exclude headers, navs, and footers; defaults to true"}
+      - {name: waitFor, in: body, type: integer, description: "Delay in milliseconds before fetching each page; defaults to 0"}
+      - {name: timeout, in: body, type: integer, description: "Request timeout in milliseconds; defaults to 30000"}
+      - {name: maxConcurrency, in: body, type: integer, description: Maximum concurrent scrape operations}
+      - {name: ignoreInvalidURLs, in: body, type: boolean, description: "Skip invalid URLs instead of failing; defaults to true"}
+
+  - name: crawl
+    description: Start an asynchronous crawl of an entire website and scrape content from all discovered pages
+    method: POST
+    path: /v1/crawl
+    params:
+      - {name: url, in: body, type: string, required: true, description: The base URL to start crawling from}
+      - {name: limit, in: body, type: integer, description: "Maximum number of pages to crawl; defaults to 10000"}
+      - {name: maxDepth, in: body, type: integer, description: "Maximum depth to crawl relative to the base URL; defaults to 10"}
+      - {name: includePaths, in: body, type: array, description: URL pathname regex patterns to include}
+      - {name: excludePaths, in: body, type: array, description: URL pathname regex patterns to exclude}
+      - {name: allowSubdomains, in: body, type: boolean, description: "Crawl subdomains of the base URL; defaults to false"}
+      - {name: ignoreSitemap, in: body, type: boolean, description: "Ignore the site sitemap; defaults to false"}
+      - {name: scrapeOptions, in: body, type: object, description: Formatting and scraping options applied to each scraped page}
+      - {name: webhook, in: body, type: object, description: "Webhook to receive crawl results (url, headers, events)"}
+
+  - name: get_crawl_status
+    description: Get the status and results of a previously started crawl job
+    method: GET
+    path: /v1/crawl/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The crawl job ID returned when the crawl was started}
+
+  - name: cancel_crawl
+    description: Cancel an in-progress crawl job
+    method: DELETE
+    path: /v1/crawl/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The crawl job ID to cancel}
+
+  - name: map_urls
+    description: Discover and return all URLs found on a website quickly using sitemaps and crawling
+    method: POST
+    path: /v1/map
+    params:
+      - {name: url, in: body, type: string, required: true, description: The base URL to map}
+      - {name: search, in: body, type: string, description: Search query to filter and order results by relevance}
+      - {name: limit, in: body, type: integer, description: "Maximum number of URLs to return; defaults to 5000, max 30000"}
+      - {name: includeSubdomains, in: body, type: boolean, description: "Include URLs from subdomains; defaults to true"}
+      - {name: ignoreSitemap, in: body, type: boolean, description: "Disregard the site sitemap; defaults to false"}
+      - {name: sitemapOnly, in: body, type: boolean, description: "Return only URLs found in the sitemap; defaults to false"}
+      - {name: timeout, in: body, type: integer, description: Request timeout in milliseconds}
+
+  - name: search
+    description: Search the web and return full page content from the most relevant results
+    method: POST
+    path: /v1/search
+    params:
+      - {name: query, in: body, type: string, required: true, description: The search query}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return; defaults to 5, max 100"}
+      - {name: scrapeOptions, in: body, type: object, description: "Scraping options for result pages (formats, onlyMainContent, etc.)"}
+      - {name: tbs, in: body, type: string, description: "Time-based search filter (e.g. qdr:d for past day, qdr:w for past week)"}
+      - {name: location, in: body, type: string, description: "Geographic location for localized results (e.g. Germany)"}
+      - {name: timeout, in: body, type: integer, description: "Request timeout in milliseconds; defaults to 60000"}
+
+  - name: extract
+    description: Extract structured data from one or more URLs using natural language prompts or a JSON schema
+    method: POST
+    path: /v1/extract
+    params:
+      - {name: urls, in: body, type: array, required: true, description: "URLs (or glob patterns) to extract data from"}
+      - {name: prompt, in: body, type: string, description: Natural language prompt guiding what data to extract}
+      - {name: schema, in: body, type: object, description: JSON Schema defining the structure of the extracted data}
+      - {name: enableWebSearch, in: body, type: boolean, description: "Enable web search to supplement extraction; defaults to false"}
+      - {name: includeSubdomains, in: body, type: boolean, description: "Include subdomains when scanning URLs; defaults to false"}
+      - {name: showSources, in: body, type: boolean, description: "Include source URLs in the response; defaults to false"}
+      - {name: ignoreSitemap, in: body, type: boolean, description: "Ignore sitemap.xml files; defaults to false"}
+
+  - name: get_credit_usage
+    description: Retrieve the current team credit usage and remaining credits for the billing period
+    method: GET
+    path: /v1/team/credit-usage

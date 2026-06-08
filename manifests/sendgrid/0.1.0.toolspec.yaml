@@ -1,0 +1,78 @@
+schemaVersion: 1
+name: sendgrid
+version: 0.1.0
+baseUrl: https://api.sendgrid.com
+tools:
+  - name: send_email
+    description: Send a transactional email via the SendGrid Mail Send API
+    method: POST
+    path: /v3/mail/send
+    params:
+      - {name: personalizations, in: body, type: array, required: true, description: "Array of personalization objects each with at least a 'to' array of recipient objects ({email, name})"}
+      - {name: from, in: body, type: object, required: true, description: "Sender object with 'email' (verified sender address) and optional 'name'"}
+      - {name: subject, in: body, type: string, description: "Email subject line (required if not set in each personalization)"}
+      - {name: content, in: body, type: array, description: "Array of content objects with 'type' (e.g. text/plain or text/html) and 'value'"}
+      - {name: template_id, in: body, type: string, description: "ID of a dynamic or legacy template to use"}
+      - {name: dynamic_template_data, in: body, type: object, description: "Key/value pairs to substitute into a dynamic template"}
+
+  - name: get_contacts
+    description: Retrieve a sample of up to 50 of the most recent marketing contacts
+    method: GET
+    path: /v3/marketing/contacts
+
+  - name: search_contacts
+    description: Search marketing contacts using an SGQL query string
+    method: POST
+    path: /v3/marketing/contacts/search
+    params:
+      - {name: query, in: body, type: string, required: true, description: "SGQL search string (e.g. \"email LIKE '%@example.com%'\")"}
+
+  - name: add_or_update_contact
+    description: Add or update one or more marketing contacts (upsert by email or identifier)
+    method: PUT
+    path: /v3/marketing/contacts
+    params:
+      - {name: contacts, in: body, type: array, required: true, description: "Array of contact objects; each must have at least one of email, phone_number_id, external_id, or anonymous_id"}
+      - {name: list_ids, in: body, type: array, description: "Optional list of list IDs to add the contacts to"}
+
+  - name: get_contact_lists
+    description: Retrieve all marketing contact lists for the account
+    method: GET
+    path: /v3/marketing/lists
+    params:
+      - {name: page_size, in: query, type: integer, description: "Maximum number of lists to return (default 100, max 1000)"}
+      - {name: page_token, in: query, type: string, description: "Pagination token for fetching the next page of results"}
+
+  - name: create_contact_list
+    description: Create a new marketing contact list
+    method: POST
+    path: /v3/marketing/lists
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name for the new contact list (1-100 characters)"}
+
+  - name: get_templates
+    description: Retrieve all transactional email templates for the account
+    method: GET
+    path: /v3/templates
+    params:
+      - {name: page_size, in: query, type: integer, required: true, description: "Number of templates per page (1-200)"}
+      - {name: generations, in: query, type: string, description: "Filter by template type: legacy, dynamic, or legacy,dynamic"}
+      - {name: page_token, in: query, type: string, description: "Pagination token for fetching the next page of results"}
+
+  - name: get_email_stats
+    description: Retrieve global email delivery and engagement statistics for a date range
+    method: GET
+    path: /v3/stats
+    params:
+      - {name: start_date, in: query, type: string, required: true, description: "Start of the date range in YYYY-MM-DD format"}
+      - {name: end_date, in: query, type: string, description: "End of the date range in YYYY-MM-DD format (defaults to today)"}
+      - {name: aggregated_by, in: query, type: string, description: "Aggregate results by day, week, or month"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return"}
+      - {name: offset, in: query, type: integer, description: "Starting offset for the result list"}
+
+  - name: add_suppression
+    description: Add one or more email addresses to the global suppression (unsubscribe) list
+    method: POST
+    path: /v3/asm/suppressions/global
+    params:
+      - {name: recipient_emails, in: body, type: array, required: true, description: "Array of email address strings to add to the global suppression group"}

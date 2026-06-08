@@ -1,0 +1,90 @@
+schemaVersion: 1
+name: breezy-hr
+version: 0.1.0
+baseUrl: https://api.breezy.hr
+tools:
+  - name: list_companies
+    description: Retrieve all companies associated with the authenticated user
+    method: GET
+    path: /v3/companies
+
+  - name: list_positions
+    description: Retrieve all positions (jobs) for a given company
+    method: GET
+    path: /v3/company/{company_id}/positions
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+
+  - name: get_candidate_details
+    description: Retrieve full details of a single candidate by ID for a given position
+    method: GET
+    path: /v3/company/{company_id}/position/{position_id}/candidate/{candidate_id}
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: position_id, in: path, type: string, required: true, description: The position ID}
+      - {name: candidate_id, in: path, type: string, required: true, description: The candidate ID}
+
+  - name: search_candidates_by_email
+    description: Search for candidates across a company by email address
+    method: GET
+    path: /v3/company/{company_id}/candidates/search
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: email_address, in: query, type: string, required: true, description: Email address to search for}
+
+  - name: list_pipelines
+    description: Retrieve all hiring pipelines for a given company
+    method: GET
+    path: /v3/company/{company_id}/pipelines
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+
+  - name: create_candidate
+    description: Add a new candidate to a position
+    method: POST
+    path: /v3/company/{company_id}/position/{position_id}/candidates
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: position_id, in: path, type: string, required: true, description: The position ID}
+      - {name: name, in: body, type: string, required: true, description: Full name of the candidate}
+      - {name: email_address, in: body, type: string, description: Email address of the candidate}
+      - {name: phone_number, in: body, type: string, description: Phone number of the candidate}
+      - {name: address, in: body, type: string, description: Physical address of the candidate}
+      - {name: summary, in: body, type: string, description: Brief summary or bio of the candidate}
+      - {name: origin, in: body, type: string, description: "Origin of the candidate (e.g. sourced, applied); defaults to sourced"}
+      - {name: source, in: body, type: string, description: "Source of the candidate; defaults to Breezy API"}
+      - {name: tags, in: body, type: array, description: List of tags to apply to the candidate}
+
+  - name: update_candidate_stage
+    description: Move a candidate to a specified stage in the hiring pipeline
+    method: PUT
+    path: /v3/company/{company_id}/position/{position_id}/candidate/{candidate_id}/stage
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: position_id, in: path, type: string, required: true, description: The position ID}
+      - {name: candidate_id, in: path, type: string, required: true, description: The candidate ID}
+      - {name: stage_id, in: body, type: string, description: "Target stage ID or stage name (e.g. hired, disqualified, offer, feedback, interviewing, applied)"}
+
+  - name: add_candidate_note
+    description: Add a note or comment to a candidate's discussion stream
+    method: POST
+    path: /v3/company/{company_id}/position/{position_id}/candidate/{candidate_id}/conversation
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: position_id, in: path, type: string, required: true, description: The position ID}
+      - {name: candidate_id, in: path, type: string, required: true, description: The candidate ID}
+      - {name: body, in: body, type: string, required: true, description: The content of the note or conversation message to add}
+
+  - name: create_position
+    description: Create a new position (job opening) for a company
+    method: POST
+    path: /v3/company/{company_id}/positions
+    params:
+      - {name: company_id, in: path, type: string, required: true, description: The company ID}
+      - {name: name, in: body, type: string, required: true, description: Title of the position}
+      - {name: description, in: body, type: string, required: true, description: Description of the position}
+      - {name: type, in: body, type: string, required: true, description: "Employment type: fullTime, partTime, contract, temporary, or other"}
+      - {name: requisition_id, in: body, type: string, description: Optional requisition identifier}
+      - {name: department, in: body, type: string, description: Department for the position}
+      - {name: pipeline_id, in: body, type: string, description: ID of the pipeline to assign to this position}
+      - {name: tags, in: body, type: array, description: List of tags to apply to the position}

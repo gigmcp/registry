@@ -1,0 +1,106 @@
+schemaVersion: 1
+name: mailchimp
+version: 0.1.0
+baseUrl: https://us1.api.mailchimp.com
+tools:
+  - name: get_lists
+    description: Retrieve information about all lists (audiences) in the Mailchimp account
+    method: GET
+    path: /3.0/lists
+    params:
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+      - {name: exclude_fields, in: query, type: string, description: "Comma-separated list of fields to exclude from the response"}
+      - {name: count, in: query, type: integer, description: "Number of records to return (default 10, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Number of records to skip for pagination (default 0)"}
+
+  - name: get_list_members
+    description: Retrieve information about members in a specific Mailchimp list
+    method: GET
+    path: /3.0/lists/{list_id}/members
+    params:
+      - {name: list_id, in: path, type: string, required: true, description: "The unique ID for the list"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+      - {name: exclude_fields, in: query, type: string, description: "Comma-separated list of fields to exclude"}
+      - {name: count, in: query, type: integer, description: "Number of records to return (default 10, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Number of records to skip for pagination (default 0)"}
+      - {name: status, in: query, type: string, description: "Filter by subscription status (subscribed, unsubscribed, cleaned, pending, transactional)"}
+
+  - name: get_campaigns
+    description: Retrieve all campaigns in the Mailchimp account
+    method: GET
+    path: /3.0/campaigns
+    params:
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+      - {name: exclude_fields, in: query, type: string, description: "Comma-separated list of fields to exclude"}
+      - {name: count, in: query, type: integer, description: "Number of records to return (default 10, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Number of records to skip for pagination (default 0)"}
+      - {name: type, in: query, type: string, description: "Filter by campaign type (regular, plaintext, absplit, rss, variate)"}
+      - {name: status, in: query, type: string, description: "Filter by status (save, paused, schedule, sending, sent)"}
+      - {name: list_id, in: query, type: string, description: "Filter campaigns by a specific list ID"}
+
+  - name: get_campaign_report
+    description: Retrieve the report summary for a specific Mailchimp campaign
+    method: GET
+    path: /3.0/reports/{campaign_id}
+    params:
+      - {name: campaign_id, in: path, type: string, required: true, description: "The unique ID for the campaign"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+      - {name: exclude_fields, in: query, type: string, description: "Comma-separated list of fields to exclude"}
+
+  - name: get_segments
+    description: Retrieve information about all segments for a specific Mailchimp list
+    method: GET
+    path: /3.0/lists/{list_id}/segments
+    params:
+      - {name: list_id, in: path, type: string, required: true, description: "The unique ID for the list"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of fields to return"}
+      - {name: exclude_fields, in: query, type: string, description: "Comma-separated list of fields to exclude"}
+      - {name: count, in: query, type: integer, description: "Number of records to return (default 10, max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Number of records to skip for pagination (default 0)"}
+      - {name: type, in: query, type: string, description: "Filter by segment type (saved, static, fuzzy)"}
+
+  - name: add_or_update_list_member
+    description: Add a new member to a list or update an existing member using their email address (subscriber_hash is the MD5 hash of the lowercase email address)
+    method: PUT
+    path: /3.0/lists/{list_id}/members/{subscriber_hash}
+    params:
+      - {name: list_id, in: path, type: string, required: true, description: "The unique ID for the list"}
+      - {name: subscriber_hash, in: path, type: string, required: true, description: "The MD5 hash of the lowercase version of the list member's email address"}
+      - {name: email_address, in: body, type: string, required: true, description: "The email address for the list member"}
+      - {name: status_if_new, in: body, type: string, required: true, description: "Subscriber status if this is a new contact (subscribed, unsubscribed, cleaned, pending, transactional)"}
+      - {name: status, in: body, type: string, description: "Subscriber status for existing contacts (subscribed, unsubscribed, cleaned, pending, transactional)"}
+      - {name: merge_fields, in: body, type: object, description: "Key-value pairs of merge field names and values (e.g. FNAME, LNAME)"}
+
+  - name: add_member_tags
+    description: Add or remove tags from a list member; setting status to active creates the tag if it does not exist
+    method: POST
+    path: /3.0/lists/{list_id}/members/{subscriber_hash}/tags
+    params:
+      - {name: list_id, in: path, type: string, required: true, description: "The unique ID for the list"}
+      - {name: subscriber_hash, in: path, type: string, required: true, description: "The MD5 hash of the lowercase version of the list member's email address"}
+      - {name: tags, in: body, type: array, required: true, description: "Array of tag objects with name (string) and status (active or inactive)"}
+
+  - name: add_campaign
+    description: Create a new Mailchimp campaign
+    method: POST
+    path: /3.0/campaigns
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Campaign type (regular, plaintext, absplit, rss, variate)"}
+      - {name: recipients, in: body, type: object, description: "Object specifying the list to send the campaign to; must include list_id"}
+      - {name: settings, in: body, type: object, description: "Campaign settings object including subject_line, from_name, and reply_to"}
+
+  - name: send_campaign
+    description: Send a Mailchimp campaign immediately; RSS campaigns will send on their defined schedule
+    method: POST
+    path: /3.0/campaigns/{campaign_id}/actions/send
+    params:
+      - {name: campaign_id, in: path, type: string, required: true, description: "The unique ID for the campaign to send"}
+
+  - name: batch_subscribe_or_unsubscribe
+    description: Batch subscribe or unsubscribe members in a Mailchimp list in a single request
+    method: POST
+    path: /3.0/lists/{list_id}
+    params:
+      - {name: list_id, in: path, type: string, required: true, description: "The unique ID for the list"}
+      - {name: members, in: body, type: array, required: true, description: "Array of member objects with email_address and status fields (subscribed, unsubscribed, cleaned, pending, transactional)"}
+      - {name: update_existing, in: body, type: boolean, description: "Whether to update members that are already subscribed (default false)"}

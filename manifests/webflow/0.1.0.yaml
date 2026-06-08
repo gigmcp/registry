@@ -2,13 +2,14 @@ schemaVersion: 1
 name: webflow
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/webflow-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/webflow-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:cf1439accbead9571cd2e8822bc36f1b93dd03afdbba3b62dd1a6e848dce717b
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

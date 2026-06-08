@@ -1,0 +1,97 @@
+schemaVersion: 1
+name: close
+version: 0.1.0
+baseUrl: https://api.close.com
+tools:
+  - name: list_leads
+    description: List leads in Close CRM with optional pagination and field selection
+    method: GET
+    path: /api/v1/lead/
+    params:
+      - {name: _limit, in: query, type: integer, description: "Number of results to return (default 100)"}
+      - {name: _skip, in: query, type: integer, description: "Number of results to skip for pagination (default 0)"}
+      - {name: _fields, in: query, type: string, description: "Comma-separated list of fields to include in the response"}
+
+  - name: search_leads
+    description: Search and filter leads in Close CRM using advanced filtering criteria
+    method: POST
+    path: /api/v1/data/search/
+    params:
+      - {name: query, in: body, type: object, required: true, description: "Filter query object describing search criteria (type, queries, etc.)"}
+      - {name: results_limit, in: body, type: integer, description: "Maximum number of results to return"}
+      - {name: cursor, in: body, type: string, description: "Cursor for paginating through results"}
+      - {name: _fields, in: body, type: object, description: "Object specifying which fields to return for matched objects"}
+
+  - name: get_notes
+    description: List or filter Note activities in Close CRM, optionally filtered by lead
+    method: GET
+    path: /api/v1/activity/note/
+    params:
+      - {name: lead_id, in: query, type: string, description: "Filter notes by lead ID"}
+      - {name: _limit, in: query, type: integer, description: "Number of results to return (default 100)"}
+      - {name: _skip, in: query, type: integer, description: "Number of results to skip for pagination (default 0)"}
+      - {name: user_id, in: query, type: string, description: "Filter notes by user ID"}
+      - {name: date_created__gte, in: query, type: string, description: "Filter by creation date greater than or equal to (ISO 8601)"}
+      - {name: date_created__lte, in: query, type: string, description: "Filter by creation date less than or equal to (ISO 8601)"}
+
+  - name: create_lead
+    description: Create a new lead in Close CRM
+    method: POST
+    path: /api/v1/lead/
+    params:
+      - {name: name, in: body, type: string, description: "The lead's company or organization name"}
+      - {name: description, in: body, type: string, description: "Details about the lead"}
+      - {name: status_id, in: body, type: string, description: "Status identifier for the lead"}
+      - {name: url, in: body, type: string, description: "Website or web address for the lead"}
+      - {name: contacts, in: body, type: array, description: "Nested contact objects with emails, phones, and names"}
+      - {name: addresses, in: body, type: array, description: "Nested address objects with location details"}
+
+  - name: create_call
+    description: Log an external call activity on a lead in Close CRM
+    method: POST
+    path: /api/v1/activity/call/
+    params:
+      - {name: lead_id, in: body, type: string, description: "Lead identifier to associate the call with"}
+      - {name: direction, in: body, type: string, description: "Call direction; inbound or outbound"}
+      - {name: duration, in: body, type: integer, description: "Call length in seconds"}
+      - {name: status, in: body, type: string, description: "Call status; defaults to completed"}
+      - {name: note, in: body, type: string, description: "Call notes in plain text"}
+      - {name: activity_at, in: body, type: string, description: "When the call occurred (ISO 8601 datetime)"}
+      - {name: contact_id, in: body, type: string, description: "Contact identifier"}
+      - {name: phone, in: body, type: string, description: "Phone number in E.164 format"}
+      - {name: recording_url, in: body, type: string, description: "HTTPS URL pointing to the MP3 recording"}
+
+  - name: create_sms_message
+    description: Create an SMS activity on a lead in Close CRM
+    method: POST
+    path: /api/v1/activity/sms/
+    params:
+      - {name: status, in: body, type: string, required: true, description: "SMS status; one of inbox, draft, scheduled, outbox, sent, or error"}
+      - {name: lead_id, in: body, type: string, description: "Lead identifier to associate the SMS with"}
+      - {name: contact_id, in: body, type: string, description: "Contact identifier"}
+      - {name: text, in: body, type: string, description: "Message content"}
+      - {name: local_phone, in: body, type: string, description: "Sender phone number in E.164 format"}
+      - {name: remote_phone, in: body, type: string, description: "Recipient phone number in E.164 format"}
+      - {name: direction, in: body, type: string, description: "Message direction; inbound or outbound"}
+      - {name: activity_at, in: body, type: string, description: "Activity timestamp (ISO 8601 datetime)"}
+
+  - name: create_task
+    description: Create a task associated with a lead in Close CRM
+    method: POST
+    path: /api/v1/task/
+    params:
+      - {name: _type, in: body, type: string, required: true, description: "Task variant; lead or outgoing_call"}
+      - {name: lead_id, in: body, type: string, required: true, description: "Identifier of the associated lead"}
+      - {name: text, in: body, type: string, description: "Task description (required for lead type tasks)"}
+      - {name: contact_id, in: body, type: string, description: "Contact identifier (required for outgoing_call type tasks)"}
+      - {name: due_date, in: body, type: string, description: "Task deadline (date or ISO 8601 datetime)"}
+      - {name: assigned_to, in: body, type: string, description: "User ID to assign the task to"}
+      - {name: is_complete, in: body, type: boolean, description: "Whether the task is complete"}
+      - {name: priority, in: body, type: string, description: "Task priority; high or medium"}
+
+  - name: delete_call
+    description: Delete a call activity from Close CRM by its ID
+    method: DELETE
+    path: /api/v1/activity/call/{id}/
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The unique identifier of the call activity to delete"}

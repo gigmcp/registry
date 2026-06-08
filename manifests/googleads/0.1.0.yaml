@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googleads
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googleads-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googleads-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:9ab92649c642f6252b63c971a8b9bd8d082e1bac9008b14d830fbdaed765e571
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

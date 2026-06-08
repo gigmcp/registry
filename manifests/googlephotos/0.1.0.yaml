@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googlephotos
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googlephotos-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlephotos-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:a4bc47a5247235c206cddf2d954b0e37b44be753d4ba0b8dafa00d843bb62f84
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

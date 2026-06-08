@@ -1,0 +1,87 @@
+schemaVersion: 1
+name: google-maps
+version: 0.1.0
+baseUrl: https://places.googleapis.com
+tools:
+  - name: text_search
+    description: Search for places using a text query string
+    method: POST
+    path: /v1/places:searchText
+    params:
+      - {name: textQuery, in: body, type: string, required: true, description: "The text string on which to search, e.g. 'restaurants near Sydney'"}
+      - {name: languageCode, in: body, type: string, description: "Language code for the response (e.g. en, fr)"}
+      - {name: pageSize, in: body, type: integer, description: "Number of results per page (1-20, default 20)"}
+      - {name: pageToken, in: body, type: string, description: "Token for pagination from a previous response nextPageToken"}
+      - {name: openNow, in: body, type: boolean, description: "If true, only return places currently open"}
+      - {name: includedType, in: body, type: string, description: "Filter results to a single place type (e.g. restaurant)"}
+      - {name: rankPreference, in: body, type: string, description: "Ranking preference: RELEVANCE or DISTANCE"}
+  - name: nearby_search
+    description: Search for places near a given location within a specified radius
+    method: POST
+    path: /v1/places:searchNearby
+    params:
+      - {name: locationRestriction, in: body, type: object, required: true, description: "Circular area to search within; object with circle.center (latitude/longitude) and circle.radius (meters, max 50000)"}
+      - {name: includedTypes, in: body, type: array, description: "Filter by place types (e.g. [restaurant, cafe])"}
+      - {name: excludedTypes, in: body, type: array, description: "Exclude places with these types"}
+      - {name: maxResultCount, in: body, type: integer, description: "Maximum number of results to return (1-20, default 20)"}
+      - {name: rankPreference, in: body, type: string, description: "Ranking preference: POPULARITY (default) or DISTANCE"}
+      - {name: languageCode, in: body, type: string, description: "Language code for the response (e.g. en, fr)"}
+  - name: get_place_details
+    description: Get detailed information about a specific place by its place ID
+    method: GET
+    path: /v1/places/{placeId}
+    params:
+      - {name: placeId, in: path, type: string, required: true, description: "Unique place identifier returned from a search (e.g. ChIJj61dQgK6j4AR4GeTYWZsKWw)"}
+      - {name: languageCode, in: query, type: string, description: "Language code for the response (e.g. en, fr)"}
+      - {name: regionCode, in: query, type: string, description: "Two-character CLDR region code for formatting"}
+  - name: autocomplete
+    description: Return place predictions for a text input, suitable for search-as-you-type UIs
+    method: POST
+    path: /v1/places:autocomplete
+    params:
+      - {name: input, in: body, type: string, required: true, description: "The text string to autocomplete, e.g. a partial address or place name"}
+      - {name: languageCode, in: body, type: string, description: "Language code for the response (e.g. en, fr)"}
+      - {name: regionCode, in: body, type: string, description: "Two-character CLDR region code to bias results"}
+      - {name: sessionToken, in: body, type: string, description: "Session token for grouping autocomplete requests for billing purposes"}
+  - name: geocode_address
+    description: Convert a human-readable address into geographic coordinates (latitude and longitude)
+    method: GET
+    path: /v4/geocode/address/{address}
+    baseUrl: https://geocode.googleapis.com
+    params:
+      - {name: address, in: path, type: string, required: true, description: "The street address to geocode, e.g. '1600 Amphitheatre Parkway, Mountain View, CA' (URL-encode spaces as +)"}
+      - {name: languageCode, in: query, type: string, description: "Language code for the response (e.g. en, fr)"}
+      - {name: regionCode, in: query, type: string, description: "Two-character CLDR region code to bias results"}
+  - name: geocode_location
+    description: Convert geographic coordinates (latitude and longitude) into a human-readable address (reverse geocoding)
+    method: GET
+    path: /v4/geocode/location/{latlng}
+    baseUrl: https://geocode.googleapis.com
+    params:
+      - {name: latlng, in: path, type: string, required: true, description: "Latitude and longitude to reverse geocode, formatted as 'lat,lng' (e.g. '40.714224,-73.961452')"}
+      - {name: languageCode, in: query, type: string, description: "Language code for the response (e.g. en, fr)"}
+      - {name: regionCode, in: query, type: string, description: "Two-character CLDR region code"}
+  - name: get_direction
+    description: Compute a route and directions between an origin and a destination
+    method: POST
+    path: /directions/v2:computeRoutes
+    baseUrl: https://routes.googleapis.com
+    params:
+      - {name: origin, in: body, type: object, required: true, description: "Origin location with latitude and longitude as {location: {latLng: {latitude, longitude}}}"}
+      - {name: destination, in: body, type: object, required: true, description: "Destination location with latitude and longitude as {location: {latLng: {latitude, longitude}}}"}
+      - {name: travelMode, in: body, type: string, description: "Travel mode: DRIVE (default), WALK, BICYCLE, or TRANSIT"}
+      - {name: routingPreference, in: body, type: string, description: "Routing preference: TRAFFIC_AWARE or TRAFFIC_AWARE_OPTIMAL"}
+      - {name: computeAlternativeRoutes, in: body, type: boolean, description: "If true, compute alternative routes in addition to the primary route"}
+      - {name: languageCode, in: body, type: string, description: "Language code for localized text in the response"}
+      - {name: units, in: body, type: string, description: "Distance units: METRIC or IMPERIAL"}
+  - name: compute_route_matrix
+    description: Compute travel distances and durations for multiple origin-destination pairs
+    method: POST
+    path: /distanceMatrix/v2:computeRouteMatrix
+    baseUrl: https://routes.googleapis.com
+    params:
+      - {name: origins, in: body, type: array, required: true, description: "Array of origin waypoints; each with waypoint.location.latLng or waypoint.placeId"}
+      - {name: destinations, in: body, type: array, required: true, description: "Array of destination waypoints; each with waypoint.location.latLng or waypoint.placeId"}
+      - {name: travelMode, in: body, type: string, description: "Travel mode: DRIVE (default), WALK, BICYCLE, or TRANSIT"}
+      - {name: routingPreference, in: body, type: string, description: "Routing preference: TRAFFIC_AWARE or TRAFFIC_AWARE_OPTIMAL"}
+      - {name: languageCode, in: body, type: string, description: "Language code for localized text in the response"}

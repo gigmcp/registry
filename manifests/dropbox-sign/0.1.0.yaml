@@ -2,13 +2,14 @@ schemaVersion: 1
 name: dropbox-sign
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/dropbox-sign-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dropbox-sign-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:52d3a95a351b62723e6dd09ccf2f7eee86815cfcfec1cf15e202559c02f145cd
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

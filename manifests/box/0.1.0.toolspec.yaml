@@ -1,0 +1,92 @@
+schemaVersion: 1
+name: box
+version: 0.1.0
+baseUrl: https://api.box.com
+tools:
+  - name: search_content
+    description: Search for files and folders in Box by name, description, or file content
+    method: GET
+    path: /2.0/search
+    params:
+      - {name: query, in: query, type: string, description: "Search string matched against item names, descriptions, and file content"}
+      - {name: scope, in: query, type: string, description: "Limits results to user_content (default) or enterprise_content"}
+      - {name: type, in: query, type: string, description: "Item type to filter results: file, folder, or web_link"}
+      - {name: ancestor_folder_ids, in: query, type: string, description: "Comma-separated folder IDs to search within (includes subfolders)"}
+      - {name: content_types, in: query, type: string, description: "Comma-separated content locations to search: name, description, file_content, comments, tags"}
+      - {name: file_extensions, in: query, type: string, description: "Comma-separated file extensions to filter results (e.g. pdf,png)"}
+      - {name: limit, in: query, type: integer, description: "Number of results per page (default 30, max 200)"}
+      - {name: offset, in: query, type: integer, description: "Starting position offset for pagination (max 10000)"}
+      - {name: sort, in: query, type: string, description: "Order results by relevance (default) or modified_at"}
+      - {name: direction, in: query, type: string, description: "Sort direction: DESC (default) or ASC"}
+  - name: list_folder_items
+    description: List the files, folders, and web links contained within a Box folder
+    method: GET
+    path: /2.0/folders/{folder_id}/items
+    params:
+      - {name: folder_id, in: path, type: string, required: true, description: "The unique identifier of the folder; use 0 for the root folder"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of attributes to include in the response"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of items to return per page (max 1000)"}
+      - {name: offset, in: query, type: integer, description: "Offset of the item at which to begin the response (default 0)"}
+      - {name: sort, in: query, type: string, description: "Attribute by which items are sorted: id, name, date, or size"}
+      - {name: direction, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: usemarker, in: query, type: boolean, description: "Enable marker-based pagination instead of offset-based"}
+      - {name: marker, in: query, type: string, description: "Position marker at which to begin returning results"}
+  - name: get_file_information
+    description: Retrieve detailed information and metadata about a file stored in Box
+    method: GET
+    path: /2.0/files/{file_id}
+    params:
+      - {name: file_id, in: path, type: string, required: true, description: "The unique identifier of the file"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of attributes to include in the response"}
+  - name: download_file
+    description: Download the binary content of a file stored in Box
+    method: GET
+    path: /2.0/files/{file_id}/content
+    params:
+      - {name: file_id, in: path, type: string, required: true, description: "The unique identifier of the file to download"}
+      - {name: version, in: query, type: string, description: "The file version ID to download (defaults to the current version)"}
+  - name: get_current_user
+    description: Retrieve the profile and account details of the currently authenticated Box user
+    method: GET
+    path: /2.0/users/me
+    params:
+      - {name: fields, in: query, type: string, description: "Comma-separated list of attributes to include in the response"}
+  - name: upload_file
+    description: Upload a new file to a Box folder
+    method: POST
+    path: /api/2.0/files/content
+    baseUrl: https://upload.box.com
+    encoding: form
+    params:
+      - {name: attributes, in: body, type: object, required: true, description: "JSON object containing file metadata: name (string, required), parent.id (string, required - use 0 for root folder)"}
+      - {name: file, in: body, type: string, required: true, description: "The binary content of the file to upload"}
+  - name: create_folder
+    description: Create a new folder inside an existing Box folder
+    method: POST
+    path: /2.0/folders
+    params:
+      - {name: name, in: body, type: string, required: true, description: "The name for the new folder (1-255 characters, must be unique within parent)"}
+      - {name: parent, in: body, type: object, required: true, description: "Parent folder object with id field; use id 0 for the root folder"}
+  - name: copy_file
+    description: Copy a file to a different folder in Box, optionally with a new name
+    method: POST
+    path: /2.0/files/{file_id}/copy
+    params:
+      - {name: file_id, in: path, type: string, required: true, description: "The unique identifier of the file to copy"}
+      - {name: parent, in: body, type: object, required: true, description: "Destination parent folder object with id field"}
+      - {name: name, in: body, type: string, description: "Optional new name for the copied file (max 255 characters)"}
+      - {name: version, in: body, type: string, description: "Optional ID of the specific file version to copy"}
+  - name: delete_file
+    description: Permanently delete a file from Box (moves it to trash)
+    method: DELETE
+    path: /2.0/files/{file_id}
+    params:
+      - {name: file_id, in: path, type: string, required: true, description: "The unique identifier of the file to delete"}
+  - name: create_shared_link
+    description: Create or update a shared link for a Box file to enable external access
+    method: PUT
+    path: /2.0/files/{file_id}
+    params:
+      - {name: file_id, in: path, type: string, required: true, description: "The unique identifier of the file"}
+      - {name: fields, in: query, type: string, required: true, description: "Must include shared_link to return the shared link in the response (e.g. shared_link)"}
+      - {name: shared_link, in: body, type: object, description: "Shared link settings object with optional fields: access (open/company/collaborators), password, unshared_at, vanity_name, permissions"}

@@ -1,0 +1,83 @@
+schemaVersion: 1
+name: ably
+version: 0.1.0
+baseUrl: https://rest.ably.io
+tools:
+  - name: list_channels
+    description: Enumerate active channels in the application
+    method: GET
+    path: /channels
+    params:
+      - {name: limit, in: query, type: integer, description: "Max channels to return (default 100, max 1000)"}
+      - {name: prefix, in: query, type: string, description: "Only channels whose name starts with this prefix"}
+      - {name: by, in: query, type: string, description: "id (default, names only) or value (full ChannelDetails)"}
+  - name: get_channel_details
+    description: Get metadata and occupancy details of a single channel
+    method: GET
+    path: /channels/{channel}
+    params:
+      - {name: channel, in: path, type: string, required: true, description: Channel name}
+  - name: get_channel_history
+    description: Retrieve previously published messages on a channel
+    method: GET
+    path: /channels/{channel}/messages
+    params:
+      - {name: channel, in: path, type: string, required: true, description: Channel name}
+      - {name: start, in: query, type: integer, description: "Start of interval (ms since epoch)"}
+      - {name: end, in: query, type: integer, description: "End of interval (ms since epoch)"}
+      - {name: limit, in: query, type: integer, description: "Max messages (default 100, max 1000)"}
+      - {name: direction, in: query, type: string, description: forwards or backwards (default backwards)}
+  - name: get_channel_presence
+    description: Get the current presence members of a channel
+    method: GET
+    path: /channels/{channel}/presence
+    params:
+      - {name: channel, in: path, type: string, required: true, description: Channel name}
+      - {name: clientId, in: query, type: string, description: Filter by client ID}
+      - {name: connectionId, in: query, type: string, description: Filter by connection ID}
+      - {name: limit, in: query, type: integer, description: "Max members (default 100, max 1000)"}
+  - name: get_application_stats
+    description: Retrieve application usage statistics
+    method: GET
+    path: /stats
+    params:
+      - {name: start, in: query, type: integer, description: "Start of interval (ms since epoch)"}
+      - {name: end, in: query, type: integer, description: "End of interval (ms since epoch)"}
+      - {name: limit, in: query, type: integer, description: "Max records (default 100, max 1000)"}
+      - {name: direction, in: query, type: string, description: forwards or backwards (default backwards)}
+      - {name: unit, in: query, type: string, description: "minute (default), hour, day, or month"}
+  - name: publish_message_to_channel
+    description: Publish a message to a channel
+    method: POST
+    path: /channels/{channel}/messages
+    params:
+      - {name: channel, in: path, type: string, required: true, description: Channel name}
+      - {name: name, in: body, type: string, description: Event name of the message}
+      - {name: data, in: body, type: string, description: Message payload}
+  - name: batch_publish_messages
+    description: Publish messages to multiple channels in a single request
+    method: POST
+    path: /messages
+    params:
+      - {name: channels, in: body, type: array, required: true, description: Channel names to publish to}
+      - {name: messages, in: body, type: object, required: true, description: "Message or array of messages ({name, data})"}
+  - name: publish_push_notification
+    description: Deliver a push notification to a device, client, or recipient
+    method: POST
+    path: /push/publish
+    params:
+      - {name: recipient, in: body, type: object, required: true, description: "Recipient spec (deviceId, clientId, or transportType+address)"}
+      - {name: notification, in: body, type: object, description: "Notification payload (title, body, ...)"}
+      - {name: data, in: body, type: object, description: Optional custom data payload}
+  - name: list_registered_push_devices
+    description: List devices registered for push notifications
+    method: GET
+    path: /push/deviceRegistrations
+    params:
+      - {name: deviceId, in: query, type: string, description: Filter by device ID}
+      - {name: clientId, in: query, type: string, description: Filter by client ID}
+      - {name: limit, in: query, type: integer, description: "Max devices (default 100, max 1000)"}
+  - name: get_service_time
+    description: Get the Ably service time (ms since epoch)
+    method: GET
+    path: /time

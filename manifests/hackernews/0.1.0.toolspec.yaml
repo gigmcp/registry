@@ -1,0 +1,52 @@
+schemaVersion: 1
+name: hackernews
+version: 0.1.0
+baseUrl: https://hacker-news.firebaseio.com
+tools:
+  - name: get_top_stories
+    description: Return the IDs of up to 500 current top-ranked stories on Hacker News
+    method: GET
+    path: /v0/topstories.json
+  - name: get_new_stories
+    description: Return the IDs of up to 500 newest stories on Hacker News
+    method: GET
+    path: /v0/newstories.json
+  - name: get_best_stories
+    description: Return the IDs of the best stories on Hacker News
+    method: GET
+    path: /v0/beststories.json
+  - name: get_show_stories
+    description: Return the IDs of up to 200 latest Show HN submissions
+    method: GET
+    path: /v0/showstories.json
+  - name: get_ask_stories
+    description: Return the IDs of up to 200 latest Ask HN submissions
+    method: GET
+    path: /v0/askstories.json
+  - name: get_item
+    description: Retrieve a single Hacker News item (story, comment, job, poll, or poll option) by its integer ID
+    method: GET
+    path: /v0/item/{id}.json
+    params:
+      - {name: id, in: path, type: integer, required: true, description: The unique integer ID of the item to retrieve}
+  - name: get_user
+    description: Retrieve a Hacker News user profile by username
+    method: GET
+    path: /v0/user/{id}.json
+    params:
+      - {name: id, in: path, type: string, required: true, description: "Case-sensitive username of the Hacker News user"}
+  - name: search_posts
+    description: Search Hacker News stories and comments using the Algolia HN search API
+    method: GET
+    path: /api/v1/search
+    baseUrl: https://hn.algolia.com
+    params:
+      - {name: query, in: query, type: string, description: Full-text search query string}
+      - {name: tags, in: query, type: string, description: "Filter by content type; comma-separated e.g. story, comment, ask_hn, show_hn, poll, front_page. Use parentheses for OR logic e.g. (story,poll)"}
+      - {name: numericFilters, in: query, type: string, description: "Numeric range filter on points, num_comments, or created_at_i (Unix timestamp) e.g. points>20"}
+      - {name: page, in: query, type: integer, description: "Zero-indexed page number for pagination (default 0)"}
+      - {name: hitsPerPage, in: query, type: integer, description: "Number of results per page (default 20, max 1000)"}
+  - name: get_updates
+    description: Return the IDs of items and usernames of users that have been recently changed
+    method: GET
+    path: /v0/updates.json

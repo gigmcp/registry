@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: smugmug
+version: 0.1.0
+baseUrl: https://api.smugmug.com
+auth:
+  header: Authorization
+  format: "OAuth realm=\"\",oauth_consumer_key=\"{token}\""
+tools:
+  - name: get_user
+    description: Get the profile and metadata for the authenticated SmugMug user
+    method: GET
+    path: /api/v2!authuser
+
+  - name: get_user_root_node
+    description: Get the root node (top-level folder) for a SmugMug user
+    method: GET
+    path: /api/v2/user/{username}!rootnode
+    params:
+      - {name: username, in: path, type: string, required: true, description: SmugMug username (NickName)}
+
+  - name: list_child_nodes
+    description: List the immediate child nodes (folders and albums) of a given node
+    method: GET
+    path: /api/v2/node/{nodeId}!children
+    params:
+      - {name: nodeId, in: path, type: string, required: true, description: "Node ID of the parent folder or album"}
+      - {name: start, in: query, type: integer, description: "Starting index for pagination (1-based)"}
+      - {name: count, in: query, type: integer, description: "Number of child nodes to return per page"}
+
+  - name: get_folder_albums
+    description: List all albums within a specific folder for a SmugMug user
+    method: GET
+    path: /api/v2/folder/user/{username}/{folderPath}!albums
+    params:
+      - {name: username, in: path, type: string, required: true, description: SmugMug username (NickName)}
+      - {name: folderPath, in: path, type: string, required: true, description: "Path to the folder (URL-encoded, e.g. MyFolder or Parent/Child)"}
+      - {name: start, in: query, type: integer, description: "Starting index for pagination (1-based)"}
+      - {name: count, in: query, type: integer, description: "Number of albums to return per page"}
+
+  - name: get_album
+    description: Get metadata and settings for a specific SmugMug album
+    method: GET
+    path: /api/v2/album/{albumKey}
+    params:
+      - {name: albumKey, in: path, type: string, required: true, description: "Unique key identifying the album"}
+
+  - name: get_album_images
+    description: List all images and videos within a specific SmugMug album
+    method: GET
+    path: /api/v2/album/{albumKey}!images
+    params:
+      - {name: albumKey, in: path, type: string, required: true, description: "Unique key identifying the album"}
+      - {name: start, in: query, type: integer, description: "Starting index for pagination (1-based)"}
+      - {name: count, in: query, type: integer, description: "Number of images to return per page"}
+
+  - name: get_image
+    description: Get metadata for a specific image or video in SmugMug
+    method: GET
+    path: /api/v2/image/{imageKey}
+    params:
+      - {name: imageKey, in: path, type: string, required: true, description: "Unique key identifying the image (e.g. 53PwQMN-0)"}
+
+  - name: search_user_content
+    description: Search for images and videos across a SmugMug user account or within a specific scope
+    method: GET
+    path: /api/v2/image!search
+    params:
+      - {name: Scope, in: query, type: string, description: "URI of the scope to search within (user, album, or node URI)"}
+      - {name: Text, in: query, type: string, description: "Text to search for in image titles, captions, and keywords"}
+      - {name: start, in: query, type: integer, description: "Starting index for pagination (1-based)"}
+      - {name: count, in: query, type: integer, description: "Number of results to return per page"}
+
+  - name: unlock_album
+    description: Unlock a password-protected SmugMug album to gain access to its contents
+    method: POST
+    path: /api/v2/album/{albumKey}!unlock
+    params:
+      - {name: albumKey, in: path, type: string, required: true, description: "Unique key identifying the password-protected album"}
+      - {name: Password, in: body, type: string, required: true, description: "Password to unlock the album"}

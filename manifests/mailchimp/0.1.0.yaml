@@ -2,13 +2,14 @@ schemaVersion: 1
 name: mailchimp
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/mailchimp-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mailchimp-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:fe2e61d001c1b6de113dec44e61b3b6022da8e1190462ae42f13986f91237a49
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
@@ -20,7 +21,7 @@ credentials:
     provider: mailchimp
     inject:
       header: Authorization
-      format: "Bearer {token}"
+      format: "OAuth {token}"
 tools:
   - name: get_lists
     default: true

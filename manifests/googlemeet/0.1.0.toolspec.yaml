@@ -1,0 +1,78 @@
+schemaVersion: 1
+name: googlemeet
+version: 0.1.0
+baseUrl: https://meet.googleapis.com
+tools:
+  - name: get_meet
+    description: Retrieve details of a Google Meet meeting space by name or meeting code
+    method: GET
+    path: /v2/{name}
+    params:
+      - {name: name, in: path, type: string, required: true, description: "Resource name of the space. Format: spaces/{space} or spaces/{meetingCode}"}
+
+  - name: list_conference_records
+    description: List conference records for the authenticated user, optionally filtered by space or time range
+    method: GET
+    path: /v2/conferenceRecords
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of conference records to return (default 25, max 100)"}
+      - {name: pageToken, in: query, type: string, description: Page token from a previous list call for pagination}
+      - {name: filter, in: query, type: string, description: "EBNF filter expression; supports space.name, space.meeting_code, start_time, end_time"}
+
+  - name: list_participants
+    description: List participants who attended a specific conference record
+    method: GET
+    path: /v2/{parent}/participants
+    params:
+      - {name: parent, in: path, type: string, required: true, description: "Parent conference record. Format: conferenceRecords/{conferenceRecord}"}
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of participants to return (default 100, max 250)"}
+      - {name: pageToken, in: query, type: string, description: Page token from a previous list call for pagination}
+      - {name: filter, in: query, type: string, description: "EBNF filter expression; supports earliest_start_time and latest_end_time fields"}
+
+  - name: list_recordings
+    description: List recordings associated with a specific conference record
+    method: GET
+    path: /v2/{parent}/recordings
+    params:
+      - {name: parent, in: path, type: string, required: true, description: "Parent conference record. Format: conferenceRecords/{conferenceRecord}"}
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of recordings to return (default 10, max 100)"}
+      - {name: pageToken, in: query, type: string, description: Page token from a previous list call for pagination}
+
+  - name: get_transcript
+    description: Retrieve a specific transcript from a conference record by transcript name
+    method: GET
+    path: /v2/{name}
+    params:
+      - {name: name, in: path, type: string, required: true, description: "Resource name of the transcript. Format: conferenceRecords/{conferenceRecord}/transcripts/{transcript}"}
+
+  - name: list_transcript_entries
+    description: List structured transcript entries for a specific transcript in a conference record
+    method: GET
+    path: /v2/{parent}/entries
+    params:
+      - {name: parent, in: path, type: string, required: true, description: "Parent transcript. Format: conferenceRecords/{conferenceRecord}/transcripts/{transcript}"}
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of entries to return (default 10, max 100)"}
+      - {name: pageToken, in: query, type: string, description: Page token from a previous list call for pagination}
+
+  - name: create_meet
+    description: Create a new Google Meet meeting space
+    method: POST
+    path: /v2/spaces
+    params:
+      - {name: config, in: body, type: object, description: "Optional SpaceConfig object specifying accessType, entryPointAccess, moderation, and other settings"}
+
+  - name: update_space
+    description: Update configuration settings of an existing Google Meet meeting space
+    method: PATCH
+    path: /v2/{space_name}
+    params:
+      - {name: space_name, in: path, type: string, required: true, description: "Resource name of the space. Format: spaces/{space}"}
+      - {name: updateMask, in: query, type: string, description: "Field mask specifying which fields to update; defaults to all provided fields"}
+      - {name: config, in: body, type: object, description: "SpaceConfig fields to update (accessType, entryPointAccess, moderation, moderationRestrictions, attendanceReportGenerationType, artifactConfig)"}
+
+  - name: end_active_conference
+    description: End the active conference in a Google Meet meeting space
+    method: POST
+    path: /v2/{name}:endActiveConference
+    params:
+      - {name: name, in: path, type: string, required: true, description: "Resource name of the space. Format: spaces/{space}"}

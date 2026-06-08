@@ -2,13 +2,14 @@ schemaVersion: 1
 name: googlemeet
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/googlemeet-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlemeet-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:d789cb89f9cd0a6ba86b4accb5e41e41947750e622ae66d33b4101bd63a18783
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

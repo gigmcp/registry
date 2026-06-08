@@ -2,17 +2,18 @@ schemaVersion: 1
 name: more-trees
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/more-trees-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/more-trees-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:ad2a7e5a0e6276e10010fe8e6baebd82cb80fdbf54bf0e24f7e6e325d13f66db
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
-    - api.moretrees.eco
+    - "*.platform.moretrees.eco"
 credentials:
   - id: more_trees_api_key
     type: api_key

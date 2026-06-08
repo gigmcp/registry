@@ -2,13 +2,14 @@ schemaVersion: 1
 name: affinity
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/affinity-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/affinity-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:8963fef134745228d9d8fee63cad404909c8a53e136c6dfa89cdf579d9c53465
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

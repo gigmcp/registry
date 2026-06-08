@@ -12,6 +12,7 @@ jobs:
       - run: go test ./...
       - run: cd schema && go test ./...
       - run: go run ./cmd/registryctl lint ./manifests -denylist denylist/exfil-domains.txt
+      - run: go run ./cmd/registryctl lint-toolspecs ./manifests
       - name: No server source in the registry (aggregator policy)
         run: |
           if find . -name '*.go' -not -path './schema/*' -not -path './cmd/*' -not -path './.git/*' | grep -q .; then

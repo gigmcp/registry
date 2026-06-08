@@ -1,0 +1,61 @@
+schemaVersion: 1
+name: foursquare
+version: 0.1.0
+baseUrl: https://places-api.foursquare.com
+tools:
+  - name: search_places
+    description: Search for places in the Foursquare Places database by name, category, or other criteria with optional location filtering
+    method: GET
+    path: /places/search
+    params:
+      - {name: query, in: query, type: string, description: "Search term to match against place names, categories, tips, and tastes"}
+      - {name: ll, in: query, type: string, description: "Latitude and longitude as a comma-separated pair (e.g., 40.74,-74.0)"}
+      - {name: radius, in: query, type: integer, description: "Search radius in meters around the ll point (0–100,000)"}
+      - {name: near, in: query, type: string, description: "Geocodable locality or address to search near (e.g., Chicago, IL)"}
+      - {name: ne, in: query, type: string, description: "Northeast corner of a rectangular bounding box as lat,lng"}
+      - {name: sw, in: query, type: string, description: "Southwest corner of a rectangular bounding box as lat,lng"}
+      - {name: fsq_category_ids, in: query, type: string, description: "Comma-separated Foursquare category IDs to filter results"}
+      - {name: open_now, in: query, type: boolean, description: "Return only places that are currently open"}
+      - {name: sort, in: query, type: string, description: "Sort order for results: RELEVANCE, RATING, DISTANCE, or POPULARITY"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return (1–50)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of response fields to include"}
+
+  - name: get_nearby_places
+    description: Get a ranked list of places near a specific geographic coordinate, useful for location snap and check-in suggestions
+    method: GET
+    path: /geotagging/candidates
+    params:
+      - {name: ll, in: query, type: string, required: true, description: "Latitude and longitude as a comma-separated pair (e.g., 40.74,-74.0)"}
+      - {name: query, in: query, type: string, description: "Optional search term to further filter nearby candidates"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of candidates to return (1–50)"}
+      - {name: hacc, in: query, type: number, description: "Horizontal accuracy of the ll coordinate in meters"}
+      - {name: altitude, in: query, type: number, description: "Altitude of the user's location in meters"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of response fields to include"}
+
+  - name: get_place_details
+    description: Retrieve comprehensive metadata for a Foursquare place by its unique place ID (fsq_place_id)
+    method: GET
+    path: /places/{fsq_place_id}
+    params:
+      - {name: fsq_place_id, in: path, type: string, required: true, description: "The unique Foursquare place identifier"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of response fields to include (e.g., description,tel,website,hours,rating)"}
+
+  - name: get_place_photos
+    description: Retrieve photos for a Foursquare place by its unique place ID
+    method: GET
+    path: /places/{fsq_place_id}/photos
+    params:
+      - {name: fsq_place_id, in: path, type: string, required: true, description: "The unique Foursquare place identifier"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of photos to return (capped at 50)"}
+      - {name: sort, in: query, type: string, description: "Sort order for photos: POPULAR or NEWEST"}
+      - {name: classifications, in: query, type: string, description: "Filter photos by classification type"}
+
+  - name: get_place_tips
+    description: Retrieve user-submitted tips (short reviews) for a Foursquare place by its unique place ID
+    method: GET
+    path: /places/{fsq_place_id}/tips
+    params:
+      - {name: fsq_place_id, in: path, type: string, required: true, description: "The unique Foursquare place identifier"}
+      - {name: limit, in: query, type: integer, description: "Maximum number of tips to return (1–50)"}
+      - {name: sort, in: query, type: string, description: "Sort order for tips: POPULAR or NEWEST"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of response fields to include"}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: monday
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/monday-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/monday-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:c0e63b64cc0329d468c2b1e3707d601b21c755ca1f5d26bf17e258b0fefb940a
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

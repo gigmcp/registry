@@ -1,0 +1,106 @@
+schemaVersion: 1
+name: boldsign
+version: 0.1.0
+baseUrl: https://api.boldsign.com
+tools:
+  - name: list_documents
+    description: List documents in the authenticated user's account with optional filtering by status, date range, sender, recipient, and labels
+    method: GET
+    path: /v1/document/list
+    params:
+      - {name: page, in: query, type: integer, required: true, description: "Page number to retrieve (1-based)"}
+      - {name: pageSize, in: query, type: integer, description: "Number of documents per page (default 10)"}
+      - {name: sentBy, in: query, type: array, description: "Filter by sender email addresses"}
+      - {name: recipients, in: query, type: array, description: "Filter by recipient email addresses"}
+      - {name: status, in: query, type: array, description: "Filter by document status (e.g. WaitingForMe, Completed, Declined, Expired)"}
+      - {name: searchKey, in: query, type: string, description: "Search by document title, ID, or sender/recipient name"}
+      - {name: startDate, in: query, type: string, description: "Filter documents sent on or after this date (ISO 8601 date-time)"}
+      - {name: endDate, in: query, type: string, description: "Filter documents sent on or before this date (ISO 8601 date-time)"}
+      - {name: labels, in: query, type: array, description: "Filter by document labels or tags"}
+      - {name: transmitType, in: query, type: string, description: "Filter by transmission type: Sent, Received, or Both"}
+      - {name: brandIds, in: query, type: array, description: "Filter by brand identifiers"}
+
+  - name: list_team_documents
+    description: List documents belonging to the user's team, optionally filtered by team member or team ID
+    method: GET
+    path: /v1/document/teamlist
+    params:
+      - {name: page, in: query, type: integer, required: true, description: "Page number to retrieve (1-based)"}
+      - {name: pageSize, in: query, type: integer, description: "Number of documents per page (default 10)"}
+      - {name: userId, in: query, type: array, description: "Filter by team member user IDs"}
+      - {name: teamId, in: query, type: array, description: "Filter by team IDs"}
+      - {name: status, in: query, type: array, description: "Filter by document status (e.g. WaitingForMe, Completed, Declined, Expired)"}
+      - {name: searchKey, in: query, type: string, description: "Search by document title, ID, or sender/recipient name"}
+      - {name: startDate, in: query, type: string, description: "Filter documents sent on or after this date (ISO 8601 date-time)"}
+      - {name: endDate, in: query, type: string, description: "Filter documents sent on or before this date (ISO 8601 date-time)"}
+      - {name: labels, in: query, type: array, description: "Filter by document labels or tags"}
+      - {name: transmitType, in: query, type: string, description: "Filter by transmission type: Sent, Received, or Both"}
+      - {name: brandIds, in: query, type: array, description: "Filter by brand identifiers"}
+
+  - name: list_brands
+    description: List all brands configured in the BoldSign account
+    method: GET
+    path: /v1/brand/list
+
+  - name: get_brand_details
+    description: Get details of a specific brand by its ID
+    method: GET
+    path: /v1/brand/get
+    params:
+      - {name: brandId, in: query, type: string, required: true, description: "The ID of the brand to retrieve"}
+
+  - name: get_api_credits_count
+    description: Get the number of remaining API credits available in the account
+    method: GET
+    path: /v1/plan/apiCreditsCount
+
+  - name: send_document
+    description: Send a document to one or more signers for electronic signature
+    method: POST
+    path: /v1/document/send
+    encoding: json
+    params:
+      - {name: Title, in: body, type: string, required: true, description: "Title of the document displayed in the BoldSign interface"}
+      - {name: Signers, in: body, type: array, required: true, description: "Array of signer objects, each with name, emailAddress, and signerType fields"}
+      - {name: Files, in: body, type: array, description: "Documents to upload for signing (PDF, DOCX, XLSX, etc.)"}
+      - {name: FileUrls, in: body, type: array, description: "URLs of documents to use for signing"}
+      - {name: Message, in: body, type: string, description: "Message to include in the signing request email"}
+      - {name: BrandId, in: body, type: string, description: "Brand ID to apply to the document"}
+      - {name: Labels, in: body, type: array, description: "Labels or tags to attach to the document"}
+      - {name: EnableSigningOrder, in: body, type: boolean, description: "Whether signers must sign in the specified order"}
+      - {name: ExpiryDays, in: body, type: integer, description: "Number of days until the document signing request expires"}
+
+  - name: extend_document_expiry
+    description: Extend the expiration date of a document that is pending signature
+    method: PATCH
+    path: /v1/document/extendExpiry
+    encoding: json
+    params:
+      - {name: documentId, in: query, type: string, required: true, description: "ID of the document whose expiry should be extended"}
+      - {name: NewExpiryValue, in: body, type: string, required: true, description: "New expiry value; format depends on the document's expiryDateType (e.g. integer days or ISO 8601 date-time)"}
+      - {name: WarnPrior, in: body, type: boolean, description: "Whether to send a warning email one day before expiration"}
+
+  - name: create_embedded_request_link
+    description: Generate an embedded send URL to embed the document sending workflow within your application
+    method: POST
+    path: /v1/document/createEmbeddedRequestUrl
+    encoding: json
+    params:
+      - {name: Title, in: body, type: string, required: true, description: "Title of the document"}
+      - {name: Signers, in: body, type: array, required: true, description: "Array of signer objects with name, emailAddress, and signerType"}
+      - {name: Files, in: body, type: array, description: "Documents to upload for the embedded request"}
+      - {name: FileUrls, in: body, type: array, description: "URLs of documents to use for the embedded request"}
+      - {name: RedirectUrl, in: body, type: string, description: "URL to redirect to after the embedded send is completed"}
+      - {name: ShowToolbar, in: body, type: boolean, description: "Whether to show the toolbar in the embedded view"}
+      - {name: ShowSendButton, in: body, type: boolean, description: "Whether to show the Send button in the embedded view"}
+      - {name: ShowPreviewButton, in: body, type: boolean, description: "Whether to show the Preview button in the embedded view"}
+
+  - name: remove_document_authentication
+    description: Remove access code authentication from a specific signer on a document
+    method: PATCH
+    path: /v1/document/RemoveAuthentication
+    encoding: json
+    params:
+      - {name: documentId, in: query, type: string, required: true, description: "ID of the document"}
+      - {name: EmailId, in: body, type: string, required: true, description: "Email address of the signer whose authentication should be removed"}
+      - {name: zOrder, in: body, type: integer, description: "Signer order when multiple recipients share the same email address"}

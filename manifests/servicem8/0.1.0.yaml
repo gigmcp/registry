@@ -2,13 +2,14 @@ schemaVersion: 1
 name: servicem8
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/servicem8-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/servicem8-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:731139a27a8c028cd57418be8ffb8bfdf5a23b9cfc1a48e406135895d62b9520
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
@@ -17,7 +18,7 @@ credentials:
   - id: servicem8_token
     type: oauth2
     provider: servicem8
-    scopes: [read_jobs, manage_jobs, read_customers, manage_customers, read_job_notes]
+    scopes: [read_jobs, create_jobs, manage_jobs, read_customers, manage_customers, read_job_notes, publish_job_notes, manage_job_payments, read_job_materials, read_tasks]
     inject:
       header: Authorization
       format: "Bearer {token}"

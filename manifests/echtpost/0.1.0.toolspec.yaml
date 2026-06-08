@@ -1,0 +1,73 @@
+schemaVersion: 1
+name: echtpost
+version: 0.1.0
+baseUrl: https://api.echtpost.de
+tools:
+  - name: list_templates
+    description: List postcard templates available in the account
+    method: GET
+    path: /v2/templates
+    params:
+      - {name: source, in: query, type: string, description: "Template source filter (default: regular)"}
+      - {name: page, in: query, type: integer, description: "Page number (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Results per page (default: 50, max: 200)"}
+
+  - name: list_cards
+    description: List postcards created in the account, optionally filtered by status or delivery date
+    method: GET
+    path: /v2/cards
+    params:
+      - {name: status, in: query, type: string, description: "Filter by card status (e.g. pending, scheduled, sent, canceled)"}
+      - {name: deliver_at, in: query, type: string, description: "Filter by delivery date (YYYY-MM-DD)"}
+      - {name: motive_id, in: query, type: integer, description: Filter by motive ID}
+      - {name: sort, in: query, type: string, description: Field to sort by}
+      - {name: direction, in: query, type: string, description: "Sort direction: asc or desc"}
+      - {name: page, in: query, type: integer, description: "Page number (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Results per page (default: 50, max: 200)"}
+
+  - name: get_card
+    description: Retrieve details of a single postcard by its ID
+    method: GET
+    path: /v2/cards/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: Card ID}
+
+  - name: preview_text_fit
+    description: Check whether a message fits on a postcard at a given font before creating a card
+    method: POST
+    path: /v2/cards/preview_fit
+    params:
+      - {name: message, in: body, type: string, required: true, description: "Card text content; use \\n for line breaks"}
+      - {name: font, in: body, type: object, required: true, description: "Font configuration object with family and size fields"}
+      - {name: sample_greeting, in: body, type: string, description: "Sample greeting to substitute for the {anrede} token when estimating line count"}
+
+  - name: create_card
+    description: Create a postcard with custom motive and text content for one or more recipients
+    method: POST
+    path: /v2/cards
+    params:
+      - {name: motive_id, in: body, type: integer, required: true, description: Front design ID from the motives endpoint}
+      - {name: content, in: body, type: string, required: true, description: "Plain text message for the card; use \\n for line breaks; supports {anrede} token for personalized salutation"}
+      - {name: font, in: body, type: object, required: true, description: "Font configuration object with family (architects_daughter, reenie_beanie, or special_elite) and size fields"}
+      - {name: recipients, in: body, type: array, description: "Inline recipient objects; each requires first_name, last_name, street, zip, city, country_code"}
+      - {name: recipient_ids, in: body, type: array, description: "Contact IDs from the contacts endpoint; at least one recipient source required"}
+      - {name: group_ids, in: body, type: array, description: "Group IDs whose members should all receive a card"}
+      - {name: deliver_at, in: body, type: string, description: "Delivery date as YYYY-MM-DD, today, tomorrow, or N-days-from-now (default: next business day)"}
+
+  - name: create_card_from_template
+    description: Create a postcard using a pre-configured template for one or more recipients
+    method: POST
+    path: /v2/cards/from_template
+    params:
+      - {name: template_id, in: body, type: integer, required: true, description: ID of the template to use}
+      - {name: recipients, in: body, type: array, description: "Inline recipient objects; each with first_name, last_name, street, zip, city, country_code"}
+      - {name: recipient_ids, in: body, type: array, description: "Contact IDs from the contacts endpoint; at least one recipient source required"}
+      - {name: group_ids, in: body, type: array, description: "Group IDs whose members should all receive a card"}
+      - {name: deliver_at, in: body, type: string, description: "Delivery date as YYYY-MM-DD, today, tomorrow, or N-days-from-now (default: next business day)"}
+
+  - name: withdraw_card
+    description: Cancel a scheduled postcard that has not yet entered the print queue
+    method: DELETE
+    path: /v2/cards/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: ID of the card to cancel}

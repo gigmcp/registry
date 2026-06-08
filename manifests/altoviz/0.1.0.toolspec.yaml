@@ -1,0 +1,108 @@
+schemaVersion: 1
+name: altoviz
+version: 0.1.0
+baseUrl: https://api.altoviz.com
+tools:
+  - name: list_customers
+    description: List customers with optional pagination, search, and ordering
+    method: GET
+    path: /v1/Customers
+    params:
+      - {name: PageIndex, in: query, type: integer, description: "Page index (1-based)"}
+      - {name: PageSize, in: query, type: integer, description: "Number of records per page (1-100, default 10)"}
+      - {name: OrderBy, in: query, type: string, description: Field to sort results by}
+      - {name: query, in: query, type: string, description: Search query to filter customers}
+
+  - name: get_customer
+    description: Get a customer by their numeric ID
+    method: GET
+    path: /v1/Customers/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Numeric ID of the customer}
+
+  - name: list_sale_invoices
+    description: List sale invoices with optional filters for date range, customer, status, and pagination
+    method: GET
+    path: /v1/SaleInvoices
+    params:
+      - {name: PageIndex, in: query, type: integer, description: "Page index (1-based)"}
+      - {name: PageSize, in: query, type: integer, description: "Number of records per page (1-100, default 10)"}
+      - {name: OrderBy, in: query, type: string, description: Field to sort results by}
+      - {name: CustomerId, in: query, type: integer, description: Filter by customer ID}
+      - {name: From, in: query, type: string, description: "Start date filter (ISO 8601)"}
+      - {name: To, in: query, type: string, description: "End date filter (ISO 8601)"}
+      - {name: Status, in: query, type: string, description: "Filter by status: Draft, ToSend, Incoming, Paid, Expired"}
+      - {name: IncludeCancelled, in: query, type: boolean, description: Whether to include cancelled invoices}
+
+  - name: get_sale_invoice
+    description: Get a sale invoice by its numeric ID
+    method: GET
+    path: /v1/SaleInvoices/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Numeric ID of the sale invoice}
+
+  - name: list_sale_quotes
+    description: List sale quotes with optional filters for date range, customer, status, and pagination
+    method: GET
+    path: /v1/SaleQuotes
+    params:
+      - {name: PageIndex, in: query, type: integer, description: "Page index (1-based)"}
+      - {name: PageSize, in: query, type: integer, description: "Number of records per page (1-100, default 10)"}
+      - {name: OrderBy, in: query, type: string, description: Field to sort results by}
+      - {name: CustomerId, in: query, type: integer, description: Filter by customer ID}
+      - {name: From, in: query, type: string, description: "Start date filter (ISO 8601)"}
+      - {name: To, in: query, type: string, description: "End date filter (ISO 8601)"}
+
+  - name: list_suppliers
+    description: List suppliers with optional pagination, search, and ordering
+    method: GET
+    path: /v1/Suppliers
+    params:
+      - {name: PageIndex, in: query, type: integer, description: "Page index (1-based)"}
+      - {name: PageSize, in: query, type: integer, description: "Number of records per page (1-100, default 10)"}
+      - {name: OrderBy, in: query, type: string, description: Field to sort results by}
+      - {name: query, in: query, type: string, description: Search query to filter suppliers}
+
+  - name: create_customer
+    description: Create a new customer
+    method: POST
+    path: /v1/Customers
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Customer type: Business, Consumer, or Government"}
+      - {name: firstName, in: body, type: string, description: First name of the customer contact}
+      - {name: lastName, in: body, type: string, description: Last name of the customer contact}
+      - {name: companyName, in: body, type: string, description: Company name (for Business/Government types)}
+      - {name: email, in: body, type: string, description: Email address of the customer}
+      - {name: phone, in: body, type: string, description: Phone number of the customer}
+      - {name: internalId, in: body, type: string, description: Your own internal identifier for the customer}
+
+  - name: create_sale_invoice
+    description: Create a new draft sale invoice
+    method: POST
+    path: /v1/SaleInvoices
+    params:
+      - {name: customerId, in: body, type: integer, description: ID of the customer for this invoice}
+      - {name: date, in: body, type: string, description: "Invoice date (ISO 8601)"}
+      - {name: subject, in: body, type: string, description: Subject line of the invoice}
+      - {name: headerNotes, in: body, type: string, description: Notes displayed in the header of the invoice}
+      - {name: footerNotes, in: body, type: string, description: Notes displayed in the footer of the invoice}
+      - {name: internalId, in: body, type: string, description: Your own internal identifier for the invoice}
+
+  - name: create_receipt
+    description: Create a new payment receipt
+    method: POST
+    path: /v1/Receipts
+    params:
+      - {name: amount, in: body, type: number, required: true, description: Amount of the receipt}
+      - {name: date, in: body, type: string, required: true, description: "Date of payment (ISO 8601)"}
+      - {name: paymentMethod, in: body, type: string, required: true, description: "Payment method: Bill, Card, Cash, Check, Order, Other, Transfer, or Usec"}
+      - {name: customerId, in: body, type: integer, description: ID of the customer associated with this receipt}
+      - {name: notes, in: body, type: string, description: Notes about the receipt}
+      - {name: internalId, in: body, type: string, description: Your own internal identifier for the receipt}
+
+  - name: delete_customer
+    description: Delete a customer by their numeric ID
+    method: DELETE
+    path: /v1/Customers/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: Numeric ID of the customer to delete}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: gong
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/gong-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gong-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:09ec7c2d6b8f4385fe06fb0f6d539fbccdb51b5dce09151dcd3b653861ccdab8
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

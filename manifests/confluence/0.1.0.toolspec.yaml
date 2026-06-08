@@ -1,0 +1,125 @@
+schemaVersion: 1
+name: confluence
+version: 0.1.0
+baseUrl: https://api.atlassian.com
+tools:
+  - name: get_pages
+    description: List pages in a Confluence Cloud site, optionally filtered by space, title, or status
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: space-id, in: query, type: array, description: "Filter by space IDs (up to 100)"}
+      - {name: title, in: query, type: string, description: "Filter pages by title (exact match)"}
+      - {name: status, in: query, type: array, description: "Filter by status: current, archived, deleted, trashed"}
+      - {name: sort, in: query, type: string, description: "Sort order for results"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor from a previous response"}
+      - {name: limit, in: query, type: integer, description: "Max pages to return (1-250, default 25)"}
+
+  - name: get_page_by_id
+    description: Retrieve a single Confluence page by its ID
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages/{id}
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: id, in: path, type: string, required: true, description: "Page ID"}
+      - {name: body-format, in: query, type: string, description: "Body representation to return: storage, atlas_doc_format, view, export_view, or anonymous_export_view"}
+      - {name: version, in: query, type: integer, description: "Page version number to retrieve; omit for latest"}
+      - {name: include-labels, in: query, type: boolean, description: "Include labels in the response"}
+      - {name: include-properties, in: query, type: boolean, description: "Include content properties in the response"}
+      - {name: include-operations, in: query, type: boolean, description: "Include permitted operations in the response"}
+
+  - name: get_child_pages
+    description: List the direct child pages of a given Confluence page
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages/{id}/children
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: id, in: path, type: string, required: true, description: "Parent page ID"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor from a previous response"}
+      - {name: limit, in: query, type: integer, description: "Max child pages to return (1-250, default 25)"}
+      - {name: sort, in: query, type: string, description: "Sort order for results"}
+
+  - name: search_content
+    description: Search Confluence content using Confluence Query Language (CQL)
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/rest/api/search
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: cql, in: query, type: string, required: true, description: "Confluence Query Language (CQL) query string (e.g. 'type=page AND space=DEV')"}
+      - {name: cqlcontext, in: query, type: string, description: "Additional context for CQL query execution"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor for retrieving subsequent result pages"}
+      - {name: limit, in: query, type: integer, description: "Max results to return per page (default 25, max 25 for expanded body views)"}
+      - {name: start, in: query, type: integer, description: "Zero-based starting index for results"}
+      - {name: includeArchivedSpaces, in: query, type: boolean, description: "When true, include results from archived spaces"}
+
+  - name: get_spaces
+    description: List Confluence spaces in a cloud site, optionally filtered by key, type, or status
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/api/v2/spaces
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: ids, in: query, type: array, description: "Filter by space IDs"}
+      - {name: keys, in: query, type: array, description: "Filter by space keys"}
+      - {name: type, in: query, type: string, description: "Filter by space type: global or personal"}
+      - {name: status, in: query, type: string, description: "Filter by space status: current or archived"}
+      - {name: sort, in: query, type: string, description: "Sort order for results"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor from a previous response"}
+      - {name: limit, in: query, type: integer, description: "Max spaces to return (1-250, default 25)"}
+
+  - name: get_attachments
+    description: List attachments on a Confluence page
+    method: GET
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages/{id}/attachments
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: id, in: path, type: string, required: true, description: "Page ID to retrieve attachments for"}
+      - {name: cursor, in: query, type: string, description: "Pagination cursor from a previous response"}
+      - {name: status, in: query, type: array, description: "Filter by attachment status: current, archived, trashed"}
+      - {name: mediaType, in: query, type: string, description: "Filter by MIME type (e.g. image/png)"}
+      - {name: filename, in: query, type: string, description: "Filter attachments by filename"}
+      - {name: limit, in: query, type: integer, description: "Max attachments to return (1-250, default 50)"}
+
+  - name: create_page
+    description: Create a new page in a Confluence space
+    method: POST
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: spaceId, in: body, type: string, required: true, description: "ID of the space in which to create the page"}
+      - {name: title, in: body, type: string, description: "Page title (required for published pages, omit for drafts)"}
+      - {name: parentId, in: body, type: string, description: "ID of the parent page; omit to create at the space root"}
+      - {name: status, in: body, type: string, description: "Page status: current (published, default) or draft"}
+      - {name: body, in: body, type: object, description: "Page body object with 'representation' (e.g. storage) and 'value' fields"}
+
+  - name: update_page
+    description: "Update an existing Confluence page. The request body must include the page id (same value as the path parameter), status, version, title, and body."
+    method: PUT
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages/{id}
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: id, in: path, type: string, required: true, description: "Page ID to update (also required as 'id' in the request body)"}
+      - {name: status, in: body, type: string, required: true, description: "Page status: current (published) or draft"}
+      - {name: version, in: body, type: object, required: true, description: "Version object with 'number' field set to current version + 1 (e.g. {\"number\": 2})"}
+      - {name: title, in: body, type: string, required: true, description: "Updated page title"}
+      - {name: body, in: body, type: object, required: true, description: "Updated page body object with 'representation' and 'value' fields"}
+
+  - name: create_footer_comment
+    description: "Create a footer comment on Confluence content. Provide exactly one of: pageId, blogPostId, parentCommentId, attachmentId, or customContentId."
+    method: POST
+    path: /ex/confluence/{cloudId}/wiki/api/v2/footer-comments
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: pageId, in: body, type: string, description: "ID of the page to attach the footer comment to (top-level comment)"}
+      - {name: blogPostId, in: body, type: string, description: "ID of the blog post to attach the footer comment to (top-level comment)"}
+      - {name: parentCommentId, in: body, type: string, description: "ID of the parent comment when creating a reply"}
+      - {name: body, in: body, type: object, description: "Comment body object with 'representation' (e.g. storage or wiki) and 'value' fields"}
+
+  - name: delete_page
+    description: Delete a Confluence page by ID
+    method: DELETE
+    path: /ex/confluence/{cloudId}/wiki/api/v2/pages/{id}
+    params:
+      - {name: cloudId, in: path, type: string, required: true, description: "Atlassian cloud site identifier (UUID)"}
+      - {name: id, in: path, type: string, required: true, description: "Page ID to delete"}
+      - {name: purge, in: query, type: boolean, description: "When true, permanently delete (bypass trash); defaults to false"}

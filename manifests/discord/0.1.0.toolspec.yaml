@@ -1,0 +1,73 @@
+schemaVersion: 1
+name: discord
+version: 0.1.0
+baseUrl: https://discord.com
+tools:
+  - name: get_my_user
+    description: Get the current user's account information (requires identify scope)
+    method: GET
+    path: /api/v10/users/@me
+
+  - name: list_my_guilds
+    description: Get the list of guilds the current user is a member of (requires guilds scope)
+    method: GET
+    path: /api/v10/users/@me/guilds
+    params:
+      - {name: before, in: query, type: string, description: Get guilds before this guild ID}
+      - {name: after, in: query, type: string, description: Get guilds after this guild ID}
+      - {name: limit, in: query, type: integer, description: "Max number of guilds to return (1-200, default 200)"}
+      - {name: with_counts, in: query, type: boolean, description: Include approximate member and presence counts}
+
+  - name: get_my_guild_member
+    description: Get the guild member object for the current user in a specific guild (requires guilds.members.read scope)
+    method: GET
+    path: /api/v10/users/@me/guilds/{guild_id}/member
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+
+  - name: list_my_connections
+    description: Get the list of connections (linked accounts) for the current user (requires connections scope)
+    method: GET
+    path: /api/v10/users/@me/connections
+
+  - name: resolve_invite
+    description: Get information about a Discord invite by its code
+    method: GET
+    path: /api/v10/invites/{invite_code}
+    params:
+      - {name: invite_code, in: path, type: string, required: true, description: The invite code}
+      - {name: with_counts, in: query, type: boolean, description: Whether to include approximate member counts}
+      - {name: guild_scheduled_event_id, in: query, type: string, description: The guild scheduled event ID to include with the invite}
+
+  - name: get_guild_widget
+    description: Get the public widget JSON data for a guild (no authentication required)
+    method: GET
+    path: /api/v10/guilds/{guild_id}/widget.json
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild}
+
+  - name: modify_current_user
+    description: Modify the current user's account settings and return the updated user object
+    method: PATCH
+    path: /api/v10/users/@me
+    params:
+      - {name: username, in: body, type: string, description: New username for the current user}
+      - {name: avatar, in: body, type: string, description: "Base64-encoded image data for the new avatar (e.g. data:image/jpeg;base64,...)"}
+      - {name: banner, in: body, type: string, description: "Base64-encoded image data for the new banner (e.g. data:image/jpeg;base64,...)"}
+
+  - name: leave_guild
+    description: Remove the current user from a guild
+    method: DELETE
+    path: /api/v10/users/@me/guilds/{guild_id}
+    params:
+      - {name: guild_id, in: path, type: string, required: true, description: The ID of the guild to leave}
+
+  - name: update_user_application_role_connection
+    description: Update the current user's application role connection metadata for a given application
+    method: PUT
+    path: /api/v10/users/@me/applications/{application_id}/role-connection
+    params:
+      - {name: application_id, in: path, type: string, required: true, description: The ID of the application}
+      - {name: platform_name, in: body, type: string, description: "Platform name (max 50 characters)"}
+      - {name: platform_username, in: body, type: string, description: "Platform username (max 100 characters)"}
+      - {name: metadata, in: body, type: object, description: Object mapping application role connection metadata keys to their string-cast value}

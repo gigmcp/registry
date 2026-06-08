@@ -2,13 +2,14 @@ schemaVersion: 1
 name: cal
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/cal-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/cal-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:75a665ab4455d674e66235230e4babd33a3dc1f3b1a4423451ab51370479d81d
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

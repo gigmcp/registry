@@ -1,0 +1,95 @@
+schemaVersion: 1
+name: flutterwave
+version: 0.1.0
+baseUrl: https://api.flutterwave.com
+tools:
+  - name: get_all_transactions
+    description: Retrieve a list of previously initiated transactions with optional date range and filter parameters
+    method: GET
+    path: /v3/transactions
+    params:
+      - {name: from, in: query, type: string, description: "Start date for the query range in YYYY-MM-DD format"}
+      - {name: to, in: query, type: string, description: "End date for the query range in YYYY-MM-DD format"}
+      - {name: page, in: query, type: integer, description: "Page number to retrieve (defaults to 1)"}
+      - {name: customer_email, in: query, type: string, description: "Filter by the email address of the customer who made the transaction"}
+      - {name: status, in: query, type: string, description: "Filter by transaction status (successful or failed)"}
+      - {name: tx_ref, in: query, type: string, description: "Unique merchant reference tied to the transaction"}
+      - {name: currency, in: query, type: string, description: "Filter by currency code (e.g. NGN)"}
+
+  - name: verify_transaction_by_reference
+    description: Verify a transaction using the merchant's unique transaction reference (tx_ref)
+    method: GET
+    path: /v3/transactions/verify_by_reference
+    params:
+      - {name: tx_ref, in: query, type: string, required: true, description: "The unique merchant reference for the transaction to verify"}
+
+  - name: get_transaction
+    description: Verify and retrieve details of a single transaction by its Flutterwave transaction ID
+    method: GET
+    path: /v3/transactions/{id}/verify
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The unique Flutterwave transaction ID returned when the transaction was initiated"}
+
+  - name: create_payment_link
+    description: Initiate a Flutterwave Standard checkout and receive a hosted payment link to redirect customers to
+    method: POST
+    path: /v3/payments
+    params:
+      - {name: tx_ref, in: body, type: string, required: true, description: "A unique reference you generate to identify this transaction"}
+      - {name: amount, in: body, type: number, required: true, description: "The amount to charge the customer"}
+      - {name: currency, in: body, type: string, required: true, description: "Currency code for the transaction (e.g. NGN, USD, GHS)"}
+      - {name: redirect_url, in: body, type: string, required: true, description: "URL to redirect the customer to after payment is completed"}
+      - {name: customer, in: body, type: object, required: true, description: "Customer information object containing at minimum an email field"}
+
+  - name: create_refund
+    description: Initiate a full or partial refund for a completed transaction
+    method: POST
+    path: /v3/transactions/{id}/refund
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The unique Flutterwave transaction ID to refund"}
+      - {name: amount, in: body, type: integer, description: "Amount to refund; omit to issue a full refund or set for a partial refund"}
+      - {name: comments, in: body, type: string, description: "Custom description or reason for the refund"}
+
+  - name: get_refund
+    description: Retrieve details of a specific refund by its ID
+    method: GET
+    path: /v3/refunds/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "The unique Flutterwave refund ID to retrieve"}
+
+  - name: list_transfers
+    description: Retrieve a list of previously initiated transfers with optional filters
+    method: GET
+    path: /v3/transfers
+    params:
+      - {name: reference, in: query, type: string, description: "Filter by the merchant's unique transfer reference"}
+      - {name: status, in: query, type: string, description: "Filter by transfer status (failed or successful)"}
+      - {name: from, in: query, type: string, description: "Start date for the query range (YYYY-MM-DD)"}
+      - {name: to, in: query, type: string, description: "End date for the query range (YYYY-MM-DD)"}
+      - {name: page, in: query, type: integer, description: "Page number to retrieve (defaults to 1)"}
+      - {name: page_size, in: query, type: integer, description: "Number of results per page (defaults to 10)"}
+
+  - name: get_banks_by_country
+    description: Retrieve a list of bank codes available for transfers in a specified country
+    method: GET
+    path: /v3/banks/{country}
+    params:
+      - {name: country, in: path, type: string, required: true, description: "Country code to get banks for (e.g. NG, GH, KE, UG, ZA, TZ)"}
+
+  - name: resolve_bank_account
+    description: Look up and verify a bank account number to retrieve the account holder name
+    method: POST
+    path: /v3/accounts/resolve
+    params:
+      - {name: account_number, in: body, type: string, required: true, description: "The bank account number to resolve"}
+      - {name: account_bank, in: body, type: string, required: true, description: "The bank code for the account's bank (e.g. 044 for Access Bank Nigeria)"}
+
+  - name: create_payment_plan
+    description: Create a recurring payment plan that customers can subscribe to
+    method: POST
+    path: /v3/payment-plans
+    params:
+      - {name: amount, in: body, type: integer, required: true, description: "The amount to charge all customers subscribed to this plan"}
+      - {name: name, in: body, type: string, required: true, description: "The name of the payment plan (appears on subscription reminder emails)"}
+      - {name: interval, in: body, type: string, required: true, description: "Charge frequency: daily, weekly, monthly, quarterly, or yearly"}
+      - {name: duration, in: body, type: integer, description: "Number of intervals before the subscription ends (omit for indefinite)"}

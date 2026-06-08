@@ -2,13 +2,14 @@ schemaVersion: 1
 name: zoho-inventory
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/zoho-inventory-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-inventory-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:46f37104efa4038df8e1d0922d892cebed8f6d18fbfa157d7869d85dcdfb4823
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

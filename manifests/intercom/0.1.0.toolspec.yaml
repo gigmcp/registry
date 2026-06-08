@@ -1,0 +1,111 @@
+schemaVersion: 1
+name: intercom
+version: 0.1.0
+baseUrl: https://api.intercom.io
+tools:
+  - name: search_contacts
+    description: Search for contacts using field-level filters
+    method: POST
+    path: /contacts/search
+    params:
+      - {name: query, in: body, type: object, required: true, description: "Filter object with field, operator, and value; supports AND/OR combinators"}
+      - {name: pagination, in: body, type: object, description: "Pagination object; set starting_after to the cursor from a previous response"}
+
+  - name: get_contact
+    description: Retrieve a single contact by Intercom contact ID
+    method: GET
+    path: /contacts/{contact_id}
+    params:
+      - {name: contact_id, in: path, type: string, required: true, description: The Intercom-assigned contact identifier}
+
+  - name: list_conversations
+    description: List conversations in the workspace with optional sorting and pagination
+    method: GET
+    path: /conversations
+    params:
+      - {name: sort, in: query, type: string, description: "Field to sort by: created_at, updated_at (default), or waiting_since"}
+      - {name: order, in: query, type: string, description: "Sort direction: asc or desc (default)"}
+      - {name: starting_after, in: query, type: string, description: Cursor for the next page of results}
+
+  - name: list_companies
+    description: List all companies in the workspace
+    method: GET
+    path: /companies
+    params:
+      - {name: name, in: query, type: string, description: Filter companies by name}
+      - {name: company_id, in: query, type: string, description: Filter by the company's external company_id}
+      - {name: tag_id, in: query, type: string, description: Filter companies by tag ID}
+      - {name: segment_id, in: query, type: string, description: Filter companies by segment ID}
+      - {name: page, in: query, type: integer, description: Page number of results (defaults to 1)}
+      - {name: per_page, in: query, type: integer, description: Number of results per page (defaults to 15)}
+
+  - name: list_tags
+    description: List all tags for the workspace
+    method: GET
+    path: /tags
+
+  - name: create_contact
+    description: Create a new contact (user or lead)
+    method: POST
+    path: /contacts
+    params:
+      - {name: role, in: body, type: string, description: "Role of the contact: user or lead"}
+      - {name: email, in: body, type: string, description: The contact's email address}
+      - {name: name, in: body, type: string, description: The contact's full name}
+      - {name: phone, in: body, type: string, description: The contact's phone number}
+      - {name: external_id, in: body, type: string, description: A unique identifier for the contact provided by your system}
+      - {name: avatar, in: body, type: string, description: URL of the contact's avatar image}
+      - {name: signed_up_at, in: body, type: integer, description: "Unix timestamp of when the contact signed up"}
+      - {name: last_seen_at, in: body, type: integer, description: "Unix timestamp of when the contact was last seen"}
+      - {name: owner_id, in: body, type: integer, description: Intercom ID of the admin assigned as account owner}
+      - {name: unsubscribed_from_emails, in: body, type: boolean, description: Whether the contact is unsubscribed from emails}
+      - {name: custom_attributes, in: body, type: object, description: Key-value pairs of custom attributes for the contact}
+
+  - name: update_contact
+    description: Update an existing contact by Intercom contact ID
+    method: PUT
+    path: /contacts/{contact_id}
+    params:
+      - {name: contact_id, in: path, type: string, required: true, description: The Intercom-assigned contact identifier}
+      - {name: role, in: body, type: string, description: "Role of the contact: user or lead"}
+      - {name: email, in: body, type: string, description: The contact's email address}
+      - {name: name, in: body, type: string, description: The contact's full name}
+      - {name: phone, in: body, type: string, description: The contact's phone number}
+      - {name: external_id, in: body, type: string, description: A unique identifier for the contact in your system}
+      - {name: avatar, in: body, type: string, description: URL of the contact's avatar image}
+      - {name: signed_up_at, in: body, type: integer, description: "Unix timestamp of when the contact signed up"}
+      - {name: last_seen_at, in: body, type: integer, description: "Unix timestamp of when the contact was last seen"}
+      - {name: owner_id, in: body, type: integer, description: Intercom ID of the admin assigned as account owner}
+      - {name: unsubscribed_from_emails, in: body, type: boolean, description: Whether the contact is unsubscribed from emails}
+      - {name: custom_attributes, in: body, type: object, description: Key-value pairs of custom attributes to update}
+
+  - name: reply_to_conversation
+    description: Add a reply to an existing conversation on behalf of an admin or user
+    method: POST
+    path: /conversations/{id}/reply
+    params:
+      - {name: id, in: path, type: string, required: true, description: "The Intercom conversation ID, or 'last' for the most recent conversation"}
+      - {name: message_type, in: body, type: string, required: true, description: "Type of reply: comment, note, or close"}
+      - {name: type, in: body, type: string, required: true, description: "Sender type: admin or user"}
+      - {name: body, in: body, type: string, required: true, description: The HTML or plain text body of the reply}
+      - {name: admin_id, in: body, type: string, description: "Intercom ID of the admin sending the reply (required when type is admin)"}
+      - {name: intercom_user_id, in: body, type: string, description: "Intercom ID of the contact sending the reply (required when type is user)"}
+      - {name: attachment_urls, in: body, type: array, description: "List of image URLs to attach (max 10)"}
+
+  - name: create_ticket
+    description: Create a new ticket associated with a contact
+    method: POST
+    path: /tickets
+    params:
+      - {name: contacts, in: body, type: array, required: true, description: "Array of contact identifier objects (each with an email or id field)"}
+      - {name: ticket_type_id, in: body, type: string, required: true, description: The ID of the ticket type to create}
+      - {name: ticket_attributes, in: body, type: object, description: "Custom attributes for the ticket; use _default_title_ and _default_description_ for the built-in title and description fields"}
+
+  - name: attach_tag_to_conversation
+    description: Add a tag to a conversation
+    method: POST
+    path: /conversations/{conversation_id}/tags
+    params:
+      - {name: conversation_id, in: path, type: string, required: true, description: The Intercom conversation ID}
+      - {name: id, in: body, type: string, required: true, description: The ID of the tag to attach}
+      - {name: admin_id, in: body, type: string, required: true, description: The Intercom ID of the admin performing the tagging}

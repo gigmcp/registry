@@ -1,0 +1,89 @@
+schemaVersion: 1
+name: webex
+version: 0.1.0
+baseUrl: https://webexapis.com
+tools:
+  - name: list_rooms
+    description: List rooms (spaces) the authenticated user belongs to
+    method: GET
+    path: /v1/rooms
+    params:
+      - {name: teamId, in: query, type: string, description: Limit rooms to those associated with a team by ID}
+      - {name: type, in: query, type: string, description: "Filter by room type: direct (1-to-1) or group"}
+      - {name: sortBy, in: query, type: string, description: "Sort by room id, lastactivity, or created"}
+      - {name: max, in: query, type: integer, description: "Maximum number of rooms to return (default 100)"}
+
+  - name: get_room_details
+    description: Get details for a room (space) by ID
+    method: GET
+    path: /v1/rooms/{roomId}
+    params:
+      - {name: roomId, in: path, type: string, required: true, description: The ID of the room}
+
+  - name: create_room
+    description: Create a new room (space); the authenticated user is added as a member automatically
+    method: POST
+    path: /v1/rooms
+    params:
+      - {name: title, in: body, type: string, required: true, description: A user-friendly name for the room}
+      - {name: teamId, in: body, type: string, description: ID of the team to associate this room with}
+
+  - name: list_messages
+    description: List messages in a room
+    method: GET
+    path: /v1/messages
+    params:
+      - {name: roomId, in: query, type: string, required: true, description: List messages in a room by ID}
+      - {name: mentionedPeople, in: query, type: string, description: "List messages mentioning this person ID; use 'me' for the current user"}
+      - {name: before, in: query, type: string, description: List messages sent before this date and time (ISO 8601)}
+      - {name: beforeMessage, in: query, type: string, description: List messages sent before a message by ID}
+      - {name: max, in: query, type: integer, description: "Maximum number of messages to return (default 50, max 100)"}
+
+  - name: create_message
+    description: Post a message to a room or a person
+    method: POST
+    path: /v1/messages
+    params:
+      - {name: roomId, in: body, type: string, description: ID of the room to post the message to}
+      - {name: toPersonId, in: body, type: string, description: Person ID of the recipient for a direct 1-to-1 message}
+      - {name: toPersonEmail, in: body, type: string, description: Email address of the recipient for a direct 1-to-1 message}
+      - {name: text, in: body, type: string, description: The message in plain text}
+      - {name: markdown, in: body, type: string, description: The message in Markdown format}
+
+  - name: delete_message
+    description: Delete a message by ID
+    method: DELETE
+    path: /v1/messages/{messageId}
+    params:
+      - {name: messageId, in: path, type: string, required: true, description: The ID of the message to delete}
+
+  - name: list_teams
+    description: List teams the authenticated user belongs to
+    method: GET
+    path: /v1/teams
+    params:
+      - {name: max, in: query, type: integer, description: "Maximum number of teams to return (default 100)"}
+
+  - name: create_team
+    description: Create a new team; the authenticated user is automatically added as a member
+    method: POST
+    path: /v1/teams
+    params:
+      - {name: name, in: body, type: string, required: true, description: A user-friendly name for the team}
+
+  - name: list_memberships
+    description: List room memberships; optionally filter by room or person
+    method: GET
+    path: /v1/memberships
+    params:
+      - {name: roomId, in: query, type: string, description: List memberships for a room by ID}
+      - {name: personId, in: query, type: string, description: List memberships for a person by ID}
+      - {name: personEmail, in: query, type: string, description: List memberships for a person by email}
+      - {name: max, in: query, type: integer, description: Maximum number of memberships to return}
+
+  - name: get_person_details
+    description: Get details for a person (Webex user) by ID
+    method: GET
+    path: /v1/people/{personId}
+    params:
+      - {name: personId, in: path, type: string, required: true, description: The ID of the person}

@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: zoho-bigin
+version: 0.1.0
+baseUrl: https://www.zohoapis.com
+tools:
+  - name: get_modules
+    description: Retrieve the list of all available modules in a Bigin account
+    method: GET
+    path: /bigin/v2/settings/modules
+
+  - name: get_records
+    description: Retrieve records from a specified Bigin module
+    method: GET
+    path: /bigin/v2/{module_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of field API names to include in the response"}
+      - {name: sort_order, in: query, type: string, description: "Sort direction: asc or desc"}
+      - {name: sort_by, in: query, type: string, description: Field API name to sort records by}
+      - {name: page, in: query, type: integer, description: "Page index for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default: 200, max: 200)"}
+      - {name: cvid, in: query, type: string, description: Custom view ID to filter records from a specific view}
+
+  - name: get_record
+    description: Retrieve a specific record by its ID from a Bigin module
+    method: GET
+    path: /bigin/v2/{module_api_name}/{record_id}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: record_id, in: path, type: string, required: true, description: Unique identification number of the record}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of field API names to include in the response"}
+
+  - name: search_records
+    description: Search for records in a Bigin module using criteria, email, phone, or keyword
+    method: GET
+    path: /bigin/v2/{module_api_name}/search
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls, Notes)"}
+      - {name: criteria, in: query, type: string, description: "Filter expression using field:comparator:value pairs joined with AND/OR logic"}
+      - {name: email, in: query, type: string, description: Email address to search across email fields}
+      - {name: phone, in: query, type: string, description: Phone number to search across phone fields}
+      - {name: word, in: query, type: string, description: Search term to match across all available text fields}
+      - {name: page, in: query, type: integer, description: "Page index for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default: 200)"}
+
+  - name: get_related_records
+    description: Retrieve related list records for a specific record in a Bigin module
+    method: GET
+    path: /bigin/v2/{module_api_name}/{record_id}/{related_list_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the parent module (e.g. Contacts, Pipelines, Accounts, Products)"}
+      - {name: record_id, in: path, type: string, required: true, description: Unique identification number of the parent record}
+      - {name: related_list_api_name, in: path, type: string, required: true, description: API name of the related list to retrieve}
+      - {name: fields, in: query, type: string, description: "Comma-separated list of field API names to include in the response"}
+      - {name: page, in: query, type: integer, description: "Page index for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of records per page (default: 200, max: 200)"}
+
+  - name: get_users
+    description: Retrieve users from a Bigin account, optionally filtered by user type
+    method: GET
+    path: /bigin/v2/users
+    params:
+      - {name: type, in: query, type: string, description: "Filter users by status: AllUsers, ActiveUsers, DeactiveUsers, ConfirmedUsers, NotConfirmedUsers, DeletedUsers, ActiveConfirmedUsers, AdminUsers, ActiveConfirmedAdmins, or CurrentUser"}
+      - {name: page, in: query, type: integer, description: "Page index for pagination (default: 1)"}
+      - {name: per_page, in: query, type: integer, description: "Number of user records per page (default: 200, max: 200)"}
+
+  - name: add_records
+    description: Insert one or more new records into a Bigin module
+    method: POST
+    path: /bigin/v2/{module_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: data, in: body, type: array, required: true, description: "Array of record objects to insert; each object contains module-specific field key-value pairs"}
+      - {name: trigger, in: body, type: array, description: "Workflow trigger controls; pass an empty array [] to suppress workflow execution"}
+
+  - name: update_records
+    description: Update one or more existing records in a Bigin module
+    method: PUT
+    path: /bigin/v2/{module_api_name}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: data, in: body, type: array, required: true, description: "Array of record objects to update; each object must include the id field and the fields to be changed"}
+      - {name: trigger, in: body, type: array, description: "Workflow trigger controls; pass an empty array [] to suppress workflow execution"}
+
+  - name: upsert_records
+    description: Insert or update records in a Bigin module based on duplicate check fields
+    method: POST
+    path: /bigin/v2/{module_api_name}/upsert
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: data, in: body, type: array, required: true, description: "Array of record objects to upsert; each object contains module-specific field key-value pairs"}
+      - {name: duplicate_check_fields, in: body, type: array, description: "List of field API names used to check for existing duplicate records"}
+      - {name: trigger, in: body, type: array, description: "Workflow trigger controls; pass an empty array [] to suppress workflow execution"}
+
+  - name: delete_record
+    description: Delete a specific record from a Bigin module by its ID
+    method: DELETE
+    path: /bigin/v2/{module_api_name}/{record_id}
+    params:
+      - {name: module_api_name, in: path, type: string, required: true, description: "API name of the module (e.g. Contacts, Accounts, Pipelines, Products, Tasks, Events, Calls)"}
+      - {name: record_id, in: path, type: string, required: true, description: Unique identification number of the record to delete}
+      - {name: wf_trigger, in: query, type: boolean, description: "Controls workflow execution on deletion; defaults to true (activates workflows)"}

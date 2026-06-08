@@ -2,13 +2,14 @@ schemaVersion: 1
 name: tinypng
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/tinypng-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/tinypng-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:2c249430cdd2176b880e30e31ff5e85460ec6641856b1e927eeefeac7e9d6eeb
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

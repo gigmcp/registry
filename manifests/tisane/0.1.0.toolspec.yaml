@@ -1,0 +1,63 @@
+schemaVersion: 1
+name: tisane
+version: 0.1.0
+baseUrl: https://api.tisane.ai
+tools:
+  - name: analyze_text
+    description: Analyze text for sentiment, entities, topics, abuse, and other linguistic features
+    method: POST
+    path: /parse
+    params:
+      - {name: content, in: body, type: string, required: true, description: "The text to analyze"}
+      - {name: language, in: body, type: string, required: true, description: "IETF language code of the text (e.g. en)"}
+      - {name: settings, in: body, type: object, required: true, description: "Output settings object; use empty object {} for defaults"}
+
+  - name: detect_language
+    description: Detect the language(s) used in a text fragment with breakdown by offsets
+    method: POST
+    path: /detectLanguage
+    params:
+      - {name: content, in: body, type: string, required: true, description: "The text fragment to analyze"}
+      - {name: languages, in: body, type: string, description: "Vertical bar-delimited list of language codes to use as cues"}
+      - {name: delimiter, in: body, type: string, description: "Regular expression for segmenting the fragment; by default the fragment is not segmented"}
+
+  - name: get_supported_languages
+    description: Retrieve the list of languages supported by the Tisane API
+    method: GET
+    path: /languages
+
+  - name: calculate_similarity
+    description: Calculate the semantic similarity between two text fragments (returns a score from 0 to 1)
+    method: POST
+    path: /similarity
+    params:
+      - {name: content1, in: body, type: string, required: true, description: "First text fragment"}
+      - {name: language1, in: body, type: string, required: true, description: "IETF language code of the first fragment"}
+      - {name: content2, in: body, type: string, required: true, description: "Second text fragment"}
+      - {name: language2, in: body, type: string, required: true, description: "IETF language code of the second fragment"}
+      - {name: settings, in: body, type: object, description: "Optional settings object"}
+
+  - name: list_word_senses
+    description: List word senses (families) linked to a word, with IDs, definitions, and features
+    method: GET
+    path: /lm/senses
+    params:
+      - {name: language, in: query, type: string, required: true, description: "Language code (e.g. en)"}
+      - {name: word, in: query, type: string, required: true, description: "The word or multi-word expression to look up, including inflected forms"}
+
+  - name: extract_text
+    description: Strip markup (HTML, CSS, JavaScript, JSON) from content and return decoded plain text
+    method: POST
+    path: /helper/extract_text
+    params:
+      - {name: content, in: body, type: string, required: true, description: "Markup content to clean up"}
+
+  - name: transform_text
+    description: Translate text between languages or paraphrase text when source and target language are the same
+    method: POST
+    path: /transform
+    params:
+      - {name: from, in: body, type: string, required: true, description: "IETF language code of the source language; use * for autodetect"}
+      - {name: to, in: body, type: string, required: true, description: "IETF language code of the target language"}
+      - {name: content, in: body, type: string, required: true, description: "The text to translate or paraphrase"}
+      - {name: settings, in: body, type: object, description: "Optional translation settings object"}

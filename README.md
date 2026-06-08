@@ -8,12 +8,16 @@ artifact — never from this repo directly.
 
 ## Catalog
 
-The registry tracks 224 manifests mirroring Composio's toolkit list. `github`,
-`echo`, and `fetch` have reference implementations in their own repos (see
-CATALOG.md), while the rest are **planned** — curated, lint-enforced manifests
-whose implementations and image digests are pending (placeholder digests are not
-installable). See [CATALOG.md](CATALOG.md) for the full table of names, auth
-types, tiers, and egress allowlists.
+The registry tracks 221 manifests mirroring Composio's toolkit list. Most are
+**toolspec-driven**: `manifests/<name>/<version>.toolspec.yaml` maps each manifest
+tool to a real REST endpoint, served by the generic
+[toolpack](https://github.com/gigmcp/toolpack) engine and built by the
+`toolpack` builder. A few adopt an established upstream Go MCP server
+instead, and a handful with no usable public API remain planned. Image
+digests are placeholders (`sha256:0000…`) until `build-images` CI pins the
+real ones — placeholder digests are not installable. See
+[CATALOG.md](CATALOG.md) for the full table of names, auth types, tiers,
+egress allowlists, and per-entry status.
 
 **Aggregator policy:** this repository holds manifests and build recipes only.
 Server source code always lives in the author's own repo; it is never committed
@@ -21,10 +25,14 @@ here.
 
 ## Layout
 - `manifests/<name>/<version>.yaml` — one manifest per server version (schema: `schema/`)
+- `manifests/<name>/<version>.toolspec.yaml` — declarative tool→HTTP mapping
+  consumed by the generic [toolpack](https://github.com/gigmcp/toolpack) engine
+  (manifests with `builder: toolpack`); sits beside its manifest version and is
+  lint-enforced against it (`registryctl lint-toolspecs`)
 - `schema/` — Go module (Apache-2.0): the authoritative parser/validator used
   byte-for-byte by CI here and by the gigmcp gateway
 - `denylist/exfil-domains.txt` — egress domains lint CI rejects
-- `images/go-static/Dockerfile` — generic static-binary builder (v1: FROM scratch, static ELF); `images/node/Dockerfile` and `images/python/Dockerfile` — prepared runtime-rootfs builders (NOT yet installable — pending gateway rootfs sandbox extension); custom `images/<name>/Dockerfile` for unusual builds; see `images/README.md`
+- `images/go-static/Dockerfile` — generic static-binary builder (FROM scratch, static ELF); `images/toolpack/Dockerfile` — toolpack-engine builder (static engine + baked-in manifest/toolspec); `images/node/Dockerfile` and `images/python/Dockerfile` — prepared runtime-rootfs builders (NOT yet installable — pending gateway rootfs sandbox extension); custom `images/<name>/Dockerfile` for unusual builds; see `images/README.md`
 - `cmd/registryctl` — lint | build-index | sign | verify | keygen
 
 ## Trust chain
@@ -41,8 +49,8 @@ here.
 ## Bootstrapping a manifest's digest
 `build-images.yml` (manual dispatch) builds and pushes the image and prints
 the digest; the PR then pins that digest. Manifests with placeholder digests
-(the current echo/fetch ones) are not installable until CI has built their
-images and the digests are pinned.
+are not installable until CI has built their images and the digests are
+pinned.
 
 ## Signing key
 Generate once with `go run ./cmd/registryctl keygen`. Private key → repo
@@ -63,6 +71,3 @@ secret `GIG_INDEX_SIGNING_KEY`. Public key → gateway `GIG_REGISTRY_PUBKEY`.
    `GIG_REGISTRY_PUBKEY=<public key>`, `GIG_INSTALL=<name>` — sealed-tier
    servers only ever see a placeholder token; the egress proxy injects the
    real credential for the manifest's allowlisted hosts only.
-
-`echo` and `fetch` reference the gigmcp repo as source and become buildable
-once that repo is public.

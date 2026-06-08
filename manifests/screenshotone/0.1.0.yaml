@@ -2,13 +2,14 @@ schemaVersion: 1
 name: screenshotone
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/screenshotone-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/screenshotone-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:f4ccf892999ef97b0eca52b8e88974561eb2175064ecb0546bef2092c5201368
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: entrusted
 entitlements:
   egress:

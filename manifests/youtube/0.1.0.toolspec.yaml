@@ -1,0 +1,130 @@
+schemaVersion: 1
+name: youtube
+version: 0.1.0
+baseUrl: https://www.googleapis.com
+tools:
+  - name: search_videos
+    description: Search YouTube for videos, channels, or playlists matching a query
+    method: GET
+    path: /youtube/v3/search
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include in the response (e.g. snippet)"}
+      - {name: q, in: query, type: string, description: "Search query term"}
+      - {name: type, in: query, type: string, description: "Resource type to filter by: video, channel, or playlist"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (0-50, default 5)"}
+      - {name: order, in: query, type: string, description: "Sort order: relevance, date, rating, title, videoCount, or viewCount"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+      - {name: publishedAfter, in: query, type: string, description: "RFC 3339 date-time; return results published after this time"}
+      - {name: publishedBefore, in: query, type: string, description: "RFC 3339 date-time; return results published before this time"}
+      - {name: regionCode, in: query, type: string, description: "ISO 3166-1 alpha-2 country code to filter results"}
+      - {name: safeSearch, in: query, type: string, description: "Content safety filter: moderate, none, or strict"}
+
+  - name: get_video_details
+    description: Retrieve details for one or more YouTube videos by ID
+    method: GET
+    path: /youtube/v3/videos
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include (e.g. snippet,statistics,contentDetails)"}
+      - {name: id, in: query, type: string, description: "Comma-separated list of YouTube video IDs to retrieve"}
+      - {name: chart, in: query, type: string, description: "Retrieve chart data; currently accepts mostPopular"}
+      - {name: myRating, in: query, type: string, description: "Filter authenticated user's rated videos: like or dislike"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (1-50, default 5)"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+      - {name: regionCode, in: query, type: string, description: "ISO 3166-1 alpha-2 country code for regional chart selection"}
+
+  - name: get_channel_statistics
+    description: Retrieve statistics and metadata for one or more YouTube channels
+    method: GET
+    path: /youtube/v3/channels
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include (e.g. snippet,statistics)"}
+      - {name: id, in: query, type: string, description: "Comma-separated YouTube channel IDs to retrieve"}
+      - {name: forHandle, in: query, type: string, description: "YouTube channel handle (with optional @ prefix)"}
+      - {name: forUsername, in: query, type: string, description: "YouTube username for the channel"}
+      - {name: mine, in: query, type: boolean, description: "Return the authenticated user's channels only"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (0-50, default 5)"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+
+  - name: list_channel_videos
+    description: Search for videos uploaded to a specific YouTube channel
+    method: GET
+    path: /youtube/v3/search
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include in the response (e.g. snippet)"}
+      - {name: channelId, in: query, type: string, required: true, description: "YouTube channel ID whose videos to list"}
+      - {name: type, in: query, type: string, description: "Resource type filter; set to video to list only videos"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (0-50, default 5)"}
+      - {name: order, in: query, type: string, description: "Sort order: date, rating, relevance, title, or viewCount"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+      - {name: publishedAfter, in: query, type: string, description: "RFC 3339 date-time; return videos published after this time"}
+      - {name: publishedBefore, in: query, type: string, description: "RFC 3339 date-time; return videos published before this time"}
+
+  - name: list_playlist_items
+    description: Retrieve the list of items in a YouTube playlist
+    method: GET
+    path: /youtube/v3/playlistItems
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include (e.g. snippet,contentDetails)"}
+      - {name: playlistId, in: query, type: string, description: "ID of the playlist whose items to retrieve"}
+      - {name: id, in: query, type: string, description: "Comma-separated playlist item IDs to retrieve"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (0-50, default 5)"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+      - {name: videoId, in: query, type: string, description: "Return only playlist items that contain this video ID"}
+
+  - name: list_comment_threads
+    description: Retrieve top-level comment threads for a YouTube video or channel
+    method: GET
+    path: /youtube/v3/commentThreads
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include (e.g. snippet,replies)"}
+      - {name: videoId, in: query, type: string, description: "Return comment threads for this YouTube video ID"}
+      - {name: allThreadsRelatedToChannelId, in: query, type: string, description: "Return all threads associated with this channel ID"}
+      - {name: id, in: query, type: string, description: "Comma-separated comment thread IDs to retrieve"}
+      - {name: maxResults, in: query, type: integer, description: "Maximum number of results to return (1-100, default 20)"}
+      - {name: order, in: query, type: string, description: "Sort order: time or relevance"}
+      - {name: pageToken, in: query, type: string, description: "Pagination token for a specific result page"}
+      - {name: searchTerms, in: query, type: string, description: "Filter comments by this search text"}
+      - {name: textFormat, in: query, type: string, description: "Comment text format: html or plainText"}
+
+  - name: create_playlist
+    description: Create a new YouTube playlist for the authenticated user
+    method: POST
+    path: /youtube/v3/playlists
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include in the response (e.g. snippet,status)"}
+      - {name: title, in: body, type: string, required: true, description: "Title of the new playlist (maps to snippet.title)"}
+      - {name: description, in: body, type: string, description: "Description of the new playlist (maps to snippet.description)"}
+      - {name: privacyStatus, in: body, type: string, description: "Privacy setting for the playlist: public, private, or unlisted (maps to status.privacyStatus)"}
+
+  - name: add_video_to_playlist
+    description: Add a video to an existing YouTube playlist
+    method: POST
+    path: /youtube/v3/playlistItems
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include in the response (e.g. snippet)"}
+      - {name: playlistId, in: body, type: string, required: true, description: "ID of the playlist to add the video to (maps to snippet.playlistId)"}
+      - {name: videoId, in: body, type: string, required: true, description: "YouTube video ID to add to the playlist (maps to snippet.resourceId.videoId)"}
+      - {name: position, in: body, type: integer, description: "Zero-based position in the playlist to insert the item (maps to snippet.position)"}
+
+  - name: post_comment
+    description: Post a new top-level comment on a YouTube video
+    method: POST
+    path: /youtube/v3/commentThreads
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include; set to snippet"}
+      - {name: channelId, in: body, type: string, required: true, description: "YouTube channel ID associated with the video (maps to snippet.channelId)"}
+      - {name: videoId, in: body, type: string, required: true, description: "YouTube video ID to post the comment on (maps to snippet.videoId)"}
+      - {name: textOriginal, in: body, type: string, required: true, description: "Text of the comment to post (maps to snippet.topLevelComment.snippet.textOriginal)"}
+
+  - name: upload_video
+    description: Upload a new video to the authenticated user's YouTube channel
+    method: POST
+    path: /upload/youtube/v3/videos
+    params:
+      - {name: part, in: query, type: string, required: true, description: "Comma-separated resource properties to include in the response (e.g. snippet,status)"}
+      - {name: title, in: body, type: string, required: true, description: "Title of the video (maps to snippet.title)"}
+      - {name: description, in: body, type: string, description: "Description of the video (maps to snippet.description)"}
+      - {name: privacyStatus, in: body, type: string, description: "Privacy setting: public, private, or unlisted (maps to status.privacyStatus)"}
+      - {name: categoryId, in: body, type: string, description: "YouTube video category ID (maps to snippet.categoryId)"}
+      - {name: tags, in: body, type: array, description: "List of tags for the video (maps to snippet.tags)"}
+      - {name: notifySubscribers, in: query, type: boolean, description: "Whether to notify channel subscribers about the new video (default true)"}

@@ -1,0 +1,54 @@
+schemaVersion: 1
+name: brandfetch
+version: 0.1.0
+baseUrl: https://api.brandfetch.io
+tools:
+  - name: get_brand_info
+    description: Retrieve brand data (logos, colors, fonts, company details) using a domain, Brand ID, ISIN, stock ticker, or crypto symbol
+    method: GET
+    path: /v2/brands/{identifier}
+    params:
+      - {name: identifier, in: path, type: string, required: true, description: "Domain, Brand ID, ISIN, stock/ETF ticker, or crypto symbol identifying the brand"}
+      - {name: allowNsfw, in: query, type: boolean, description: "Allow NSFW brand content in results"}
+  - name: search_brands
+    description: Search for brands by company name and return matching brand information including domain, icon, and brand ID
+    method: GET
+    path: /v2/search/{name}
+    params:
+      - {name: name, in: path, type: string, required: true, description: "Company name to search for"}
+      - {name: c, in: query, type: string, required: true, description: "Client ID for the application, obtained from the Brandfetch developer portal"}
+  - name: get_transaction_info
+    description: Convert a raw payment transaction label into merchant brand data including logos and company details
+    method: POST
+    path: /v2/brands/transaction
+    params:
+      - {name: transactionLabel, in: body, type: string, required: true, description: "Raw transaction description text as it appears on a bank or card statement"}
+      - {name: countryCode, in: body, type: string, required: true, description: "ISO 3166-1 alpha-2 country code for the transaction context (e.g. US, GB)"}
+  - name: get_taxonomy
+    description: Retrieve the Brandfetch brand taxonomy via the GraphQL API
+    method: POST
+    path: /
+    baseUrl: https://graphql.brandfetch.io
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string to retrieve taxonomy data"}
+  - name: list_webhooks
+    description: Retrieve all registered webhooks and their details via the GraphQL API
+    method: POST
+    path: /
+    baseUrl: https://graphql.brandfetch.io
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string to list webhooks"}
+  - name: list_subscribable_events
+    description: Retrieve the available webhook event types that can be subscribed to via the GraphQL API
+    method: POST
+    path: /
+    baseUrl: https://graphql.brandfetch.io
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string to list subscribable webhook event types"}
+  - name: get_graphql_version
+    description: Retrieve the current Brandfetch GraphQL API version
+    method: POST
+    path: /
+    baseUrl: https://graphql.brandfetch.io
+    params:
+      - {name: query, in: body, type: string, required: true, description: "GraphQL query string to retrieve the API version"}

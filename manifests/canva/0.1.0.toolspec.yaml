@@ -1,0 +1,87 @@
+schemaVersion: 1
+name: canva
+version: 0.1.0
+baseUrl: https://api.canva.com
+tools:
+  - name: list_designs
+    description: List and search designs accessible to the current user
+    method: GET
+    path: /rest/v1/designs
+    params:
+      - {name: query, in: query, type: string, description: "Search term to filter designs (max 255 chars)"}
+      - {name: ownership, in: query, type: string, description: "Filter by ownership: any (default), owned, or shared"}
+      - {name: sort_by, in: query, type: string, description: "Sort order: relevance (default), modified_descending, modified_ascending, title_descending, or title_ascending"}
+      - {name: limit, in: query, type: integer, description: "Number of results to return (1-100, default 25)"}
+      - {name: continuation, in: query, type: string, description: "Continuation token for paginating through additional results"}
+
+  - name: get_design
+    description: Get metadata for a single Canva design by its ID
+    method: GET
+    path: /rest/v1/designs/{designId}
+    params:
+      - {name: designId, in: path, type: string, required: true, description: "The design ID"}
+
+  - name: create_design
+    description: Create a new Canva design, optionally from a preset type, custom dimensions, or an existing design
+    method: POST
+    path: /rest/v1/designs
+    params:
+      - {name: type, in: body, type: string, required: true, description: "Request type discriminant: 'type_and_asset' (preset/custom dimensions with optional asset), 'design' (copy existing design via design_id), or 'brand_template' (from brand template via brand_template_id)"}
+      - {name: design_type, in: body, type: object, description: "Design type object with type field set to 'preset' (with name: doc/email/presentation/whiteboard) or 'custom' (with width and height in px, 40-8000). Required when type is 'type_and_asset'."}
+      - {name: asset_id, in: body, type: string, description: "Image asset ID to insert into the new design. Used when type is 'type_and_asset'."}
+      - {name: title, in: body, type: string, description: "Name for the new design (1-255 characters)"}
+      - {name: design_id, in: body, type: string, description: "Source design ID to copy. Required when type is 'design'."}
+      - {name: brand_template_id, in: body, type: string, description: "Brand template ID to use. Required when type is 'brand_template'."}
+
+  - name: create_design_export_job
+    description: Create an export job to export a Canva design to a file format such as PDF, PNG, JPG, or PPTX
+    method: POST
+    path: /rest/v1/exports
+    params:
+      - {name: design_id, in: body, type: string, required: true, description: "The ID of the design to export"}
+      - {name: format, in: body, type: object, required: true, description: "Export format object with required type field (pdf, jpg, png, gif, pptx, mp4, html_bundle, html_standalone, or csv) and format-specific options"}
+
+  - name: get_export_job_result
+    description: Get the status and result of a design export job
+    method: GET
+    path: /rest/v1/exports/{exportId}
+    params:
+      - {name: exportId, in: path, type: string, required: true, description: "The export job ID"}
+
+  - name: create_asset_upload_job
+    description: Create an asset upload job to upload a file to Canva as an asset
+    method: POST
+    path: /rest/v1/asset-uploads
+    params:
+      - {name: Asset-Upload-Metadata, in: header, type: string, required: true, description: "JSON object sent as the Asset-Upload-Metadata request header containing the asset's name: {\"name_base64\": \"<base64-encoded name, max 50 chars unencoded>\"}"}
+
+  - name: get_asset
+    description: Get metadata for a Canva asset by its ID
+    method: GET
+    path: /rest/v1/assets/{assetId}
+    params:
+      - {name: assetId, in: path, type: string, required: true, description: "The ID of the asset"}
+
+  - name: list_folder_items
+    description: List the items inside a Canva folder
+    method: GET
+    path: /rest/v1/folders/{folderId}/items
+    params:
+      - {name: folderId, in: path, type: string, required: true, description: "The folder ID (use 'root' for the top-level projects folder or 'uploads' for the Uploads folder)"}
+      - {name: continuation, in: query, type: string, description: "Continuation token for paginating through additional results"}
+      - {name: limit, in: query, type: integer, description: "Number of items to return (1-100, default 50)"}
+      - {name: item_types, in: query, type: string, description: "Filter by item type: design, folder, or image"}
+      - {name: sort_by, in: query, type: string, description: "Sort order for results (e.g. modified_descending, title_ascending)"}
+
+  - name: create_folder
+    description: Create a new folder in Canva
+    method: POST
+    path: /rest/v1/folders
+    params:
+      - {name: name, in: body, type: string, required: true, description: "The name of the folder (1-255 characters)"}
+      - {name: parent_folder_id, in: body, type: string, required: true, description: "The ID of the parent folder; use 'root' for the top-level projects folder or 'uploads' for the Uploads folder"}
+
+  - name: get_current_user
+    description: Get details about the currently authenticated Canva user including their user ID and team ID
+    method: GET
+    path: /rest/v1/users/me

@@ -1,0 +1,53 @@
+schemaVersion: 1
+name: interzoid
+version: 0.1.0
+baseUrl: https://api.interzoid.com
+tools:
+  - name: parse_address
+    description: Parse a free-form address string into structured components such as street number, street name, unit, city, state, and zip code
+    method: GET
+    path: /addressparse
+    params:
+      - {name: address, in: query, type: string, required: true, description: Full address string to parse into components}
+  - name: get_email_info
+    description: Validate an email address and retrieve demographic information including syntax check, mail server existence, and classification flags such as generic, educational, or government
+    method: GET
+    path: /getemailinfo
+    params:
+      - {name: email, in: query, type: string, required: true, description: Email address to validate and retrieve information for}
+  - name: get_full_name_match_score
+    description: Compare two individual full names and return a similarity match score from 0-100 indicating how closely they match, handling nicknames and name order variations
+    method: GET
+    path: /getfullnamematchscore
+    params:
+      - {name: fullname1, in: query, type: string, required: true, description: First full individual name to compare}
+      - {name: fullname2, in: query, type: string, required: true, description: Second full individual name to compare}
+  - name: get_org_match_score
+    description: Compare two organization or company names and return a similarity match score from 0-100 indicating how closely they match
+    method: GET
+    path: /getorgmatchscore
+    params:
+      - {name: org1, in: query, type: string, required: true, description: First organization name to compare}
+      - {name: org2, in: query, type: string, required: true, description: Second organization name to compare}
+  - name: get_currency_rate
+    description: Retrieve the live foreign exchange rate for a given currency symbol relative to the US dollar
+    method: GET
+    path: /getcurrencyrate
+    params:
+      - {name: symbol, in: query, type: string, required: true, description: "Three-letter international currency code (e.g. EUR, GBP, CNY)"}
+  - name: get_weather_by_zip_code
+    description: Get current weather conditions for a US location by zip code, including temperature, wind speed, humidity, and visibility
+    method: GET
+    path: /getweatherzipcode
+    params:
+      - {name: zip, in: query, type: string, required: true, description: US zip code to retrieve current weather information for}
+  - name: get_area_code_from_number
+    description: Parse a telephone number and retrieve geographic information about its area code including locale, state abbreviation, and primary city
+    method: GET
+    path: /getareacodefromnumber
+    params:
+      - {name: number, in: query, type: string, required: true, description: Telephone number to parse and retrieve area code information for}
+  - name: get_remaining_api_credits
+    description: Retrieve the current number of remaining API credits for the authenticated account
+    method: GET
+    path: /getremainingcredits

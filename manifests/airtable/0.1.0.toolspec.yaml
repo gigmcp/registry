@@ -1,0 +1,97 @@
+schemaVersion: 1
+name: airtable
+version: 0.1.0
+baseUrl: https://api.airtable.com
+tools:
+  - name: list_bases
+    description: List all bases the authenticated user can access
+    method: GET
+    path: /v0/meta/bases
+    params:
+      - {name: offset, in: query, type: string, description: Pagination offset from a previous response to retrieve the next page of bases}
+
+  - name: get_base_schema
+    description: Get the schema of all tables in a base including field definitions
+    method: GET
+    path: /v0/meta/bases/{baseId}/tables
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: include, in: query, type: array, description: "Additional fields to include in views; currently supports the value visibleFieldIds"}
+
+  - name: list_records
+    description: List records from a table, with optional filtering, sorting, and pagination
+    method: GET
+    path: /v0/{baseId}/{tableIdOrName}
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: pageSize, in: query, type: integer, description: "Number of records per page (max 100, default 100)"}
+      - {name: maxRecords, in: query, type: integer, description: Maximum total records to return}
+      - {name: offset, in: query, type: string, description: Pagination offset from a previous response}
+      - {name: view, in: query, type: string, description: View name or ID to use for filtering and sorting}
+      - {name: filterByFormula, in: query, type: string, description: Airtable formula to filter records}
+      - {name: fields, in: query, type: array, description: Field names or IDs to include in the response}
+      - {name: returnFieldsByFieldId, in: query, type: boolean, description: Return fields keyed by field ID instead of name}
+
+  - name: get_record
+    description: Retrieve a single record by its ID from a table
+    method: GET
+    path: /v0/{baseId}/{tableIdOrName}/{recordId}
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: recordId, in: path, type: string, required: true, description: The record identifier}
+      - {name: returnFieldsByFieldId, in: query, type: boolean, description: Return fields keyed by field ID instead of name}
+
+  - name: create_records
+    description: Create one or more records in a table
+    method: POST
+    path: /v0/{baseId}/{tableIdOrName}
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: records, in: body, type: array, required: true, description: "Array of record objects, each with a fields object containing cell values keyed by field name or ID"}
+      - {name: returnFieldsByFieldId, in: body, type: boolean, description: Return fields keyed by field ID instead of name}
+      - {name: typecast, in: body, type: boolean, description: Enable automatic data conversion from string values}
+
+  - name: update_record
+    description: Update fields on an existing record using a partial update (PATCH leaves unspecified fields unchanged)
+    method: PATCH
+    path: /v0/{baseId}/{tableIdOrName}/{recordId}
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: recordId, in: path, type: string, required: true, description: The record identifier}
+      - {name: fields, in: body, type: object, required: true, description: Cell values to update keyed by field name or ID}
+      - {name: typecast, in: body, type: boolean, description: Enable automatic data conversion from string values}
+      - {name: returnFieldsByFieldId, in: body, type: boolean, description: Return fields keyed by field ID instead of name}
+
+  - name: delete_record
+    description: Delete a single record from a table
+    method: DELETE
+    path: /v0/{baseId}/{tableIdOrName}/{recordId}
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: recordId, in: path, type: string, required: true, description: The record identifier}
+
+  - name: create_table
+    description: Create a new table in a base with specified fields
+    method: POST
+    path: /v0/meta/bases/{baseId}/tables
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: name, in: body, type: string, required: true, description: The name for the new table}
+      - {name: fields, in: body, type: array, required: true, description: "Array of field configuration objects; the first field becomes the primary field"}
+      - {name: description, in: body, type: string, description: "Optional description for the table (max 20,000 characters)"}
+
+  - name: list_comments
+    description: List comments on a record
+    method: GET
+    path: /v0/{baseId}/{tableIdOrName}/{recordId}/comments
+    params:
+      - {name: baseId, in: path, type: string, required: true, description: The base identifier}
+      - {name: tableIdOrName, in: path, type: string, required: true, description: The table ID or name}
+      - {name: recordId, in: path, type: string, required: true, description: The record identifier}
+      - {name: pageSize, in: query, type: integer, description: "Number of comments to return per page (max 100, default 100)"}
+      - {name: offset, in: query, type: string, description: Pagination offset from a previous response}

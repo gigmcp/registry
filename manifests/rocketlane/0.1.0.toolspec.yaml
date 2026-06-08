@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: rocketlane
+version: 0.1.0
+baseUrl: https://api.rocketlane.com
+tools:
+  - name: list_projects
+    description: Retrieve a paginated list of all projects in the Rocketlane instance
+    method: GET
+    path: /api/1.0/projects
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of results per page (default 100)"}
+      - {name: pageToken, in: query, type: string, description: "Token to navigate to a specific page of results"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort by (projectName, startDate, dueDate)"}
+      - {name: sortOrder, in: query, type: string, description: "Sort direction: ASC or DESC"}
+
+  - name: get_project_by_id
+    description: Retrieve details of a specific project by its unique ID
+    method: GET
+    path: /api/1.0/projects/{projectId}
+    params:
+      - {name: projectId, in: path, type: integer, required: true, description: "The project's unique system-generated identifier"}
+      - {name: includeAllFields, in: query, type: boolean, description: "Return all fields when set to true"}
+
+  - name: create_project
+    description: Create a new project in Rocketlane
+    method: POST
+    path: /api/1.0/projects
+    params:
+      - {name: projectName, in: body, type: string, required: true, description: "The name of the project"}
+      - {name: owner, in: body, type: object, required: true, description: "The project owner object"}
+      - {name: customer, in: body, type: object, required: true, description: "The customer associated with the project"}
+      - {name: startDate, in: body, type: string, description: "Project start date in YYYY-MM-DD format"}
+      - {name: dueDate, in: body, type: string, description: "Project due date in YYYY-MM-DD format"}
+      - {name: visibility, in: body, type: string, description: "Project visibility: EVERYONE or MEMBERS"}
+
+  - name: get_all_tasks
+    description: Retrieve a paginated list of all tasks across projects
+    method: GET
+    path: /api/1.0/tasks
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of results per page (default 100)"}
+      - {name: pageToken, in: query, type: string, description: "Token to navigate to a specific page of results"}
+      - {name: projectId.eq, in: query, type: integer, description: "Filter tasks by project ID"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort by (taskName, startDate, dueDate)"}
+      - {name: sortOrder, in: query, type: string, description: "Sort direction: ASC or DESC"}
+
+  - name: create_task
+    description: Create a new task within a project in Rocketlane
+    method: POST
+    path: /api/1.0/tasks
+    params:
+      - {name: taskName, in: body, type: string, required: true, description: "The name of the task"}
+      - {name: project, in: body, type: object, required: true, description: "The associated project object (must include project ID)"}
+      - {name: startDate, in: body, type: string, description: "Task start date in YYYY-MM-DD format"}
+      - {name: dueDate, in: body, type: string, description: "Task due date in YYYY-MM-DD format"}
+      - {name: taskDescription, in: body, type: string, description: "Task description in HTML format"}
+      - {name: type, in: body, type: string, description: "Task type: TASK or MILESTONE"}
+
+  - name: get_time_entries
+    description: Retrieve a paginated list of time entries with optional filtering
+    method: GET
+    path: /api/1.0/time-entries
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of results per page (default 100)"}
+      - {name: pageToken, in: query, type: string, description: "Token to navigate to a specific page of results"}
+      - {name: projectId.eq, in: query, type: integer, description: "Filter time entries by project ID"}
+      - {name: taskId.eq, in: query, type: integer, description: "Filter time entries by task ID"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort by (MINUTES, DATE, ID, BILLABLE)"}
+      - {name: sortOrder, in: query, type: string, description: "Sort direction: ASC or DESC"}
+
+  - name: create_time_entry
+    description: Log a new time entry in Rocketlane
+    method: POST
+    path: /api/1.0/time-entries
+    params:
+      - {name: date, in: body, type: string, required: true, description: "Date of the time entry in YYYY-MM-DD format"}
+      - {name: minutes, in: body, type: integer, required: true, description: "Duration in minutes (1-1440)"}
+      - {name: activityName, in: body, type: string, description: "Activity name as the source of the time entry (use one of: activityName, task, projectPhase, or project)"}
+      - {name: task, in: body, type: object, description: "Task object as the source of the time entry"}
+      - {name: project, in: body, type: object, description: "Project object as the source of the time entry"}
+      - {name: billable, in: body, type: boolean, description: "Whether the entry is billable (defaults to true)"}
+      - {name: notes, in: body, type: string, description: "Optional notes for the time entry"}
+
+  - name: list_users
+    description: Retrieve a paginated list of all users in the Rocketlane instance
+    method: GET
+    path: /api/1.0/users
+    params:
+      - {name: pageSize, in: query, type: integer, description: "Maximum number of results per page (default 100)"}
+      - {name: pageToken, in: query, type: string, description: "Token to navigate to a specific page of results"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort by (email, firstName, lastName, type, status)"}
+      - {name: sortOrder, in: query, type: string, description: "Sort direction: ASC or DESC"}
+      - {name: status.eq, in: query, type: string, description: "Filter users by status"}
+
+  - name: create_comment
+    description: Add a comment to a conversation within a project
+    method: POST
+    path: /api/1.0/comments
+    params:
+      - {name: content, in: body, type: string, required: true, description: "The text content of the comment"}
+      - {name: source, in: body, type: object, required: true, description: "Object indicating where the comment is attached (conversation or resource)"}
+      - {name: private, in: body, type: boolean, description: "Whether the comment has restricted visibility"}

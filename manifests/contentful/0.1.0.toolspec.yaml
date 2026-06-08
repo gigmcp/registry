@@ -1,0 +1,91 @@
+schemaVersion: 1
+name: contentful
+version: 0.1.0
+baseUrl: https://api.contentful.com
+tools:
+  - name: list_spaces
+    description: Get all spaces the authenticated account has access to
+    method: GET
+    path: /spaces
+    params:
+      - {name: skip, in: query, type: integer, description: Offset for pagination}
+      - {name: limit, in: query, type: integer, description: Max number of spaces to return}
+
+  - name: get_space
+    description: Get details of a single Contentful space by ID
+    method: GET
+    path: /spaces/{space_id}
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+
+  - name: get_content_types
+    description: List all content types defined in a space environment
+    method: GET
+    path: /spaces/{space_id}/environments/{environment_id}/content_types
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: skip, in: query, type: integer, description: Offset for pagination}
+      - {name: limit, in: query, type: integer, description: Max number of content types to return}
+
+  - name: list_entries
+    description: Get all entries in a space environment, with optional filtering and pagination
+    method: GET
+    path: /spaces/{space_id}/environments/{environment_id}/entries
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: skip, in: query, type: integer, description: Offset for pagination}
+      - {name: limit, in: query, type: integer, description: Max number of entries to return}
+      - {name: order, in: query, type: string, description: "Sort order field (e.g. sys.createdAt)"}
+      - {name: content_type, in: query, type: string, description: Filter entries by content type ID}
+
+  - name: create_entry
+    description: Create a new entry in a space environment for a given content type
+    method: POST
+    path: /spaces/{space_id}/environments/{environment_id}/entries
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: X-Contentful-Content-Type, in: header, type: string, required: true, description: Content type ID for the new entry}
+      - {name: fields, in: body, type: object, required: true, description: "Entry fields as defined by the content type; keys are field IDs, values are locale-keyed objects"}
+
+  - name: publish_entry
+    description: Publish an entry to make it publicly available
+    method: PUT
+    path: /spaces/{space_id}/environments/{environment_id}/entries/{entry_id}/published
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: entry_id, in: path, type: string, required: true, description: Unique ID of the entry to publish}
+      - {name: X-Contentful-Version, in: header, type: integer, required: true, description: Current version number of the entry (optimistic locking)}
+
+  - name: archive_entry
+    description: Archive an entry to remove it from active use without deleting it
+    method: PUT
+    path: /spaces/{space_id}/environments/{environment_id}/entries/{entry_id}/archived
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: entry_id, in: path, type: string, required: true, description: Unique ID of the entry to archive}
+      - {name: X-Contentful-Version, in: header, type: integer, required: true, description: Current version number of the entry (optimistic locking)}
+
+  - name: delete_asset
+    description: Delete an asset from a space environment
+    method: DELETE
+    path: /spaces/{space_id}/environments/{environment_id}/assets/{asset_id}
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: "Environment ID (e.g. master)"}
+      - {name: asset_id, in: path, type: string, required: true, description: Unique ID of the asset to delete}
+      - {name: X-Contentful-Version, in: header, type: integer, required: true, description: Current version number of the asset (optimistic locking)}
+
+  - name: create_environment
+    description: Create a new environment in a space, optionally cloned from a source environment (defaults to master)
+    method: PUT
+    path: /spaces/{space_id}/environments/{environment_id}
+    params:
+      - {name: space_id, in: path, type: string, required: true, description: Unique ID of the space}
+      - {name: environment_id, in: path, type: string, required: true, description: Desired ID for the new environment}
+      - {name: name, in: body, type: string, required: true, description: Display name for the new environment}
+      - {name: X-Contentful-Source-Environment, in: header, type: string, description: Source environment ID to clone from (defaults to master)}

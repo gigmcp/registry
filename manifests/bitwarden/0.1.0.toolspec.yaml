@@ -1,0 +1,71 @@
+schemaVersion: 1
+name: bitwarden
+version: 0.1.0
+baseUrl: https://api.bitwarden.com
+tools:
+  - name: retrieve_member
+    description: Retrieve details of a specific organization member by their ID
+    method: GET
+    path: /public/members/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The member's unique identifier (UUID)}
+
+  - name: retrieve_group
+    description: Retrieve details of a specific organization group by its ID
+    method: GET
+    path: /public/groups/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The group's unique identifier (UUID)}
+
+  - name: get_group_member_ids
+    description: Retrieve the list of member IDs associated with a specific group
+    method: GET
+    path: /public/groups/{id}/member-ids
+    params:
+      - {name: id, in: path, type: string, required: true, description: The group's unique identifier (UUID)}
+
+  - name: get_organization_subscription
+    description: Retrieve the subscription details for the current organization
+    method: GET
+    path: /public/organization/subscription
+
+  - name: update_member
+    description: Update properties of an existing organization member
+    method: PUT
+    path: /public/members/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The member's unique identifier (UUID)}
+      - {name: type, in: body, type: integer, required: true, description: "Organization user type (0=Owner, 1=Admin, 2=User, 4=Custom)"}
+      - {name: accessAll, in: body, type: boolean, required: true, description: Whether the member has access to all collections}
+      - {name: externalId, in: body, type: string, description: External identifier for the member (max 300 characters)}
+      - {name: collections, in: body, type: array, description: List of collection associations with permissions for the member}
+
+  - name: reinvite_member
+    description: Resend the invitation email to a pending organization member
+    method: POST
+    path: /public/members/{id}/reinvite
+    params:
+      - {name: id, in: path, type: string, required: true, description: The member's unique identifier (UUID)}
+
+  - name: import_members_and_groups
+    description: Import members and groups into the organization from an external directory source
+    method: POST
+    path: /public/organization/import
+    params:
+      - {name: overwriteExisting, in: body, type: boolean, required: true, description: "Whether to overwrite existing members and groups during import"}
+      - {name: groups, in: body, type: array, description: List of groups to import with their external IDs and member associations}
+      - {name: members, in: body, type: array, description: List of members to import with their email addresses and external IDs}
+
+  - name: delete_member
+    description: Permanently remove a member from the organization
+    method: DELETE
+    path: /public/members/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The member's unique identifier (UUID)}
+
+  - name: delete_group
+    description: Permanently delete a group from the organization
+    method: DELETE
+    path: /public/groups/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The group's unique identifier (UUID)}

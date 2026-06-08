@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: timecamp
+version: 0.1.0
+baseUrl: https://app.timecamp.com
+tools:
+  - name: get_projects_list
+    description: Retrieve all top-level tasks (projects) from the TimeCamp account
+    method: GET
+    path: /third_party/api/tasks/format/json
+    params:
+      - {name: exclude_archived, in: query, type: integer, description: "Set to 1 to exclude archived tasks (default 1)"}
+
+  - name: get_tasks
+    description: Retrieve all tasks from the TimeCamp account
+    method: GET
+    path: /third_party/api/tasks/format/json
+    params:
+      - {name: exclude_archived, in: query, type: integer, description: "Set to 1 to exclude archived tasks (default 1)"}
+
+  - name: get_time_entries
+    description: Retrieve time entries filtered by date range and optionally by task or user
+    method: GET
+    path: /third_party/api/entries/format/json
+    params:
+      - {name: from, in: query, type: string, required: true, description: "Start date for filtering entries (YYYY-MM-DD)"}
+      - {name: to, in: query, type: string, required: true, description: "End date for filtering entries (YYYY-MM-DD)"}
+      - {name: task_ids, in: query, type: string, description: "Comma-separated list of task IDs to filter by"}
+      - {name: user_ids, in: query, type: string, description: "Comma-separated list of user IDs to filter by"}
+
+  - name: get_users
+    description: Retrieve all users in the TimeCamp account
+    method: GET
+    path: /third_party/api/users/format/json
+
+  - name: create_time_entry
+    description: Create a new time entry in TimeCamp
+    method: POST
+    path: /third_party/api/entries/format/json
+    encoding: form
+    params:
+      - {name: date, in: body, type: string, required: true, description: "Date of the time entry (YYYY-MM-DD)"}
+      - {name: duration, in: body, type: integer, required: true, description: "Duration of the entry in seconds"}
+      - {name: task_id, in: body, type: string, required: true, description: "ID of the task to log time against"}
+      - {name: user_id, in: body, type: string, description: "ID of the user; defaults to authenticated user"}
+      - {name: note, in: body, type: string, description: "Description or note for the time entry"}
+      - {name: start_time, in: body, type: string, description: "Start time of the entry (HH:MM:SS)"}
+      - {name: end_time, in: body, type: string, description: "End time of the entry (HH:MM:SS)"}
+
+  - name: update_time_entry
+    description: Update an existing time entry in TimeCamp
+    method: PUT
+    path: /third_party/api/entries/format/json
+    encoding: form
+    params:
+      - {name: id, in: body, type: string, required: true, description: "ID of the time entry to update"}
+      - {name: date, in: body, type: string, description: "Date of the time entry (YYYY-MM-DD)"}
+      - {name: duration, in: body, type: integer, description: "Duration of the entry in seconds"}
+      - {name: task_id, in: body, type: string, description: "ID of the task to log time against"}
+      - {name: note, in: body, type: string, description: "Description or note for the time entry"}
+      - {name: start_time, in: body, type: string, description: "Start time of the entry (HH:MM:SS)"}
+      - {name: end_time, in: body, type: string, description: "End time of the entry (HH:MM:SS)"}
+
+  - name: delete_time_entry
+    description: Delete a time entry by ID from TimeCamp
+    method: DELETE
+    path: /third_party/api/entries/{id}/format/json
+    params:
+      - {name: id, in: path, type: string, required: true, description: "ID of the time entry to delete"}
+
+  - name: create_task
+    description: Create a new task in TimeCamp
+    method: POST
+    path: /third_party/api/tasks/format/json
+    encoding: form
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name of the new task"}
+      - {name: parent_id, in: body, type: string, description: "ID of the parent task; omit to create a top-level project"}
+      - {name: external_task_id, in: body, type: string, description: "External reference ID for the task"}
+      - {name: color, in: body, type: string, description: "Color code for the task (e.g. #ff0000)"}

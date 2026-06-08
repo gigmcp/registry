@@ -1,0 +1,102 @@
+schemaVersion: 1
+name: d2lbrightspace
+version: 0.1.0
+# D2L Brightspace is per-tenant: each institution lives at <orgname>.brightspace.com.
+# The baseUrl below uses a representative subdomain that satisfies the *.brightspace.com
+# egress allowlist; the runtime engine substitutes the actual tenant domain.
+# Note: devcop.brightspace.com was a deprecated shared dev instance and must not be used.
+baseUrl: https://yourorg.brightspace.com
+tools:
+  - name: get_users
+    description: Retrieve data for one or more users, optionally filtered by org-defined ID, username, or external email
+    method: GET
+    path: /d2l/api/lp/1.61/users/
+    params:
+      - {name: orgDefinedId, in: query, type: string, description: Filter by the org-defined identifier for a user}
+      - {name: userName, in: query, type: string, description: Find a single user by their username (exact match)}
+      - {name: externalEmail, in: query, type: string, description: Filter by external email address}
+      - {name: bookmark, in: query, type: string, description: Pagination bookmark token from a previous response}
+
+  - name: get_user
+    description: Retrieve data for a specific user by their D2L user ID
+    method: GET
+    path: /d2l/api/lp/1.61/users/{userId}
+    params:
+      - {name: userId, in: path, type: integer, required: true, description: D2L user identifier}
+
+  - name: get_course_offering
+    description: Retrieve details of a specific course offering by its org unit ID
+    method: GET
+    path: /d2l/api/lp/1.61/courses/{orgUnitId}
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course offering}
+
+  - name: get_quizzes
+    description: Retrieve the paginated list of quizzes for a given org unit (course)
+    method: GET
+    path: /d2l/api/le/1.95/{orgUnitId}/quizzes/
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course}
+
+  - name: get_grade_objects
+    description: Retrieve the list of grade objects (grade items) for a given org unit (course)
+    method: GET
+    path: /d2l/api/le/1.95/{orgUnitId}/grades/
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course}
+
+  - name: get_quiz_attempts
+    description: Retrieve attempt records for a specific quiz in an org unit, optionally filtered by user
+    method: GET
+    path: /d2l/api/le/1.95/{orgUnitId}/quizzes/{quizId}/attempts/
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course}
+      - {name: quizId, in: path, type: integer, required: true, description: Quiz identifier}
+      - {name: userId, in: query, type: integer, description: Filter attempts to those belonging to this user ID}
+
+  - name: create_course_offering
+    description: Create a new course offering under a course template
+    method: POST
+    path: /d2l/api/lp/1.61/courses/
+    params:
+      - {name: Name, in: body, type: string, required: true, description: Display name of the course offering}
+      - {name: Code, in: body, type: string, required: true, description: Course code identifier}
+      - {name: Path, in: body, type: string, required: true, description: File-system path for the course content}
+      - {name: CourseTemplateId, in: body, type: integer, required: true, description: ID of the course template to base this offering on}
+      - {name: SemesterId, in: body, type: integer, description: ID of the semester/term for this offering}
+      - {name: StartDate, in: body, type: string, description: "Course start date in ISO 8601 format"}
+      - {name: EndDate, in: body, type: string, description: "Course end date in ISO 8601 format"}
+      - {name: LocaleId, in: body, type: integer, description: Locale ID for the course offering}
+      - {name: Description, in: body, type: object, description: "Rich text description with Content and Type fields"}
+      - {name: CanSelfRegister, in: body, type: boolean, description: Whether learners can self-register for this course offering}
+      - {name: IsActive, in: body, type: boolean, required: true, description: "Whether the course offering is active; required as of LP v1.59"}
+
+  - name: create_quiz
+    description: Create a new quiz in a given org unit (course)
+    method: POST
+    path: /d2l/api/le/1.95/{orgUnitId}/quizzes/
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course}
+      - {name: Name, in: body, type: string, required: true, description: Display name of the quiz}
+      - {name: IsActive, in: body, type: boolean, description: Whether the quiz is active and visible to learners}
+      - {name: StartDate, in: body, type: string, description: "Date the quiz becomes available in ISO 8601 format"}
+      - {name: EndDate, in: body, type: string, description: "Date after which the quiz is no longer available in ISO 8601 format"}
+
+  - name: update_grade_object
+    description: Update an existing grade object (grade item) in a given org unit (course)
+    method: PUT
+    path: /d2l/api/le/1.95/{orgUnitId}/grades/{gradeObjectId}
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course}
+      - {name: gradeObjectId, in: path, type: integer, required: true, description: Grade object identifier to update}
+      - {name: Name, in: body, type: string, description: Display name of the grade object}
+      - {name: MaxPoints, in: body, type: number, description: Maximum achievable points for this grade item}
+      - {name: GradeType, in: body, type: string, description: "Grade type: Numeric, PassFail, SelectBox, or Text"}
+      - {name: Weight, in: body, type: number, description: Weight of this grade item relative to other items in the gradebook}
+
+  - name: delete_course
+    description: Delete (archive) a course offering by its org unit ID
+    method: DELETE
+    path: /d2l/api/lp/1.61/courses/{orgUnitId}
+    params:
+      - {name: orgUnitId, in: path, type: integer, required: true, description: Org unit identifier for the course offering to delete}

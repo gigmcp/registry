@@ -1,0 +1,58 @@
+schemaVersion: 1
+name: gumroad
+version: 0.1.0
+baseUrl: https://api.gumroad.com
+tools:
+  - name: get_user
+    description: Retrieve the authenticated user's public profile information
+    method: GET
+    path: /v2/user
+
+  - name: list_products
+    description: List all products for the authenticated user
+    method: GET
+    path: /v2/products
+
+  - name: get_sales
+    description: List sales for the authenticated user with optional filters and cursor-based pagination
+    method: GET
+    path: /v2/sales
+    params:
+      - {name: page_key, in: query, type: string, description: "Cursor for pagination; use next_page_key from previous response"}
+      - {name: after, in: query, type: string, description: "Filter sales created after this date (YYYY-MM-DD)"}
+      - {name: before, in: query, type: string, description: "Filter sales created before this date (YYYY-MM-DD)"}
+      - {name: email, in: query, type: string, description: Filter sales by purchaser email address}
+      - {name: product_id, in: query, type: string, description: Filter sales by product ID}
+      - {name: order_id, in: query, type: string, description: Filter sales by order ID}
+
+  - name: get_resource_subscriptions
+    description: List webhook subscriptions for a given resource event type
+    method: GET
+    path: /v2/resource_subscriptions
+    params:
+      - {name: resource_name, in: query, type: string, required: true, description: "Event type to list subscriptions for (e.g. sale, refund, cancellation)"}
+
+  - name: verify_license
+    description: Verify a Gumroad license key for a product
+    method: POST
+    path: /v2/licenses/verify
+    params:
+      - {name: product_id, in: body, type: string, description: "Product ID (recommended; may be required for newer products)"}
+      - {name: product_permalink, in: body, type: string, description: "Product permalink; can substitute for product_id"}
+      - {name: license_key, in: body, type: string, required: true, description: The license key to verify}
+      - {name: increment_uses_count, in: body, type: boolean, description: "Set false to verify without incrementing usage count (default true)"}
+
+  - name: subscribe_to_resource
+    description: Create a webhook subscription for a Gumroad resource event
+    method: PUT
+    path: /v2/resource_subscriptions
+    params:
+      - {name: resource_name, in: body, type: string, required: true, description: "Event type to subscribe to (sale, refund, cancellation, subscription_ended, subscription_restarted, subscription_updated, dispute, dispute_won)"}
+      - {name: post_url, in: body, type: string, required: true, description: "URL to receive webhook POST requests (cannot be localhost or 127.0.0.1)"}
+
+  - name: unsubscribe_from_resource
+    description: Delete a webhook subscription by its ID
+    method: DELETE
+    path: /v2/resource_subscriptions/{id}
+    params:
+      - {name: id, in: path, type: string, required: true, description: The resource subscription ID to delete}

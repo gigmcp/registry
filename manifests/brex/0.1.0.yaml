@@ -2,17 +2,18 @@ schemaVersion: 1
 name: brex
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/brex-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brex-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:24f87ad4733d00ea1a2553aed2a0551192c4f252596f87bd75432e39ce6afadc
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
-    - platform.brexapis.com
+    - api.brex.com
 credentials:
   - id: brex_token
     type: oauth2

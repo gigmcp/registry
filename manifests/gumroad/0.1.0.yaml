@@ -2,13 +2,14 @@ schemaVersion: 1
 name: gumroad
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/gumroad-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gumroad-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:ccffcb0b0085eb77e663d044d63f2fc13809fb6393e74a33173ceab8793c6883
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

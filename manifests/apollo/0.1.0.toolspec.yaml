@@ -1,0 +1,109 @@
+schemaVersion: 1
+name: apollo
+version: 0.1.0
+baseUrl: https://api.apollo.io
+tools:
+  - name: people_search
+    description: Search for people in the Apollo database using filters such as job title, seniority, location, and company attributes
+    method: POST
+    path: /api/v1/mixed_people/api_search
+    params:
+      - {name: person_titles, in: query, type: array, description: "Job titles to filter by (e.g. ['CEO', 'VP of Sales'])"}
+      - {name: person_seniorities, in: query, type: array, description: "Seniority levels to filter by (owner, founder, c_suite, vp, director, manager, etc.)"}
+      - {name: person_locations, in: query, type: array, description: "Geographic locations of the person"}
+      - {name: organization_locations, in: query, type: array, description: "Headquarters locations of the person's company"}
+      - {name: q_organization_domains_list, in: query, type: array, description: "Company domains to filter by (up to 1000)"}
+      - {name: contact_email_status, in: query, type: array, description: "Email verification statuses to include"}
+      - {name: organization_num_employees_ranges, in: query, type: array, description: "Employee count ranges to filter by (e.g. ['1,10','11,50'])"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: per_page, in: query, type: integer, description: "Number of results per page (max 100)"}
+  - name: organization_search
+    description: Search for organizations in the Apollo database using filters such as location, employee count, revenue, and technology
+    method: POST
+    path: /api/v1/mixed_companies/search
+    params:
+      - {name: q_organization_name, in: query, type: string, description: "Company name to search for (supports partial matches)"}
+      - {name: q_organization_domains_list, in: query, type: array, description: "Domain names to filter by (up to 1000)"}
+      - {name: organization_locations, in: query, type: array, description: "Company headquarters locations"}
+      - {name: organization_num_employees_ranges, in: query, type: array, description: "Employee count ranges (e.g. ['1,10','11,50'])"}
+      - {name: q_organization_keyword_tags, in: query, type: array, description: "Industry or keyword tags to filter by"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: per_page, in: query, type: integer, description: "Number of results per page"}
+  - name: people_enrichment
+    description: Enrich data for a single person by matching on email, LinkedIn URL, name, or Apollo ID
+    method: POST
+    path: /api/v1/people/match
+    params:
+      - {name: first_name, in: query, type: string, description: "Person's first name (use with last_name)"}
+      - {name: last_name, in: query, type: string, description: "Person's last name (use with first_name)"}
+      - {name: name, in: query, type: string, description: "Full name of the person"}
+      - {name: email, in: query, type: string, description: "Email address of the person"}
+      - {name: linkedin_url, in: query, type: string, description: "LinkedIn profile URL of the person"}
+      - {name: organization_name, in: query, type: string, description: "Employer or company name"}
+      - {name: domain, in: query, type: string, description: "Employer's domain name"}
+      - {name: reveal_personal_emails, in: query, type: boolean, description: "Whether to include personal email addresses in the response"}
+  - name: organization_enrichment
+    description: Enrich data for a single organization by domain, returning industry, revenue, employee count, and funding details
+    method: GET
+    path: /api/v1/organizations/enrich
+    params:
+      - {name: domain, in: query, type: string, required: true, description: "Domain of the company to enrich (e.g. apollo.io — no www. or @ prefix)"}
+  - name: search_contacts
+    description: Search contacts that have been added to your Apollo account, with filtering by keyword, stage, and label
+    method: POST
+    path: /api/v1/contacts/search
+    params:
+      - {name: q_keywords, in: body, type: string, description: "Keywords such as names, job titles, companies, or emails"}
+      - {name: contact_stage_ids, in: body, type: array, description: "Apollo IDs for contact stages to filter results"}
+      - {name: contact_label_ids, in: body, type: array, description: "Apollo IDs for contact labels to filter results"}
+      - {name: sort_by_field, in: body, type: string, description: "Field to sort by (activity date, email opens, clicks, creation, or updates)"}
+      - {name: sort_ascending, in: body, type: boolean, description: "Set to true for ascending order (default false)"}
+      - {name: page, in: body, type: integer, description: "Page number for pagination"}
+      - {name: per_page, in: body, type: integer, description: "Number of results per page (max 100)"}
+  - name: list_deals
+    description: List all deals (opportunities) in the Apollo account with optional sorting and pagination
+    method: GET
+    path: /api/v1/opportunities/search
+    params:
+      - {name: sort_by_field, in: query, type: string, description: "Field to sort by (amount, is_closed, or is_won)"}
+      - {name: page, in: query, type: integer, description: "Page number for pagination"}
+      - {name: per_page, in: query, type: integer, description: "Number of results per page"}
+  - name: create_contact
+    description: Create a new contact in the Apollo account
+    method: POST
+    path: /api/v1/contacts
+    params:
+      - {name: first_name, in: body, type: string, description: "Contact's first name"}
+      - {name: last_name, in: body, type: string, description: "Contact's last name"}
+      - {name: organization_name, in: body, type: string, description: "Employer or company name"}
+      - {name: title, in: body, type: string, description: "Job title of the contact"}
+      - {name: email, in: body, type: string, description: "Email address of the contact"}
+      - {name: account_id, in: body, type: string, description: "Apollo account ID to associate the contact with"}
+      - {name: website_url, in: body, type: string, description: "Corporate website URL"}
+      - {name: label_names, in: body, type: array, description: "List names to add the contact to"}
+      - {name: present_raw_address, in: body, type: string, description: "Personal location of the contact"}
+      - {name: direct_phone, in: body, type: string, description: "Direct phone number"}
+      - {name: mobile_phone, in: body, type: string, description: "Mobile phone number"}
+      - {name: run_dedupe, in: body, type: boolean, description: "Enable duplicate prevention (default false)"}
+  - name: create_deal
+    description: Create a new deal (opportunity) in the Apollo account
+    method: POST
+    path: /api/v1/opportunities
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Human-readable name for the deal"}
+      - {name: amount, in: body, type: string, description: "Monetary value of the deal (no commas or currency symbols)"}
+      - {name: owner_id, in: body, type: string, description: "Apollo user ID for the deal owner"}
+      - {name: account_id, in: body, type: string, description: "Apollo account ID for the target company"}
+      - {name: opportunity_stage_id, in: body, type: string, description: "Apollo ID for the deal stage"}
+      - {name: closed_date, in: body, type: string, description: "Estimated close date in YYYY-MM-DD format"}
+  - name: add_contacts_to_sequence
+    description: Add one or more contacts to an existing Apollo sequence (email campaign)
+    method: POST
+    path: /api/v1/emailer_campaigns/{sequence_id}/add_contact_ids
+    params:
+      - {name: sequence_id, in: path, type: string, required: true, description: "Apollo ID of the sequence to add contacts to"}
+      - {name: emailer_campaign_id, in: query, type: string, required: true, description: "Apollo ID of the sequence (must match sequence_id)"}
+      - {name: send_email_from_email_account_id, in: query, type: string, required: true, description: "Apollo ID of the email account to send from"}
+      - {name: contact_ids, in: query, type: array, description: "Apollo IDs of contacts to add to the sequence"}
+      - {name: label_names, in: query, type: array, description: "Label names identifying contacts to add"}
+      - {name: status, in: query, type: string, description: "Initial status for contacts in the sequence (active or paused)"}

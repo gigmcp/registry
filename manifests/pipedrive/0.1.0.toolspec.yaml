@@ -1,0 +1,138 @@
+schemaVersion: 1
+name: pipedrive
+version: 0.1.0
+baseUrl: https://api.pipedrive.com
+tools:
+  - name: get_deals
+    description: Retrieve a list of deals with optional filtering by owner, person, organization, pipeline, stage, or status
+    method: GET
+    path: /v1/deals
+    params:
+      - {name: filter_id, in: query, type: integer, description: "ID of the filter to apply"}
+      - {name: user_id, in: query, type: integer, description: "Filter deals owned by the specified user ID (v1 owner filter)"}
+      - {name: person_id, in: query, type: integer, description: "Filter deals associated with the specified person ID"}
+      - {name: org_id, in: query, type: integer, description: "Filter deals associated with the specified organization ID"}
+      - {name: pipeline_id, in: query, type: integer, description: "Filter deals in the specified pipeline ID"}
+      - {name: stage_id, in: query, type: integer, description: "Filter deals in the specified stage ID"}
+      - {name: status, in: query, type: string, description: "Filter by deal status: open, won, lost, or deleted"}
+      - {name: limit, in: query, type: integer, description: "Max number of deals to return (default 100, max 500)"}
+      - {name: start, in: query, type: integer, description: "Pagination start offset (default 0)"}
+      - {name: sort, in: query, type: string, description: "Field and direction to sort by (e.g. 'add_time DESC')"}
+
+  - name: search_deals
+    description: Search deals by title, notes, and/or custom fields using a search term
+    method: GET
+    path: /v1/deals/search
+    params:
+      - {name: term, in: query, type: string, required: true, description: "Search term (minimum 2 characters, or 1 if exact_match is true)"}
+      - {name: fields, in: query, type: string, description: "Comma-separated fields to search in: custom_fields, notes, title"}
+      - {name: exact_match, in: query, type: boolean, description: "Return only exact matches when true"}
+      - {name: person_id, in: query, type: integer, description: "Filter results to deals involving this person ID"}
+      - {name: organization_id, in: query, type: integer, description: "Filter results to deals involving this organization ID"}
+      - {name: status, in: query, type: string, description: "Filter by deal status: open, won, lost"}
+      - {name: limit, in: query, type: integer, description: "Max number of results to return (default 100, max 500)"}
+      - {name: start, in: query, type: integer, description: "Pagination start offset"}
+
+  - name: get_persons
+    description: Retrieve a list of persons (contacts) with optional filtering by owner or organization
+    method: GET
+    path: /v1/persons
+    params:
+      - {name: filter_id, in: query, type: integer, description: "ID of the filter to apply"}
+      - {name: user_id, in: query, type: integer, description: "Filter persons owned by the specified user ID (v1 owner filter)"}
+      - {name: org_id, in: query, type: integer, description: "Filter persons belonging to the specified organization ID"}
+      - {name: limit, in: query, type: integer, description: "Max number of persons to return (default 100, max 500)"}
+      - {name: start, in: query, type: integer, description: "Pagination start offset (default 0)"}
+      - {name: sort, in: query, type: string, description: "Field and direction to sort by"}
+
+  - name: get_organizations
+    description: Retrieve a list of organizations with optional filtering by owner
+    method: GET
+    path: /v1/organizations
+    params:
+      - {name: filter_id, in: query, type: integer, description: "ID of the filter to apply"}
+      - {name: user_id, in: query, type: integer, description: "Filter organizations owned by the specified user ID (v1 owner filter)"}
+      - {name: limit, in: query, type: integer, description: "Max number of organizations to return (default 100, max 500)"}
+      - {name: start, in: query, type: integer, description: "Pagination start offset (default 0)"}
+      - {name: sort, in: query, type: string, description: "Field and direction to sort by"}
+
+  - name: get_activities
+    description: Retrieve a list of activities with optional filtering by user, deal, person, or organization
+    method: GET
+    path: /v1/activities
+    params:
+      - {name: filter_id, in: query, type: integer, description: "ID of the filter to apply"}
+      - {name: user_id, in: query, type: integer, description: "Filter activities owned by the specified user ID (v1 owner filter)"}
+      - {name: deal_id, in: query, type: integer, description: "Filter activities linked to the specified deal ID"}
+      - {name: person_id, in: query, type: integer, description: "Filter activities linked to the specified person ID"}
+      - {name: org_id, in: query, type: integer, description: "Filter activities linked to the specified organization ID"}
+      - {name: done, in: query, type: integer, description: "Filter by completion status: 0 for undone, 1 for done"}
+      - {name: limit, in: query, type: integer, description: "Max number of activities to return (default 100, max 500)"}
+      - {name: start, in: query, type: integer, description: "Pagination start offset (default 0)"}
+
+  - name: add_deal
+    description: Create a new deal in Pipedrive
+    method: POST
+    path: /v1/deals
+    params:
+      - {name: title, in: body, type: string, required: true, description: "Title of the deal"}
+      - {name: owner_id, in: body, type: integer, description: "User ID of the deal owner"}
+      - {name: person_id, in: body, type: integer, description: "Person ID the deal is associated with"}
+      - {name: org_id, in: body, type: integer, description: "Organization ID the deal is associated with"}
+      - {name: pipeline_id, in: body, type: integer, description: "Pipeline ID where the deal will be placed"}
+      - {name: stage_id, in: body, type: integer, description: "Stage ID where the deal will be placed"}
+      - {name: value, in: body, type: number, description: "Deal value"}
+      - {name: currency, in: body, type: string, description: "Deal value currency (3-letter ISO code, e.g. USD)"}
+      - {name: status, in: body, type: string, description: "Deal status: open, won, lost"}
+      - {name: expected_close_date, in: body, type: string, description: "Expected close date in YYYY-MM-DD format"}
+      - {name: probability, in: body, type: number, description: "Deal success probability (0-100)"}
+
+  - name: add_person
+    description: Create a new person (contact) in Pipedrive
+    method: POST
+    path: /v1/persons
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Full name of the person"}
+      - {name: owner_id, in: body, type: integer, description: "User ID of the person owner"}
+      - {name: org_id, in: body, type: integer, description: "Organization ID to associate the person with"}
+      - {name: email, in: body, type: array, description: "Email addresses as array of objects with value, primary, and label fields"}
+      - {name: phone, in: body, type: array, description: "Phone numbers as array of objects with value, primary, and label fields"}
+      - {name: visible_to, in: body, type: string, description: "Visibility setting: 1 (owner only), 3 (entire company)"}
+
+  - name: add_activity
+    description: Create a new activity in Pipedrive (e.g. call, meeting, email, task)
+    method: POST
+    path: /v1/activities
+    params:
+      - {name: subject, in: body, type: string, required: true, description: "Subject/title of the activity"}
+      - {name: type, in: body, type: string, required: true, description: "Type of activity (e.g. call, meeting, email, task, deadline)"}
+      - {name: owner_id, in: body, type: integer, description: "User ID of the activity owner"}
+      - {name: deal_id, in: body, type: integer, description: "Deal ID to associate the activity with"}
+      - {name: person_id, in: body, type: integer, description: "Person ID to associate the activity with"}
+      - {name: org_id, in: body, type: integer, description: "Organization ID to associate the activity with"}
+      - {name: due_date, in: body, type: string, description: "Due date in YYYY-MM-DD format"}
+      - {name: due_time, in: body, type: string, description: "Due time in HH:MM format"}
+      - {name: duration, in: body, type: string, description: "Duration of the activity in HH:MM format"}
+      - {name: done, in: body, type: integer, description: "Whether the activity is done: 0 or 1"}
+      - {name: note, in: body, type: string, description: "Note or additional details for the activity"}
+
+  - name: add_note
+    description: Create a new note and attach it to a deal, person, or organization
+    method: POST
+    path: /v1/notes
+    params:
+      - {name: content, in: body, type: string, required: true, description: "Content of the note in HTML format"}
+      - {name: deal_id, in: body, type: integer, description: "Deal ID to attach the note to"}
+      - {name: person_id, in: body, type: integer, description: "Person ID to attach the note to"}
+      - {name: org_id, in: body, type: integer, description: "Organization ID to attach the note to"}
+      - {name: user_id, in: body, type: integer, description: "User ID of the note author"}
+      - {name: pinned_to_deal_flag, in: body, type: integer, description: "Whether to pin the note to the deal: 0 or 1"}
+      - {name: pinned_to_person_flag, in: body, type: integer, description: "Whether to pin the note to the person: 0 or 1"}
+      - {name: pinned_to_organization_flag, in: body, type: integer, description: "Whether to pin the note to the organization: 0 or 1"}
+
+  - name: delete_deal
+    description: Delete a deal by its ID
+    method: DELETE
+    path: /v1/deals/{id}
+    params:
+      - {name: id, in: path, type: integer, required: true, description: "ID of the deal to delete"}

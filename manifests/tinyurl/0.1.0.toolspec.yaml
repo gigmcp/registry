@@ -1,0 +1,60 @@
+schemaVersion: 1
+name: tinyurl
+version: 0.1.0
+baseUrl: https://api.tinyurl.com
+tools:
+  - name: list_urls
+    description: Retrieve a paginated list of TinyURLs in the account filtered by type
+    method: GET
+    path: /urls/{type}
+    params:
+      - {name: type, in: path, type: string, required: true, description: "Type of URLs to list (e.g. active, archived)"}
+      - {name: period, in: query, type: string, description: "Time period filter for URLs"}
+      - {name: alias, in: query, type: string, description: "Filter by alias"}
+      - {name: tags, in: query, type: string, description: "Filter by tag"}
+  - name: get_url_info
+    description: Retrieve details for a specific TinyURL by domain and alias
+    method: GET
+    path: /alias/{domain}/{alias}
+    params:
+      - {name: domain, in: path, type: string, required: true, description: "Domain of the TinyURL (e.g. tinyurl.com)"}
+      - {name: alias, in: path, type: string, required: true, description: "Alias (short code) of the TinyURL"}
+  - name: get_url_analytics
+    description: Retrieve click analytics timeline for a specific TinyURL
+    method: GET
+    path: /analytics/timeline
+    params:
+      - {name: alias, in: query, type: string, required: true, description: "Alias of the TinyURL to retrieve analytics for"}
+      - {name: from, in: query, type: string, required: true, description: "Start datetime of the analytics report (ISO 8601)"}
+      - {name: to, in: query, type: string, description: "End datetime of the analytics report (ISO 8601); defaults to now"}
+      - {name: tag, in: query, type: string, description: "Filter analytics by tag"}
+  - name: create_short_url
+    description: Create a new shortened TinyURL from a long destination URL
+    method: POST
+    path: /create
+    params:
+      - {name: url, in: body, type: string, required: true, description: "The destination (long) URL to shorten"}
+      - {name: domain, in: body, type: string, description: "Custom branded domain to use (defaults to tinyurl.com)"}
+      - {name: alias, in: body, type: string, description: "Custom alias (short code) for the TinyURL"}
+      - {name: tags, in: body, type: string, description: "Comma-separated tags to assign to the TinyURL (paid plans)"}
+      - {name: expires_at, in: body, type: string, description: "Expiration datetime for the TinyURL in ISO 8601 format (paid plans)"}
+      - {name: description, in: body, type: string, description: "Human-readable description of the TinyURL (paid plans)"}
+  - name: update_url
+    description: Update the alias, tags, or stats settings of an existing TinyURL
+    method: PATCH
+    path: /update
+    params:
+      - {name: domain, in: body, type: string, required: true, description: "Domain of the TinyURL to update"}
+      - {name: alias, in: body, type: string, required: true, description: "Current alias of the TinyURL to update"}
+      - {name: new_alias, in: body, type: string, description: "New alias to replace the current one"}
+      - {name: new_tags, in: body, type: string, description: "Updated tags for the TinyURL; overwrites existing tags (paid plans)"}
+      - {name: new_description, in: body, type: string, description: "Updated description (paid plans)"}
+      - {name: new_stats, in: body, type: boolean, description: "Enable or disable click analytics collection"}
+      - {name: new_expires_at, in: body, type: string, description: "New expiration datetime in ISO 8601 format (paid plans)"}
+  - name: archive_url
+    description: Archive or unarchive a TinyURL by domain and alias
+    method: PATCH
+    path: /archive
+    params:
+      - {name: domain, in: body, type: string, required: true, description: "Domain of the TinyURL to archive or unarchive"}
+      - {name: alias, in: body, type: string, required: true, description: "Alias of the TinyURL to archive or unarchive"}

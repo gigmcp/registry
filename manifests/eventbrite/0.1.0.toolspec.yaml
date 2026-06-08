@@ -1,0 +1,129 @@
+schemaVersion: 1
+name: eventbrite
+version: 0.1.0
+baseUrl: https://www.eventbriteapi.com
+tools:
+  - name: get_event
+    description: Retrieve details of a single Eventbrite event by its ID
+    method: GET
+    path: /v3/events/{event_id}/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event to retrieve}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of sub-objects to expand (e.g. venue,organizer,ticket_availability)"}
+
+  - name: list_organization_events
+    description: List all events belonging to a specific organization
+    method: GET
+    path: /v3/organizations/{organization_id}/events/
+    params:
+      - {name: organization_id, in: path, type: string, required: true, description: The ID of the organization}
+      - {name: status, in: query, type: string, description: "Filter by event status (draft, live, started, ended, completed, canceled)"}
+      - {name: order_by, in: query, type: string, description: "Sort order for results (e.g. start_asc, start_desc, created_asc, created_desc)"}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of sub-objects to expand"}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: list_event_attendees
+    description: List all attendees for a specific event
+    method: GET
+    path: /v3/events/{event_id}/attendees/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event}
+      - {name: status, in: query, type: string, description: "Filter attendees by status (attending, not_attending, unpaid)"}
+      - {name: changed_since, in: query, type: string, description: "Only return attendees changed after this ISO 8601 datetime"}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of sub-objects to expand (e.g. order,promotional_code)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: list_event_orders
+    description: List all orders for a specific event
+    method: GET
+    path: /v3/events/{event_id}/orders/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event}
+      - {name: status, in: query, type: string, description: "Filter orders by status (active, inactive, both)"}
+      - {name: changed_since, in: query, type: string, description: "Only return orders changed after this ISO 8601 datetime"}
+      - {name: refund_request_statuses, in: query, type: string, description: Filter by refund request status}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of sub-objects to expand (e.g. attendees,event)"}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: list_ticket_classes
+    description: List all ticket classes for a specific event
+    method: GET
+    path: /v3/events/{event_id}/ticket_classes/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event}
+      - {name: expand, in: query, type: string, description: "Comma-separated list of sub-objects to expand"}
+      - {name: page, in: query, type: integer, description: Page number for pagination}
+
+  - name: create_event
+    description: Create a new event draft under an organization
+    method: POST
+    path: /v3/organizations/{organization_id}/events/
+    params:
+      - {name: organization_id, in: path, type: string, required: true, description: The ID of the organization that will own the event}
+      - {name: event.name.html, in: body, type: string, required: true, description: Event name as HTML}
+      - {name: event.start.utc, in: body, type: string, required: true, description: "Event start time in UTC (ISO 8601 format, e.g. 2025-01-01T18:00:00Z)"}
+      - {name: event.start.timezone, in: body, type: string, required: true, description: "Timezone for start time (e.g. America/New_York)"}
+      - {name: event.end.utc, in: body, type: string, required: true, description: "Event end time in UTC (ISO 8601 format)"}
+      - {name: event.end.timezone, in: body, type: string, required: true, description: "Timezone for end time (e.g. America/New_York)"}
+      - {name: event.currency, in: body, type: string, required: true, description: "ISO 4217 currency code (e.g. USD)"}
+      - {name: event.description.html, in: body, type: string, description: Event description as HTML}
+      - {name: event.online_event, in: body, type: boolean, description: Whether the event is online}
+      - {name: event.listed, in: body, type: boolean, description: Whether the event is publicly listed}
+      - {name: event.capacity, in: body, type: integer, description: Maximum event capacity}
+      - {name: event.venue_id, in: body, type: string, description: ID of the venue for the event}
+
+  - name: update_event
+    description: Update an existing event by its ID
+    method: POST
+    path: /v3/events/{event_id}/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event to update}
+      - {name: event.name.html, in: body, type: string, description: Updated event name as HTML}
+      - {name: event.description.html, in: body, type: string, description: Updated event description as HTML}
+      - {name: event.start.utc, in: body, type: string, description: "Updated event start time in UTC (ISO 8601 format)"}
+      - {name: event.start.timezone, in: body, type: string, description: Updated timezone for start time}
+      - {name: event.end.utc, in: body, type: string, description: "Updated event end time in UTC (ISO 8601 format)"}
+      - {name: event.end.timezone, in: body, type: string, description: Updated timezone for end time}
+      - {name: event.currency, in: body, type: string, description: "Updated ISO 4217 currency code"}
+      - {name: event.online_event, in: body, type: boolean, description: Whether the event is online}
+      - {name: event.listed, in: body, type: boolean, description: Whether the event is publicly listed}
+      - {name: event.capacity, in: body, type: integer, description: Maximum event capacity}
+      - {name: event.venue_id, in: body, type: string, description: ID of the venue for the event}
+
+  - name: publish_event
+    description: Publish a draft event to make it live
+    method: POST
+    path: /v3/events/{event_id}/publish/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event to publish}
+
+  - name: create_ticket_class
+    description: Create a new ticket class for an event
+    method: POST
+    path: /v3/events/{event_id}/ticket_classes/
+    params:
+      - {name: event_id, in: path, type: string, required: true, description: The ID of the event}
+      - {name: ticket_class.name, in: body, type: string, required: true, description: Name of the ticket class}
+      - {name: ticket_class.free, in: body, type: boolean, required: true, description: Whether the ticket is free}
+      - {name: ticket_class.quantity_total, in: body, type: integer, required: true, description: Total number of tickets available}
+      - {name: ticket_class.cost, in: body, type: string, description: "Ticket cost in format CURRENCY,MINOR_UNITS (e.g. USD,2000 for $20.00). Required for paid tickets."}
+      - {name: ticket_class.minimum_quantity, in: body, type: integer, description: Minimum number of tickets per order}
+      - {name: ticket_class.maximum_quantity, in: body, type: integer, description: Maximum number of tickets per order}
+      - {name: ticket_class.sales_channels, in: body, type: array, description: "Sales channels for this ticket (online, atd)"}
+      - {name: ticket_class.donation, in: body, type: boolean, description: Whether this ticket includes a donation option}
+
+  - name: create_discount
+    description: Create a discount code for an organization's events
+    method: POST
+    path: /v3/organizations/{organization_id}/discounts/
+    params:
+      - {name: organization_id, in: path, type: string, required: true, description: The ID of the organization}
+      - {name: discount.type, in: body, type: string, required: true, description: "Type of discount (coded, public, access, or hold)"}
+      - {name: discount.code, in: body, type: string, required: true, description: The discount code customers will use}
+      - {name: discount.amount_off, in: body, type: string, description: "Fixed amount off in minor units (e.g. 1000 for $10.00). Use either amount_off or percent_off."}
+      - {name: discount.percent_off, in: body, type: string, description: "Percentage off (e.g. 10.00 for 10%). Use either amount_off or percent_off."}
+      - {name: discount.event_id, in: body, type: string, description: ID of the specific event the discount applies to}
+      - {name: discount.ticket_class_ids, in: body, type: array, description: List of ticket class IDs the discount applies to}
+      - {name: discount.quantity_available, in: body, type: integer, description: Maximum number of times the discount can be used}
+      - {name: discount.start_date, in: body, type: string, description: "When the discount becomes valid (ISO 8601 format)"}
+      - {name: discount.end_date, in: body, type: string, description: "When the discount expires (ISO 8601 format)"}

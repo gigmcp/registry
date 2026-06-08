@@ -1,0 +1,90 @@
+schemaVersion: 1
+name: calendly
+version: 0.1.0
+baseUrl: https://api.calendly.com
+tools:
+  - name: get_user
+    description: Retrieve information about a specific Calendly user by UUID
+    method: GET
+    path: /users/{uuid}
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: The UUID of the user to retrieve}
+
+  - name: list_scheduled_events
+    description: Return a list of scheduled events filtered by user, organization, status, or time range
+    method: GET
+    path: /scheduled_events
+    params:
+      - {name: user, in: query, type: string, description: "URI of the user to filter events by (e.g. https://api.calendly.com/users/{uuid})"}
+      - {name: organization, in: query, type: string, description: "URI of the organization to filter events by"}
+      - {name: invitee_email, in: query, type: string, description: Filter events by invitee email address}
+      - {name: status, in: query, type: string, description: "Filter by event status: active or canceled"}
+      - {name: sort, in: query, type: string, description: "Sort field and direction, e.g. start_time:asc or start_time:desc"}
+      - {name: min_start_time, in: query, type: string, description: "Earliest start time to include (ISO 8601 format)"}
+      - {name: max_start_time, in: query, type: string, description: "Latest start time to include (ISO 8601 format)"}
+      - {name: count, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: page_token, in: query, type: string, description: Token for retrieving the next page of results}
+
+  - name: list_event_types
+    description: Return a list of event types for a user or organization
+    method: GET
+    path: /event_types
+    params:
+      - {name: user, in: query, type: string, description: "URI of the user whose event types to list"}
+      - {name: organization, in: query, type: string, description: "URI of the organization whose event types to list"}
+      - {name: active, in: query, type: boolean, description: Filter by active status}
+      - {name: sort, in: query, type: string, description: "Sort field and direction, e.g. name:asc"}
+      - {name: count, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: page_token, in: query, type: string, description: Token for retrieving the next page of results}
+
+  - name: list_event_invitees
+    description: Return a paginated list of invitees for a specific scheduled event
+    method: GET
+    path: /scheduled_events/{uuid}/invitees
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: UUID of the scheduled event}
+      - {name: status, in: query, type: string, description: "Filter by invitee status: active or canceled"}
+      - {name: sort, in: query, type: string, description: "Sort field and direction, e.g. created_at:asc"}
+      - {name: email, in: query, type: string, description: Filter by invitee email address}
+      - {name: count, in: query, type: integer, description: "Number of results per page (max 100)"}
+      - {name: page_token, in: query, type: string, description: Token for retrieving the next page of results}
+
+  - name: get_user_availability_schedule
+    description: Retrieve the availability schedule for a specific user by UUID
+    method: GET
+    path: /user_availability_schedules/{uuid}
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: UUID of the user availability schedule}
+
+  - name: list_user_busy_times
+    description: Return a list of a user's busy times for a given time range (range cannot exceed 7 days)
+    method: GET
+    path: /user_busy_times
+    params:
+      - {name: user, in: query, type: string, required: true, description: "URI of the user (e.g. https://api.calendly.com/users/{uuid})"}
+      - {name: start_time, in: query, type: string, required: true, description: "Start of the time range (ISO 8601 format, must be in the future)"}
+      - {name: end_time, in: query, type: string, required: true, description: "End of the time range (ISO 8601 format, must be in the future, max 7 days from start_time)"}
+
+  - name: create_scheduling_link
+    description: Create a single-use scheduling link for a given event type
+    method: POST
+    path: /scheduling_links
+    params:
+      - {name: max_event_count, in: body, type: integer, required: true, description: Maximum number of events that can be booked using this link}
+      - {name: owner, in: body, type: string, required: true, description: "URI of the event type that owns this scheduling link"}
+      - {name: owner_type, in: body, type: string, required: true, description: "Type of the owner resource; must be EventType"}
+
+  - name: cancel_scheduled_event
+    description: Cancel a scheduled event by its UUID
+    method: POST
+    path: /scheduled_events/{uuid}/cancellation
+    params:
+      - {name: uuid, in: path, type: string, required: true, description: UUID of the scheduled event to cancel}
+      - {name: reason, in: body, type: string, description: Optional reason for cancelling the event}
+
+  - name: mark_invitee_as_no_show
+    description: Mark a scheduled event invitee as a no-show
+    method: POST
+    path: /invitee_no_shows
+    params:
+      - {name: invitee, in: body, type: string, required: true, description: "URI of the invitee to mark as a no-show (e.g. https://api.calendly.com/scheduled_events/{event_uuid}/invitees/{invitee_uuid})"}

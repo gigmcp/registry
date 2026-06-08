@@ -1,0 +1,88 @@
+schemaVersion: 1
+name: datarobot
+version: 0.1.0
+baseUrl: https://app.datarobot.com
+tools:
+  - name: check_project_status
+    description: Retrieve the status of a DataRobot project
+    method: GET
+    path: /api/v2/projects/{projectId}/status/
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: The ID of the project}
+
+  - name: analyze_dataset_definition
+    description: Trigger analysis of a dataset definition to infer schema and metadata
+    method: POST
+    path: /api/v2/datasetDefinitions/{datasetDefinitionId}/analyze/
+    params:
+      - {name: datasetDefinitionId, in: path, type: string, required: true, description: The ID of the dataset definition to analyze}
+
+  - name: download_code_snippet
+    description: Download the scoring code for a trained model
+    method: GET
+    path: /api/v2/projects/{projectId}/models/{modelId}/scoringCode/
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: The ID of the project}
+      - {name: modelId, in: path, type: string, required: true, description: The ID of the model}
+      - {name: sourceCode, in: query, type: boolean, description: "If true, return the source code instead of the compiled JAR"}
+
+  - name: create_dataset_from_url
+    description: Create a new dataset in the AI Catalog from a remote URL
+    method: POST
+    path: /api/v2/catalogItems/datasets/createDatasetFromUrl/
+    params:
+      - {name: url, in: body, type: string, required: true, description: "The URL to fetch the dataset from"}
+      - {name: datasetName, in: body, type: string, description: "A name for the dataset"}
+      - {name: categories, in: body, type: array, description: "Intended use categories for the dataset (e.g. TRAINING, PREDICTION)"}
+
+  - name: create_dataset_from_file
+    description: Upload a local file to create a new dataset in the AI Catalog
+    method: POST
+    path: /api/v2/catalogItems/datasets/createDatasetFromFile/
+    encoding: form
+    params:
+      - {name: file, in: body, type: string, required: true, description: "The file content to upload"}
+      - {name: datasetName, in: body, type: string, description: "A name for the dataset"}
+      - {name: categories, in: body, type: array, description: "Intended use categories for the dataset (e.g. TRAINING, PREDICTION)"}
+
+  - name: create_batch_predictions
+    description: Submit a batch prediction job for a deployed model
+    method: POST
+    path: /api/v2/batchPredictions/
+    params:
+      - {name: deploymentId, in: body, type: string, required: true, description: "The ID of the deployment to use for predictions"}
+      - {name: intakeSettings, in: body, type: object, required: true, description: "Input data source configuration (type and datasetId or other source settings)"}
+      - {name: outputSettings, in: body, type: object, description: "Output destination configuration"}
+      - {name: numConcurrent, in: body, type: integer, description: "Number of concurrent scoring workers"}
+      - {name: csvSettings, in: body, type: object, description: "CSV formatting settings (delimiter, quotechar, encoding)"}
+      - {name: passthroughColumns, in: body, type: array, description: "Columns from input to include unchanged in output"}
+
+  - name: create_custom_model
+    description: Create a new custom inference model in DataRobot
+    method: POST
+    path: /api/v2/customModels/
+    params:
+      - {name: name, in: body, type: string, required: true, description: "Name for the custom model"}
+      - {name: targetType, in: body, type: string, required: true, description: "Prediction target type (e.g. Binary, Regression, Multiclass, Unstructured, Anomaly)"}
+      - {name: description, in: body, type: string, description: "Description of the custom model"}
+      - {name: targetName, in: body, type: string, description: "Name of the target column (required for structured models)"}
+      - {name: language, in: body, type: string, description: "Programming language of the model code (e.g. python, r)"}
+
+  - name: create_automated_document
+    description: Generate an automated compliance or summary document for a model or project
+    method: POST
+    path: /api/v2/automatedDocuments/
+    params:
+      - {name: documentType, in: body, type: string, required: true, description: "Document category to generate (e.g. MODEL_COMPLIANCE, AUTOPILOT_SUMMARY, DEPLOYMENT_REPORT)"}
+      - {name: entityId, in: body, type: string, required: true, description: "ID of the target entity (model ID or project ID depending on documentType)"}
+      - {name: outputFormat, in: body, type: string, required: true, description: "Output file format: docx or html"}
+      - {name: locale, in: body, type: string, description: "Locale for the document (default EN_US)"}
+      - {name: templateId, in: body, type: string, description: "ID of a custom document template to use"}
+
+  - name: cancel_project_job
+    description: Cancel a queued or running job in a DataRobot project
+    method: DELETE
+    path: /api/v2/projects/{projectId}/jobs/{jobId}/
+    params:
+      - {name: projectId, in: path, type: string, required: true, description: The ID of the project}
+      - {name: jobId, in: path, type: string, required: true, description: The ID of the job to cancel}

@@ -1,0 +1,60 @@
+schemaVersion: 1
+name: workiom
+version: 0.1.0
+baseUrl: https://api.workiom.com
+tools:
+  - name: get_all_apps
+    description: Retrieve all apps in the Workiom workspace
+    method: GET
+    path: /api/services/app/Apps/GetAll
+
+  - name: get_all_lists
+    description: Retrieve all lists belonging to a specific app
+    method: GET
+    path: /api/services/app/Lists/GetAll
+    params:
+      - {name: appId, in: query, type: string, required: true, description: ID of the app whose lists to retrieve}
+
+  - name: get_records
+    description: Retrieve records from a list with optional filtering, sorting, and pagination
+    method: POST
+    path: /api/services/app/Data/All
+    params:
+      - {name: listId, in: body, type: string, required: true, description: ID of the list to query}
+      - {name: maxResultCount, in: body, type: integer, description: Maximum number of records to return}
+      - {name: skipCount, in: body, type: integer, description: Number of records to skip for pagination}
+      - {name: sorting, in: body, type: string, description: "Sort expression in format 'fieldId ASC' or 'fieldId DESC'"}
+      - {name: filter, in: body, type: array, description: "Array of filter objects with fieldId, operator (integer), and value"}
+
+  - name: get_record
+    description: Retrieve a single record by ID from a list
+    method: GET
+    path: /api/services/app/Data/Get
+    params:
+      - {name: listId, in: query, type: string, required: true, description: ID of the list containing the record}
+      - {name: id, in: query, type: string, required: true, description: ID of the record to retrieve}
+
+  - name: create_record
+    description: Create a new record in a list
+    method: POST
+    path: /api/services/app/Data/Create
+    params:
+      - {name: listId, in: body, type: string, required: true, description: ID of the list in which to create the record}
+      - {name: data, in: body, type: object, required: true, description: "Object mapping fieldId to value for the new record"}
+
+  - name: update_record
+    description: Update fields of an existing record in a list
+    method: PUT
+    path: /api/services/app/Data/UpdatePartial
+    params:
+      - {name: listId, in: body, type: string, required: true, description: ID of the list containing the record}
+      - {name: id, in: body, type: string, required: true, description: ID of the record to update}
+      - {name: data, in: body, type: object, required: true, description: "Object mapping fieldId to updated value (only changed fields required)"}
+
+  - name: delete_record
+    description: Delete a record from a list
+    method: DELETE
+    path: /api/services/app/Data/Delete
+    params:
+      - {name: listId, in: query, type: string, required: true, description: ID of the list containing the record}
+      - {name: id, in: query, type: string, required: true, description: ID of the record to delete}

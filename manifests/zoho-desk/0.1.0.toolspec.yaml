@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: zoho-desk
+version: 0.1.0
+baseUrl: https://desk.zoho.com
+tools:
+  - name: list_tickets
+    description: List tickets in a Zoho Desk organization with optional pagination and filtering
+    method: GET
+    path: /api/v1/tickets
+    params:
+      - {name: from, in: query, type: integer, description: "Index offset from which to start fetching records (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of records to fetch per request (default 10, max 50)"}
+      - {name: departmentId, in: query, type: string, description: "Filter tickets by department ID"}
+      - {name: status, in: query, type: string, description: "Filter by ticket status (e.g. Open, Closed, On Hold)"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort by (e.g. createdTime, modifiedTime, dueDate)"}
+      - {name: include, in: query, type: string, description: "Comma-separated list of related resources to include (e.g. contacts,assignee,departments)"}
+
+  - name: get_ticket
+    description: Retrieve a single Zoho Desk ticket by its ID
+    method: GET
+    path: /api/v1/tickets/{ticketId}
+    params:
+      - {name: ticketId, in: path, type: string, required: true, description: "Unique identifier of the ticket"}
+      - {name: include, in: query, type: string, description: "Comma-separated list of related resources to include (e.g. contacts,assignee,departments)"}
+
+  - name: list_ticket_conversations
+    description: List all conversation threads on a Zoho Desk ticket
+    method: GET
+    path: /api/v1/tickets/{ticketId}/threads
+    params:
+      - {name: ticketId, in: path, type: string, required: true, description: "Unique identifier of the ticket"}
+      - {name: from, in: query, type: integer, description: "Index offset from which to start fetching records (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of records to fetch per request (default 10, max 50)"}
+
+  - name: list_contacts
+    description: List contacts in a Zoho Desk organization with optional pagination
+    method: GET
+    path: /api/v1/contacts
+    params:
+      - {name: from, in: query, type: integer, description: "Index offset from which to start fetching records (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of records to fetch per request (default 10, max 50)"}
+      - {name: sortBy, in: query, type: string, description: "Field to sort results by (e.g. createdTime, lastName)"}
+
+  - name: get_contact
+    description: Retrieve a single Zoho Desk contact by its ID
+    method: GET
+    path: /api/v1/contacts/{contactId}
+    params:
+      - {name: contactId, in: path, type: string, required: true, description: "Unique identifier of the contact"}
+
+  - name: list_departments
+    description: List departments configured in a Zoho Desk organization
+    method: GET
+    path: /api/v1/departments
+    params:
+      - {name: from, in: query, type: integer, description: "Index offset from which to start fetching records (default 1)"}
+      - {name: limit, in: query, type: integer, description: "Number of records to fetch per request (default 10, max 50)"}
+      - {name: isEnabled, in: query, type: boolean, description: "Filter to return only enabled departments when true"}
+
+  - name: get_agent
+    description: Retrieve a single Zoho Desk agent by their ID
+    method: GET
+    path: /api/v1/agents/{agentId}
+    params:
+      - {name: agentId, in: path, type: string, required: true, description: "Unique identifier of the agent"}
+
+  - name: create_ticket
+    description: Create a new support ticket in Zoho Desk
+    method: POST
+    path: /api/v1/tickets
+    params:
+      - {name: subject, in: body, type: string, required: true, description: "Subject line of the ticket"}
+      - {name: departmentId, in: body, type: string, required: true, description: "ID of the department to assign the ticket to"}
+      - {name: contactId, in: body, type: string, description: "ID of an existing contact to associate as the requester"}
+      - {name: description, in: body, type: string, description: "Description or body of the ticket"}
+      - {name: priority, in: body, type: string, description: "Ticket priority (e.g. Low, Medium, High, Urgent)"}
+      - {name: status, in: body, type: string, description: "Initial ticket status (e.g. Open, On Hold)"}
+      - {name: channel, in: body, type: string, description: "Channel through which the ticket was received (e.g. Email, Phone, Web)"}
+      - {name: dueDate, in: body, type: string, description: "Due date for the ticket in ISO 8601 format (e.g. 2024-06-30T17:00:00.000Z)"}

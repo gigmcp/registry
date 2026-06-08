@@ -1,0 +1,148 @@
+schemaVersion: 1
+name: agencyzoom
+version: 0.1.0
+baseUrl: https://api.agencyzoom.com
+tools:
+  - name: search_leads
+    description: Search and filter leads in the pipeline by status, assignee, date range, and other criteria
+    method: POST
+    path: /v1/api/leads/list
+    params:
+      - {name: page, in: body, type: integer, description: "Page number, starting at 0"}
+      - {name: pageSize, in: body, type: integer, description: "Results per page (max 100)"}
+      - {name: sort, in: body, type: string, description: "Sort field: firstname, lastname, lastEnterStageDate, or lastActivityDate"}
+      - {name: order, in: body, type: string, description: "Sort order: asc or desc"}
+      - {name: customerName, in: body, type: string, description: "Customer name prefix filter"}
+      - {name: customerEmail, in: body, type: string, description: "Customer email prefix filter"}
+      - {name: customerPhone, in: body, type: string, description: "Customer phone prefix filter"}
+      - {name: status, in: body, type: integer, description: "Lead status: 0=NEW, 1=QUOTED, 2=WON, 3=LOST, 4=CONTACTED, 5=EXPIRED"}
+      - {name: assignedTo, in: body, type: integer, description: "Agent ID the lead is assigned to"}
+      - {name: workflowId, in: body, type: integer, description: "Pipeline/workflow ID filter"}
+      - {name: workflowStageId, in: body, type: string, description: "Stage ID(s) filter, multiple separated by /"}
+      - {name: leadSourceId, in: body, type: integer, description: "Lead source ID filter"}
+      - {name: startDate, in: body, type: string, description: "Creation date range start (YYYY-MM-DD)"}
+      - {name: endDate, in: body, type: string, description: "Creation date range end (YYYY-MM-DD)"}
+
+  - name: get_lead_details
+    description: Get detailed information about a specific lead by ID
+    method: GET
+    path: /v1/api/leads/{leadId}
+    params:
+      - {name: leadId, in: path, type: integer, required: true, description: "ID of the lead"}
+
+  - name: search_customers
+    description: Search and filter customers by name, email, phone, state, policy, and other criteria
+    method: POST
+    path: /v1/api/customers
+    params:
+      - {name: page, in: body, type: integer, description: "Page number, starting at 0"}
+      - {name: pageSize, in: body, type: integer, description: "Results per page (max 100)"}
+      - {name: sort, in: body, type: string, description: "Field name to sort by"}
+      - {name: order, in: body, type: string, description: "Sort order: asc or desc"}
+      - {name: firstname, in: body, type: string, description: "Customer first name (partial match)"}
+      - {name: lastname, in: body, type: string, description: "Customer last name (partial match)"}
+      - {name: fullName, in: body, type: string, description: "Customer full name filter"}
+      - {name: email, in: body, type: string, description: "Customer email address filter"}
+      - {name: phone, in: body, type: string, description: "Customer phone number filter"}
+      - {name: state, in: body, type: string, description: "Two-letter US state abbreviation filter"}
+      - {name: city, in: body, type: string, description: "City name filter"}
+      - {name: policyNumber, in: body, type: string, description: "Policy number to search for"}
+      - {name: status, in: body, type: integer, description: "Customer status: 1=active, 0=inactive, -1=all"}
+      - {name: startDate, in: body, type: string, description: "Filter by creation date range start (ISO 8601)"}
+      - {name: endDate, in: body, type: string, description: "Filter by creation date range end (ISO 8601)"}
+
+  - name: get_customer_details
+    description: Get detailed information about a specific customer by ID
+    method: GET
+    path: /v1/api/customers/{customerId}
+    params:
+      - {name: customerId, in: path, type: integer, required: true, description: "ID of the customer"}
+
+  - name: search_and_list_tasks
+    description: Search and list tasks filtered by status, assignee, date range, and other criteria
+    method: POST
+    path: /v1/api/tasks/list
+    params:
+      - {name: page, in: body, type: integer, description: "Page number, starting at 0"}
+      - {name: pageSize, in: body, type: integer, description: "Results per page (max 200)"}
+      - {name: sort, in: body, type: string, description: "Field name to sort by"}
+      - {name: order, in: body, type: string, description: "Sort order: asc or desc"}
+      - {name: status, in: body, type: integer, description: "Task status: 0=open, 1=completed"}
+      - {name: assigneeId, in: body, type: integer, description: "Assignee ID filter"}
+      - {name: type, in: body, type: string, description: "Task type: sales or onboarding"}
+      - {name: startDate, in: body, type: string, description: "Task created start date filter (YYYY-MM-DD)"}
+      - {name: endDate, in: body, type: string, description: "Task created end date filter (YYYY-MM-DD)"}
+      - {name: period, in: body, type: string, description: "Predefined period: past-due-rotting, past-due, remainder-week, next-week, today"}
+      - {name: leadSourceId, in: body, type: integer, description: "Lead source ID filter"}
+
+  - name: get_pipelines
+    description: Get a list of pipelines by type (lead or service)
+    method: GET
+    path: /v1/api/pipelines
+    params:
+      - {name: type, in: query, type: string, required: true, description: "Pipeline type: lead or service"}
+
+  - name: create_lead
+    description: Create a new personal lead with required pipeline, stage, and agent assignment
+    method: POST
+    path: /v1/api/leads/create
+    params:
+      - {name: firstname, in: body, type: string, required: true, description: "Lead first name"}
+      - {name: email, in: body, type: string, required: true, description: "Lead email address"}
+      - {name: pipelineId, in: body, type: integer, required: true, description: "Pipeline ID to assign the lead to"}
+      - {name: stageId, in: body, type: integer, required: true, description: "Stage ID within the pipeline"}
+      - {name: leadSourceId, in: body, type: integer, required: true, description: "Lead source ID"}
+      - {name: assignTo, in: body, type: integer, required: true, description: "Producer/agent ID to assign the lead to"}
+      - {name: country, in: body, type: string, required: true, description: "Country"}
+      - {name: lastname, in: body, type: string, description: "Lead last name"}
+      - {name: phone, in: body, type: string, description: "Lead phone number"}
+      - {name: streetAddress, in: body, type: string, description: "Street address"}
+      - {name: city, in: body, type: string, description: "City"}
+      - {name: state, in: body, type: string, description: "State"}
+      - {name: zip, in: body, type: string, description: "Postal code"}
+      - {name: notes, in: body, type: string, description: "Lead notes"}
+      - {name: tagNames, in: body, type: string, description: "Tag names separated by semicolons"}
+
+  - name: update_lead
+    description: Update an existing personal lead's information by lead ID
+    method: PUT
+    path: /v1/api/leads/{leadId}
+    params:
+      - {name: leadId, in: path, type: integer, required: true, description: "ID of the lead to update"}
+      - {name: firstname, in: body, type: string, required: true, description: "Lead first name"}
+      - {name: email, in: body, type: string, required: true, description: "Lead email address"}
+      - {name: pipelineId, in: body, type: integer, required: true, description: "Pipeline ID"}
+      - {name: stageId, in: body, type: integer, required: true, description: "Stage ID within the pipeline"}
+      - {name: leadSourceId, in: body, type: integer, required: true, description: "Lead source ID"}
+      - {name: assignTo, in: body, type: integer, required: true, description: "Producer/agent ID"}
+      - {name: country, in: body, type: string, required: true, description: "Country"}
+      - {name: lastname, in: body, type: string, description: "Lead last name"}
+      - {name: phone, in: body, type: string, description: "Lead phone number"}
+      - {name: streetAddress, in: body, type: string, description: "Street address"}
+      - {name: city, in: body, type: string, description: "City"}
+      - {name: state, in: body, type: string, description: "State"}
+      - {name: zip, in: body, type: string, description: "Postal code"}
+      - {name: notes, in: body, type: string, description: "Lead notes"}
+
+  - name: create_task
+    description: Create a new task optionally linked to a customer or lead
+    method: POST
+    path: /v1/api/tasks
+    params:
+      - {name: title, in: body, type: string, description: "Task title"}
+      - {name: dueDatetime, in: body, type: string, description: "Task due date and time (YYYY-MM-DD HH:MM:SS)"}
+      - {name: comments, in: body, type: string, description: "Task notes or comments"}
+      - {name: assigneeId, in: body, type: integer, description: "ID of the assignee"}
+      - {name: customerId, in: body, type: integer, description: "Customer ID to link the task to"}
+      - {name: leadId, in: body, type: integer, description: "Lead ID to link the task to"}
+      - {name: contactEmail, in: body, type: string, description: "Customer or lead email used to find the matching record"}
+      - {name: type, in: body, type: string, description: "Task type: todo, email, call, or meeting"}
+      - {name: duration, in: body, type: integer, description: "Duration in minutes"}
+
+  - name: create_customer_note
+    description: Add a note to an existing customer record
+    method: POST
+    path: /v1/api/customers/{customerId}/notes
+    params:
+      - {name: customerId, in: path, type: integer, required: true, description: "ID of the customer"}
+      - {name: note, in: body, type: string, required: true, description: "Note text to add to the customer"}

@@ -2,18 +2,21 @@ schemaVersion: 1
 name: yousearch
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/yousearch-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/yousearch-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:993ae7a49bbe62e5ac0e57d30b534b25c708d4e35d20001637f23e5c05b898cf
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
+    - ydc-index.io
     - api.ydc-index.io
     - chat-api.you.com
+    - api.you.com
 credentials:
   - id: yousearch_api_key
     type: api_key

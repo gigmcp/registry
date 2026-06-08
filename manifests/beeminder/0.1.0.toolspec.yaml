@@ -1,0 +1,50 @@
+schemaVersion: 1
+name: beeminder
+version: 0.1.0
+baseUrl: https://www.beeminder.com
+auth:
+  header: Authorization
+  format: "Bearer {token}"
+tools:
+  - name: get_user_information
+    description: Retrieve profile information and goal list for the authenticated user
+    method: GET
+    path: /api/v1/users/me.json
+    params:
+      - {name: associations, in: query, type: boolean, description: "When true, returns full goal and datapoint details for all goals"}
+      - {name: diff_since, in: query, type: integer, description: "Unix timestamp; returns only data modified since this time"}
+      - {name: skinny, in: query, type: boolean, description: "When true, returns limited goal attributes plus most recent datapoint (requires diff_since)"}
+      - {name: emaciated, in: query, type: boolean, description: "When true, strips road, roadall, and fullroad from goal objects"}
+      - {name: datapoints_count, in: query, type: integer, description: "Limit results to the n most recently added datapoints"}
+  - name: get_all_goals
+    description: List all active (non-archived) goals for the authenticated user sorted by urgency
+    method: GET
+    path: /api/v1/users/me/goals.json
+    params:
+      - {name: emaciated, in: query, type: boolean, description: "When true, removes road-related attributes from returned goal objects"}
+  - name: get_archived_goals
+    description: List all archived goals for the authenticated user
+    method: GET
+    path: /api/v1/users/me/goals/archived.json
+    params:
+      - {name: emaciated, in: query, type: boolean, description: "When true, strips road attributes from archived goal objects"}
+  - name: create_datapoint
+    description: Add a new datapoint to a goal for the authenticated user
+    method: POST
+    path: /api/v1/users/me/goals/{goal_slug}/datapoints.json
+    params:
+      - {name: goal_slug, in: path, type: string, required: true, description: "The short name (slug) of the goal to add a datapoint to"}
+      - {name: value, in: body, type: number, required: true, description: "The numeric measurement value for the datapoint"}
+      - {name: timestamp, in: body, type: integer, description: "Unix timestamp for the datapoint; defaults to now if omitted"}
+      - {name: daystamp, in: body, type: string, description: "Date string (e.g. 20150831); ignored if timestamp is also provided"}
+      - {name: comment, in: body, type: string, description: "Optional note or explanation about the datapoint"}
+      - {name: requestid, in: body, type: string, description: "Unique string to identify this datapoint for idempotent upsert (scoped to this goal)"}
+  - name: create_charge
+    description: Create a charge against the authenticated user's payment method
+    method: POST
+    path: /api/v1/charges.json
+    params:
+      - {name: user_id, in: body, type: string, required: true, description: "Username of the user to charge"}
+      - {name: amount, in: body, type: number, required: true, description: "Amount to charge in US dollars (minimum 1.00)"}
+      - {name: note, in: body, type: string, description: "Explanation for why the charge was made"}
+      - {name: dryrun, in: body, type: string, description: "If passed, the charge is not actually created but the JSON is returned as if it were"}

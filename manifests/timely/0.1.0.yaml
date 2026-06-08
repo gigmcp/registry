@@ -2,13 +2,14 @@ schemaVersion: 1
 name: timely
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/timely-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/timely-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:5e9359da022b3fbf7175c9d73bd01d75d41aec10456926826ee6c3c48dc85785
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -1,0 +1,82 @@
+schemaVersion: 1
+name: mural
+version: 0.1.0
+baseUrl: https://app.mural.co
+tools:
+  - name: get_workspaces
+    description: List all workspaces the authenticated user has access to
+    method: GET
+    path: /api/public/v1/workspaces
+    params:
+      - {name: limit, in: query, type: integer, description: Maximum number of workspaces to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+
+  - name: get_current_user
+    description: Get profile information for the currently authenticated user
+    method: GET
+    path: /api/public/v1/users/me
+
+  - name: list_rooms_in_workspace
+    description: List all rooms in a workspace that the authenticated user has read access to
+    method: GET
+    path: /api/public/v1/workspaces/{workspaceId}/rooms
+    params:
+      - {name: workspaceId, in: path, type: string, required: true, description: The workspace identifier (slug from the workspace URL)}
+      - {name: limit, in: query, type: integer, description: Maximum number of rooms to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+
+  - name: list_murals_in_room
+    description: List all murals in a room that the authenticated user has access to
+    method: GET
+    path: /api/public/v1/rooms/{roomId}/murals
+    params:
+      - {name: roomId, in: path, type: number, required: true, description: The room identifier}
+      - {name: status, in: query, type: string, description: "Filter by mural status; allowed values: active, archived"}
+      - {name: sortBy, in: query, type: string, description: "Sort order; allowed values: lastCreated, lastModified, oldest"}
+      - {name: limit, in: query, type: integer, description: Maximum number of murals to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+
+  - name: get_mural_widgets
+    description: List all widgets (objects) on a mural
+    method: GET
+    path: /api/public/v1/murals/{muralId}/widgets
+    params:
+      - {name: muralId, in: path, type: string, required: true, description: The mural identifier}
+      - {name: type, in: query, type: array, description: Filter widgets by type}
+      - {name: parentId, in: query, type: string, description: Filter widgets by parent identifier}
+      - {name: limit, in: query, type: integer, description: Maximum number of widgets to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+
+  - name: search_murals_in_workspace
+    description: Search for murals by name within a workspace
+    method: GET
+    path: /api/public/v1/search/{workspaceId}/murals
+    params:
+      - {name: workspaceId, in: path, type: string, required: true, description: The workspace identifier}
+      - {name: q, in: query, type: string, required: true, description: Search query string (minimum 1 character)}
+      - {name: roomId, in: query, type: number, description: Filter results to a specific room}
+      - {name: limit, in: query, type: integer, description: Maximum number of results to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+
+  - name: list_recent_templates
+    description: List default and custom templates available in a workspace
+    method: GET
+    path: /api/public/v1/workspaces/{workspaceId}/templates
+    params:
+      - {name: workspaceId, in: path, type: string, required: true, description: The workspace identifier}
+      - {name: limit, in: query, type: integer, description: Maximum number of templates to return}
+      - {name: next, in: query, type: string, description: Pagination cursor token from a previous response}
+      - {name: withoutDefault, in: query, type: boolean, description: "When true, exclude default Mural templates and return only custom templates"}
+
+  - name: create_sticky_note
+    description: Create a sticky note widget on a mural
+    method: POST
+    path: /api/public/v1/murals/{muralId}/widgets/sticky-note
+    params:
+      - {name: muralId, in: path, type: string, required: true, description: The mural identifier}
+      - {name: text, in: body, type: string, description: Text content of the sticky note}
+      - {name: x, in: body, type: number, description: Horizontal position of the sticky note on the canvas}
+      - {name: y, in: body, type: number, description: Vertical position of the sticky note on the canvas}
+      - {name: width, in: body, type: number, description: Width of the sticky note in pixels}
+      - {name: height, in: body, type: number, description: Height of the sticky note in pixels}
+      - {name: style, in: body, type: object, description: "Style properties such as backgroundColor (hex color string)"}

@@ -1,0 +1,92 @@
+schemaVersion: 1
+name: rocketreach
+version: 0.1.0
+baseUrl: https://api.rocketreach.co
+tools:
+  - name: search_people
+    description: Search for people by criteria such as name, employer, job title, location, and industry
+    method: POST
+    path: /api/v2/person/search
+    params:
+      - {name: query, in: body, type: object, required: true, description: "Search query object with filters (e.g. name, current_employer, title, location, industry)"}
+      - {name: start, in: body, type: integer, description: "Start index of results counting from 1 (default 1, max 10000)"}
+      - {name: page_size, in: body, type: integer, description: "Maximum number of results per page (1-100, default 10)"}
+      - {name: order_by, in: body, type: string, description: "Result ordering: relevance (default), popularity, or score"}
+
+  - name: lookup_person
+    description: Look up a person's contact information including verified emails and phone numbers by LinkedIn URL, name and employer, email, or RocketReach profile ID
+    method: GET
+    path: /api/v2/person/lookup
+    params:
+      - {name: id, in: query, type: integer, description: "RocketReach internal unique profile identifier"}
+      - {name: linkedin_url, in: query, type: string, description: "LinkedIn URL of the desired profile"}
+      - {name: email, in: query, type: string, description: "Email address identifying the desired profile"}
+      - {name: name, in: query, type: string, description: "Name of the desired profile; must be specified with current_employer"}
+      - {name: current_employer, in: query, type: string, description: "Current employer of the desired profile; must be specified with name"}
+      - {name: title, in: query, type: string, description: "Job title of the desired profile"}
+      - {name: phone, in: query, type: string, description: "Phone number in E.164 or international format"}
+      - {name: npi_number, in: query, type: integer, description: "NPI number for US healthcare professionals"}
+      - {name: lookup_type, in: query, type: string, description: "Lookup type: standard, premium, bulk, phone, or enrich"}
+      - {name: return_cached_emails, in: query, type: boolean, description: "Whether to include cached emails in the initial response (default true)"}
+      - {name: webhook_id, in: query, type: integer, description: "Your webhook unique ID from API settings for async delivery"}
+
+  - name: lookup_company
+    description: Look up a company by domain, name, LinkedIn URL, or ticker to retrieve firmographic data
+    method: GET
+    path: /api/v2/company/lookup/
+    params:
+      - {name: domain, in: query, type: string, description: "Domain of the desired company (preferred identifier)"}
+      - {name: id, in: query, type: integer, description: "RocketReach internal unique company identifier"}
+      - {name: linkedin_url, in: query, type: string, description: "LinkedIn URL of the desired company"}
+      - {name: name, in: query, type: string, description: "Name of the desired company"}
+      - {name: ticker, in: query, type: string, description: "Stock ticker symbol of the desired company"}
+
+  - name: lookup_person_and_company
+    description: Look up a person's contact info and their company's firmographic data in a single request
+    method: GET
+    path: /api/v2/profile-company/lookup
+    params:
+      - {name: id, in: query, type: integer, description: "RocketReach internal unique profile identifier"}
+      - {name: linkedin_url, in: query, type: string, description: "LinkedIn URL of the desired profile"}
+      - {name: email, in: query, type: string, description: "Email address identifying the desired profile"}
+      - {name: name, in: query, type: string, description: "Name of the desired profile; must be specified with current_employer"}
+      - {name: current_employer, in: query, type: string, description: "Current employer of the desired profile; must be specified with name"}
+      - {name: title, in: query, type: string, description: "Job title of the desired profile"}
+      - {name: phone, in: query, type: string, description: "Phone number in E.164 or international format"}
+      - {name: npi_number, in: query, type: integer, description: "NPI identifier for US healthcare professionals"}
+      - {name: lookup_type, in: query, type: string, description: "Lookup classification: standard, premium, bulk, phone, or enrich"}
+      - {name: return_cached_emails, in: query, type: boolean, description: "Whether to include cached emails in the initial response (default true)"}
+      - {name: webhook_id, in: query, type: integer, description: "Webhook unique identifier from API settings for async delivery"}
+
+  - name: check_person_status
+    description: Check the lookup status of one or more person profiles by their RocketReach profile IDs
+    method: GET
+    path: /api/v2/person/checkStatus
+    params:
+      - {name: ids, in: query, type: array, required: true, description: "List of RocketReach profile IDs to check status for"}
+
+  - name: get_company_tech_stack
+    description: Look up a company's technology stack and firmographic profile by domain, name, LinkedIn URL, or ticker
+    method: GET
+    path: /api/v2/company/lookup/
+    params:
+      - {name: domain, in: query, type: string, description: "Domain of the desired company (preferred identifier)"}
+      - {name: id, in: query, type: integer, description: "RocketReach internal unique company identifier"}
+      - {name: linkedin_url, in: query, type: string, description: "LinkedIn URL of the desired company"}
+      - {name: name, in: query, type: string, description: "Name of the desired company"}
+      - {name: ticker, in: query, type: string, description: "Stock ticker symbol of the desired company"}
+
+  - name: list_companies
+    description: Search for companies matching criteria such as name, domain, industry, size, and location
+    method: POST
+    path: /api/v2/searchCompany
+    params:
+      - {name: query, in: body, type: object, required: true, description: "Search query object with company filters (e.g. name, domain, industry, location, size)"}
+      - {name: start, in: body, type: integer, description: "Start index of results counting from 1 (default 1, max 10000)"}
+      - {name: page_size, in: body, type: integer, description: "Maximum number of results per page (1-100, default 10)"}
+      - {name: order_by, in: body, type: string, description: "Result ordering: relevance (default), popularity, or score"}
+
+  - name: get_account_info
+    description: Retrieve the authenticated account's details including usage, rate limits, and subscription information
+    method: GET
+    path: /api/v2/account/

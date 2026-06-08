@@ -2,13 +2,14 @@ schemaVersion: 1
 name: lever
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/lever-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/lever-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:fe167c25f57fa0979a2c2145b27cca964d14a035d5e317094b86085ee65d1b41
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

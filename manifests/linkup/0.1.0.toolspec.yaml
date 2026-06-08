@@ -1,0 +1,56 @@
+schemaVersion: 1
+name: linkup
+version: 0.1.0
+baseUrl: https://api.linkup.so
+tools:
+  - name: search
+    description: Search the web using a natural language query and return ranked results, a sourced answer, or raw search results
+    method: POST
+    path: /v1/search
+    params:
+      - {name: q, in: body, type: string, required: true, description: "The natural language question for which you want to retrieve context"}
+      - {name: depth, in: body, type: string, required: true, description: "Search precision mode: fast (sub-second), standard (single-iteration agentic), or deep (multi-iteration agentic)"}
+      - {name: outputType, in: body, type: string, required: true, description: "Output format: searchResults (ranked sources with snippets), sourcedAnswer (natural-language answer with citations), or structured (JSON matching a provided schema)"}
+      - {name: maxResults, in: body, type: integer, description: "Maximum number of results to return (minimum 1)"}
+      - {name: includeDomains, in: body, type: array, description: "Limit search to these domains (up to 100)"}
+      - {name: excludeDomains, in: body, type: array, description: "Exclude these domains from search results"}
+      - {name: fromDate, in: body, type: string, description: "Filter results from this date (YYYY-MM-DD, ISO 8601)"}
+      - {name: toDate, in: body, type: string, description: "Filter results up to this date (YYYY-MM-DD, ISO 8601)"}
+      - {name: includeImages, in: body, type: boolean, description: "Include images in results (default false)"}
+      - {name: includeInlineCitations, in: body, type: boolean, description: "Add inline citations to sourced answers (only for sourcedAnswer outputType)"}
+  - name: fetch_webpage
+    description: Fetch and convert a webpage to clean LLM-ready markdown, optionally rendering JavaScript and extracting images
+    method: POST
+    path: /v1/fetch
+    params:
+      - {name: url, in: body, type: string, required: true, description: "The URL of the webpage to fetch"}
+      - {name: renderJs, in: body, type: boolean, description: "Whether to render JavaScript on the page before extraction"}
+      - {name: extractImages, in: body, type: boolean, description: "Whether to extract images from the webpage"}
+      - {name: includeRawHtml, in: body, type: boolean, description: "Whether to include the raw HTML in the response alongside markdown"}
+  - name: create_response
+    description: Generate an AI response grounded in real-time web search using an OpenAI-compatible interface
+    method: POST
+    path: /v1/responses
+    params:
+      - {name: input, in: body, type: string, required: true, description: "The natural language query or conversation input to generate a response for"}
+      - {name: model, in: body, type: string, required: true, description: "The model to use: linkup-standard or linkup-deep"}
+      - {name: instructions, in: body, type: string, description: "Optional system-level instructions to guide response generation"}
+  - name: get_credits_balance
+    description: Retrieve the current credits balance for the authenticated account
+    method: GET
+    path: /v1/credits/balance
+  - name: search_structured
+    description: Search the web and return results formatted as a JSON object matching a caller-supplied JSON schema
+    method: POST
+    path: /v1/search
+    params:
+      - {name: q, in: body, type: string, required: true, description: "The natural language question for which you want to retrieve context"}
+      - {name: depth, in: body, type: string, required: true, description: "Search precision mode: fast (sub-second), standard (single-iteration agentic), or deep (multi-iteration agentic)"}
+      - {name: outputType, in: body, type: string, required: true, description: "Must be structured to receive JSON output matching the provided schema"}
+      - {name: structuredOutputSchema, in: body, type: string, description: "JSON schema defining the desired response structure as a JSON-formatted string (required when outputType is structured)"}
+      - {name: includeSources, in: body, type: boolean, description: "Include source references alongside the structured output"}
+      - {name: maxResults, in: body, type: integer, description: "Maximum number of results to return (minimum 1)"}
+      - {name: includeDomains, in: body, type: array, description: "Limit search to these domains (up to 100)"}
+      - {name: excludeDomains, in: body, type: array, description: "Exclude these domains from search results"}
+      - {name: fromDate, in: body, type: string, description: "Filter results from this date (YYYY-MM-DD, ISO 8601)"}
+      - {name: toDate, in: body, type: string, description: "Filter results up to this date (YYYY-MM-DD, ISO 8601)"}

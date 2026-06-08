@@ -1,0 +1,93 @@
+schemaVersion: 1
+name: attio
+version: 0.1.0
+baseUrl: https://api.attio.com
+tools:
+  - name: list_records
+    description: List records for a given object (e.g. people, companies) with optional filtering, sorting, and pagination
+    method: POST
+    path: /v2/objects/{object}/records/query
+    params:
+      - {name: object, in: path, type: string, required: true, description: "UUID or slug of the object to list records for (e.g. people, companies)"}
+      - {name: filter, in: body, type: object, description: "Filter object to narrow results; cannot be combined with filter_view_id"}
+      - {name: filter_view_id, in: body, type: string, description: "UUID of a saved view to filter by; cannot be combined with filter"}
+      - {name: sorts, in: body, type: array, description: "Sort configuration array with direction, attribute, and optional field"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return (default 500)"}
+      - {name: offset, in: body, type: integer, description: "Number of results to skip before returning (default 0)"}
+
+  - name: get_record
+    description: Get a single record by its object type and record ID
+    method: GET
+    path: /v2/objects/{object}/records/{record_id}
+    params:
+      - {name: object, in: path, type: string, required: true, description: "UUID or slug of the object the record belongs to (e.g. people, companies)"}
+      - {name: record_id, in: path, type: string, required: true, description: UUID of the record to retrieve}
+
+  - name: list_companies
+    description: List company records with optional filtering, sorting, and pagination
+    method: POST
+    path: /v2/objects/companies/records/query
+    params:
+      - {name: filter, in: body, type: object, description: "Filter object to narrow results"}
+      - {name: sorts, in: body, type: array, description: "Sort configuration array with direction, attribute, and optional field"}
+      - {name: limit, in: body, type: integer, description: "Maximum number of results to return (default 500)"}
+      - {name: offset, in: body, type: integer, description: "Number of results to skip before returning (default 0)"}
+
+  - name: list_notes
+    description: List notes across all records or filtered by a specific parent object and record
+    method: GET
+    path: /v2/notes
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return (default 10, max 50)"}
+      - {name: offset, in: query, type: integer, description: "Number of results to skip before returning (default 0)"}
+      - {name: parent_object, in: query, type: string, description: "Slug or ID of the object containing the notes"}
+      - {name: parent_record_id, in: query, type: string, description: "UUID of the parent record containing the notes"}
+
+  - name: list_tasks
+    description: List tasks with optional filtering by assignee, completion status, or linked record
+    method: GET
+    path: /v2/tasks
+    params:
+      - {name: limit, in: query, type: integer, description: "Maximum number of results to return (default 500)"}
+      - {name: offset, in: query, type: integer, description: "Number of results to skip before returning (default 0)"}
+      - {name: sort, in: query, type: string, description: "Sort order; one of created_at:asc, created_at:desc, completed_at:asc, completed_at:desc"}
+      - {name: linked_object, in: query, type: string, description: "Object slug or ID to filter tasks by linked record; requires linked_record_id"}
+      - {name: linked_record_id, in: query, type: string, description: "UUID of the linked record to filter tasks by; requires linked_object"}
+      - {name: assignee, in: query, type: string, description: "Filter tasks by workspace member assignee email or ID"}
+      - {name: is_completed, in: query, type: boolean, description: "Filter tasks by completion status"}
+
+  - name: create_person
+    description: Create a new person record with optional attributes such as name, email, phone, and job title
+    method: POST
+    path: /v2/objects/people/records
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Object containing a values field with person attributes (email_addresses, name, job_title, phone_numbers, description, linkedin, twitter, etc.)"}
+
+  - name: create_company
+    description: Create a new company record with optional attributes such as name, domains, description, and location
+    method: POST
+    path: /v2/objects/companies/records
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Object containing a values field with company attributes (name, domains, description, primary_location, categories, linkedin, twitter, etc.)"}
+
+  - name: create_note
+    description: Create a new note attached to a record
+    method: POST
+    path: /v2/notes
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Object with parent_object (slug/ID), parent_record_id (UUID), title (string), format (plaintext or markdown), content (string), and optional created_at (ISO 8601)"}
+
+  - name: create_task
+    description: Create a new task optionally linked to records and assigned to workspace members
+    method: POST
+    path: /v2/tasks
+    params:
+      - {name: data, in: body, type: object, required: true, description: "Object with content (string, max 2000 chars), format (plaintext), deadline_at (ISO 8601 or null), is_completed (boolean), linked_records (array), and assignees (array)"}
+
+  - name: delete_record
+    description: Delete a record by its object type and record ID
+    method: DELETE
+    path: /v2/objects/{object}/records/{record_id}
+    params:
+      - {name: object, in: path, type: string, required: true, description: "UUID or slug of the object the record belongs to (e.g. people, companies)"}
+      - {name: record_id, in: path, type: string, required: true, description: UUID of the record to delete}

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: pandadoc
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/pandadoc-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/pandadoc-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:b4719aafa53b375a0e076529f9e781e0351a31739257fd28aae66986522813ab
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:

@@ -2,13 +2,14 @@ schemaVersion: 1
 name: ahrefs
 version: 0.1.0
 source:
-  repo: github.com/gigmcp/ahrefs-mcp
+  repo: github.com/gigmcp/toolpack
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ahrefs-mcp
   # PLACEHOLDER until build-images CI emits the real digest — see README.
-  digest: sha256:8057031cde4aef7a1b1c46f8e8259e85aab75a97269a290ebe58ac9a6b8c483c
+  digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
+  builder: toolpack
 tier: sealed
 entitlements:
   egress:
