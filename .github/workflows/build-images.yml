@@ -15,6 +15,11 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version: '1.26'
+      # QEMU covers any emulated RUN steps (node/python builders); the Go
+      # builders cross-compile natively and don't need it. setup-buildx gives a
+      # docker-container builder, required to push a multi-platform image index.
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -30,10 +35,14 @@ jobs:
           go run ./cmd/registryctl build-args "$TARGET" >> "$GITHUB_ENV"
       - name: Build and push
         run: |
-          # --provenance=false: buildx attestation manifests produce an index
-          # digest instead of an image-manifest digest, which breaks the
-          # gateway's per-platform image-manifest digest pin.
+          # Multi-arch: amd64 + arm64 published as an OCI image index, so the
+          # pinned digest resolves per host architecture (arm64 dev boxes such
+          # as Apple Silicon can exec their native binary inside the sandbox).
+          # --provenance=false keeps the index to exactly the two arch entries —
+          # no unknown/unknown attestation manifests — so the index digest is
+          # stable and is the digest we pin.
           docker buildx build --provenance=false --push \
+            --platform linux/amd64,linux/arm64 \
             -f "images/${BUILDER}/Dockerfile" \
             --build-arg SOURCE_REPO="$SOURCE_REPO" \
             --build-arg SOURCE_TAG="$SOURCE_TAG" \
@@ -41,8 +50,12 @@ jobs:
             --build-arg NAME="$NAME" \
             --build-arg VERSION="$VERSION" \
             -t "ghcr.io/gigmcp/${NAME}-mcp:${VERSION}" \
+            --metadata-file /tmp/build-meta.json \
             .
       - name: Report digest to pin
         run: |
-          echo "Pin this linux/amd64 image-manifest digest in manifests/$NAME/<version>.yaml:"
-          docker buildx imagetools inspect "ghcr.io/gigmcp/${NAME}-mcp:${VERSION}" --raw | sha256sum | awk '{print "sha256:"$1}'
+          # The OCI image-index digest — pin this in manifests/$NAME/<version>.yaml.
+          # The gateway resolves it to the matching per-arch image manifest at pull time.
+          DIGEST=$(jq -r '."containerimage.digest"' /tmp/build-meta.json)
+          echo "Pin this multi-arch image-index digest in manifests/$NAME/<version>.yaml:"
+          echo "$DIGEST"

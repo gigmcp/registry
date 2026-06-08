@@ -33,8 +33,9 @@ type Source struct {
 
 type Image struct {
 	Ref string `json:"ref"`
-	// Digest is the PLATFORM (linux/amd64) image-manifest digest, NOT a
-	// multi-arch index digest — the gateway compares img.Digest() against it.
+	// Digest is the OCI image-index digest (multi-arch: linux/amd64 +
+	// linux/arm64). The gateway pins it and resolves the matching per-arch
+	// image manifest at pull time, so one digest serves every host arch.
 	Digest     string `json:"digest"`
 	Entrypoint string `json:"entrypoint"` // absolute path of the static binary inside the image
 	// Builder selects the registry build recipe (images/<builder>/Dockerfile).
