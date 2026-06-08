@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/rocketlane-mcp
-  digest: sha256:a3ca44ba2356796b43f6a5f0552fec1282e2c61bbb07fa666203cdf2d918cc99
+  digest: sha256:1d0518a2b87ccdd6eb1be92513dad5e2b45e87c3a5a4cc763c674738c163624c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

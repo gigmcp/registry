@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/rafflys-mcp
-  digest: sha256:24b233d813417b24a3b4545ec5665c31c01b43cc3970a24ca5efe652979170e9
+  digest: sha256:2e54bce5e4e4d097eee96d038a7c5665663ecbfb7146fa70eb52b29cd0476b26
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

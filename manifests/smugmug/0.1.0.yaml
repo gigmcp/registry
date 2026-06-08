@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/smugmug-mcp
-  digest: sha256:1186e9cbbd6e64e51d237661f42608529691667e4670650978bb96e95288e0a7
+  digest: sha256:361b758fc95d56c90b59230fcd30331b4c395a3e4a9d8f1544b04666e2626963
   entrypoint: /app/server
   builder: toolpack
 # entrusted: SmugMug v2 API keys are passed as the APIKey query parameter,

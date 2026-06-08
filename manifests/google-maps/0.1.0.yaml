@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/google-maps-mcp
-  digest: sha256:341771fa42e85b369d06d8d2777675b75d116c9f25444a77c2381ec9f61a05b6
+  digest: sha256:d847e4fff5942262deefeb296ad2fabf47e84ca7b909cc4523d493c8d4a9c3bb
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

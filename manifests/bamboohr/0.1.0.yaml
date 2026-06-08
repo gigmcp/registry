@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bamboohr-mcp
-  digest: sha256:63f716f580c0c70326f1cdcb42ed9b15eff9efbc492c985d65d5eb20c2d6da78
+  digest: sha256:8cc7b2977c7215f7e0a507a2db9731e800fd2e9e89a27acb456ba0a0efadc895
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

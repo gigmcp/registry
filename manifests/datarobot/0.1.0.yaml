@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datarobot-mcp
-  digest: sha256:1e5ffb00405191e30c21992e74fae8515ebec786e52b2ed9c9c5d01c3cded50b
+  digest: sha256:cd8eeb1310928bfc1fa0b38a8ed48674779188b652084d079a7efe2c9c1e3d49
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

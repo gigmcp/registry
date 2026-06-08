@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ahrefs-mcp
-  digest: sha256:7a85e31b947b186a359c6712bfe15239411b7c9dd2816d12e91c275688793daf
+  digest: sha256:b0f9707bce9c6448a813884a4c2fb2c4bfd3390baf1070073b4e9efe8da142e8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

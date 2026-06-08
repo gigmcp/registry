@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/retellai-mcp
-  digest: sha256:fc16d76d630e1aa2b6987f8937b9d30c64da48041b7a5ad0b41cf172ed57758f
+  digest: sha256:0c16a1a4366396a91e7a70a07ded8edcb2863253d6ca24ec7ec3d6623bc1670f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

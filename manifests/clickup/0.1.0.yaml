@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/clickup-mcp
-  digest: sha256:5945fe5b8757a74ceb058f18ca0c6f8412b6584c7843398479308f252cda9754
+  digest: sha256:28df8a640390d6d0dbbb97fb333ee5a61fe88b1b7e6794afd5a81d88913b289e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

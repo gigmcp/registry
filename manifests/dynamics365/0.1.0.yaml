@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dynamics365-mcp
-  digest: sha256:25ffc0386df248628c77921dffb9965a8be33020c09b01c1a7f9ee0f30026574
+  digest: sha256:b727f918a9d107a1c793424d39780f08253ca2648008e901cb43e2ba5e98c037
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

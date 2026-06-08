@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/servicenow-mcp
-  digest: sha256:5527207d844dd9bbbc9c0ad044c8c5dcb08b2d1c22085c7c9df4ad21356b880f
+  digest: sha256:bfab62db08a5700dbc108ec136f403491b21af7d3641cdca3b1a854750af1e4c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

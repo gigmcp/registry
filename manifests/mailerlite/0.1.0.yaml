@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mailerlite-mcp
-  digest: sha256:b2896bf31e21ea932352441275ed08b2ec2412f0c3873f31ad09db9d3b5063e6
+  digest: sha256:fd6eb625fb801d68c47be3f379e8ce8cf38d9943ed3d142e08ecddca56911be5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/metaads-mcp
-  digest: sha256:b1a0ed44522a169268a68444728a900e1463a2fab5fb1a205ecedf332c141ca1
+  digest: sha256:68ec8afe01f0673a2062acce3382f5b7dd635a3125a11362e40596c13b7dfb1d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

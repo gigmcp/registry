@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/freshdesk-mcp
-  digest: sha256:0f385cce597a9451f1eeb39b8bce2d718eafa1eb673e75182f9e0e1c4d283c5e
+  digest: sha256:00bdf81a3187df992b024010daa867e3e99180e95dabb8601da6255a06c17f87
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

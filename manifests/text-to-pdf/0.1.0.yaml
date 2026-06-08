@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/text-to-pdf-mcp
-  digest: sha256:505bd4bf293e709fb5ef3c1b8cbe86a237c62fb3b3d35f256b41b26e68a88449
+  digest: sha256:7332c35e2546db6d3d15dbdf23e62e613765f083d0cf2659f03e3455111feb96
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

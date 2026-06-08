@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/hubspot-mcp
-  digest: sha256:6f9de24aa42cec2279d72f8d139a1790b62d4941b2284313f3871daf3a35b8a1
+  digest: sha256:6de4ad73a69e07e503cca894fafb2fb52ceecbb67b7ee837334c33b379772ffe
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

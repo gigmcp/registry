@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/piggy-mcp
-  digest: sha256:37ec9e145b4445ad0cde5a8c12b801e82c042e197326a651295c8eca79c872cb
+  digest: sha256:ebb696ed90e43e94b06fd3168a69ea150b18f0b5dc7c1ca9fead01e20bd287f5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

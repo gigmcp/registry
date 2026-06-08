@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/agencyzoom-mcp
-  digest: sha256:fcff4fae3a5e6a9f296138e21bae359d668bb439a4a3b8d17d8c380c45e66df2
+  digest: sha256:ef1bd586b5bf4aa2cecb7e9b7b89ab9a546d67762cc2c31237f99f03f97f4a06
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

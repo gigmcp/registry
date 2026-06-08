@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoom-mcp
-  digest: sha256:7a03ac9fb98ab8b396d582cf1af1e8c56878c65b7c068fe215e60cd012dfb388
+  digest: sha256:0987763b09dec00a760af3fa90ac16ca4e3e9bc766a401cb22f590f7bb6fe20a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

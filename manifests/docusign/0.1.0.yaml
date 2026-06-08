@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/docusign-mcp
-  digest: sha256:506a7192543f8b0491bdd60fcdcb623b6f61df18b5483c3bf30978600537410d
+  digest: sha256:1043fae5a1791a1a101f181f52dd8bb396796852e0efba67431c108143703dd9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

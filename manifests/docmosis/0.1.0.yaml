@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/docmosis-mcp
-  digest: sha256:1753cc5c15f3c00e987cf8a30ba0ff95c074e7e2ce274f063c84f194cedff8a3
+  digest: sha256:dbddf962df96ff3ed9f4c2071a27219fc52e49e47603c45bb14aed44fcfd9550
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

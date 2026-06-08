@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/chatwork-mcp
-  digest: sha256:4b923ea540111da7209693b89fd61b0a5c9db82286ae9478827f9f50156dac0a
+  digest: sha256:8415cb52c5c74d690b1cdff6fb72370d142151b17285c071c16b723c33c0a54a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

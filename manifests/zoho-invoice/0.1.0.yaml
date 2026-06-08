@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zoho-invoice-mcp
-  digest: sha256:c21c476a906ec4ff1e4297bc0fb44695fb695ab928bad88be62a7fc4f51ba348
+  digest: sha256:05b459b7f94bcd864786cdebcb2edbb7f80d347fb8b37f0162b019e3b4287923
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

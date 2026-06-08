@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/apaleo-mcp
-  digest: sha256:57e01f4f02feee20085e547f61ee04d313d317e48cd5dc52caf47711eb48f50e
+  digest: sha256:4a487da644dd299875a12efff2107c8d5e452e3f58bf5c9e1371215629cbe1eb
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

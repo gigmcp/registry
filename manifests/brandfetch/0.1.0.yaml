@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/brandfetch-mcp
-  digest: sha256:d1461a0f6b52182ecc3f46123c49056262451f7afea7e569c1823a95b611d8b5
+  digest: sha256:53c9c3daf808fbaeaf329ad63ccd1fdebb2ddf87a19fabdae0a3536de7d21bad
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

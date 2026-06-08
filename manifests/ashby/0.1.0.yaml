@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ashby-mcp
-  digest: sha256:6d73e5f09ee635ae86891def1312131c365b0add91577b22d18bb8d784dfc5fe
+  digest: sha256:6888d2900381ed0e61adc7820eebb08ce65317db1aa6c0fb9b0fc58f70703940
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

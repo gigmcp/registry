@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/salesforce-mcp
-  digest: sha256:725b83a9e651041e85541a582608777f9dce36f9b23a0ae038eb975472f1357d
+  digest: sha256:d719f0ec7d76b120dc169fc6d33b778c2cdc42b00a0d39ad32712bf61468ec0d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

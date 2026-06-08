@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/discord-mcp
-  digest: sha256:3431c045984fd08b506245fd1326814b9ca5408129da99680bffba4bed7d297b
+  digest: sha256:3b29c39a40559f67205a9b550352cd42910580121dc7071586e1fa8742264a6f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

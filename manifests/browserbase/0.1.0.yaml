@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/browserbase-mcp
-  digest: sha256:ae7fda643f3af8f8f8e4fae09178ab77642f65ef6eda9d4f344cf0bd09ea12a7
+  digest: sha256:aa33be6fc37655412f456f20cd8da6181faa58174934ee607615286276536de1
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

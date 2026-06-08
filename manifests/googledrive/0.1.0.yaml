@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googledrive-mcp
-  digest: sha256:1de2b86be0e84d05dc2fde68938e7ce922718a31db6e9c026c93f464721d64ed
+  digest: sha256:d115c5c756b98b47f35ca75bae9140fb89ef19be52a48c3a38a881e39e2d5586
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

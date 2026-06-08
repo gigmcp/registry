@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/listennotes-mcp
-  digest: sha256:af549f9b1f83a8279143f16a6a9f923a152110d1acfb0f90682320567c98a301
+  digest: sha256:0beba78105b110a90ad02d3c721a191e223d3d4d7be8a881913801fd8ffd0f07
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

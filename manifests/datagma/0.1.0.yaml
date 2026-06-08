@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datagma-mcp
-  digest: sha256:c674a13476ed06483966ddb33162db37c263ff84b1bbc044e24469e46dafba00
+  digest: sha256:1ffd9d8fb595d992265a5d767383ab7237c1f9ea9c76dc43772266ddeca5a7fe
   entrypoint: /app/server
   builder: toolpack
 # Datagma authenticates via the ?apiId= query parameter on every endpoint,

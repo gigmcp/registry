@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/zenserp-mcp
-  digest: sha256:c13b660075e3d4be1e46b444d30a94b529ea201bccd4877cefe62ad14af1f94b
+  digest: sha256:b51a83ef2782b56465c754009c8640a2178158d2a54eb9a6f8447a761612219f
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

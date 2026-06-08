@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/dialpad-mcp
-  digest: sha256:3a1d1259182aefbe557e74bfa44b123fb654029de6ce172d555984efa471903f
+  digest: sha256:9bc5e156200b2b7081b20e1151d13bf0bd054c263859db99fea4cb931aebb80e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

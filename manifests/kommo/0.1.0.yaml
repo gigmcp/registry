@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/kommo-mcp
-  digest: sha256:57e32cd99da7c354e63c27b38413c4f94dd5640f4aab4e1d7dd887f8306bdc5e
+  digest: sha256:18443bb5e518c0a4af9ae8bca1fb87e0f9b524c3e3e49f7c7e5c38de47056c5e
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

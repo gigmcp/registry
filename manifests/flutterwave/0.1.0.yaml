@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/flutterwave-mcp
-  digest: sha256:924f41022c63a8c2a1a999a3064ce3f217d484bd2fb56080cfb031bba495657a
+  digest: sha256:f2468897313df1cf1f95b15ac946acd43771062e321851e02c282098561ab29c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/wrike-mcp
-  digest: sha256:3037ac6bab733e74171cd2b34bea71f87eaa7eff12fb4fb8eda4bffc2e9000aa
+  digest: sha256:ab336ba7b5f71625ed042c72c2a6a750e239aa6540d1bfb4306233688a7c3cde
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

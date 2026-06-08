@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mixpanel-mcp
-  digest: sha256:cfb7ce797ef4169f07bdeb18fddcfa5c9349aebd3f897ab5b64a8f7a1eb5dbe5
+  digest: sha256:795a05eafeba07418157a230a98774ff7f31469ce169c68a7255cb73409601d0
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

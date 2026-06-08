@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/textrazor-mcp
-  digest: sha256:62fd42212a8f33f14aeeefe5f3ebfb52e7f74aa95ff3d9aea5d142d5e5666044
+  digest: sha256:754f2f1cd6410770292e7287b44c105d5bd449c630692e8b1885eb449ad83246
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

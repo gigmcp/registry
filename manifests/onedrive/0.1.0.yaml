@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/onedrive-mcp
-  digest: sha256:f41d8e2861ca2c595e7a2808207d1c044ae49ad985db5a46a1c2fe9ee03a2cc3
+  digest: sha256:ca179bd4c9771577666d3c43f8ff25584dac2f7dee3b7abc92c0ed853523ccc3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

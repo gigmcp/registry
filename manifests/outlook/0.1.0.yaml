@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/outlook-mcp
-  digest: sha256:b2c826e08fe136f992b0ead315674ecc253fe90eb418656d28fabbd74aeae0b0
+  digest: sha256:4cffb5118f99784e30a3aedbcdddae37a623b8a85d397ad516cb5e6b325ee6d4
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

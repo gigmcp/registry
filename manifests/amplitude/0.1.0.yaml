@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/amplitude-mcp
-  digest: sha256:3c971b9cd62f979cd686afa8a54ed99fa62604624366abe40c3874feacb59fb2
+  digest: sha256:0789e1ce5679fdad6caa37a9a6479a5cc977d0f7a1e95ba98006fcc62885ddd8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

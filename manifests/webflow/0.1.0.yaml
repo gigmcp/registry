@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/webflow-mcp
-  digest: sha256:d63e8ed0cad069ee80123daa6eed31a2b0ad4ecf18585102bc00550ececbe4fc
+  digest: sha256:5c5207d3d1dbc64c1dcf4a3e2713d2c4b166b828c8a7ccdb1b93994a30a8c82c
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

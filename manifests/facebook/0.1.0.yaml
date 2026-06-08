@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/facebook-mcp
-  digest: sha256:fed296bd735731c036c4ec4b2f9c5e57953bb231ef75a1cae42ef8fe96270ad9
+  digest: sha256:47c5866603ed7392ad86a8b32f458df40cdfd02d85e5cead36652499404f22dc
   builder: toolpack
   entrypoint: /app/server
 tier: sealed

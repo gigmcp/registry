@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/microsoft-clarity-mcp
-  digest: sha256:8b7aabdd9400a0a8fa8653b6ccb621f90dc69af00c2127084a248f3b84e82c4f
+  digest: sha256:97638eebcdb1bbcf91f6ed0a0b3219f5836a5b92caa386ba92e84d87844e86fc
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

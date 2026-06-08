@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/canvas-mcp
-  digest: sha256:7826d1ad0dd4f518dcd5c60b844268f743b30db7069d173b4542fba2226a4bfe
+  digest: sha256:4d380da49b9b16275ad72b9464763ae0bfa4238b2420e1d770bca753c07f2028
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

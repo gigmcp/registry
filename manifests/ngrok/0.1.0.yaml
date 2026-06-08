@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/ngrok-mcp
-  digest: sha256:7695269f78bb45fbeef9dd28fa6af42ba99bace353f9320ffc595184f285f83c
+  digest: sha256:579c2d7f567fe71b4635bfa2b025e1aead61cc2fb7d9de3fb653aa73a3a1938b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

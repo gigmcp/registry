@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/semanticscholar-mcp
-  digest: sha256:b0d31e0927c00c5b810d844d2fe9f29b80127d559d4652bf2b6ff983336736e3
+  digest: sha256:05321dc07ee8931a26ca158edd3cfa791ab00c8255364d855d165f3b999f0ff3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

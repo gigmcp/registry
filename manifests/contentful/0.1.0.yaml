@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/contentful-mcp
-  digest: sha256:e0354c7633e43b7e373d2877bd1b1104ce6cce537060fb77e7886da2e47d5ddd
+  digest: sha256:8e5fc9cad4b4c7c31c75a0e19b7f5f3d2d755852549ccfdae97691ce53fec891
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

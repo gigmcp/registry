@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/lexoffice-mcp
-  digest: sha256:c656650dee5d71657eae288a676ac2a598b4f2dde0d2ac8a3f0d81589e0e8229
+  digest: sha256:7560ebc9a4043a3e008f594123f3d6100e5500945331356569a646c65f34eeb2
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

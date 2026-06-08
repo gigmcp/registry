@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/appdrag-mcp
-  digest: sha256:1e7e3754e379ced09b9b1746b8ab0c9a619e2e383236cf8ba526c425276de5e7
+  digest: sha256:964c1daad28545500931d3bd843c4c10b060bdc4694568835d0c3fc3d9054b03
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

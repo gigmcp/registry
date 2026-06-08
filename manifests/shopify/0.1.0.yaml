@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/shopify-mcp
-  digest: sha256:043a01c20034e9a91782e4158cdf0ad8ac3f8df1ee38aab736cbc6d7a2a45a9a
+  digest: sha256:55056acc4cb964aab1e0b95283598541c974a1568320fa5b638c6ae9da1803a9
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

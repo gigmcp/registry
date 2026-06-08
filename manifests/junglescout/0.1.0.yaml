@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/junglescout-mcp
-  digest: sha256:a7ed36261984b39c91dbd08c315b77923eb3ba7392174654a17c4bab262a9125
+  digest: sha256:d9280f4388d9bd085546922e545350d9ec9437573139ba8b6cd48ad38f27b62d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

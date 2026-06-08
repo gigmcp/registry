@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/productboard-mcp
-  digest: sha256:f32061db9a2a9ccd1a87c388396b3c87939838fa3ebbd7c32da94ab7f2e6972b
+  digest: sha256:da27486ddd7dba76a7e8a1c8e713b9f827285ae04f727c798ce3f2df615b7e71
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

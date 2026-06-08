@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coda-mcp
-  digest: sha256:b84305e3a3069839420b1ff15d20c6fb5fc56ae52cb3d28cae7a408c3c62857c
+  digest: sha256:199a917627fbfcf0510841dd59b1c2a9cc91d0711c2409d310bdd980d71da76d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/pandadoc-mcp
-  digest: sha256:0dcf98f1ba3ddcd1d8c15a0edf4b3bf906045d77a31a12a427399c084609b54e
+  digest: sha256:897dea9a1f7d2d3a3dc4e5b61334c43b7b745786c3949acea84b19b92134a349
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

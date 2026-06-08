@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/posthog-mcp
-  digest: sha256:3df4fedd05d6b656ddf3834e19a0070880b0ea664187546e21566595576b1f86
+  digest: sha256:01e8354b5b60cc0614f4772be07234807e33ecd746a085252f4a81493c77cce0
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/webex-mcp
-  digest: sha256:2f96e242352974d3f5585917135c50cc55b3cb3fcae52a0783e725a34152b2dd
+  digest: sha256:b9e4d7f3fdfbf3b0119c88c8e6c9229b6180f68e9518048511e45404723fb08d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

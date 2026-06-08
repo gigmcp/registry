@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/google-analytics-mcp
-  digest: sha256:04f8bc7baa70afbfcdf06da49a6db686c27b97aa19847cfb0eb1e4659dab3a4d
+  digest: sha256:a3e6213952f213a9000eae6bd1e6d116a9d705824831bd495b3669cc01cac2e6
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

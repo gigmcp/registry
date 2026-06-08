@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/freshbooks-mcp
-  digest: sha256:748baeb691edb35060f54a5e1a2e4e1181f908eb526f7bcec8caba195ee61a29
+  digest: sha256:2133509e72457958a9f482938c6ea4d9472879a1a4a316dbdb672dba0d8dfaaf
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

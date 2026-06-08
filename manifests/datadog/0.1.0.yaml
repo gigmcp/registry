@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/datadog-mcp
-  digest: sha256:bbbea6ea7ea413d710cd6568d12c8c724a7b869be8813e54662552d8b191a0a1
+  digest: sha256:99060a0de08ac81feccd8ae1009305c1d363b2b4c4b173b66811a9d8471c2bd5
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

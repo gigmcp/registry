@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/harvest-mcp
-  digest: sha256:67a2a248b78a646f327cb445828fc64202201d4cf04981bb97a382ba25ed814b
+  digest: sha256:3b41323635f7748cbff46040c0fdade42cdabb751ab79b7cf046e43ca170aa55
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

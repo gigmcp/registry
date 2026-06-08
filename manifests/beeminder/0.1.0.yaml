@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/beeminder-mcp
-  digest: sha256:b89d19c357ea7610f7ae6693334e787c5e5077262399fa3ad4a3c3e487a10660
+  digest: sha256:ce9f826da1e81475f549f9ea26c2f187a74ee4108202bdcc820905f5dcd4fcf9
   entrypoint: /app/server
   builder: toolpack
 # Beeminder's API accepts auth only via the auth_token/access_token query

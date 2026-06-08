@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gmail-mcp
-  digest: sha256:c301c5019f28cd7b2940842c8dd2f7a062d55d7f9aaec23f0dd73047ed9ba1cc
+  digest: sha256:abff1f231ac2c46bb73c6d3dd68d792ba267da12cce9f341c3c9ddc048170106
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

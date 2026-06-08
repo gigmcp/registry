@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/mural-mcp
-  digest: sha256:77d458904c37979f380ff56a6308bdf89c3052cce333d7fcb6aafc9d0126d9d5
+  digest: sha256:24db8d1897663cf3e207c27b47ee6a45f3a170c53787e34479b8dea53e93bb75
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

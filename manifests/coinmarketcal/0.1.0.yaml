@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/coinmarketcal-mcp
-  digest: sha256:9395943afc52624ab72c7392d679fef0ce3e91274bbf5028c1dd8945d3b891cc
+  digest: sha256:8f650b2cb3a9a254cd655eed5b4702425ee63498e10a766bc5872bc4fd0e3727
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

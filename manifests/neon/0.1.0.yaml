@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/neon-mcp
-  digest: sha256:ef06f1b4ac682ce156409f0f7b579d05d191bde14ebdc350521c016ac261f5d5
+  digest: sha256:f8e4d1d471c12a29a09488037962ffbf4a919a0eb9157ee23b207434fc0a89ef
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

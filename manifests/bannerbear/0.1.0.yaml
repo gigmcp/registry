@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/bannerbear-mcp
-  digest: sha256:bc3308938f2ba062d9c009eee0cd78b8331e8dd786dcf5900ce14d02b7b047a5
+  digest: sha256:ec15f76dd787c2b86257669339e12ddf4092147196be6a30b771d58beda431a7
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

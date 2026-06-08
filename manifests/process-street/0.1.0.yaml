@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/process-street-mcp
-  digest: sha256:029033ed328e31aa0bd62de420150a9ab10676eae0e505981dd5bea9829d6974
+  digest: sha256:dbfff1ec27c37f2f0efe1243991272d02293941b3d5be71a1a64e899042a81e8
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/pipedrive-mcp
-  digest: sha256:c28f0264a7eb5908b0948244253163a3049ec066778dd319f83218b73226dd52
+  digest: sha256:41f11d9fa29caaebb4f138f73ebc5b60adfc16b83886961df1268a01a71b0312
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

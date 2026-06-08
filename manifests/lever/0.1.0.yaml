@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/lever-mcp
-  digest: sha256:3effded06046d1b313ec59cbcbf090ba2ccba410e708f1bd33aebb013a1deff5
+  digest: sha256:def1b85a4291ba18da7bbf0e5fd224a88ecf256fa0cd36ca113371ebe77f445d
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

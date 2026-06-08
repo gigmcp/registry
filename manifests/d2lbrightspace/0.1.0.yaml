@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/d2lbrightspace-mcp
-  digest: sha256:c63c4fcbfd332c4b51d2a03097fb1da259d57831113be5b33ae35b599c34738e
+  digest: sha256:b0f269d858dbffd26ed116dd53f953e51fcf7ec95b67a5a777054b77de136913
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

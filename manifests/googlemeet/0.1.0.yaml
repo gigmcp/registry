@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/googlemeet-mcp
-  digest: sha256:8378c712bdde696fbca2548853de898c698a9ebbdfcfbd68020a56f2fe72960e
+  digest: sha256:b9578a649be0e87ca7323cc479e99eb86486e90e193d8bb2f9e874681ebcc7c3
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

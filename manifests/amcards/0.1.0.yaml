@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/amcards-mcp
-  digest: sha256:a145ac6103961ed3dc381a3d4cceb3b55a2a95f7dbbf1ec3dab0ea7f59312fba
+  digest: sha256:03b7e1d37e7536435973622a15001732a3546833985b93da1cd3c02c844f075a
   entrypoint: /app/server
   builder: toolpack
 tier: sealed

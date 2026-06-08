@@ -6,7 +6,7 @@ source:
   tag: v0.1.0
 image:
   ref: ghcr.io/gigmcp/gumroad-mcp
-  digest: sha256:57eb75ead754870b56415d3e400788b1add721ca53c82610ef886afd44d0ab9b
+  digest: sha256:3239e361b49694f3a76ea065d0dbdb34c368de2152447b074db28d2f77e4916b
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
