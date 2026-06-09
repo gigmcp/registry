@@ -21,6 +21,16 @@ type Manifest struct {
 	Entitlements  Entitlements `json:"entitlements"`
 	Credentials   []Credential `json:"credentials,omitempty"`
 	Tools         []Tool       `json:"tools,omitempty"`
+
+	// Presentation/grouping metadata (DESIGN: catalog branding). NOT part of
+	// the runtime/security contract — excluded from RuntimeHash, so backfilling
+	// these never diverges a baked image from the signed index and never forces
+	// an image rebuild or re-consent. The gateway falls back to a generated
+	// monogram + slug where these are absent.
+	DisplayName string `json:"displayName,omitempty"`
+	Description string `json:"description,omitempty"`
+	Category    string `json:"category,omitempty"` // closed enum (see Validate, once backfilled)
+	Icon        string `json:"icon,omitempty"`     // repo-hosted icons/<slug>.svg (signed provenance)
 }
 
 type Source struct {
@@ -52,10 +62,15 @@ type Entitlements struct {
 
 type Credential struct {
 	ID       string   `json:"id"`
-	Type     string   `json:"type"` // oauth2 | api_key | basic | custom_env
-	Provider string   `json:"provider"`
+	Type     string   `json:"type"`     // oauth2 | api_key | basic | custom_env
+	Provider string   `json:"provider"` // connector slug — drives least-privilege scopes + incremental consent
 	Scopes   []string `json:"scopes,omitempty"`
 	Inject   Inject   `json:"inject"`
+	// Vendor is the canonical OAuth-app grouping key (e.g. "google" for the 12
+	// gmail/googlecalendar/... connectors). Lets one operator OAuth app + one
+	// user Connected Account cover a whole vendor family. Grouping/presentation
+	// only — excluded from RuntimeHash. Provider stays the per-connector slug.
+	Vendor string `json:"vendor,omitempty"`
 }
 
 // Inject carries the secret-delivery mode. Validate() enforces that exactly one mode is active per tier: sealed→Header+Format, entrusted→Env.
