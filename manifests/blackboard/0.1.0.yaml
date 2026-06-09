@@ -19,6 +19,7 @@ credentials:
   - id: blackboard_token
     type: oauth2
     provider: blackboard
+    vendor: blackboard
     scopes: [read, write, delete, offline]
     inject:
       header: Authorization

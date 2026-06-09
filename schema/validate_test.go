@@ -44,6 +44,10 @@ func TestValidateRejects(t *testing.T) {
 		{"dotdot package", func(m *Manifest) { m.Source.Package = "../evil" }, "package"},
 		{"absolute package", func(m *Manifest) { m.Source.Package = "/etc" }, "package"},
 		{"bad builder", func(m *Manifest) { m.Image.Builder = "ruby" }, "builder"},
+		{"oauth2 missing vendor", func(m *Manifest) { m.Credentials[0].Type = "oauth2" }, "vendor is required"},
+		{"bad vendor slug", func(m *Manifest) { m.Credentials[0].Vendor = "Google_Inc" }, "vendor"},
+		{"uppercase vendor", func(m *Manifest) { m.Credentials[0].Vendor = "Google" }, "vendor"},
+		{"bad category", func(m *Manifest) { m.Category = "news" }, "category"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -54,6 +58,30 @@ func TestValidateRejects(t *testing.T) {
 				t.Fatalf("want error containing %q, got %v", tc.want, err)
 			}
 		})
+	}
+}
+
+func TestValidateOAuth2Vendor(t *testing.T) {
+	m := good(t)
+	m.Credentials[0].Type = "oauth2"
+	m.Credentials[0].Vendor = "google"
+	if err := m.Validate(); err != nil {
+		t.Fatalf("oauth2 credential with a valid vendor should validate: %v", err)
+	}
+	// non-oauth2 credentials may omit vendor (the api_key fixture already does).
+	m2 := good(t)
+	if err := m2.Validate(); err != nil {
+		t.Fatalf("api_key credential without vendor should validate: %v", err)
+	}
+}
+
+func TestValidateGoodCategories(t *testing.T) {
+	for _, c := range []string{"", "CRM", "dev-tools", "comms", "finance", "HR/ATS", "productivity", "analytics", "storage", "design"} {
+		m := good(t)
+		m.Category = c
+		if err := m.Validate(); err != nil {
+			t.Fatalf("category %q should validate, got: %v", c, err)
+		}
 	}
 }
 

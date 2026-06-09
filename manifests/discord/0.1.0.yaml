@@ -17,6 +17,7 @@ credentials:
   - id: discord_token
     type: oauth2
     provider: discord
+    vendor: discord
     scopes: [identify, email, guilds, guilds.members.read, connections]
     inject:
       header: Authorization

@@ -18,6 +18,7 @@ credentials:
   - id: reddit_token
     type: oauth2
     provider: reddit
+    vendor: reddit
     scopes: [identity, read, submit, edit, history]
     inject:
       header: Authorization

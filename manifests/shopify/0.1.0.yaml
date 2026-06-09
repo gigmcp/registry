@@ -17,6 +17,7 @@ credentials:
   - id: shopify_token
     type: oauth2
     provider: shopify
+    vendor: shopify
     scopes: [read_products, write_products, read_orders, read_customers]
     inject:
       header: X-Shopify-Access-Token

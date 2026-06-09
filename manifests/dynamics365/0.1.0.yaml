@@ -18,6 +18,7 @@ credentials:
   - id: dynamics365_token
     type: oauth2
     provider: dynamics365
+    vendor: microsoft
     scopes: [user_impersonation, offline_access]
     inject:
       header: Authorization

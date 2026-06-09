@@ -19,6 +19,7 @@ credentials:
   - id: twitter_token
     type: oauth2
     provider: twitter
+    vendor: twitter
     scopes: [tweet.read, tweet.write, users.read, like.write, offline.access]
     inject:
       header: Authorization

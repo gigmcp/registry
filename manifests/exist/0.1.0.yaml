@@ -17,6 +17,7 @@ credentials:
   - id: exist_token
     type: oauth2
     provider: exist
+    vendor: exist
     scopes: [activity_read, productivity_read, mood_read, manual_write]
     inject:
       header: Authorization

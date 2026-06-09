@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: HubSpot
+category: CRM
 entitlements:
   egress:
     - api.hubapi.com
@@ -17,6 +19,7 @@ credentials:
   - id: hubspot_token
     type: oauth2
     provider: hubspot
+    vendor: hubspot
     scopes:
       [
         crm.objects.contacts.read,

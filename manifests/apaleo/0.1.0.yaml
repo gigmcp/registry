@@ -19,6 +19,7 @@ credentials:
   - id: apaleo_token
     type: oauth2
     provider: apaleo
+    vendor: apaleo
     scopes: [setup.read, units.read, unitgroups.read, units.create, properties.manage]
     inject:
       header: Authorization

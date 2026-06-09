@@ -18,6 +18,7 @@ credentials:
   - id: zoho_invoice_token
     type: oauth2
     provider: zoho-invoice
+    vendor: zoho
     scopes: [ZohoInvoice.invoices.READ, ZohoInvoice.invoices.CREATE, ZohoInvoice.contacts.READ, ZohoInvoice.estimates.READ, ZohoInvoice.customerpayments.CREATE]
     inject:
       header: Authorization

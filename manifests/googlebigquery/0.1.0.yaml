@@ -17,6 +17,7 @@ credentials:
   - id: googlebigquery_token
     type: oauth2
     provider: googlebigquery
+    vendor: google
     scopes:
       - "https://www.googleapis.com/auth/bigquery"
       - "https://www.googleapis.com/auth/bigquery.readonly"

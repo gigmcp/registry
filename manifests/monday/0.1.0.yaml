@@ -17,6 +17,7 @@ credentials:
   - id: monday_token
     type: oauth2
     provider: monday
+    vendor: monday
     scopes: [boards:read, boards:write, workspaces:read, users:read, updates:write]
     inject:
       header: Authorization

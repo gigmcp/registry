@@ -17,6 +17,7 @@ credentials:
   - id: pagerduty_token
     type: oauth2
     provider: pagerduty
+    vendor: pagerduty
     scopes: [incidents.read, incidents.write, services.read, schedules.read, users.read]
     inject:
       header: Authorization

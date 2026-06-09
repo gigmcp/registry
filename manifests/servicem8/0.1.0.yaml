@@ -17,6 +17,7 @@ credentials:
   - id: servicem8_token
     type: oauth2
     provider: servicem8
+    vendor: servicem8
     scopes: [read_jobs, create_jobs, manage_jobs, read_customers, manage_customers, read_job_notes, publish_job_notes, manage_job_payments, read_job_materials, read_tasks]
     inject:
       header: Authorization

@@ -18,6 +18,7 @@ credentials:
   - id: xero_token
     type: oauth2
     provider: xero
+    vendor: xero
     scopes: [accounting.transactions, accounting.contacts, accounting.settings, accounting.reports.read, offline_access]
     inject:
       header: Authorization

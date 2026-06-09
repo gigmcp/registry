@@ -17,6 +17,7 @@ credentials:
   - id: toneden_token
     type: oauth2
     provider: toneden
+    vendor: toneden
     inject:
       header: Authorization
       format: "Bearer {token}"

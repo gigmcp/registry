@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Drive
+category: storage
 entitlements:
   egress:
     - www.googleapis.com
@@ -18,6 +20,7 @@ credentials:
   - id: googledrive_token
     type: oauth2
     provider: googledrive
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/drive,

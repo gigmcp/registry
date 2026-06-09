@@ -17,6 +17,7 @@ credentials:
   - id: linkedin_token
     type: oauth2
     provider: linkedin
+    vendor: linkedin
     scopes: [openid, profile, w_member_social, r_organization_social]
     inject:
       header: Authorization

@@ -17,6 +17,7 @@ credentials:
   - id: zoominfo_token
     type: oauth2
     provider: zoominfo
+    vendor: zoominfo
     inject:
       header: Authorization
       format: "Bearer {token}"

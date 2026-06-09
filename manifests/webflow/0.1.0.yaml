@@ -17,6 +17,7 @@ credentials:
   - id: webflow_token
     type: oauth2
     provider: webflow
+    vendor: webflow
     scopes: ["sites:read", "cms:read", "cms:write", "pages:read", "assets:read"]
     inject:
       header: Authorization

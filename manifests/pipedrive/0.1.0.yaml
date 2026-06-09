@@ -18,6 +18,7 @@ credentials:
   - id: pipedrive_token
     type: oauth2
     provider: pipedrive
+    vendor: pipedrive
     scopes: [deals:read, deals:full, contacts:read, contacts:full, activities:full]
     inject:
       header: Authorization

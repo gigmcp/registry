@@ -17,6 +17,7 @@ credentials:
   - id: eventbrite_token
     type: oauth2
     provider: eventbrite
+    vendor: eventbrite
     inject:
       header: Authorization
       format: "Bearer {token}"

@@ -19,6 +19,7 @@ credentials:
   - id: box_token
     type: oauth2
     provider: box
+    vendor: box
     scopes: [root_readonly, root_readwrite, sign_requests.readwrite]
     inject:
       header: Authorization

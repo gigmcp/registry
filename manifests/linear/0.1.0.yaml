@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Linear
+category: dev-tools
 entitlements:
   egress:
     - api.linear.app
@@ -17,6 +19,7 @@ credentials:
   - id: linear_token
     type: oauth2
     provider: linear
+    vendor: linear
     scopes: [read, write, issues:create, comments:create]
     inject:
       header: Authorization

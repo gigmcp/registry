@@ -18,6 +18,7 @@ credentials:
   - id: gong_token
     type: oauth2
     provider: gong
+    vendor: gong
     scopes: [api:calls:read, api:calls:create, api:users:read, api:stats:user-actions, api:flows:read]
     inject:
       header: Authorization

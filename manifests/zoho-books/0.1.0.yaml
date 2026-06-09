@@ -21,6 +21,7 @@ credentials:
   - id: zoho-books_token
     type: oauth2
     provider: zoho-books
+    vendor: zoho
     scopes: [ZohoBooks.invoices.READ, ZohoBooks.contacts.READ, ZohoBooks.expenses.READ, ZohoBooks.invoices.CREATE, ZohoBooks.customerpayments.CREATE]
     inject:
       header: Authorization

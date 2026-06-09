@@ -17,6 +17,7 @@ credentials:
   - id: attio_token
     type: oauth2
     provider: attio
+    vendor: attio
     scopes: [record_permission:read-write, object_configuration:read, list_entry:read-write, note:read-write, task:read-write, user_management:read]
     inject:
       header: Authorization

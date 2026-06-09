@@ -18,6 +18,7 @@ credentials:
   - id: outlook_token
     type: oauth2
     provider: outlook
+    vendor: microsoft
     scopes: [Mail.Read, Mail.Send, Calendars.ReadWrite, Contacts.Read, User.Read]
     inject:
       header: Authorization

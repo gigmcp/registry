@@ -18,6 +18,7 @@ credentials:
   - id: googletasks_token
     type: oauth2
     provider: googletasks
+    vendor: google
     scopes:
       - "https://www.googleapis.com/auth/tasks"
       - "https://www.googleapis.com/auth/tasks.readonly"

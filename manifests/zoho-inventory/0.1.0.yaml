@@ -21,6 +21,7 @@ credentials:
   - id: zoho-inventory_token
     type: oauth2
     provider: zoho-inventory
+    vendor: zoho
     scopes: [ZohoInventory.items.READ, ZohoInventory.salesorders.READ, ZohoInventory.invoices.READ, ZohoInventory.salesorders.CREATE, ZohoInventory.contacts.READ]
     inject:
       header: Authorization

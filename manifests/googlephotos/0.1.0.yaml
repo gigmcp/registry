@@ -17,6 +17,7 @@ credentials:
   - id: googlephotos_token
     type: oauth2
     provider: googlephotos
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata,

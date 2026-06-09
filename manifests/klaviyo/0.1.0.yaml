@@ -17,6 +17,7 @@ credentials:
   - id: klaviyo_token
     type: oauth2
     provider: klaviyo
+    vendor: klaviyo
     scopes: [profiles:read, profiles:write, lists:read, lists:write, campaigns:read, campaigns:write, events:read, events:write, segments:read]
     inject:
       header: Authorization

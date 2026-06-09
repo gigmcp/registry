@@ -18,6 +18,7 @@ credentials:
   - id: kommo_token
     type: oauth2
     provider: kommo
+    vendor: kommo
     inject:
       header: Authorization
       format: "Bearer {token}"

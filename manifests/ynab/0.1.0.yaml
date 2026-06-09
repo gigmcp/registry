@@ -18,6 +18,7 @@ credentials:
   - id: ynab_token
     type: oauth2
     provider: ynab
+    vendor: ynab
     inject:
       header: Authorization
       format: "Bearer {token}"

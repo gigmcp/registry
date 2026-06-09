@@ -18,6 +18,7 @@ credentials:
   - id: googlemeet_token
     type: oauth2
     provider: googlemeet
+    vendor: google
     scopes: [https://www.googleapis.com/auth/meetings.space.created, https://www.googleapis.com/auth/meetings.space.readonly]
     inject:
       header: Authorization

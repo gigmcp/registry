@@ -17,7 +17,19 @@ var (
 	versionRE = regexp.MustCompile(`^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$`)
 	digestRE  = regexp.MustCompile(`^sha256:[0-9a-f]{64}$`)
 	packageRE = regexp.MustCompile(`^[a-zA-Z0-9._/-]+$`)
+	// vendorRE is the canonical OAuth-app grouping key shape: a lowercase slug,
+	// same alphabet as a server name (lets "google" group the 12 google-* connectors).
+	vendorRE = regexp.MustCompile(`^[a-z0-9]([a-z0-9-]*[a-z0-9])?$`)
 )
+
+// categories is the closed enum for the presentation-only Category field. It is
+// enforced ONLY when Category is set (the field is optional/omitempty); absent
+// categories are fine and the gateway falls back to no badge.
+var categories = map[string]bool{
+	"CRM": true, "dev-tools": true, "comms": true, "finance": true,
+	"HR/ATS": true, "productivity": true, "analytics": true,
+	"storage": true, "design": true,
+}
 
 // Validate checks structural rules. Registry-policy rules that need external
 // data (the exfil denylist) live in Lint.
@@ -85,6 +97,19 @@ func (m *Manifest) Validate() error {
 				add("credential %q: entrusted tier requires inject.env only", c.ID)
 			}
 		}
+		// Vendor is the canonical OAuth-app grouping key (one operator app + one
+		// user Connected Account per vendor family). Required for oauth2 so the
+		// gateway can group connectors; optional for other credential types.
+		// Validated for shape whenever present.
+		if c.Type == "oauth2" && c.Vendor == "" {
+			add("credential %q: vendor is required for oauth2 (canonical OAuth-app grouping key, e.g. \"google\")", c.ID)
+		}
+		if c.Vendor != "" && !vendorRE.MatchString(c.Vendor) {
+			add("credential %q: vendor %q invalid: lowercase slug [a-z0-9-]", c.ID, c.Vendor)
+		}
+	}
+	if m.Category != "" && !categories[m.Category] {
+		add("category %q invalid: must be one of CRM, dev-tools, comms, finance, HR/ATS, productivity, analytics, storage, design", m.Category)
 	}
 	seenTool := map[string]bool{}
 	for _, tl := range m.Tools {

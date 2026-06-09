@@ -18,6 +18,7 @@ credentials:
   - id: googleads_token
     type: oauth2
     provider: googleads
+    vendor: google
     scopes: [https://www.googleapis.com/auth/adwords]
     inject:
       header: Authorization
