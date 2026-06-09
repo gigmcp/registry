@@ -17,6 +17,7 @@ credentials:
   - id: gumroad_token
     type: oauth2
     provider: gumroad
+    vendor: gumroad
     scopes: [view_profile, view_sales, edit_products, mark_sales_as_shipped]
     inject:
       header: Authorization

@@ -17,6 +17,7 @@ credentials:
   - id: brex_token
     type: oauth2
     provider: brex
+    vendor: brex
     scopes: [transactions.card.readonly, accounts.cash.readonly, budgets.readonly, expenses.card.readonly, users.readonly]
     inject:
       header: Authorization

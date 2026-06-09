@@ -17,6 +17,7 @@ credentials:
   - id: mural_token
     type: oauth2
     provider: mural
+    vendor: mural
     scopes: [murals:read, murals:write, rooms:read, workspaces:read, identity:read]
     inject:
       header: Authorization

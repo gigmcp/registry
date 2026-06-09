@@ -18,6 +18,7 @@ credentials:
   - id: snowflake_token
     type: oauth2
     provider: snowflake
+    vendor: snowflake
     scopes: [refresh_token, session:role-any]
     inject:
       header: Authorization

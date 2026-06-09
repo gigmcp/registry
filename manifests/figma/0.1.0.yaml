@@ -17,6 +17,7 @@ credentials:
   - id: figma_token
     type: oauth2
     provider: figma
+    vendor: figma
     scopes: [files:read, file_comments:write, file_dev_resources:read, webhooks:write]
     inject:
       header: Authorization

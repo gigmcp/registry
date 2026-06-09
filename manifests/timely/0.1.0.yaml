@@ -17,6 +17,7 @@ credentials:
   - id: timely_token
     type: oauth2
     provider: timely
+    vendor: timely
     inject:
       header: Authorization
       format: "Bearer {token}"

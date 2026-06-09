@@ -18,6 +18,7 @@ credentials:
   - id: freshbooks_token
     type: oauth2
     provider: freshbooks
+    vendor: freshbooks
     scopes:
       - user:profile:read
       - user:clients:read

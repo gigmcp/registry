@@ -21,6 +21,7 @@ credentials:
   - id: zoho_token
     type: oauth2
     provider: zoho
+    vendor: zoho
     scopes: [ZohoCRM.modules.ALL, ZohoCRM.settings.READ, ZohoCRM.users.READ]
     inject:
       header: Authorization

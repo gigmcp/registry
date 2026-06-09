@@ -17,6 +17,7 @@ credentials:
   - id: productboard_token
     type: oauth2
     provider: productboard
+    vendor: productboard
     inject:
       header: Authorization
       format: "Bearer {token}"

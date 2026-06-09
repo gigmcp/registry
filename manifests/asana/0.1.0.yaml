@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Asana
+category: productivity
 entitlements:
   egress:
     - app.asana.com
@@ -17,6 +19,7 @@ credentials:
   - id: asana_token
     type: oauth2
     provider: asana
+    vendor: asana
     scopes: [tasks:read, tasks:write, projects:read, projects:write, users:read]
     inject:
       header: Authorization

@@ -18,6 +18,7 @@ credentials:
   - id: wakatime_token
     type: oauth2
     provider: wakatime
+    vendor: wakatime
     scopes: [email, read_stats, read_summaries, read_goals]
     inject:
       header: Authorization

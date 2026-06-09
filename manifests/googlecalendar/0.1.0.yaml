@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Calendar
+category: productivity
 entitlements:
   egress:
     - www.googleapis.com
@@ -17,6 +19,7 @@ credentials:
   - id: googlecalendar_token
     type: oauth2
     provider: googlecalendar
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/calendar,

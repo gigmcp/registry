@@ -17,6 +17,7 @@ credentials:
   - id: surveymonkey_token
     type: oauth2
     provider: surveymonkey
+    vendor: surveymonkey
     scopes: [surveys_read, surveys_write, responses_read, contacts_read, contacts_write]
     inject:
       header: Authorization

@@ -17,6 +17,7 @@ credentials:
   - id: square_token
     type: oauth2
     provider: square
+    vendor: square
     scopes: [CUSTOMERS_READ, CUSTOMERS_WRITE, ORDERS_READ, PAYMENTS_READ, INVOICES_READ]
     inject:
       header: Authorization

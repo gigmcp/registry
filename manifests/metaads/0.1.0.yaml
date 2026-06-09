@@ -17,6 +17,7 @@ credentials:
   - id: metaads_token
     type: oauth2
     provider: metaads
+    vendor: meta
     scopes: [ads_read, ads_management, business_management, pages_read_engagement]
     inject:
       header: Authorization

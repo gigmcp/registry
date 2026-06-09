@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Airtable
+category: productivity
 entitlements:
   egress:
     - api.airtable.com
@@ -17,6 +19,7 @@ credentials:
   - id: airtable_token
     type: oauth2
     provider: airtable
+    vendor: airtable
     scopes: [data.records:read, data.records:write, schema.bases:read, schema.bases:write]
     inject:
       header: Authorization

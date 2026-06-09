@@ -20,6 +20,7 @@ credentials:
   - id: sharepoint_token
     type: oauth2
     provider: sharepoint
+    vendor: microsoft
     scopes: [Sites.Read.All, Sites.ReadWrite.All, Files.ReadWrite.All, User.Read]
     inject:
       header: Authorization

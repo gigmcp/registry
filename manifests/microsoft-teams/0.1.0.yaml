@@ -18,6 +18,7 @@ credentials:
   - id: microsoft_teams_token
     type: oauth2
     provider: microsoft-teams
+    vendor: microsoft
     scopes: [User.Read, Chat.ReadWrite, ChannelMessage.Send, Team.ReadBasic.All, OnlineMeetings.ReadWrite]
     inject:
       header: Authorization

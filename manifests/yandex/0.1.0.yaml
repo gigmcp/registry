@@ -19,6 +19,7 @@ credentials:
   - id: yandex_token
     type: oauth2
     provider: yandex
+    vendor: yandex
     scopes: [cloud_api:disk.read, cloud_api:disk.info, metrika:read]
     inject:
       header: Authorization

@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Sheets
+category: productivity
 entitlements:
   egress:
     - sheets.googleapis.com
@@ -17,6 +19,7 @@ credentials:
   - id: googlesheets_token
     type: oauth2
     provider: googlesheets
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/spreadsheets,

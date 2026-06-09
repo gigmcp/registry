@@ -17,6 +17,7 @@ credentials:
   - id: dialpad_token
     type: oauth2
     provider: dialpad
+    vendor: dialpad
     inject:
       header: Authorization
       format: "Bearer {token}"

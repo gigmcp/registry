@@ -18,6 +18,7 @@ credentials:
   - id: harvest_token
     type: oauth2
     provider: harvest
+    vendor: harvest
     inject:
       header: Authorization
       format: "Bearer {token}"

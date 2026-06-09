@@ -19,6 +19,7 @@ credentials:
   - id: netsuite_token
     type: oauth2
     provider: netsuite
+    vendor: netsuite
     scopes: [rest_webservices, restlets, suite_analytics]
     inject:
       header: Authorization

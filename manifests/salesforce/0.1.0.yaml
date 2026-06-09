@@ -19,6 +19,7 @@ credentials:
   - id: salesforce_token
     type: oauth2
     provider: salesforce
+    vendor: salesforce
     scopes: [api, refresh_token, offline_access]
     inject:
       header: Authorization

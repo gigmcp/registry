@@ -18,6 +18,7 @@ credentials:
   - id: linkhut_token
     type: oauth2
     provider: linkhut
+    vendor: linkhut
     scopes: [posts:read, posts:write, tags:read]
     inject:
       header: Authorization

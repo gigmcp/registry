@@ -17,6 +17,7 @@ credentials:
   - id: miro_token
     type: oauth2
     provider: miro
+    vendor: miro
     scopes: [boards:read, boards:write, identity:read]
     inject:
       header: Authorization

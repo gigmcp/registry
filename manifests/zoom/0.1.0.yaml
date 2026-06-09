@@ -17,6 +17,7 @@ credentials:
   - id: zoom_token
     type: oauth2
     provider: zoom
+    vendor: zoom
     scopes: [meeting:read, meeting:write, recording:read, user:read, webinar:read]
     inject:
       header: Authorization

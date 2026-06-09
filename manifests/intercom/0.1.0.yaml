@@ -17,6 +17,7 @@ credentials:
   - id: intercom_token
     type: oauth2
     provider: intercom
+    vendor: intercom
     inject:
       header: Authorization
       format: "Bearer {token}"

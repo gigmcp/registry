@@ -17,6 +17,7 @@ credentials:
   - id: servicenow_token
     type: oauth2
     provider: servicenow
+    vendor: servicenow
     scopes: [useraccount]
     inject:
       header: Authorization

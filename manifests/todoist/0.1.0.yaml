@@ -19,6 +19,7 @@ credentials:
   - id: todoist_token
     type: oauth2
     provider: todoist
+    vendor: todoist
     scopes: [data:read, data:read_write, data:delete, project:delete]
     inject:
       header: Authorization

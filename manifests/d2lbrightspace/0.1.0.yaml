@@ -19,6 +19,7 @@ credentials:
   - id: d2lbrightspace_token
     type: oauth2
     provider: d2lbrightspace
+    vendor: d2lbrightspace
     scopes: [users:userdata:read, orgunits:course:read, grades:gradeobjects:read, quizzing:quizzes:read, orgunits:course:create]
     inject:
       header: Authorization

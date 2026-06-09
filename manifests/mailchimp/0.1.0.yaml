@@ -18,6 +18,7 @@ credentials:
   - id: mailchimp_token
     type: oauth2
     provider: mailchimp
+    vendor: mailchimp
     inject:
       header: Authorization
       format: "OAuth {token}"

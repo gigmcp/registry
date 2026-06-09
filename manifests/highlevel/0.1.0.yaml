@@ -17,6 +17,7 @@ credentials:
   - id: highlevel_token
     type: oauth2
     provider: highlevel
+    vendor: highlevel
     scopes: [contacts.readonly, contacts.write, calendars.readonly, conversations.readonly, campaigns.readonly]
     inject:
       header: Authorization

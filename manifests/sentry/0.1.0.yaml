@@ -18,6 +18,7 @@ credentials:
   - id: sentry_token
     type: oauth2
     provider: sentry
+    vendor: sentry
     scopes: [project:read, event:read, org:read, issue:write]
     inject:
       header: Authorization

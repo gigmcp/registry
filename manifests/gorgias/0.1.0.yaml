@@ -19,6 +19,7 @@ credentials:
   - id: gorgias_token
     type: oauth2
     provider: gorgias
+    vendor: gorgias
     scopes: [openid, email, profile, offline, write:all]
     inject:
       header: Authorization

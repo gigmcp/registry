@@ -17,6 +17,7 @@ credentials:
   - id: boldsign_token
     type: oauth2
     provider: boldsign
+    vendor: boldsign
     scopes: [BoldSign.Documents.All, BoldSign.Templates.Read, BoldSign.Users.Read]
     inject:
       header: Authorization

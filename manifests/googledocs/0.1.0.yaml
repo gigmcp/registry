@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Docs
+category: productivity
 entitlements:
   egress:
     - docs.googleapis.com
@@ -19,6 +21,7 @@ credentials:
   - id: googledocs_token
     type: oauth2
     provider: googledocs
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/documents,

@@ -10,6 +10,8 @@ image:
   digest: sha256:064bf366ade8e043bed6383f8284f862e427ee58960d199aea6a5b4aa3b9e5ef
   entrypoint: /app/server
 tier: sealed
+displayName: Slack
+category: comms
 entitlements:
   egress:
     - slack.com
@@ -18,6 +20,7 @@ credentials:
   - id: slack_token
     type: oauth2
     provider: slack
+    vendor: slack
     scopes: ["chat:write", "channels:read", "channels:history", "users:read"]
     inject:
       header: Authorization

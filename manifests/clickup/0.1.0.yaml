@@ -17,6 +17,7 @@ credentials:
   - id: clickup_token
     type: oauth2
     provider: clickup
+    vendor: clickup
     inject:
       header: Authorization
       format: "Bearer {token}"

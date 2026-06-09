@@ -19,6 +19,7 @@ credentials:
   - id: confluence_token
     type: oauth2
     provider: confluence
+    vendor: atlassian
     scopes: [read:confluence-content.all, write:confluence-content, read:confluence-space.summary, search:confluence, offline_access]
     inject:
       header: Authorization

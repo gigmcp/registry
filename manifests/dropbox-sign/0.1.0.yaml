@@ -17,6 +17,7 @@ credentials:
   - id: dropbox_sign_token
     type: oauth2
     provider: dropbox-sign
+    vendor: dropbox-sign
     scopes: [basic_account_info, request_signature, signature_request_access, template_access]
     inject:
       header: Authorization

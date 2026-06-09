@@ -17,6 +17,7 @@ credentials:
   - id: zendesk_token
     type: oauth2
     provider: zendesk
+    vendor: zendesk
     scopes: ["read", "write", "tickets:read", "tickets:write"]
     inject:
       header: Authorization

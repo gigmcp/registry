@@ -18,6 +18,7 @@ credentials:
   - id: calendly_token
     type: oauth2
     provider: calendly
+    vendor: calendly
     inject:
       header: Authorization
       format: "Bearer {token}"

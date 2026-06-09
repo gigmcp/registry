@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Gmail
+category: comms
 entitlements:
   egress:
     - gmail.googleapis.com
@@ -17,6 +19,7 @@ credentials:
   - id: gmail_token
     type: oauth2
     provider: gmail
+    vendor: google
     scopes:
       [
         https://www.googleapis.com/auth/gmail.readonly,

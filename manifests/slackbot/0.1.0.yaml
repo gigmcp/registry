@@ -18,6 +18,7 @@ credentials:
   - id: slackbot_token
     type: oauth2
     provider: slackbot
+    vendor: slack
     scopes: [chat:write, channels:read, channels:history, users:read, reactions:write]
     inject:
       header: Authorization

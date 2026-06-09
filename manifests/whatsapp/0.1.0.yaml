@@ -17,6 +17,7 @@ credentials:
   - id: whatsapp_token
     type: oauth2
     provider: whatsapp
+    vendor: meta
     scopes: [whatsapp_business_messaging, whatsapp_business_management]
     inject:
       header: Authorization

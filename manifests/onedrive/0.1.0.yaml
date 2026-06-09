@@ -17,6 +17,7 @@ credentials:
   - id: onedrive_token
     type: oauth2
     provider: onedrive
+    vendor: microsoft
     scopes: [Files.Read, Files.ReadWrite, Files.ReadWrite.All, offline_access]
     inject:
       header: Authorization

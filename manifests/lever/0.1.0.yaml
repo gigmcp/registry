@@ -19,6 +19,7 @@ credentials:
   - id: lever_token
     type: oauth2
     provider: lever
+    vendor: lever
     scopes: [opportunities:read:admin, postings:read:admin, users:read:admin, notes:write:admin, opportunities:write:admin]
     inject:
       header: Authorization

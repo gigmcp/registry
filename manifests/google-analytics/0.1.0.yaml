@@ -20,6 +20,7 @@ credentials:
   - id: google-analytics_token
     type: oauth2
     provider: google-analytics
+    vendor: google
     scopes: [https://www.googleapis.com/auth/analytics.readonly, https://www.googleapis.com/auth/analytics.edit]
     inject:
       header: Authorization

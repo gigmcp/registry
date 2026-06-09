@@ -18,6 +18,7 @@ credentials:
   - id: docusign_token
     type: oauth2
     provider: docusign
+    vendor: docusign
     scopes: [signature, extended, impersonation]
     inject:
       header: Authorization

@@ -17,6 +17,7 @@ credentials:
   - id: contentful_token
     type: oauth2
     provider: contentful
+    vendor: contentful
     scopes: [content_management_read, content_management_manage]
     inject:
       header: Authorization

@@ -19,6 +19,7 @@ credentials:
   - id: stack_exchange_token
     type: oauth2
     provider: stack-exchange
+    vendor: stack-exchange
     scopes: [read_inbox, private_info, write_access, no_expiry]
     inject:
       env: STACK_EXCHANGE_API_KEY

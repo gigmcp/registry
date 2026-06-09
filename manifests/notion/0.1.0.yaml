@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Notion
+category: productivity
 entitlements:
   egress:
     - api.notion.com
@@ -17,6 +19,7 @@ credentials:
   - id: notion_token
     type: oauth2
     provider: notion
+    vendor: notion
     inject:
       header: Authorization
       format: "Bearer {token}"

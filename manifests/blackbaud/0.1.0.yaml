@@ -18,6 +18,7 @@ credentials:
   - id: blackbaud_token
     type: oauth2
     provider: blackbaud
+    vendor: blackbaud
     inject:
       header: Authorization
       format: "Bearer {token}"
