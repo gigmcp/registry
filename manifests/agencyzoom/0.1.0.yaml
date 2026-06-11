@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: AgencyZoom
 category: CRM
+icon: icons/agencyzoom.svg
 entitlements:
   egress:
     - api.agencyzoom.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Webex
 category: comms
+icon: icons/webex.svg
 entitlements:
   egress:
     - webexapis.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Exa
 category: search
+icon: icons/exa.svg
 entitlements:
   egress:
     - api.exa.ai

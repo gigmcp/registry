@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Chatwork
 category: comms
+icon: icons/chatwork.svg
 entitlements:
   egress:
     - api.chatwork.com

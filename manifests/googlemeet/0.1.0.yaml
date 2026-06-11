@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Meet
 category: comms
+icon: icons/googlemeet.svg
 entitlements:
   egress:
     - meet.googleapis.com

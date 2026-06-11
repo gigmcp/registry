@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: DailyBot
 category: productivity
+icon: icons/dailybot.svg
 entitlements:
   egress:
     - api.dailybot.com

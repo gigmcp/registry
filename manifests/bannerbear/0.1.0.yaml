@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Bannerbear
 category: design
+icon: icons/bannerbear.svg
 entitlements:
   egress:
     - api.bannerbear.com

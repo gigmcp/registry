@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Breezy HR
 category: HR/ATS
+icon: icons/breezy-hr.svg
 entitlements:
   egress:
     - api.breezy.hr

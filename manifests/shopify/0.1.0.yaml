@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Shopify
 category: e-commerce
+icon: icons/shopify.svg
 entitlements:
   egress:
     - "*.myshopify.com"

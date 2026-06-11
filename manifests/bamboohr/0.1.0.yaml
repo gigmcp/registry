@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: BambooHR
 category: HR/ATS
+icon: icons/bamboohr.svg
 entitlements:
   egress:
     - api.bamboohr.com

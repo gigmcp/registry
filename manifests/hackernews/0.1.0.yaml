@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Hacker News
 category: social
+icon: icons/hackernews.svg
 entitlements:
   egress:
     - hacker-news.firebaseio.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Confluence
 category: productivity
+icon: icons/confluence.svg
 entitlements:
   egress:
     # Atlassian OAuth 2.0 (3LO) gateway plus per-site Confluence Cloud hosts.

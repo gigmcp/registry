@@ -12,6 +12,7 @@ image:
 tier: entrusted
 displayName: ScreenshotOne
 category: dev-tools
+icon: icons/screenshotone.svg
 entitlements:
   egress:
     - api.screenshotone.com

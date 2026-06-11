@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Bigin
 category: CRM
+icon: icons/zoho-bigin.svg
 entitlements:
   egress:
     # Zoho Bigin REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

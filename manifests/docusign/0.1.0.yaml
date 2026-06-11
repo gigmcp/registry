@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: DocuSign
 category: documents
+icon: icons/docusign.svg
 entitlements:
   egress:
     - account.docusign.com

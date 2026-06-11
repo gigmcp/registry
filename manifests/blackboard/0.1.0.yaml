@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Blackboard
 category: productivity
+icon: icons/blackboard.svg
 entitlements:
   egress:
     # Blackboard Learn REST API is served from the institution's tenant

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Wrike
 category: productivity
+icon: icons/wrike.svg
 entitlements:
   egress:
     - www.wrike.com

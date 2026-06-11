@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Dialpad
 category: comms
+icon: icons/dialpad.svg
 entitlements:
   egress:
     - dialpad.com

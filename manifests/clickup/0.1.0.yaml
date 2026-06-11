@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ClickUp
 category: productivity
+icon: icons/clickup.svg
 entitlements:
   egress:
     - api.clickup.com

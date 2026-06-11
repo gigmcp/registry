@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Sheets
 category: productivity
+icon: icons/googlesheets.svg
 entitlements:
   egress:
     - sheets.googleapis.com

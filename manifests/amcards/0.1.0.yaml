@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: AmCards
 category: documents
+icon: icons/amcards.svg
 entitlements:
   egress:
     - amcards.com

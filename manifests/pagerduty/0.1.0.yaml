@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: PagerDuty
 category: dev-tools
+icon: icons/pagerduty.svg
 entitlements:
   egress:
     - api.pagerduty.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Exist
 category: analytics
+icon: icons/exist.svg
 entitlements:
   egress:
     - exist.io

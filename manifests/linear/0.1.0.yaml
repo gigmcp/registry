@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Linear
 category: dev-tools
+icon: icons/linear.svg
 entitlements:
   egress:
     - api.linear.app

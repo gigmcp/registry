@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Altoviz
 category: productivity
+icon: icons/altoviz.svg
 entitlements:
   egress:
     # Altoviz invoicing/business-management REST API

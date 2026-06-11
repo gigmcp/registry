@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: DataRobot
 category: ai
+icon: icons/datarobot.svg
 entitlements:
   egress:
     - app.datarobot.com

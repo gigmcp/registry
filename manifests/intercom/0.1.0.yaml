@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Intercom
 category: support
+icon: icons/intercom.svg
 entitlements:
   egress:
     - api.intercom.io

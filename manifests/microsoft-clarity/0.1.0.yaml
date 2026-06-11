@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Microsoft Clarity
 category: analytics
+icon: icons/microsoft-clarity.svg
 entitlements:
   egress:
     - www.clarity.ms

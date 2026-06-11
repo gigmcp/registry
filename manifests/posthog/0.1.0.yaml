@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: PostHog
 category: analytics
+icon: icons/posthog.svg
 entitlements:
   egress:
     - app.posthog.com

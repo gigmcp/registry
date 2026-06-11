@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Mem0
 category: ai
+icon: icons/mem0.svg
 entitlements:
   egress:
     - api.mem0.ai

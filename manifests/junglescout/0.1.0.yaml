@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Jungle Scout
 category: e-commerce
+icon: icons/junglescout.svg
 entitlements:
   egress:
     - developer.junglescout.com

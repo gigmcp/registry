@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Ads
 category: marketing
+icon: icons/googleads.svg
 entitlements:
   egress:
     - googleads.googleapis.com

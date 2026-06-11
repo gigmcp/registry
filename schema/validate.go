@@ -115,6 +115,13 @@ func (m *Manifest) Validate() error {
 	if m.Category != "" && !categories[m.Category] {
 		add("category %q invalid: must be one of ai, analytics, comms, CRM, data, design, dev-tools, documents, e-commerce, finance, HR/ATS, marketing, productivity, search, social, storage, support", m.Category)
 	}
+	// Icon, when present, must be the repo-hosted path icons/<name>.svg — tied to
+	// the server name so a ref can never point at an unrelated/foreign asset. File
+	// existence (the asset is actually committed) is checked by the linter, which
+	// has the repo root; Validate only enforces the shape.
+	if m.Icon != "" && m.Icon != "icons/"+m.Name+".svg" {
+		add("icon %q invalid: must be %q (repo-hosted, signed-provenance asset tied to the server name)", m.Icon, "icons/"+m.Name+".svg")
+	}
 	seenTool := map[string]bool{}
 	for _, tl := range m.Tools {
 		if tl.Name == "" || seenTool[tl.Name] {

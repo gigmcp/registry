@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Brex
 category: finance
+icon: icons/brex.svg
 entitlements:
   egress:
     - api.brex.com

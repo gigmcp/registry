@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Invoice
 category: finance
+icon: icons/zoho-invoice.svg
 entitlements:
   egress:
     - www.zohoapis.com

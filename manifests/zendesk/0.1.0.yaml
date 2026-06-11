@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zendesk
 category: support
+icon: icons/zendesk.svg
 entitlements:
   egress:
     - "*.zendesk.com"

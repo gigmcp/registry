@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Webflow
 category: dev-tools
+icon: icons/webflow.svg
 entitlements:
   egress:
     - api.webflow.com

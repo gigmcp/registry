@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Bitwarden
 category: dev-tools
+icon: icons/bitwarden.svg
 entitlements:
   egress:
     - api.bitwarden.com

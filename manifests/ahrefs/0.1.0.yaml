@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Ahrefs
 category: search
+icon: icons/ahrefs.svg
 entitlements:
   egress:
     - api.ahrefs.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: LMNT
 category: ai
+icon: icons/lmnt.svg
 entitlements:
   egress:
     - api.lmnt.com

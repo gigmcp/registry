@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Humanloop
 category: ai
+icon: icons/humanloop.svg
 entitlements:
   egress:
     - api.humanloop.com

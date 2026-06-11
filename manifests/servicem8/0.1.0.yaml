@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ServiceM8
 category: productivity
+icon: icons/servicem8.svg
 entitlements:
   egress:
     - api.servicem8.com

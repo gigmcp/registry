@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Attio
 category: CRM
+icon: icons/attio.svg
 entitlements:
   egress:
     - api.attio.com

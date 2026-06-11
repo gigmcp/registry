@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Ashby
 category: HR/ATS
+icon: icons/ashby.svg
 entitlements:
   egress:
     - api.ashbyhq.com

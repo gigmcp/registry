@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Browserbase
 category: ai
+icon: icons/browserbase.svg
 entitlements:
   egress:
     - api.browserbase.com

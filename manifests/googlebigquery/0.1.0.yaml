@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google BigQuery
 category: data
+icon: icons/googlebigquery.svg
 entitlements:
   egress:
     - bigquery.googleapis.com

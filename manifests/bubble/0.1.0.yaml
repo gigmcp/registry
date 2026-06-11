@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Bubble
 category: dev-tools
+icon: icons/bubble.svg
 entitlements:
   egress:
     - bubble.io

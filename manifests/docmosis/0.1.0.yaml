@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Docmosis
 category: documents
+icon: icons/docmosis.svg
 entitlements:
   egress:
     - "*.dws4.docmosis.com"

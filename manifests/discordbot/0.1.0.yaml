@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Discord Bot
 category: comms
+icon: icons/discordbot.svg
 entitlements:
   egress:
     - discord.com

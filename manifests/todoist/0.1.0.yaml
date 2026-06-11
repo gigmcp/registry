@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Todoist
 category: productivity
+icon: icons/todoist.svg
 entitlements:
   egress:
     # Unified REST/Sync API host plus todoist.com for OAuth token exchange.

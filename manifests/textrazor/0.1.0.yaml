@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: TextRazor
 category: ai
+icon: icons/textrazor.svg
 entitlements:
   egress:
     - api.textrazor.com

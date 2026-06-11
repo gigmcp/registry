@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Drive
 category: storage
+icon: icons/googledrive.svg
 entitlements:
   egress:
     - www.googleapis.com

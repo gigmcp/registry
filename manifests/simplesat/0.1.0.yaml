@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Simplesat
 category: support
+icon: icons/simplesat.svg
 entitlements:
   egress:
     - api.simplesat.io

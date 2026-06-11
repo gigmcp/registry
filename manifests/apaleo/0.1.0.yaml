@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: apaleo
 category: productivity
+icon: icons/apaleo.svg
 entitlements:
   egress:
     # Apaleo hotel platform API plus the identity host for OAuth token refresh.

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Tasks
 category: productivity
+icon: icons/googletasks.svg
 entitlements:
   egress:
     - tasks.googleapis.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Meta Ads
 category: marketing
+icon: icons/metaads.svg
 entitlements:
   egress:
     - graph.facebook.com

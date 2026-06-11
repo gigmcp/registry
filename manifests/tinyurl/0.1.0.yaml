@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: TinyURL
 category: dev-tools
+icon: icons/tinyurl.svg
 entitlements:
   egress:
     - api.tinyurl.com

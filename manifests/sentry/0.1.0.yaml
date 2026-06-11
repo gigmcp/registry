@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Sentry
 category: dev-tools
+icon: icons/sentry.svg
 entitlements:
   egress:
     - sentry.io

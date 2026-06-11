@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Dynamics 365
 category: CRM
+icon: icons/dynamics365.svg
 entitlements:
   egress:
     - "*.dynamics.com"

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Typefully
 category: marketing
+icon: icons/typefully.svg
 entitlements:
   egress:
     - api.typefully.com

@@ -14,6 +14,7 @@ image:
 tier: entrusted
 displayName: Semrush
 category: search
+icon: icons/semrush.svg
 entitlements:
   egress:
     - api.semrush.com

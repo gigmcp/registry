@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Supabase
 category: data
+icon: icons/supabase.svg
 entitlements:
   egress:
     - api.supabase.com

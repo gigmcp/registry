@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Miro
 category: design
+icon: icons/miro.svg
 entitlements:
   egress:
     - api.miro.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: OneDrive
 category: storage
+icon: icons/onedrive.svg
 entitlements:
   egress:
     - graph.microsoft.com

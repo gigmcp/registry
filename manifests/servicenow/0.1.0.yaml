@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ServiceNow
 category: support
+icon: icons/servicenow.svg
 entitlements:
   egress:
     - "*.service-now.com"

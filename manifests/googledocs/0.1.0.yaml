@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Docs
 category: productivity
+icon: icons/googledocs.svg
 entitlements:
   egress:
     - docs.googleapis.com

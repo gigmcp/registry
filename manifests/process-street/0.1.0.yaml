@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Process Street
 category: productivity
+icon: icons/process-street.svg
 entitlements:
   egress:
     - public-api.process.st

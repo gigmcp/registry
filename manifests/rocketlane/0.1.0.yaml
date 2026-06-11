@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Rocketlane
 category: productivity
+icon: icons/rocketlane.svg
 entitlements:
   egress:
     - api.rocketlane.com

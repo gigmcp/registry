@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Tavily
 category: search
+icon: icons/tavily.svg
 entitlements:
   egress:
     - api.tavily.com

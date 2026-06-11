@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Ably
 category: dev-tools
+icon: icons/ably.svg
 entitlements:
   egress:
     - rest.ably.io

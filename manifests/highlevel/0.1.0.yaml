@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: HighLevel
 category: CRM
+icon: icons/highlevel.svg
 entitlements:
   egress:
     - services.leadconnectorhq.com

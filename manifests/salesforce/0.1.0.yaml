@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Salesforce
 category: CRM
+icon: icons/salesforce.svg
 entitlements:
   egress:
     - login.salesforce.com

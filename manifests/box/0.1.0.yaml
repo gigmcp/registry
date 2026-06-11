@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Box
 category: storage
+icon: icons/box.svg
 entitlements:
   egress:
     # Main REST API plus the dedicated upload host.

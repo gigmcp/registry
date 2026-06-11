@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Books
 category: finance
+icon: icons/zoho-books.svg
 entitlements:
   egress:
     # Zoho Books REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

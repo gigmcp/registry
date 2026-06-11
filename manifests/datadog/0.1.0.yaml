@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Datadog
 category: dev-tools
+icon: icons/datadog.svg
 entitlements:
   egress:
     - api.datadoghq.com

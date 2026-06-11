@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Jira
 category: dev-tools
+icon: icons/jira.svg
 entitlements:
   egress:
     # Atlassian OAuth 2.0 (3LO) gateway plus per-site Jira Cloud REST hosts.

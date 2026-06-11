@@ -15,6 +15,7 @@ image:
 tier: entrusted
 displayName: waboxapp
 category: comms
+icon: icons/waboxapp.svg
 entitlements:
   egress:
     - www.waboxapp.com

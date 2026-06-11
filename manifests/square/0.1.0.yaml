@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Square
 category: finance
+icon: icons/square.svg
 entitlements:
   egress:
     - connect.squareup.com

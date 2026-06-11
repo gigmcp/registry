@@ -14,6 +14,7 @@ image:
 tier: entrusted
 displayName: Datagma
 category: data
+icon: icons/datagma.svg
 entitlements:
   egress:
     - gateway.datagma.net

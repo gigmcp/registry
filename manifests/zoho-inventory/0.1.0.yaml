@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Inventory
 category: e-commerce
+icon: icons/zoho-inventory.svg
 entitlements:
   egress:
     # Zoho Inventory REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

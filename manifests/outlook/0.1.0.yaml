@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Outlook
 category: comms
+icon: icons/outlook.svg
 entitlements:
   egress:
     - graph.microsoft.com

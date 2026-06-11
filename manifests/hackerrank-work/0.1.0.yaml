@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: HackerRank
 category: HR/ATS
+icon: icons/hackerrank-work.svg
 entitlements:
   egress:
     - www.hackerrank.com

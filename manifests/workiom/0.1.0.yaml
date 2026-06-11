@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Workiom
 category: productivity
+icon: icons/workiom.svg
 entitlements:
   egress:
     # Workiom serves its REST API per-tenant (<workspace>.workiom.com/api).

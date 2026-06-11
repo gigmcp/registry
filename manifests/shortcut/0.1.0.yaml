@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Shortcut
 category: dev-tools
+icon: icons/shortcut.svg
 entitlements:
   egress:
     # Shortcut (formerly Clubhouse) REST API v3.

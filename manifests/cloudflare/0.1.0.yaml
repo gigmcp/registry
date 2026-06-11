@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Cloudflare
 category: dev-tools
+icon: icons/cloudflare.svg
 entitlements:
   egress:
     - api.cloudflare.com

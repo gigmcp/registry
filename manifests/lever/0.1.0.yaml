@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Lever
 category: HR/ATS
+icon: icons/lever.svg
 entitlements:
   egress:
     # Lever ATS REST API plus the OAuth authorization/token host.

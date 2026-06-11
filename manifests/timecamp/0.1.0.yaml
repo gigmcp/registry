@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: TimeCamp
 category: productivity
+icon: icons/timecamp.svg
 entitlements:
   egress:
     - app.timecamp.com

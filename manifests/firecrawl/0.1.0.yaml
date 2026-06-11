@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Firecrawl
 category: search
+icon: icons/firecrawl.svg
 entitlements:
   egress:
     - api.firecrawl.dev

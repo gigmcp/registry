@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: SurveyMonkey
 category: productivity
+icon: icons/surveymonkey.svg
 entitlements:
   egress:
     - api.surveymonkey.com

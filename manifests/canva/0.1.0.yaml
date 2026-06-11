@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Canva
 category: design
+icon: icons/canva.svg
 entitlements:
   egress:
     - api.canva.com

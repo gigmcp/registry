@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Browse AI
 category: ai
+icon: icons/browseai.svg
 entitlements:
   egress:
     - api.browse.ai

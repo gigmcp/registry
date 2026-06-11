@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Apollo
 category: CRM
+icon: icons/apollo.svg
 entitlements:
   egress:
     - api.apollo.io

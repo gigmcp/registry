@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: MetaText AI
 category: ai
+icon: icons/metatextai.svg
 entitlements:
   egress:
     - api.metatext.ai

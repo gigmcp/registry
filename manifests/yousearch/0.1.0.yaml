@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: YouSearch
 category: search
+icon: icons/yousearch.svg
 entitlements:
   egress:
     - ydc-index.io

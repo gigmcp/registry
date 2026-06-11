@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Mail
 category: comms
+icon: icons/zoho-mail.svg
 entitlements:
   egress:
     - mail.zoho.com

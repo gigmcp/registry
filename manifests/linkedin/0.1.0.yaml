@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: LinkedIn
 category: social
+icon: icons/linkedin.svg
 entitlements:
   egress:
     - api.linkedin.com

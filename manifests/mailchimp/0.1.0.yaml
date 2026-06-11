@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Mailchimp
 category: marketing
+icon: icons/mailchimp.svg
 entitlements:
   egress:
     - login.mailchimp.com

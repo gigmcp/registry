@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Maps
 category: data
+icon: icons/google-maps.svg
 entitlements:
   egress:
     - geocode.googleapis.com

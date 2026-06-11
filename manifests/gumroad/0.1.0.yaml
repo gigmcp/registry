@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Gumroad
 category: e-commerce
+icon: icons/gumroad.svg
 entitlements:
   egress:
     - api.gumroad.com

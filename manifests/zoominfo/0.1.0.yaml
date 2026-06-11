@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ZoomInfo
 category: data
+icon: icons/zoominfo.svg
 entitlements:
   egress:
     - api.zoominfo.com

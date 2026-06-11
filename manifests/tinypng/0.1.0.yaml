@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: TinyPNG
 category: design
+icon: icons/tinypng.svg
 entitlements:
   egress:
     # Tinify (TinyPNG) image compression API.

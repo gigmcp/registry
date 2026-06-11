@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Tisane
 category: ai
+icon: icons/tisane.svg
 entitlements:
   egress:
     - api.tisane.ai

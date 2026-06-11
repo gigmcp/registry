@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Klipfolio
 category: analytics
+icon: icons/klipfolio.svg
 entitlements:
   egress:
     - app.klipfolio.com

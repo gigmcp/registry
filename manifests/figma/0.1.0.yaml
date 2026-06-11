@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Figma
 category: design
+icon: icons/figma.svg
 entitlements:
   egress:
     - api.figma.com
