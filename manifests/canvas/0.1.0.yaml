@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Canvas
 category: productivity
+icon: icons/canvas.svg
 entitlements:
   egress:
     - canvas.instructure.com

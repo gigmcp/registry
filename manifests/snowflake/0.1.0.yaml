@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Snowflake
 category: data
+icon: icons/snowflake.svg
 entitlements:
   egress:
     - "*.snowflakecomputing.com"

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: DigiCert
 category: dev-tools
+icon: icons/digicert.svg
 entitlements:
   egress:
     - www.digicert.com

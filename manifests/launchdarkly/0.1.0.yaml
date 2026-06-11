@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: LaunchDarkly
 category: dev-tools
+icon: icons/launchdarkly.svg
 entitlements:
   egress:
     - app.launchdarkly.com

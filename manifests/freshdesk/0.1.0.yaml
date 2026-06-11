@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Freshdesk
 category: support
+icon: icons/freshdesk.svg
 entitlements:
   egress:
     # Per-tenant Freshdesk API v2 hosts (<domain>.freshdesk.com/api/v2).

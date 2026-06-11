@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Placekey
 category: data
+icon: icons/placekey.svg
 entitlements:
   egress:
     - api.placekey.io

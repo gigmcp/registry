@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Semantic Scholar
 category: search
+icon: icons/semanticscholar.svg
 entitlements:
   egress:
     - api.semanticscholar.org

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Blackbaud
 category: CRM
+icon: icons/blackbaud.svg
 entitlements:
   egress:
     - api.sky.blackbaud.com

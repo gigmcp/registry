@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Brandfetch
 category: design
+icon: icons/brandfetch.svg
 entitlements:
   egress:
     - api.brandfetch.io

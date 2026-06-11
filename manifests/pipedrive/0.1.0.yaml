@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Pipedrive
 category: CRM
+icon: icons/pipedrive.svg
 entitlements:
   egress:
     - api.pipedrive.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Listen Notes
 category: search
+icon: icons/listennotes.svg
 entitlements:
   egress:
     - listen-api.listennotes.com

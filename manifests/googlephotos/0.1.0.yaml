@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Photos
 category: storage
+icon: icons/googlephotos.svg
 entitlements:
   egress:
     - photoslibrary.googleapis.com

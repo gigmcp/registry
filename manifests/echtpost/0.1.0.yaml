@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: EchtPost
 category: documents
+icon: icons/echtpost.svg
 entitlements:
   egress:
     - api.echtpost.de

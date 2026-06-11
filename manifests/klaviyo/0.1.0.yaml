@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Klaviyo
 category: marketing
+icon: icons/klaviyo.svg
 entitlements:
   egress:
     - a.klaviyo.com

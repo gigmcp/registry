@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: NetSuite
 category: finance
+icon: icons/netsuite.svg
 entitlements:
   egress:
     - "*.suitetalk.api.netsuite.com"

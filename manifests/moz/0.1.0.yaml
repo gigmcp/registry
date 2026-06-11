@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Moz
 category: search
+icon: icons/moz.svg
 entitlements:
   egress:
     - api.moz.com

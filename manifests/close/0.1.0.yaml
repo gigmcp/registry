@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Close
 category: CRM
+icon: icons/close.svg
 entitlements:
   egress:
     - api.close.com

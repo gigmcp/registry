@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Bitbucket
 category: dev-tools
+icon: icons/bitbucket.svg
 entitlements:
   egress:
     - api.bitbucket.org

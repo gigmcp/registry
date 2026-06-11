@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Bolna
 category: ai
+icon: icons/bolna.svg
 entitlements:
   egress:
     - api.bolna.ai

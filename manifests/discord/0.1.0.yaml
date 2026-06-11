@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Discord
 category: comms
+icon: icons/discord.svg
 entitlements:
   egress:
     - discord.com

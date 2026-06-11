@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Mopinion
 category: support
+icon: icons/mopinion.svg
 entitlements:
   egress:
     - api.mopinion.com

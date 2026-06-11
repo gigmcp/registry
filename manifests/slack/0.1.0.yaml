@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Slack
 category: comms
+icon: icons/slack.svg
 entitlements:
   egress:
     - slack.com

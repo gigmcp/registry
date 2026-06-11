@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Eventbrite
 category: productivity
+icon: icons/eventbrite.svg
 entitlements:
   egress:
     - www.eventbriteapi.com

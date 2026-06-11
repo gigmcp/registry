@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Productboard
 category: productivity
+icon: icons/productboard.svg
 entitlements:
   egress:
     - api.productboard.com

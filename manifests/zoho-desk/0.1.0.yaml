@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho Desk
 category: support
+icon: icons/zoho-desk.svg
 entitlements:
   egress:
     - desk.zoho.com

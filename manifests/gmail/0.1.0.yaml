@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Gmail
 category: comms
+icon: icons/gmail.svg
 entitlements:
   egress:
     - gmail.googleapis.com

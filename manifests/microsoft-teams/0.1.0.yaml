@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Microsoft Teams
 category: comms
+icon: icons/microsoft-teams.svg
 entitlements:
   egress:
     - graph.microsoft.com

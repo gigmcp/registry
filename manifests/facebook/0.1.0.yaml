@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Facebook
 category: social
+icon: icons/facebook.svg
 entitlements:
   egress:
     - graph.facebook.com

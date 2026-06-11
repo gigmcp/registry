@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Kommo
 category: CRM
+icon: icons/kommo.svg
 entitlements:
   egress:
     - kommo.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Demio
 category: marketing
+icon: icons/demio.svg
 entitlements:
   egress:
     # Demio webinar platform REST API

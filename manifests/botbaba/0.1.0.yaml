@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Botbaba
 category: marketing
+icon: icons/botbaba.svg
 entitlements:
   egress:
     - botbaba.io

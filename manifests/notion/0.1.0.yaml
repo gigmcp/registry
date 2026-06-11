@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Notion
 category: productivity
+icon: icons/notion.svg
 entitlements:
   egress:
     - api.notion.com

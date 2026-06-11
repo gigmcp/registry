@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: YNAB
 category: finance
+icon: icons/ynab.svg
 entitlements:
   egress:
     - api.ynab.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Flutterwave
 category: finance
+icon: icons/flutterwave.svg
 entitlements:
   egress:
     - api.flutterwave.com

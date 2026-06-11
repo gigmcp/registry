@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: AppDrag
 category: dev-tools
+icon: icons/appdrag.svg
 entitlements:
   egress:
     - api.appdrag.com

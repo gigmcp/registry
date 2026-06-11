@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Formsite
 category: productivity
+icon: icons/formsite.svg
 entitlements:
   egress:
     - "*.formsite.com"

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: YouTube
 category: social
+icon: icons/youtube.svg
 entitlements:
   egress:
     - www.googleapis.com

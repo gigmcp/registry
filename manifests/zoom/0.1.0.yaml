@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoom
 category: comms
+icon: icons/zoom.svg
 entitlements:
   egress:
     - api.zoom.us

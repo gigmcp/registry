@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Mixpanel
 category: analytics
+icon: icons/mixpanel.svg
 entitlements:
   egress:
     - mixpanel.com

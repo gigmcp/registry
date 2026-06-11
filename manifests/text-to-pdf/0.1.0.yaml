@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Text to PDF
 category: documents
+icon: icons/text-to-pdf.svg
 entitlements:
   egress:
     - v2.convertapi.com

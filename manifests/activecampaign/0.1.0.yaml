@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ActiveCampaign
 category: marketing
+icon: icons/activecampaign.svg
 entitlements:
   egress:
     - "*.api-us1.com"

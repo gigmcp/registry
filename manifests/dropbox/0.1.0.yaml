@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Dropbox
 category: storage
+icon: icons/dropbox.svg
 entitlements:
   egress:
     # RPC endpoints plus the separate content host for upload/download.

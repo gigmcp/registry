@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Interzoid
 category: data
+icon: icons/interzoid.svg
 entitlements:
   egress:
     - api.interzoid.com

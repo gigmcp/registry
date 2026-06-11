@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Borneo
 category: dev-tools
+icon: icons/borneo.svg
 entitlements:
   egress:
     - api.borneo.io

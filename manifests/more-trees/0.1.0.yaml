@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: MoreTrees
 category: marketing
+icon: icons/more-trees.svg
 entitlements:
   egress:
     - "*.platform.moretrees.eco"

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Calendly
 category: productivity
+icon: icons/calendly.svg
 entitlements:
   egress:
     - api.calendly.com

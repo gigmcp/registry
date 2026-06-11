@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: BoldSign
 category: documents
+icon: icons/boldsign.svg
 entitlements:
   egress:
     - api.boldsign.com

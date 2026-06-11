@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Linkup
 category: search
+icon: icons/linkup.svg
 entitlements:
   egress:
     - api.linkup.so

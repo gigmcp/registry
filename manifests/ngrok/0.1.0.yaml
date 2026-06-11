@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: ngrok
 category: dev-tools
+icon: icons/ngrok.svg
 entitlements:
   egress:
     - api.ngrok.com

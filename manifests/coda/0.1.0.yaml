@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Coda
 category: productivity
+icon: icons/coda.svg
 entitlements:
   egress:
     - coda.io

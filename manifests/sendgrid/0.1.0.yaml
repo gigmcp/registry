@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: SendGrid
 category: marketing
+icon: icons/sendgrid.svg
 entitlements:
   egress:
     - api.sendgrid.com

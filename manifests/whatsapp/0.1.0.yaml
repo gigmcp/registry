@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: WhatsApp
 category: comms
+icon: icons/whatsapp.svg
 entitlements:
   egress:
     - graph.facebook.com

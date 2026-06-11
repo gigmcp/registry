@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: HubSpot
 category: CRM
+icon: icons/hubspot.svg
 entitlements:
   egress:
     - api.hubapi.com

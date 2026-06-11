@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Contentful
 category: dev-tools
+icon: icons/contentful.svg
 entitlements:
   egress:
     - api.contentful.com

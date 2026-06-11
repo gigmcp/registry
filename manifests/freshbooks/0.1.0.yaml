@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: FreshBooks
 category: finance
+icon: icons/freshbooks.svg
 entitlements:
   egress:
     - api.freshbooks.com

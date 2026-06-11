@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Coinbase
 category: finance
+icon: icons/coinbase.svg
 entitlements:
   egress:
     - api.coinbase.com

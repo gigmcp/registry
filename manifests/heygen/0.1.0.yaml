@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: HeyGen
 category: ai
+icon: icons/heygen.svg
 entitlements:
   egress:
     - api.heygen.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: RocketReach
 category: data
+icon: icons/rocketreach.svg
 entitlements:
   egress:
     - api.rocketreach.co

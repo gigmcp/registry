@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: WakaTime
 category: dev-tools
+icon: icons/wakatime.svg
 entitlements:
   egress:
     - api.wakatime.com

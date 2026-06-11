@@ -48,6 +48,8 @@ func TestValidateRejects(t *testing.T) {
 		{"bad vendor slug", func(m *Manifest) { m.Credentials[0].Vendor = "Google_Inc" }, "vendor"},
 		{"uppercase vendor", func(m *Manifest) { m.Credentials[0].Vendor = "Google" }, "vendor"},
 		{"bad category", func(m *Manifest) { m.Category = "news" }, "category"},
+		{"foreign icon path", func(m *Manifest) { m.Icon = "icons/evil.svg" }, "icon"},
+		{"icon not under icons/", func(m *Manifest) { m.Icon = "evil.svg" }, "icon"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -72,6 +74,14 @@ func TestValidateOAuth2Vendor(t *testing.T) {
 	m2 := good(t)
 	if err := m2.Validate(); err != nil {
 		t.Fatalf("api_key credential without vendor should validate: %v", err)
+	}
+}
+
+func TestValidateGoodIcon(t *testing.T) {
+	m := good(t) // name: slack-mcp
+	m.Icon = "icons/slack-mcp.svg"
+	if err := m.Validate(); err != nil {
+		t.Fatalf("icon icons/<name>.svg should validate: %v", err)
 	}
 }
 

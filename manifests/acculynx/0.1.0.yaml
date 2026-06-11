@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: AccuLynx
 category: CRM
+icon: icons/acculynx.svg
 entitlements:
   egress:
     - api.acculynx.com

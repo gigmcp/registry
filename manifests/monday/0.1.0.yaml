@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: monday.com
 category: productivity
+icon: icons/monday.svg
 entitlements:
   egress:
     - api.monday.com

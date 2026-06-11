@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Rafflys
 category: marketing
+icon: icons/rafflys.svg
 entitlements:
   egress:
     - app-sorteos.com

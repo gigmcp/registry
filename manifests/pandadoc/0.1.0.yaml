@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: PandaDoc
 category: documents
+icon: icons/pandadoc.svg
 entitlements:
   egress:
     - api.pandadoc.com

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Brevo
 category: marketing
+icon: icons/brevo.svg
 entitlements:
   egress:
     - api.brevo.com

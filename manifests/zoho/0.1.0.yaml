@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Zoho
 category: productivity
+icon: icons/zoho.svg
 entitlements:
   egress:
     # Zoho CRM REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Xero
 category: finance
+icon: icons/xero.svg
 entitlements:
   egress:
     - api.xero.com

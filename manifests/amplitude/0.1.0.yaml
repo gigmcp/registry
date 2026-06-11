@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Amplitude
 category: analytics
+icon: icons/amplitude.svg
 entitlements:
   egress:
     - amplitude.com

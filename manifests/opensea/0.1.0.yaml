@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: OpenSea
 category: finance
+icon: icons/opensea.svg
 entitlements:
   egress:
     - api.opensea.io

@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: CoinMarketCal
 category: finance
+icon: icons/coinmarketcal.svg
 entitlements:
   egress:
     - developers.coinmarketcal.com

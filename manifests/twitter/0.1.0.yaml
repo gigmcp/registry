@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: X (Twitter)
 category: social
+icon: icons/twitter.svg
 entitlements:
   egress:
     - api.twitter.com

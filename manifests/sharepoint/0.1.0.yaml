@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: SharePoint
 category: storage
+icon: icons/sharepoint.svg
 entitlements:
   egress:
     # Microsoft Graph plus tenant SharePoint REST endpoints

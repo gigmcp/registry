@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Dropbox Sign
 category: documents
+icon: icons/dropbox-sign.svg
 entitlements:
   egress:
     - api.hellosign.com

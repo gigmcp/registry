@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Perplexity
 category: ai
+icon: icons/perplexityai.svg
 entitlements:
   egress:
     - api.perplexity.ai

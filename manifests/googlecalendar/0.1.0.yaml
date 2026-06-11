@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Calendar
 category: productivity
+icon: icons/googlecalendar.svg
 entitlements:
   egress:
     - www.googleapis.com

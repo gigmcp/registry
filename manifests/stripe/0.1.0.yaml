@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Stripe
 category: finance
+icon: icons/stripe.svg
 entitlements:
   egress:
     - api.stripe.com

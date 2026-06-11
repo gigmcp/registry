@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Gong
 category: CRM
+icon: icons/gong.svg
 entitlements:
   egress:
     - api.gong.io

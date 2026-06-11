@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Mural
 category: design
+icon: icons/mural.svg
 entitlements:
   egress:
     - app.mural.co

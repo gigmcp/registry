@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: MailerLite
 category: marketing
+icon: icons/mailerlite.svg
 entitlements:
   egress:
     - connect.mailerlite.com

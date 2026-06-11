@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Fireflies
 category: ai
+icon: icons/fireflies.svg
 entitlements:
   egress:
     # Fireflies.ai GraphQL API.

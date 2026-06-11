@@ -341,6 +341,15 @@ func loadAll(dir string, deny []string) ([]*schema.Manifest, error) {
 		if filepath.Base(filepath.Dir(path)) != wantDir || filepath.Base(path) != wantFile {
 			return fmt.Errorf("%s: path must be manifests/%s/%s", path, wantDir, wantFile)
 		}
+		// Icon path shape is checked in Validate(); here we additionally confirm
+		// the asset is actually committed (the icon ref can never dangle). Icons
+		// are repo-hosted at <repo-root>/icons/<name>.svg, sibling to manifests/.
+		if m.Icon != "" {
+			iconPath := filepath.Join(filepath.Dir(dir), m.Icon)
+			if st, statErr := os.Stat(iconPath); statErr != nil || st.IsDir() {
+				return fmt.Errorf("%s: icon %q not found at %s", path, m.Icon, iconPath)
+			}
+		}
 		manifests = append(manifests, m)
 		return nil
 	})

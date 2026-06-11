@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Retell AI
 category: ai
+icon: icons/retellai.svg
 entitlements:
   egress:
     - api.retellai.com

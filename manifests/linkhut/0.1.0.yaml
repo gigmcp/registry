@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: linkhut
 category: productivity
+icon: icons/linkhut.svg
 entitlements:
   egress:
     - api.ln.ht

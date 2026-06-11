@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Crustdata
 category: data
+icon: icons/crustdata.svg
 entitlements:
   egress:
     - api.crustdata.com

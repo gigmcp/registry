@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: D2L Brightspace
 category: productivity
+icon: icons/d2lbrightspace.svg
 entitlements:
   egress:
     # D2L Brightspace LMS: OAuth host plus tenant-specific API hosts.

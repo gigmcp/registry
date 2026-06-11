@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Piggy
 category: marketing
+icon: icons/piggy.svg
 entitlements:
   egress:
     - api.piggy.eu

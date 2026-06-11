@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Google Analytics
 category: analytics
+icon: icons/google-analytics.svg
 entitlements:
   egress:
     # GA4 Data API + Admin API, plus token refresh endpoint.

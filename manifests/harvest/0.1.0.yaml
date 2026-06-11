@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Harvest
 category: productivity
+icon: icons/harvest.svg
 entitlements:
   egress:
     - api.harvestapp.com

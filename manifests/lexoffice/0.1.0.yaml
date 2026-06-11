@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: lexoffice
 category: finance
+icon: icons/lexoffice.svg
 entitlements:
   egress:
     - api.lexware.io

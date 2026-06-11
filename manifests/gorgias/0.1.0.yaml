@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Gorgias
 category: support
+icon: icons/gorgias.svg
 entitlements:
   egress:
     # Gorgias serves its REST API per-account (<account>.gorgias.com/api).

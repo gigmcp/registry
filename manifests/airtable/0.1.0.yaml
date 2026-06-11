@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Airtable
 category: productivity
+icon: icons/airtable.svg
 entitlements:
   egress:
     - api.airtable.com

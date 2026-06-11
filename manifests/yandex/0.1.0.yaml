@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Yandex
 category: productivity
+icon: icons/yandex.svg
 entitlements:
   egress:
     - cloud-api.yandex.net

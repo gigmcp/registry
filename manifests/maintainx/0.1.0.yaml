@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: MaintainX
 category: productivity
+icon: icons/maintainx.svg
 entitlements:
   egress:
     - api.getmaintainx.com

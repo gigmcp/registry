@@ -14,6 +14,7 @@ image:
 tier: entrusted
 displayName: Beeminder
 category: productivity
+icon: icons/beeminder.svg
 entitlements:
   egress:
     - www.beeminder.com

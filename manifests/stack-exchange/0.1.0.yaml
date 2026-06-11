@@ -12,6 +12,7 @@ image:
 tier: entrusted
 displayName: Stack Exchange
 category: dev-tools
+icon: icons/stack-exchange.svg
 entitlements:
   egress:
     - api.stackexchange.com

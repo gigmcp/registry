@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Recall.ai
 category: ai
+icon: icons/recallai.svg
 entitlements:
   egress:
     - "*.recall.ai"

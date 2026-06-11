@@ -12,6 +12,7 @@ image:
 tier: sealed
 displayName: Foursquare
 category: data
+icon: icons/foursquare.svg
 entitlements:
   egress:
     - api.foursquare.com
