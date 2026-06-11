@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Process Street
+category: productivity
 entitlements:
   egress:
     - public-api.process.st

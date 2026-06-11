@@ -10,6 +10,8 @@ image:
   digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
+displayName: Borneo
+category: dev-tools
 entitlements:
   egress:
     - api.borneo.io

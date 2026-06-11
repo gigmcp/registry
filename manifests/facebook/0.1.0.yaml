@@ -10,6 +10,8 @@ image:
   builder: toolpack
   entrypoint: /app/server
 tier: sealed
+displayName: Facebook
+category: social
 entitlements:
   egress:
     - graph.facebook.com

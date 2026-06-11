@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Box
+category: storage
 entitlements:
   egress:
     # Main REST API plus the dedicated upload host.

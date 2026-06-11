@@ -12,6 +12,8 @@ image:
 # entrusted: SmugMug v2 API keys are passed as the APIKey query parameter,
 # so header injection cannot work.
 tier: entrusted
+displayName: SmugMug
+category: storage
 entitlements:
   egress:
     - api.smugmug.com

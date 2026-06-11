@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: AppDrag
+category: dev-tools
 entitlements:
   egress:
     - api.appdrag.com

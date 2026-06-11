@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Blackbaud
+category: CRM
 entitlements:
   egress:
     - api.sky.blackbaud.com

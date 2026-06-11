@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Lever
+category: HR/ATS
 entitlements:
   egress:
     # Lever ATS REST API plus the OAuth authorization/token host.

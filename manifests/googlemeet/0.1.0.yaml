@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Meet
+category: comms
 entitlements:
   egress:
     - meet.googleapis.com

@@ -10,6 +10,8 @@ image:
   digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
   entrypoint: /app/server
 tier: sealed
+displayName: Botbaba
+category: marketing
 entitlements:
   egress:
     - botbaba.io

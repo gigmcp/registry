@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Linkup
+category: search
 entitlements:
   egress:
     - api.linkup.so

@@ -12,6 +12,8 @@ image:
 # ZenRows authenticates via the apikey query parameter only — there is no
 # auth header on the Universal Scraper API, so the key must come in via env.
 tier: entrusted
+displayName: ZenRows
+category: search
 entitlements:
   egress:
     - api.zenrows.com

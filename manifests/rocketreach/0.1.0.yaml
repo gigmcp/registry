@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: RocketReach
+category: data
 entitlements:
   egress:
     - api.rocketreach.co

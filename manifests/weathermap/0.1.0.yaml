@@ -12,6 +12,8 @@ image:
 # OpenWeatherMap authenticates via the appid query parameter only — there is
 # no auth header, so header injection cannot work and the key comes in via env.
 tier: entrusted
+displayName: OpenWeatherMap
+category: data
 entitlements:
   egress:
     - api.openweathermap.org

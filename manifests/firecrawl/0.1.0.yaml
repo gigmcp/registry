@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Firecrawl
+category: search
 entitlements:
   egress:
     - api.firecrawl.dev

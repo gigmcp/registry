@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Shortcut
+category: dev-tools
 entitlements:
   egress:
     # Shortcut (formerly Clubhouse) REST API v3.

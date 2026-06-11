@@ -13,6 +13,8 @@ image:
 # (e.g. https://eth-mainnet.g.alchemy.com/v2/{apiKey}), so header injection
 # cannot work — entrusted tier with env injection.
 tier: entrusted
+displayName: Alchemy
+category: dev-tools
 entitlements:
   egress:
     - "*.g.alchemy.com"

@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Placekey
+category: data
 entitlements:
   egress:
     - api.placekey.io

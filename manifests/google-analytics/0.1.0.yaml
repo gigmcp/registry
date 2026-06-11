@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Analytics
+category: analytics
 entitlements:
   egress:
     # GA4 Data API + Admin API, plus token refresh endpoint.

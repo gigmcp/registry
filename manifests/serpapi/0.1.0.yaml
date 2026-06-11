@@ -12,6 +12,8 @@ image:
 # SerpApi authenticates via the api_key query parameter only — no auth header
 # exists, so header injection cannot work and the key must come in via env.
 tier: entrusted
+displayName: SerpApi
+category: search
 entitlements:
   egress:
     - serpapi.com

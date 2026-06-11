@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Snowflake
+category: data
 entitlements:
   egress:
     - "*.snowflakecomputing.com"

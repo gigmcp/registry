@@ -12,6 +12,8 @@ image:
 # Semrush Analytics API accepts the API key only as a query parameter
 # (?key=...); header injection cannot work, so entrusted tier.
 tier: entrusted
+displayName: Semrush
+category: search
 entitlements:
   egress:
     - api.semrush.com

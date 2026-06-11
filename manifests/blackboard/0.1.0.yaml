@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Blackboard
+category: productivity
 entitlements:
   egress:
     # Blackboard Learn REST API is served from the institution's tenant
