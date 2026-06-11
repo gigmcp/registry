@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Freshdesk
+category: support
 entitlements:
   egress:
     # Per-tenant Freshdesk API v2 hosts (<domain>.freshdesk.com/api/v2).

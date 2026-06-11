@@ -76,7 +76,7 @@ func TestValidateOAuth2Vendor(t *testing.T) {
 }
 
 func TestValidateGoodCategories(t *testing.T) {
-	for _, c := range []string{"", "CRM", "dev-tools", "comms", "finance", "HR/ATS", "productivity", "analytics", "storage", "design"} {
+	for _, c := range []string{"", "ai", "analytics", "comms", "CRM", "data", "design", "dev-tools", "documents", "e-commerce", "finance", "HR/ATS", "marketing", "productivity", "search", "social", "storage", "support"} {
 		m := good(t)
 		m.Category = c
 		if err := m.Validate(); err != nil {

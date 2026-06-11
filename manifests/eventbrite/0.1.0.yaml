@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Eventbrite
+category: productivity
 entitlements:
   egress:
     - www.eventbriteapi.com

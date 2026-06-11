@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: ToneDen
+category: marketing
 entitlements:
   egress:
     - www.toneden.io

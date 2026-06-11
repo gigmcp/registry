@@ -12,6 +12,8 @@ image:
 # Finage authenticates exclusively via the ?apikey= query parameter, so
 # header injection cannot work — entrusted tier with env injection.
 tier: entrusted
+displayName: Finage
+category: finance
 entitlements:
   egress:
     - api.finage.co.uk

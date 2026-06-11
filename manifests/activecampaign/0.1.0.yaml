@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: ActiveCampaign
+category: marketing
 entitlements:
   egress:
     - "*.api-us1.com"

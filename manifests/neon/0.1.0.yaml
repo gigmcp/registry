@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Neon
+category: data
 entitlements:
   egress:
     - console.neon.tech

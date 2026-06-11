@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: FreshBooks
+category: finance
 entitlements:
   egress:
     - api.freshbooks.com

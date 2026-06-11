@@ -12,6 +12,8 @@ image:
 # Datagma authenticates via the ?apiId= query parameter on every endpoint,
 # so header injection cannot work — entrusted tier with env injection.
 tier: entrusted
+displayName: Datagma
+category: data
 entitlements:
   egress:
     - gateway.datagma.net

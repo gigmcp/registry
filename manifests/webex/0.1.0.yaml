@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Webex
+category: comms
 entitlements:
   egress:
     - webexapis.com

@@ -13,6 +13,8 @@ image:
 # (form/query) on every API call — header injection cannot work, so this
 # is entrusted tier with env injection.
 tier: entrusted
+displayName: waboxapp
+category: comms
 entitlements:
   egress:
     - www.waboxapp.com

@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: entrusted
+displayName: Stack Exchange
+category: dev-tools
 entitlements:
   egress:
     - api.stackexchange.com

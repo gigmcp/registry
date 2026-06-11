@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Gumroad
+category: e-commerce
 entitlements:
   egress:
     - api.gumroad.com

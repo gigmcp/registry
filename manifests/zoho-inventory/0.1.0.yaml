@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Zoho Inventory
+category: e-commerce
 entitlements:
   egress:
     # Zoho Inventory REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

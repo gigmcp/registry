@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Tavily
+category: search
 entitlements:
   egress:
     - api.tavily.com

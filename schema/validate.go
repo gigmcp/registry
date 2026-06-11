@@ -24,11 +24,15 @@ var (
 
 // categories is the closed enum for the presentation-only Category field. It is
 // enforced ONLY when Category is set (the field is optional/omitempty); absent
-// categories are fine and the gateway falls back to no badge.
+// categories are fine and the gateway falls back to no badge. The set is sized
+// to the catalog so every server gets an honest bucket (catalog filtering),
+// not force-fit into a handful of generic ones.
 var categories = map[string]bool{
-	"CRM": true, "dev-tools": true, "comms": true, "finance": true,
-	"HR/ATS": true, "productivity": true, "analytics": true,
-	"storage": true, "design": true,
+	"ai": true, "analytics": true, "comms": true, "CRM": true,
+	"data": true, "design": true, "dev-tools": true, "documents": true,
+	"e-commerce": true, "finance": true, "HR/ATS": true, "marketing": true,
+	"productivity": true, "search": true, "social": true, "storage": true,
+	"support": true,
 }
 
 // Validate checks structural rules. Registry-policy rules that need external
@@ -109,7 +113,7 @@ func (m *Manifest) Validate() error {
 		}
 	}
 	if m.Category != "" && !categories[m.Category] {
-		add("category %q invalid: must be one of CRM, dev-tools, comms, finance, HR/ATS, productivity, analytics, storage, design", m.Category)
+		add("category %q invalid: must be one of ai, analytics, comms, CRM, data, design, dev-tools, documents, e-commerce, finance, HR/ATS, marketing, productivity, search, social, storage, support", m.Category)
 	}
 	seenTool := map[string]bool{}
 	for _, tl := range m.Tools {

@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Google Ads
+category: marketing
 entitlements:
   egress:
     - googleads.googleapis.com

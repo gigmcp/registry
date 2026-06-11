@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: ServiceM8
+category: productivity
 entitlements:
   egress:
     - api.servicem8.com

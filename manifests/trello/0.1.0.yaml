@@ -12,6 +12,8 @@ image:
 # Trello's REST API authenticates with key+token passed as query parameters
 # (?key=...&token=...); header injection cannot work, so entrusted tier.
 tier: entrusted
+displayName: Trello
+category: productivity
 entitlements:
   egress:
     - api.trello.com

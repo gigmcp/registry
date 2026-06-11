@@ -11,6 +11,7 @@ image:
   builder: toolpack
 tier: sealed
 displayName: Hacker News
+category: social
 entitlements:
   egress:
     - hacker-news.firebaseio.com

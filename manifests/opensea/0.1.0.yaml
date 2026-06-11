@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: OpenSea
+category: finance
 entitlements:
   egress:
     - api.opensea.io

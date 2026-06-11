@@ -13,6 +13,8 @@ image:
 # request parameters (query string or form body) — there is no auth header,
 # so the credential must come in via env.
 tier: entrusted
+displayName: MoceanAPI
+category: comms
 entitlements:
   egress:
     - rest.moceanapi.com

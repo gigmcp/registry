@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Crustdata
+category: data
 entitlements:
   egress:
     - api.crustdata.com

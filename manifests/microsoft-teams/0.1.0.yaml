@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Microsoft Teams
+category: comms
 entitlements:
   egress:
     - graph.microsoft.com

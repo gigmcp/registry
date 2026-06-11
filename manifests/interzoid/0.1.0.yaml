@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Interzoid
+category: data
 entitlements:
   egress:
     - api.interzoid.com

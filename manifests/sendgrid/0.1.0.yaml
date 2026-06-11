@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: SendGrid
+category: marketing
 entitlements:
   egress:
     - api.sendgrid.com

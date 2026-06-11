@@ -12,6 +12,8 @@ image:
 # Beeminder's API accepts auth only via the auth_token/access_token query
 # parameter — header injection cannot work, so this is entrusted (env-only).
 tier: entrusted
+displayName: Beeminder
+category: productivity
 entitlements:
   egress:
     - www.beeminder.com

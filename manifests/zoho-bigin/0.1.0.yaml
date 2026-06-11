@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Zoho Bigin
+category: CRM
 entitlements:
   egress:
     # Zoho Bigin REST API (multi-DC: zohoapis.com/.eu/.in served via subdomains)

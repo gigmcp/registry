@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Exist
+category: analytics
 entitlements:
   egress:
     - exist.io

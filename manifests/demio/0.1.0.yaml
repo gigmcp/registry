@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Demio
+category: marketing
 entitlements:
   egress:
     # Demio webinar platform REST API

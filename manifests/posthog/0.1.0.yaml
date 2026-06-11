@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: PostHog
+category: analytics
 entitlements:
   egress:
     - app.posthog.com

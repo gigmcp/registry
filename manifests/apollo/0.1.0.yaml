@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: Apollo
+category: CRM
 entitlements:
   egress:
     - api.apollo.io

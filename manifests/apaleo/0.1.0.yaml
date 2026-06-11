@@ -10,6 +10,8 @@ image:
   entrypoint: /app/server
   builder: toolpack
 tier: sealed
+displayName: apaleo
+category: productivity
 entitlements:
   egress:
     # Apaleo hotel platform API plus the identity host for OAuth token refresh.
